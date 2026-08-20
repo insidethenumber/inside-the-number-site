@@ -106,6 +106,42 @@ while (site not reflecting a change, odds hard to confirm), apply the
 same discipline: don't retry the same check more than once or twice —
 move on, note the uncertainty, and keep the deadline.
 
+## HOW TO UPDATE THE SLATE (changed Aug 20, 2026 — read this first)
+
+**The Today's Slate and ticker HTML no longer exist as hand-edited blocks.**
+Both are rendered by JavaScript from a single array near the top of
+`inside_the_number.html`:
+
+```js
+const todaysGames = [
+  { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'tb', name:'Rays'},
+    time:'1:10 PM ET', pick:'Tampa Bay ML (-172)', conf:4, free:true },
+  ...
+];
+```
+
+To update the day's games, **edit that array only**. The top ticker, Today's
+Slate, and the Pick of the Day headline all render from it, so they can never
+drift apart again (they did on Aug 20 — the site featured one game while the
+newsletter featured another).
+
+Field notes:
+
+- `code` is the **ESPN team slug**, lowercase. Logos resolve to
+  `https://a.espncdn.com/i/teamlogos/<league>/500/<code>.png`.
+  Verified MLB slugs include: `tor tb tex wsh ath kc nyy bal mia phi stl cin
+  det pit laa hou`. If unsure of a slug, load the URL and confirm it returns an
+  image before shipping — a wrong slug renders a broken image on the homepage.
+- `conf` is filled stars out of 5: **4 = High, 3 = Medium, 2 = Low.**
+- `free: true` marks the Pick of the Day. Exactly one game should have it, and
+  it **must** be the same game featured as the free pick in the newsletter.
+- Also update `seasonRecord` just below the array so the ticker's record chip
+  matches record.html.
+
+The Pick of the Day card's date, sport, line and reasoning text are still
+plain HTML and still need editing by hand — only the matchup headline with the
+logos is auto-generated.
+
 ## Site consistency rules (added Aug 20, 2026)
 
 These apply to every run — automated or manual. They exist because the site
