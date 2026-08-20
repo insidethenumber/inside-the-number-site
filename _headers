@@ -1,0 +1,20 @@
+# Force revalidation on every HTML request.
+#
+# Why this exists (added Aug 20, 2026):
+# insidethenumber.com was serving stale HTML from Cloudflare's edge cache
+# for hours after a successful deploy, while the underlying
+# edge-report.insidethenumber-itn.workers.dev URL served the correct new
+# content immediately. On Aug 20 the daily routine pushed the day's picks
+# at 10:51am and the public site was STILL showing the previous day's Pick
+# of the Day at 3:30pm. Adding a cache-busting query string returned the
+# fresh page, which confirmed it was edge caching rather than a failed deploy.
+#
+# max-age=0 + must-revalidate lets Cloudflare keep a copy but forces it to
+# revalidate against the origin before serving, so a new deploy is picked up
+# immediately instead of sitting behind a stale cached copy.
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
