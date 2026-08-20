@@ -489,8 +489,12 @@
     <a href="#signup" class="btn-primary">Get Free Access →</a>
     <a href="#picks" class="btn-ghost">See Latest Picks ↓</a>
     <div class="stat-strip">
-      <div class="stat-cell"><div class="n g">0-0-0</div><div class="l">Season Record — Just Launched</div></div>
-      <div class="stat-cell"><div class="n g">100%</div><div class="l">Documented &amp; Public</div></div>
+      <!-- Update the record + ROI cells whenever record.html is graded.
+           Pull the numbers straight from record.html's computeSummary()
+           output so the hero and the record page never disagree. -->
+      <div class="stat-cell"><div class="n g">4-3-0</div><div class="l">Season Record</div></div>
+      <div class="stat-cell"><div class="n g">+4.8%</div><div class="l">ROI — 1 Unit Flat</div></div>
+      <div class="stat-cell"><div class="n b">100%</div><div class="l">Documented &amp; Public</div></div>
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Live</div></div>
     </div>
   </div>
@@ -719,7 +723,9 @@
        <span class="slate-matchup">Orioles @ Rays</span>
        <span class="slate-time">6:05 PM ET</span>
        <span class="slate-pick">Baltimore +1.5</span>
-       <span class="slate-conf">★★★★</span>
+       <span class="slate-conf">★★★★☆ High</span>
+       (confidence is always a 5-star scale: ★★★★★ / ★★★★☆ High /
+        ★★★☆☆ Medium / ★★☆☆☆ Low — filled + empty stars, then the word)
      </div>
      ═══════════════════════════════════════════════════════════ -->
 <section class="section" style="padding-top:0;" id="slate">
@@ -735,21 +741,21 @@
         <span class="slate-matchup">Blue Jays @ Rays</span>
         <span class="slate-time">1:10 PM ET</span>
         <span class="slate-pick">Tampa Bay ML (-172) — Free Pick</span>
-        <span class="slate-conf">★★★★ High</span>
+        <span class="slate-conf">★★★★☆ High</span>
       </div>
       <div class="slate-row conf-medium">
         <span class="slate-sport s-mlb">MLB</span>
         <span class="slate-matchup">Rangers @ Nationals</span>
         <span class="slate-time">8:05 PM ET</span>
         <span class="slate-pick">Washington ML (+146)</span>
-        <span class="slate-conf">★★★ Medium</span>
+        <span class="slate-conf">★★★☆☆ Medium</span>
       </div>
       <div class="slate-row conf-medium">
         <span class="slate-sport s-mlb">MLB</span>
         <span class="slate-matchup">Athletics @ Royals</span>
         <span class="slate-time">2:10 PM ET</span>
         <span class="slate-pick">Kansas City ML (-138)</span>
-        <span class="slate-conf">★★★ Medium</span>
+        <span class="slate-conf">★★★☆☆ Medium</span>
       </div>
     </div>
   </div>
@@ -770,7 +776,7 @@
       </div>
       <div>
         <div class="phil-stats">
-          <div class="phil-stat"><div class="big">New</div><div class="lbl">Tracking starts this season — first pick coming soon</div></div>
+          <div class="phil-stat"><div class="big">4-3</div><div class="lbl">Record through Aug 19 — every pick logged</div></div>
           <div class="phil-stat"><div class="big">8</div><div class="lbl">Sports covered — dawn slate to primetime</div></div>
           <div class="phil-stat"><div class="big">100%</div><div class="lbl">Documented record — no hiding</div></div>
           <div class="phil-stat"><div class="big">Free</div><div class="lbl">Full public record, always visible</div></div>
