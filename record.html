@@ -44,6 +44,25 @@
   .sum-card .n.g { color:var(--green); } .sum-card .n.b { color:var(--blue); }
   .sum-card .l { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:4px; }
 
+  /* ── CUMULATIVE UNITS CHART ── */
+  .chart-wrap { max-width:1100px; margin:0 auto 40px; padding:0 48px; }
+  .chart-card {
+    background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+    border:1px solid var(--border); border-radius:16px; padding:26px 28px 20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+  .chart-head { display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:20px; }
+  .chart-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--white); }
+  .chart-sub { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); letter-spacing:0.05em; }
+  .chart-now { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; }
+  .chart-svg { width:100%; height:190px; display:block; overflow:visible; }
+  .chart-svg .grid { stroke:rgba(255,255,255,0.06); stroke-width:1; }
+  .chart-svg .zero { stroke:var(--border-lit); stroke-width:1; stroke-dasharray:3 3; }
+  .chart-svg .dot { stroke:var(--black); stroke-width:1.5; }
+  .chart-legend { display:flex; gap:18px; flex-wrap:wrap; margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); letter-spacing:0.06em; }
+  .chart-legend i { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .chart-empty { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); text-align:center; padding:44px 0; }
+
   .table-wrap { max-width:1100px; margin:0 auto 40px; padding:0 48px; }
   .filters { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
   .filter-btn { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:20px; padding:7px 16px; cursor:pointer; }
@@ -152,6 +171,24 @@
 </div>
 <p style="max-width:1100px; margin:0 auto 32px; padding:0 48px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); line-height:1.7;">Note on Aug 17: Issue #1's featured game (Orioles @ Rays) never stated an explicit, actionable pick — it's logged here as a process error rather than a graded result, and won't count toward win/loss/ROI. Every pick from Aug 18 forward states an explicit side before publishing.</p>
 
+<div class="chart-wrap">
+  <div class="chart-card">
+    <div class="chart-head">
+      <div>
+        <div class="chart-title">Cumulative Units</div>
+        <div class="chart-sub">Running profit/loss at 1 unit flat per pick · pushes and no-grades excluded</div>
+      </div>
+      <div class="chart-now" id="chart-now">—</div>
+    </div>
+    <div id="chart-body"></div>
+    <div class="chart-legend">
+      <span><i style="background:var(--green)"></i>Win</span>
+      <span><i style="background:var(--red)"></i>Loss</span>
+      <span><i style="background:var(--gold)"></i>Push</span>
+    </div>
+  </div>
+</div>
+
 <div class="table-wrap">
   <div class="filters" id="filters">
     <button class="filter-btn active" data-sport="all">All Sports</button>
@@ -254,6 +291,81 @@ function render() {
     </tr>
   `).join('');
 }
+
+/* ─────────────────────────────────────────────────────────────
+   CUMULATIVE UNITS CHART
+
+   Drawn as inline SVG straight from the picks array above — no chart
+   library, no build step, nothing to keep in sync. Every graded pick
+   moves the line by its real payout: a win at +124 adds 1.24 units, any
+   loss subtracts exactly 1. Pushes and no-grades leave it flat.
+
+   This is the most persuasive thing a picks service can show, and it
+   costs nothing to be honest with, because it is generated from the same
+   data that drives the record table.
+   ───────────────────────────────────────────────────────────── */
+function renderChart() {
+  const body = document.getElementById('chart-body');
+  const nowEl = document.getElementById('chart-now');
+
+  const graded = picks
+    .filter(p => p.result === 'W' || p.result === 'L' || p.result === 'P')
+    .sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+
+  if (graded.length < 2) {
+    body.innerHTML = `<div class="chart-empty">The curve starts once a few picks have settled —
+      right now there ${graded.length === 1 ? 'is only one graded pick' : 'are no graded picks'} on the board.</div>`;
+    nowEl.textContent = '—';
+    return;
+  }
+
+  let run = 0;
+  const pts = [{ u: 0, r: null, date: null }];
+  graded.forEach(p => {
+    if (p.result === 'W') run += p.odds > 0 ? p.odds / 100 : 100 / Math.abs(p.odds);
+    else if (p.result === 'L') run -= 1;
+    pts.push({ u: run, r: p.result, date: p.date });
+  });
+
+  const W = 1000, H = 190, padT = 16, padB = 26, padL = 6, padR = 6;
+  const us = pts.map(p => p.u);
+  const min = Math.min(0, ...us), max = Math.max(0, ...us);
+  const span = (max - min) || 1;
+  const x = i => padL + (i / (pts.length - 1)) * (W - padL - padR);
+  const y = u => padT + (1 - (u - min) / span) * (H - padT - padB);
+
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.u).toFixed(1)}`).join(' ');
+  const area = `${line} L${x(pts.length - 1).toFixed(1)},${y(min)} L${x(0).toFixed(1)},${y(min)} Z`;
+  const up = run >= 0;
+  const stroke = up ? 'var(--green)' : 'var(--red)';
+
+  const dots = pts.slice(1).map((p, i) => {
+    const c = p.r === 'W' ? 'var(--green)' : p.r === 'L' ? 'var(--red)' : 'var(--gold)';
+    return `<circle class="dot" cx="${x(i + 1).toFixed(1)}" cy="${y(p.u).toFixed(1)}" r="4" fill="${c}">
+              <title>${p.date} · ${p.r} · ${p.u >= 0 ? '+' : ''}${p.u.toFixed(2)}u</title>
+            </circle>`;
+  }).join('');
+
+  body.innerHTML = `
+    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
+         aria-label="Cumulative units over time, currently ${run >= 0 ? 'up' : 'down'} ${Math.abs(run).toFixed(2)} units">
+      <defs>
+        <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${up ? 'rgba(0,208,132,0.30)' : 'rgba(255,92,92,0.30)'}"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+        </linearGradient>
+      </defs>
+      <line class="zero" x1="${padL}" y1="${y(0)}" x2="${W - padR}" y2="${y(0)}"/>
+      <path d="${area}" fill="url(#fillGrad)"/>
+      <path d="${line}" fill="none" stroke="${stroke}" stroke-width="2.5"
+            stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots}
+    </svg>`;
+
+  nowEl.textContent = `${run >= 0 ? '+' : ''}${run.toFixed(2)}u`;
+  nowEl.style.color = run > 0 ? 'var(--green)' : run < 0 ? 'var(--red)' : 'var(--mid)';
+}
+renderChart();
 
 document.querySelectorAll('thead th').forEach(th => {
   th.addEventListener('click', () => {
