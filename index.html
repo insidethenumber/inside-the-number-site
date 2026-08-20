@@ -7,11 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
   :root {
+    /* Surfaces — layered elevation instead of one flat black */
     --black: #050608;
     --dark: #0b0d11;
     --card: #12141a;
+    --surface-1: #0e1116;
+    --surface-2: #141821;
+    --surface-3: #1a1f2a;
     --border: #1c2129;
     --border-lit: #2a2f3a;
+
+    /* Brand */
     --green: #00d084;
     --green-dim: rgba(0,208,132,0.12);
     --blue: #3ba7ff;
@@ -20,6 +26,15 @@
     --white: #f0f2f5;
     --muted: #6b7280;
     --mid: #9ca3af;
+
+    /* Depth — the single biggest thing separating "mock-up" from "product" */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 14px rgba(0,0,0,0.45), 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-lg: 0 12px 34px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.35);
+    --shadow-glow: 0 0 0 1px rgba(0,208,132,0.22), 0 10px 34px rgba(0,208,132,0.10);
+
+    /* Radii */
+    --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-xl: 24px;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -227,13 +242,69 @@
     padding: 22px;
   }
   .panel-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; }
-  .panel-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .panel-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
   .panel-row:last-child { border-bottom: none; }
-  .p-sport { color: var(--mid); width: 50px; }
-  .p-line { color: #e4e7eb; flex: 1; text-align: left; padding-left: 8px; }
+  .p-sport { color: var(--mid); width: 50px; flex-shrink: 0; }
+  .p-line { color: #e4e7eb; flex: 1; text-align: left; padding-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .p-move.up { color: var(--green); } .p-move.down { color: var(--red); }
+  .p-move.flat { color: var(--muted); }
+  .p-move { white-space: nowrap; flex-shrink: 0; }
+  .panel-live {
+    display: inline-flex; align-items: center; gap: 6px; float: right;
+    font-size: 9px; color: var(--green); letter-spacing: 0.1em;
+  }
+  .panel-live .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: potd-pulse 1.6s infinite; }
+  .panel-src { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.06em; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .panel-empty { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--muted); padding: 18px 0; line-height: 1.7; }
 
   /* ── TODAY'S SLATE ── */
+  /* ── MATCHUP CARDS (rich slate) ── */
+  .slate-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; }
+  .mc {
+    position: relative; background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+    border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden;
+    box-shadow: var(--shadow-md); transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .mc:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--border-lit); }
+  .mc.is-free { border-color: rgba(0,208,132,0.42); box-shadow: var(--shadow-glow); }
+  /* Team-colour wash, set inline from ESPN brand colours */
+  .mc-wash { position: absolute; inset: 0 0 auto 0; height: 92px; opacity: 0.16; pointer-events: none; }
+  .mc-head {
+    position: relative; display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--border);
+  }
+  .mc-league { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; letter-spacing:0.1em; padding:3px 7px; border-radius:4px; color:var(--black); }
+  .mc-time { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--mid); }
+  .mc-free {
+    font-family:'IBM Plex Mono',monospace; font-size:8.5px; font-weight:600; letter-spacing:0.1em;
+    color:var(--green); border:1px solid rgba(0,208,132,0.4); background:var(--green-dim);
+    padding:3px 8px; border-radius:20px;
+  }
+  .mc-body { position: relative; padding: 16px 18px 4px; }
+  .mc-team { display:flex; align-items:center; gap:11px; padding:7px 0; }
+  .mc-team img { width:34px; height:34px; object-fit:contain; flex-shrink:0; }
+  .mc-name { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em; color:var(--white); line-height:1; }
+  .mc-rec { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); margin-top:3px; }
+  .mc-ml { margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--mid); white-space:nowrap; }
+  .mc-ml.fav { color: var(--white); }
+  .mc-div { display:flex; align-items:center; gap:8px; margin:2px 0; }
+  .mc-div::before, .mc-div::after { content:''; height:1px; background:var(--border); flex:1; }
+  .mc-div span { font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted); letter-spacing:0.14em; }
+  .mc-pick {
+    margin: 12px 18px 16px; padding: 12px 14px; border-radius: var(--r-md);
+    background: rgba(0,208,132,0.07); border: 1px solid rgba(0,208,132,0.22);
+  }
+  .mc-pick-l { font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--green); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:5px; }
+  .mc-pick-v { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .mc-pick-t { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; color:var(--white); text-transform:uppercase; letter-spacing:0.03em; }
+  .mc-conf { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--accent, var(--green)); white-space:nowrap; }
+  .mc-status {
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.06em;
+    padding: 0 18px 14px; color: var(--muted);
+  }
+  .mc-status .live { color: var(--red); font-weight:600; }
+  .mc-status .final { color: var(--mid); }
+
   .slate-list { display: flex; flex-direction: column; gap: 10px; }
   .slate-row {
     display: grid; grid-template-columns: 62px 1fr auto auto auto; align-items: center; gap: 18px;
@@ -582,14 +653,15 @@
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Live</div></div>
     </div>
   </div>
+  <!-- Real line movement: opening number vs current, pulled live from ESPN's
+       public scoreboard feed (odds provided by DraftKings). Populated by
+       renderLineMovement() below — no hand-maintained numbers. -->
   <div class="panel">
-    <div class="panel-title">// Live Line Movement</div>
-    <div class="panel-row"><span class="p-sport">NFL</span><span class="p-line">KC -6.5</span><span class="p-move up">▲ 2.0</span></div>
-    <div class="panel-row"><span class="p-sport">MLB</span><span class="p-line">LAD -145</span><span class="p-move down">▼ 15</span></div>
-    <div class="panel-row"><span class="p-sport">NBA</span><span class="p-line">BOS -4.5</span><span class="p-move up">▲ 1.5</span></div>
-    <div class="panel-row"><span class="p-sport">CBB</span><span class="p-line">DUKE -6</span><span class="p-move up">▲ 1.0</span></div>
-    <div class="panel-row"><span class="p-sport">CFB</span><span class="p-line">BAMA -7</span><span class="p-move down">▼ 3.0</span></div>
-    <div class="panel-row"><span class="p-sport">NHL</span><span class="p-line">NYR -120</span><span class="p-move up">▲ 8</span></div>
+    <div class="panel-title">// Live Line Movement <span class="panel-live"><span class="dot"></span>LIVE</span></div>
+    <div id="line-movement">
+      <div class="panel-empty">Loading today's lines…</div>
+    </div>
+    <div class="panel-src" id="line-src"></div>
   </div>
 </div>
 </div>
@@ -819,29 +891,173 @@
       <h2 class="section-title">Today's Slate</h2>
       <p class="section-lead">Every game we're tracking today, in one place — posted each morning, graded the day it settles.</p>
     </div>
-    <!-- Rendered from the todaysGames array at the top of this file. -->
-    <div class="slate-list" id="slate-list"></div>
+    <!-- Rendered from the todaysGames array at the top of this file.
+         Live scores, team records and current moneylines are layered in
+         from ESPN's public feed at load time. -->
+    <div class="slate-cards" id="slate-list"></div>
   </div>
 </section>
 <script>
-  document.getElementById('slate-list').innerHTML = todaysGames.map((g, i) => `
-    <div class="slate-row ${confClass(g.conf)}" data-game="${i}">
-      <span class="slate-sport s-${g.league.toLowerCase()}">${g.league}</span>
-      <span class="slate-teams">
-        <span class="slate-side">
-          <img src="${logo(g.league, g.away.code)}" alt="${g.away.name}" loading="lazy"/>
-          <span class="slate-matchup">${g.away.name}</span>
-        </span>
-        <span class="slate-at">@</span>
-        <span class="slate-side">
-          <img src="${logo(g.league, g.home.code)}" alt="${g.home.name}" loading="lazy"/>
-          <span class="slate-matchup">${g.home.name}</span>
-        </span>
-      </span>
-      <span class="slate-time">${g.time}</span>
-      <span class="slate-pick">${g.pick || '—'}${g.free ? ' — Free Pick' : ''}</span>
-      <span class="slate-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
-    </div>`).join('');
+  const slateEl = document.getElementById('slate-list');
+
+  // First paint from our own data so the section is never empty, even if
+  // the live feed is slow or blocked.
+  const paintSlate = (live = {}) => {
+    slateEl.innerHTML = todaysGames.map((g, i) => {
+      const L = live[`${g.away.code}|${g.home.code}`] || {};
+      const wash = L.awayColor && L.homeColor
+        ? `<div class="mc-wash" style="background:linear-gradient(100deg,#${L.awayColor},#${L.homeColor})"></div>` : '';
+      const side = (t, code, ml, rec) => `
+        <div class="mc-team">
+          <img src="${logo(g.league, code)}" alt="${t}" loading="lazy"/>
+          <div>
+            <div class="mc-name">${t}</div>
+            ${rec ? `<div class="mc-rec">${rec}</div>` : ''}
+          </div>
+          ${ml ? `<div class="mc-ml ${String(ml).startsWith('-') ? 'fav' : ''}">${ml}</div>` : ''}
+        </div>`;
+      let status = `<span>${g.time}</span>`;
+      if (L.state === 'in')   status = `<span class="live">● LIVE — ${L.detail}</span>`;
+      if (L.state === 'post') status = `<span class="final">FINAL — ${L.awayScore}–${L.homeScore}</span>`;
+      return `
+      <div class="mc ${g.free ? 'is-free' : ''} ${confClass(g.conf)}" data-game="${i}">
+        ${wash}
+        <div class="mc-head">
+          <span class="mc-league s-${g.league.toLowerCase()}">${g.league}</span>
+          ${g.free ? '<span class="mc-free">★ FREE PICK</span>' : ''}
+          <span class="mc-time">${g.time}</span>
+        </div>
+        <div class="mc-body">
+          ${side(g.away.name, g.away.code, L.awayML, L.awayRec)}
+          <div class="mc-div"><span>AT</span></div>
+          ${side(g.home.name, g.home.code, L.homeML, L.homeRec)}
+        </div>
+        ${g.pick ? `
+        <div class="mc-pick">
+          <div class="mc-pick-l">Our Pick</div>
+          <div class="mc-pick-v">
+            <span class="mc-pick-t">${g.pick}</span>
+            <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
+          </div>
+        </div>` : ''}
+        <div class="mc-status">${status}</div>
+      </div>`;
+    }).join('');
+  };
+  paintSlate();
+
+  // Enrich with live scores, records and current moneylines.
+  (async function enrichSlate(){
+    const leagues = [...new Set(todaysGames.map(g => g.league))];
+    const pathFor = l => ({MLB:'baseball/mlb', NFL:'football/nfl', CFB:'football/college-football',
+                           NBA:'basketball/nba', NHL:'hockey/nhl', CBB:'basketball/mens-college-basketball'})[l];
+    const live = {};
+    await Promise.all(leagues.map(async l => {
+      const p = pathFor(l); if (!p) return;
+      try {
+        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${p}/scoreboard`);
+        if (!r.ok) return;
+        const d = await r.json();
+        (d.events || []).forEach(ev => {
+          const c = ev.competitions?.[0]; if (!c) return;
+          const home = c.competitors.find(x => x.homeAway === 'home');
+          const away = c.competitors.find(x => x.homeAway === 'away');
+          if (!home || !away) return;
+          const key = `${away.team.abbreviation.toLowerCase()}|${home.team.abbreviation.toLowerCase()}`;
+          const o = c.odds?.[0];
+          live[key] = {
+            state: ev.status?.type?.state,
+            detail: ev.status?.type?.shortDetail || '',
+            awayScore: away.score, homeScore: home.score,
+            awayRec: away.records?.[0]?.summary, homeRec: home.records?.[0]?.summary,
+            awayColor: away.team.color, homeColor: home.team.color,
+            awayML: o?.moneyline?.away?.close?.odds, homeML: o?.moneyline?.home?.close?.odds,
+          };
+        });
+      } catch (_) { /* skip silently — cards already rendered from our data */ }
+    }));
+    if (Object.keys(live).length) paintSlate(live);
+  })();
+
+  /* ═══════════════════════════════════════════════════════════
+     LIVE LINE MOVEMENT — real data, no maintenance required.
+
+     ESPN's public scoreboard feed is CORS-accessible and returns each
+     game's OPENING moneyline alongside the CURRENT one. The difference
+     between those two numbers is genuine line movement — which is the
+     thing this whole site claims to track. Previously this panel showed
+     invented numbers (KC -6.5, BAMA -7) for games that did not exist.
+
+     If the feed is unreachable we show an honest empty state rather than
+     falling back to fabricated lines.
+     ═══════════════════════════════════════════════════════════ */
+  (async function renderLineMovement(){
+    const LEAGUES = [
+      ['MLB', 'baseball/mlb'],
+      ['NFL', 'football/nfl'],
+      ['CFB', 'football/college-football'],
+      ['NBA', 'basketball/nba'],
+      ['NHL', 'hockey/nhl'],
+    ];
+    const box = document.getElementById('line-movement');
+    const src = document.getElementById('line-src');
+    const rows = [];
+    let provider = '';
+
+    const toNum = v => {
+      const n = parseInt(String(v).replace('+',''), 10);
+      return Number.isFinite(n) ? n : null;
+    };
+
+    await Promise.all(LEAGUES.map(async ([label, path]) => {
+      try {
+        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard`);
+        if (!r.ok) return;
+        const data = await r.json();
+        (data.events || []).forEach(ev => {
+          const comp = ev.competitions?.[0];
+          const o = comp?.odds?.[0];
+          if (!o?.moneyline) return;
+          provider = provider || o.provider?.displayName || '';
+          ['home','away'].forEach(side => {
+            const open = toNum(o.moneyline[side]?.open?.odds);
+            const close = toNum(o.moneyline[side]?.close?.odds);
+            if (open === null || close === null || open === close) return;
+            const team = (side === 'home' ? o.homeTeamOdds : o.awayTeamOdds)?.team;
+            if (!team) return;
+            rows.push({
+              label,
+              team: team.abbreviation,
+              close,
+              delta: close - open,
+              // Bigger absolute move = more interesting; surface those first.
+              weight: Math.abs(close - open)
+            });
+          });
+        });
+      } catch (_) { /* league unavailable — skip it, never fabricate */ }
+    }));
+
+    if (!rows.length) {
+      box.innerHTML = `<div class="panel-empty">No line movement to report right now —
+        we'll show it here the moment books start moving off their opening numbers.</div>`;
+      return;
+    }
+
+    rows.sort((a,b) => b.weight - a.weight);
+    box.innerHTML = rows.slice(0, 6).map(r => {
+      const dir = r.delta > 0 ? 'up' : 'down';
+      const arrow = r.delta > 0 ? '▲' : '▼';
+      const fmt = n => (n > 0 ? '+' : '') + n;
+      return `<div class="panel-row">
+        <span class="p-sport">${r.label}</span>
+        <span class="p-line">${r.team} ${fmt(r.close)}</span>
+        <span class="p-move ${dir}">${arrow} ${Math.abs(r.delta)}</span>
+      </div>`;
+    }).join('');
+
+    src.textContent = `Open → current${provider ? ' · odds ' + provider : ''} · updates on load`;
+  })();
 
   // Pick of the Day headline gets the same logo treatment, pulled from
   // whichever game is flagged free:true — so it can never drift out of sync.
