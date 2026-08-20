@@ -32,34 +32,52 @@
     overflow-x: hidden;
   }
 
-  /* ── TICKER ── */
+  /* ── TICKER (clickable game strip) ── */
   .ticker {
-    background: var(--black);
+    background: linear-gradient(180deg, #0c0f14 0%, var(--black) 100%);
     border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 9px 0;
-    overflow: hidden;
-    white-space: nowrap;
+    overflow-x: auto; overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .ticker-track { display: inline-block; animation: ticker 38s linear infinite; }
-  .ticker-item { display: inline-flex; align-items: center; gap: 9px; margin: 0 28px; }
-  .ticker-item .t-sport {
-    font-weight: 700; font-size: 9.5px; letter-spacing: 0.08em;
-    padding: 2px 7px; border-radius: 4px; color: var(--black);
+  .ticker::-webkit-scrollbar { display: none; }
+  .ticker-track { display: flex; align-items: stretch; min-width: min-content; }
+  .tk-game {
+    position: relative; display: flex; flex-direction: column; gap: 5px;
+    padding: 11px 20px; min-width: 218px; flex-shrink: 0;
+    border-right: 1px solid var(--border); text-decoration: none;
+    transition: background 0.18s ease;
   }
-  .ticker-item .t-team { color: var(--white); font-weight: 500; }
-  .ticker-item .t-line { color: var(--green); font-weight: 600; }
-  .ticker-item .t-sep { color: var(--border-lit); }
-  .t-sport.s-nfl { background: var(--green); }
-  .t-sport.s-mlb { background: var(--blue); }
-  .t-sport.s-cfb { background: var(--gold); }
-  .t-sport.s-nba { background: #ff8a5c; }
-  .t-sport.s-cbb { background: #3ee7c0; }
-  .t-sport.s-nhl { background: #c9cfd8; }
-  .t-sport.s-info { background: var(--white); }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .tk-game:hover { background: rgba(255,255,255,0.045); }
+  .tk-game.is-pick::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--green), var(--blue));
+  }
+  .tk-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .tk-time { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: var(--muted); letter-spacing: 0.05em; white-space: nowrap; }
+  .tk-league {
+    font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; font-weight: 700;
+    letter-spacing: 0.09em; padding: 2px 6px; border-radius: 3px; color: var(--black);
+  }
+  .tk-row { display: flex; align-items: center; gap: 8px; }
+  .tk-row img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
+  .tk-team { font-family: 'Barlow', sans-serif; font-size: 12.5px; color: var(--white); font-weight: 500; white-space: nowrap; }
+  .tk-pick {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--green);
+    letter-spacing: 0.06em; margin-top: 1px; white-space: nowrap;
+  }
+  .tk-record {
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    padding: 11px 22px; min-width: 190px; flex-shrink: 0; text-decoration: none;
+    background: rgba(0,208,132,0.05); transition: background 0.18s ease;
+  }
+  .tk-record:hover { background: rgba(0,208,132,0.1); }
+  .tk-record .r-n { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: var(--green); }
+  .tk-record .r-l { font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .s-mlb { background: var(--blue); } .s-nfl { background: var(--green); }
+  .s-cfb { background: var(--gold); } .s-nba { background: #ff8a5c; }
+  .s-cbb { background: #3ee7c0; } .s-nhl { background: #c9cfd8; }
+  .s-ufc { background: var(--red); } .s-pga { background: var(--white); }
 
   /* ── NAV ── */
   nav {
@@ -190,7 +208,9 @@
   @keyframes potd-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   .potd-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 10px; }
   .potd-sport { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); text-transform: uppercase; margin-bottom: 10px; }
-  .potd-matchup { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 900; text-transform: uppercase; color: var(--white); line-height: 1.05; margin-bottom: 8px; }
+  .potd-matchup { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 900; text-transform: uppercase; color: var(--white); line-height: 1.05; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .potd-matchup img { width: 42px; height: 42px; object-fit: contain; }
+  .potd-matchup .at { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 400; color: var(--muted); }
   .potd-line { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: var(--green); font-weight: 600; margin-bottom: 12px; }
   .potd-reasoning { font-size: 14.5px; color: var(--mid); line-height: 1.7; max-width: 560px; font-weight: 300; }
   .potd-cta { text-align: center; }
@@ -216,10 +236,21 @@
   /* ── TODAY'S SLATE ── */
   .slate-list { display: flex; flex-direction: column; gap: 10px; }
   .slate-row {
-    display: grid; grid-template-columns: 90px 1fr auto auto auto; align-items: center; gap: 18px;
+    display: grid; grid-template-columns: 62px 1fr auto auto auto; align-items: center; gap: 18px;
     background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.09);
     border-radius: 12px; padding: 16px 22px; border-left: 3px solid var(--accent, var(--border-lit));
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   }
+  .slate-row:hover { background: rgba(255,255,255,0.055); transform: translateY(-1px); }
+  .slate-teams { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .slate-side { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .slate-side img { width: 26px; height: 26px; object-fit: contain; flex-shrink: 0; }
+  .slate-at { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  @keyframes slate-flash {
+    0%, 100% { background: rgba(255,255,255,0.035); }
+    25%      { background: rgba(0,208,132,0.16); }
+  }
+  .slate-row.flash { animation: slate-flash 1.1s ease; }
   .slate-sport {
     font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; padding: 4px 10px; border-radius: 10px; text-align: center; color: var(--black);
@@ -389,29 +420,82 @@
 </head>
 <body>
 
-<!-- TICKER -->
+<!-- ═══════════════════════════════════════════════════════════
+     TODAY'S GAMES — SINGLE SOURCE OF TRUTH
+     This one array renders BOTH the top ticker AND Today's Slate.
+     Update it once each morning; both stay in sync automatically.
+
+     Field guide:
+       league  → 'MLB' | 'NFL' | 'CFB' | 'NBA' | 'CBB' | 'NHL' | 'UFC' | 'PGA'
+       away/home → { code, name }
+            code = ESPN team slug, lowercase (tor, tb, wsh, tex, kc, ath…)
+                   Logo resolves to:
+                   https://a.espncdn.com/i/teamlogos/<league>/500/<code>.png
+            name = short display name ('Blue Jays', 'Rays')
+       time    → exact first pitch / kickoff with timezone
+       pick    → our stated side and number, or null if we're not on it
+       conf    → filled stars out of 5 (4 = High, 3 = Medium, 2 = Low)
+       free    → true for the one game that is the free Pick of the Day.
+                 IMPORTANT: this must match the newsletter's free pick.
+     ═══════════════════════════════════════════════════════════ -->
 <div class="ticker">
   <div class="ticker-track" id="ticker-track"></div>
 </div>
 <script>
-  const tickerItems = [
-    { sport:'NFL', cls:'s-nfl', team:'Chiefs -3.5 vs Bills', line:'O/U 47.5' },
-    { sport:'MLB', cls:'s-mlb', team:'Dodgers vs Giants', line:'LAD ML -145' },
-    { sport:'CFB', cls:'s-cfb', team:'Alabama -7 vs Georgia', line:'O/U 51' },
-    { sport:'NBA', cls:'s-nba', team:'Celtics -4.5 vs Bucks', line:'O/U 224' },
-    { sport:'CBB', cls:'s-cbb', team:'Duke -6 vs UNC', line:'O/U 152' },
-    { sport:'NHL', cls:'s-nhl', team:'Rangers ML vs Devils', line:'-120' },
-    { sport:'INFO', cls:'s-info', team:'New Pick Every Day', line:'Free — No Card Required' },
+  const todaysGames = [
+    { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'tb',  name:'Rays'},
+      time:'1:10 PM ET', pick:'Tampa Bay ML (-172)', conf:4, free:true },
+    { league:'MLB', away:{code:'tex', name:'Rangers'},   home:{code:'wsh', name:'Nationals'},
+      time:'8:05 PM ET', pick:'Washington ML (+146)', conf:3, free:false },
+    { league:'MLB', away:{code:'ath', name:'Athletics'}, home:{code:'kc',  name:'Royals'},
+      time:'2:10 PM ET', pick:'Kansas City ML (-138)', conf:3, free:false },
   ];
-  const trackEl = document.getElementById('ticker-track');
-  const rendered = tickerItems.map(i => `
-    <span class="ticker-item">
-      <span class="t-sport ${i.cls}">${i.sport}</span>
-      <span class="t-team">${i.team}</span>
-      <span class="t-sep">·</span>
-      <span class="t-line">${i.line}</span>
-    </span>`).join('');
-  trackEl.innerHTML = rendered + rendered;
+
+  // Season record — keep in step with record.html's computeSummary() output.
+  const seasonRecord = { line: '4-3-0', roi: '+4.8%' };
+
+  const logo = (league, code) =>
+    `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${code}.png`;
+
+  const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+  const confWord = n => n >= 4 ? 'High' : n === 3 ? 'Medium' : 'Low';
+  const confClass = n => n >= 4 ? 'conf-high' : n === 3 ? 'conf-medium' : 'conf-low';
+
+  // ── Ticker ──────────────────────────────────────────────
+  document.getElementById('ticker-track').innerHTML =
+    todaysGames.map((g, i) => `
+      <a class="tk-game ${g.pick ? 'is-pick' : ''}" href="#slate" data-game="${i}">
+        <div class="tk-top">
+          <span class="tk-league s-${g.league.toLowerCase()}">${g.league}</span>
+          <span class="tk-time">${g.time}</span>
+        </div>
+        <div class="tk-row">
+          <img src="${logo(g.league, g.away.code)}" alt="${g.away.name}" loading="lazy"/>
+          <span class="tk-team">${g.away.name}</span>
+        </div>
+        <div class="tk-row">
+          <img src="${logo(g.league, g.home.code)}" alt="${g.home.name}" loading="lazy"/>
+          <span class="tk-team">${g.home.name}</span>
+        </div>
+        ${g.pick ? `<div class="tk-pick">${g.free ? '★ FREE · ' : ''}${g.pick}</div>` : ''}
+      </a>`).join('') +
+    `<a class="tk-record" href="record.html">
+       <span class="r-n">${seasonRecord.line} · ${seasonRecord.roi} ROI</span>
+       <span class="r-l">Every pick logged →</span>
+     </a>`;
+
+  // Clicking a ticker game scrolls to its row in Today's Slate and flashes it.
+  document.getElementById('ticker-track').addEventListener('click', e => {
+    const card = e.target.closest('.tk-game');
+    if (!card) return;
+    const row = document.querySelector(`.slate-row[data-game="${card.dataset.game}"]`);
+    if (!row) return;
+    e.preventDefault();
+    row.scrollIntoView({ behavior:'smooth', block:'center' });
+    row.classList.remove('flash');
+    void row.offsetWidth;
+    row.classList.add('flash');
+  });
 </script>
 
 <!-- NAV -->
@@ -529,7 +613,7 @@
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
         <div class="potd-date">Thu, Aug 20</div>
         <div class="potd-sport">MLB</div>
-        <div class="potd-matchup">Blue Jays @ Rays</div>
+        <div class="potd-matchup" id="potd-matchup">Blue Jays @ Rays</div>
         <div class="potd-line">THE PICK: Tampa Bay Rays ML (-172) · 1:10 PM ET</div>
         <p class="potd-reasoning">Ian Seymour (9-3, 4.11 ERA) takes the mound for Tampa Bay against a Blue Jays lineup facing Shane Bieber (4-2, 4.99 ERA), who's still finding his form since returning. The Rays are 7-2 ATS in Seymour's starts this year, and with Tampa Bay already up two games in this series, the pitching mismatch says the number should be even bigger than it is.</p>
       </div>
@@ -735,31 +819,44 @@
       <h2 class="section-title">Today's Slate</h2>
       <p class="section-lead">Every game we're tracking today, in one place — posted each morning, graded the day it settles.</p>
     </div>
-    <div class="slate-list">
-      <div class="slate-row conf-high">
-        <span class="slate-sport s-mlb">MLB</span>
-        <span class="slate-matchup">Blue Jays @ Rays</span>
-        <span class="slate-time">1:10 PM ET</span>
-        <span class="slate-pick">Tampa Bay ML (-172) — Free Pick</span>
-        <span class="slate-conf">★★★★☆ High</span>
-      </div>
-      <div class="slate-row conf-medium">
-        <span class="slate-sport s-mlb">MLB</span>
-        <span class="slate-matchup">Rangers @ Nationals</span>
-        <span class="slate-time">8:05 PM ET</span>
-        <span class="slate-pick">Washington ML (+146)</span>
-        <span class="slate-conf">★★★☆☆ Medium</span>
-      </div>
-      <div class="slate-row conf-medium">
-        <span class="slate-sport s-mlb">MLB</span>
-        <span class="slate-matchup">Athletics @ Royals</span>
-        <span class="slate-time">2:10 PM ET</span>
-        <span class="slate-pick">Kansas City ML (-138)</span>
-        <span class="slate-conf">★★★☆☆ Medium</span>
-      </div>
-    </div>
+    <!-- Rendered from the todaysGames array at the top of this file. -->
+    <div class="slate-list" id="slate-list"></div>
   </div>
 </section>
+<script>
+  document.getElementById('slate-list').innerHTML = todaysGames.map((g, i) => `
+    <div class="slate-row ${confClass(g.conf)}" data-game="${i}">
+      <span class="slate-sport s-${g.league.toLowerCase()}">${g.league}</span>
+      <span class="slate-teams">
+        <span class="slate-side">
+          <img src="${logo(g.league, g.away.code)}" alt="${g.away.name}" loading="lazy"/>
+          <span class="slate-matchup">${g.away.name}</span>
+        </span>
+        <span class="slate-at">@</span>
+        <span class="slate-side">
+          <img src="${logo(g.league, g.home.code)}" alt="${g.home.name}" loading="lazy"/>
+          <span class="slate-matchup">${g.home.name}</span>
+        </span>
+      </span>
+      <span class="slate-time">${g.time}</span>
+      <span class="slate-pick">${g.pick || '—'}${g.free ? ' — Free Pick' : ''}</span>
+      <span class="slate-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
+    </div>`).join('');
+
+  // Pick of the Day headline gets the same logo treatment, pulled from
+  // whichever game is flagged free:true — so it can never drift out of sync.
+  (function renderPotdLogos(){
+    const g = todaysGames.find(x => x.free);
+    const el = document.getElementById('potd-matchup');
+    if (!g || !el) return;
+    el.innerHTML =
+      `<img src="${logo(g.league, g.away.code)}" alt="${g.away.name}"/>` +
+      `<span>${g.away.name}</span>` +
+      `<span class="at">@</span>` +
+      `<img src="${logo(g.league, g.home.code)}" alt="${g.home.name}"/>` +
+      `<span>${g.home.name}</span>`;
+  })();
+</script>
 
 <!-- PHILOSOPHY -->
 <section class="section philosophy" id="about">
