@@ -305,6 +305,35 @@
   .mc-status .live { color: var(--red); font-weight:600; }
   .mc-status .final { color: var(--mid); }
 
+  /* ── LIVE SCOREBOARD ── */
+  .sb-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .sb-tab {
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--mid); background:var(--surface-1); border:1px solid var(--border);
+    border-radius:20px; padding:7px 16px; cursor:pointer; transition:all 0.18s ease;
+  }
+  .sb-tab:hover { border-color:var(--border-lit); color:var(--white); }
+  .sb-tab.active { color:var(--black); background:var(--green); border-color:var(--green); font-weight:600; }
+  .sb-tab .n { opacity:0.6; margin-left:5px; }
+  .sb-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(268px,1fr)); gap:12px; }
+  .sb-card {
+    background:var(--surface-1); border:1px solid var(--border); border-radius:var(--r-md);
+    padding:13px 15px; box-shadow:var(--shadow-sm); transition:border-color 0.18s ease, transform 0.18s ease;
+  }
+  .sb-card:hover { border-color:var(--border-lit); transform:translateY(-2px); }
+  .sb-card.tracked { border-color:rgba(0,208,132,0.4); background:rgba(0,208,132,0.04); }
+  .sb-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+  .sb-status { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.07em; color:var(--muted); }
+  .sb-status.live { color:var(--red); font-weight:600; }
+  .sb-ours { font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.1em; color:var(--green); border:1px solid rgba(0,208,132,0.4); border-radius:20px; padding:2px 7px; }
+  .sb-row { display:flex; align-items:center; gap:9px; padding:4px 0; }
+  .sb-row img { width:20px; height:20px; object-fit:contain; flex-shrink:0; }
+  .sb-abbr { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; color:var(--white); text-transform:uppercase; letter-spacing:0.02em; }
+  .sb-row.lose .sb-abbr, .sb-row.lose .sb-score { color:var(--muted); }
+  .sb-score { margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:var(--white); }
+  .sb-odds { margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--mid); }
+  .sb-note { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); padding:26px 0; text-align:center; }
+
   .slate-list { display: flex; flex-direction: column; gap: 10px; }
   .slate-row {
     display: grid; grid-template-columns: 62px 1fr auto auto auto; align-items: center; gap: 18px;
@@ -814,55 +843,13 @@
 <section class="section" id="picks">
   <div class="section-inner">
     <div class="section-header">
-      <p class="eyebrow">Latest Analysis</p>
-      <h2 class="section-title">What Our Breakdowns Look Like</h2>
-      <p class="section-lead">An example of our format and voice — not a live pick. Real daily breakdowns start posting here once picks are live.</p>
+      <p class="eyebrow">Live Scoreboard</p>
+      <h2 class="section-title">Everything On The Board</h2>
+      <p class="section-lead">Every game across every sport in season, updating live — with the ones we're tracking today marked. Scores and lines straight from the source, not retyped by hand.</p>
     </div>
-    <div class="sample-grid">
-      <div class="article-card">
-        <div class="article-header">
-          <span class="article-sport">NFL · Sample</span>
-          <span class="article-date">Example Format</span>
-        </div>
-        <div class="article-body">
-          <h3 class="article-title">Why the Public is Wrong on the Chiefs Line — Again</h3>
-          <p class="article-excerpt">Kansas City opened as 4.5-point favorites and has since been bet up to -6.5 despite a questionable week of injury reports. The sharp money hasn't followed — that gap between public perception and what the number is actually saying is exactly what we dig into every day. Here's the kind of full picture we'd walk you through before you act on a line like this.</p>
-          <div class="article-tags">
-            <span class="tag green">Best Bet</span>
-            <span class="tag">Line Movement</span>
-            <span class="tag">Sharp Money</span>
-            <span class="tag">NFL</span>
-          </div>
-          <p class="article-byline" style="margin-top:16px;">Format example · <strong>Marcus Callahan</strong> · NFL &amp; CFB Lead</p>
-        </div>
-      </div>
-      <div class="sidebar-stack">
-        <div class="pick-card conf-high">
-          <div class="pick-header">
-            <span class="pick-sport">CFB · Example</span>
-            <span class="pick-confidence">★★★★☆ High</span>
-          </div>
-          <div class="pick-matchup">Georgia vs Tennessee</div>
-          <div class="pick-line">Georgia -7.5 · O/U 48</div>
-          <div class="pick-rec">Under 48 — Play It</div>
-          <p class="article-byline" style="margin-top:10px;">Format example — Marcus Callahan</p>
-        </div>
-        <div class="pick-card conf-medium">
-          <div class="pick-header">
-            <span class="pick-sport">NFL · Example</span>
-            <span class="pick-confidence">★★★☆☆ Medium</span>
-          </div>
-          <div class="pick-matchup">Eagles vs Cowboys</div>
-          <div class="pick-line">PHI -3 · O/U 44.5</div>
-          <div class="pick-rec">PHI -3 — Value Play</div>
-          <p class="article-byline" style="margin-top:10px;">Format example — Marcus Callahan</p>
-        </div>
-        <div class="locked-card">
-          <div class="lock-icon">🔒</div>
-          <div class="lock-text">More Picks Daily for Members</div>
-          <a href="#signup" class="btn-primary" style="font-size:12px;padding:10px 20px;">Unlock with Members Access</a>
-        </div>
-      </div>
+    <div class="sb-tabs" id="sb-tabs"></div>
+    <div class="sb-grid" id="sb-grid">
+      <div class="sb-note">Loading today's games…</div>
     </div>
   </div>
 </section>
@@ -1076,6 +1063,96 @@
     }).join('');
 
     src.textContent = `Open → current${provider ? ' · odds ' + provider : ''} · updates on load`;
+  })();
+
+  /* ═══════════════════════════════════════════════════════════
+     LIVE SCOREBOARD — every game in season, straight from ESPN.
+
+     This replaced a block of invented "example" games (a Chiefs line,
+     a Georgia/Tennessee total, an Eagles/Cowboys play) that sat in prime
+     position above the real slate. Fabricated filler is the last thing a
+     site about honest numbers should lead with — and real, live games are
+     better content anyway.
+     ═══════════════════════════════════════════════════════════ */
+  (async function renderScoreboard(){
+    const LEAGUES = [
+      ['MLB','baseball/mlb'], ['NFL','football/nfl'], ['CFB','football/college-football'],
+      ['NBA','basketball/nba'], ['NHL','hockey/nhl'], ['WNBA','basketball/wnba'],
+    ];
+    const tabsEl = document.getElementById('sb-tabs');
+    const gridEl = document.getElementById('sb-grid');
+    const tracked = new Set(todaysGames.map(g => `${g.away.code}|${g.home.code}`));
+    const byLeague = {};
+
+    await Promise.all(LEAGUES.map(async ([label, path]) => {
+      try {
+        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard`);
+        if (!r.ok) return;
+        const d = await r.json();
+        const games = (d.events || []).map(ev => {
+          const c = ev.competitions?.[0]; if (!c) return null;
+          const home = c.competitors.find(x => x.homeAway === 'home');
+          const away = c.competitors.find(x => x.homeAway === 'away');
+          if (!home || !away) return null;
+          const o = c.odds?.[0];
+          return {
+            state: ev.status?.type?.state,
+            detail: ev.status?.type?.shortDetail || '',
+            away: { abbr: away.team.abbreviation, logo: away.team.logo, score: away.score },
+            home: { abbr: home.team.abbreviation, logo: home.team.logo, score: home.score },
+            awayML: o?.moneyline?.away?.close?.odds,
+            homeML: o?.moneyline?.home?.close?.odds,
+            ours: tracked.has(`${away.team.abbreviation.toLowerCase()}|${home.team.abbreviation.toLowerCase()}`),
+          };
+        }).filter(Boolean);
+        if (games.length) byLeague[label] = games;
+      } catch (_) { /* league unavailable — omit rather than invent */ }
+    }));
+
+    const labels = Object.keys(byLeague);
+    if (!labels.length) {
+      gridEl.innerHTML = `<div class="sb-note">No games on the board right now. Check back closer to first pitch.</div>`;
+      return;
+    }
+
+    // Lead with whichever league we're actually tracking today.
+    const primary = todaysGames[0]?.league;
+    labels.sort((a,b) => (b === primary) - (a === primary) || byLeague[b].length - byLeague[a].length);
+
+    const card = g => {
+      const done = g.state === 'post';
+      const aW = done && Number(g.away.score) > Number(g.home.score);
+      const hW = done && Number(g.home.score) > Number(g.away.score);
+      const side = (t, lose) => `
+        <div class="sb-row ${lose ? 'lose' : ''}">
+          <img src="${t.logo}" alt="${t.abbr}" loading="lazy"/>
+          <span class="sb-abbr">${t.abbr}</span>
+          ${g.state === 'pre'
+            ? `<span class="sb-odds">${(t === g.away ? g.awayML : g.homeML) || ''}</span>`
+            : `<span class="sb-score">${t.score}</span>`}
+        </div>`;
+      return `
+        <div class="sb-card ${g.ours ? 'tracked' : ''}">
+          <div class="sb-top">
+            <span class="sb-status ${g.state === 'in' ? 'live' : ''}">${g.state === 'in' ? '● ' : ''}${g.detail}</span>
+            ${g.ours ? '<span class="sb-ours">OUR PICK</span>' : ''}
+          </div>
+          ${side(g.away, done && !aW)}
+          ${side(g.home, done && !hW)}
+        </div>`;
+    };
+
+    const draw = label => {
+      gridEl.innerHTML = byLeague[label].map(card).join('');
+      [...tabsEl.children].forEach(b => b.classList.toggle('active', b.dataset.l === label));
+    };
+
+    tabsEl.innerHTML = labels.map(l =>
+      `<button class="sb-tab" data-l="${l}">${l}<span class="n">${byLeague[l].length}</span></button>`).join('');
+    tabsEl.addEventListener('click', e => {
+      const b = e.target.closest('.sb-tab'); if (b) draw(b.dataset.l);
+    });
+    draw(labels[0]);
   })();
 
   // Pick of the Day headline gets the same logo treatment, pulled from
