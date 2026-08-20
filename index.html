@@ -917,8 +917,15 @@
           ${ml ? `<div class="mc-ml ${String(ml).startsWith('-') ? 'fav' : ''}">${ml}</div>` : ''}
         </div>`;
       let status = `<span>${g.time}</span>`;
-      if (L.state === 'in')   status = `<span class="live">● LIVE — ${L.detail}</span>`;
-      if (L.state === 'post') status = `<span class="final">FINAL — ${L.awayScore}–${L.homeScore}</span>`;
+      if (L.state === 'in') status = `<span class="live">● LIVE — ${L.detail}</span>`;
+      if (L.state === 'post') {
+        // Name the winner explicitly. "FINAL — 5-1" leaves the reader guessing
+        // which side that favoured, which matters a lot when we posted a pick.
+        const a = Number(L.awayScore), h = Number(L.homeScore);
+        const winner = a > h ? g.away.name : h > a ? g.home.name : null;
+        status = `<span class="final">FINAL — ${g.away.name} ${a}, ${g.home.name} ${h}` +
+                 `${winner ? ` · ${winner} win` : ' · tie'}</span>`;
+      }
       return `
       <div class="mc ${g.free ? 'is-free' : ''} ${confClass(g.conf)}" data-game="${i}">
         ${wash}
