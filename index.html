@@ -1025,12 +1025,16 @@
             if (open === null || close === null || open === close) return;
             const team = (side === 'home' ? o.homeTeamOdds : o.awayTeamOdds)?.team;
             if (!team) return;
+            // Ignore lopsided blowout lines. A CFB game at -50000 "moving"
+            // 41000 points is real but meaningless — nobody prices or bets
+            // that, and it buries the genuinely interesting movement.
+            if (Math.abs(open) > 450 || Math.abs(close) > 450) return;
             rows.push({
               label,
               team: team.abbreviation,
               close,
               delta: close - open,
-              // Bigger absolute move = more interesting; surface those first.
+              // Bigger move on a bettable number = more interesting.
               weight: Math.abs(close - open)
             });
           });
@@ -1044,8 +1048,16 @@
       return;
     }
 
+    // Sort by size of move, then cap each league to keep the panel varied
+    // rather than six rows of the same sport.
     rows.sort((a,b) => b.weight - a.weight);
-    box.innerHTML = rows.slice(0, 6).map(r => {
+    const perLeague = {};
+    const picked = rows.filter(r => {
+      perLeague[r.label] = (perLeague[r.label] || 0) + 1;
+      return perLeague[r.label] <= 2;
+    });
+
+    box.innerHTML = (picked.length ? picked : rows).slice(0, 6).map(r => {
       const dir = r.delta > 0 ? 'up' : 'down';
       const arrow = r.delta > 0 ? '▲' : '▼';
       const fmt = n => (n > 0 ? '+' : '') + n;
