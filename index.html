@@ -191,7 +191,13 @@
   .btn-ghost { color: var(--mid); font-size: 13px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-left: 20px; transition: color 0.2s; }
   .btn-ghost:hover { color: var(--white); }
 
-  .stat-strip { display: flex; border: 1px solid var(--border); margin-top: 40px; background: var(--dark); }
+  .stat-strip {
+    display: flex; border: 1px solid var(--border); margin-top: 40px;
+    background: var(--dark); border-radius: var(--r-md); overflow: hidden;
+    box-shadow: var(--shadow-md); text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  a.stat-strip:hover { border-color: rgba(0,208,132,0.42); box-shadow: var(--shadow-glow); }
   .stat-cell { flex: 1; padding: 16px 18px; border-right: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
   .stat-cell:last-child { border-right: none; }
   .stat-cell .n { font-size: 24px; font-weight: 600; }
@@ -669,18 +675,18 @@
   <div>
     <p class="hero-eyebrow">MLB · NFL · CFB · NBA · CBB · NHL · UFC · PGA</p>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
-    <p class="hero-sub">Every game, every edge — real-time line movement, sharp-vs-public splits, and model-backed picks across eight sports, written by a small team that does this every night. No noise. No guesswork. Just the work.</p>
+    <p class="hero-sub">One free pick every morning, with the reasoning shown. Every result logged the day it settles — wins, losses and the ugly ones. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
-    <a href="#picks" class="btn-ghost">See Latest Picks ↓</a>
-    <div class="stat-strip">
+    <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
+    <a class="stat-strip" href="record.html" title="See every pick we've ever published">
       <!-- Update the record + ROI cells whenever record.html is graded.
            Pull the numbers straight from record.html's computeSummary()
            output so the hero and the record page never disagree. -->
       <div class="stat-cell"><div class="n g">4-3-0</div><div class="l">Season Record</div></div>
       <div class="stat-cell"><div class="n g">+4.8%</div><div class="l">ROI — 1 Unit Flat</div></div>
       <div class="stat-cell"><div class="n b">100%</div><div class="l">Documented &amp; Public</div></div>
-      <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Live</div></div>
-    </div>
+      <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Covered</div></div>
+    </a>
   </div>
   <!-- Real line movement: opening number vs current, pulled live from ESPN's
        public scoreboard feed (odds provided by DraftKings). Populated by
