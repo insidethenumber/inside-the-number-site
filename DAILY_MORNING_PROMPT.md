@@ -142,6 +142,23 @@ The Pick of the Day card's date, sport, line and reasoning text are still
 plain HTML and still need editing by hand — only the matchup headline with the
 logos is auto-generated.
 
+## The odds window — capture in the morning (added Aug 20, 2026)
+
+**ESPN removes a game's odds object the moment it starts.** Verified: by late
+evening every game on the slate returned `hasOdds: false`. Whatever isn't
+recorded before first pitch is gone from the feed for good.
+
+So when researching each morning, write the numbers into the `todaysGames`
+array while they're still available — the opening line, the current line, and
+the odds on our stated side. The homepage's no-vig win probability and line
+movement panels only populate for upcoming games, which is correct, but it
+means anything missed in the morning can't be backfilled in the evening.
+
+Worth building toward: capturing the no-vig probability at pick time lets us
+eventually publish **closing line value** — whether our number beat the close.
+That's the most credible metric in this industry and much harder to fake than
+a win rate. See COMPETITOR_RESEARCH.md.
+
 ## Site consistency rules (added Aug 20, 2026)
 
 These apply to every run — automated or manual. They exist because the site
