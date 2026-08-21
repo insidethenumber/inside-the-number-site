@@ -224,6 +224,24 @@
   .stat-cell .n.g { color: var(--green); } .stat-cell .n.a { color: var(--gold); } .stat-cell .n.b { color: var(--blue); }
   .stat-cell .l { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface-1), var(--black));
+  }
+  .trust-inner {
+    max-width: 1200px; margin: 0 auto; padding: 18px 48px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .trust-item { display: flex; align-items: flex-start; gap: 10px; }
+  .trust-item svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: 2px; }
+  .trust-item .t { font-size: 12.5px; color: var(--white); font-weight: 500; line-height: 1.35; }
+  .trust-item .s { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: var(--muted); letter-spacing: 0.05em; margin-top: 3px; }
+  @media (max-width: 900px) {
+    .trust-inner { grid-template-columns: 1fr 1fr; padding: 16px 20px; gap: 16px; }
+  }
+  @media (max-width: 520px) { .trust-inner { grid-template-columns: 1fr; } }
+
   /* ── PICK OF THE DAY ── */
   .potd-section { padding: 60px 48px 20px; }
   .potd-inner { max-width: 1100px; margin: 0 auto; }
@@ -324,6 +342,19 @@
   .mc-pick-v { display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .mc-pick-t { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; color:var(--white); text-transform:uppercase; letter-spacing:0.03em; }
   .mc-conf { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--accent, var(--green)); white-space:nowrap; }
+  /* No-vig win probability — market's true read once the book's margin is removed */
+  .mc-prob { margin-left:auto; text-align:right; }
+  .mc-prob .pct { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--white); display:block; line-height:1.15; }
+  .mc-prob .ml  { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); display:block; }
+  .mc-bar { display:flex; height:5px; border-radius:3px; overflow:hidden; margin:10px 18px 2px; background:var(--surface-3); }
+  .mc-bar i { display:block; height:100%; }
+  .mc-bar i.a { background:linear-gradient(90deg,#4b5563,#6b7280); }
+  .mc-bar i.h { background:linear-gradient(90deg,var(--green),var(--blue)); }
+  .mc-hold {
+    display:flex; justify-content:space-between; gap:10px;
+    font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase; padding:0 18px 2px;
+  }
   .mc-status {
     font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.06em;
     padding: 0 18px 14px; color: var(--muted);
@@ -721,6 +752,29 @@
 </div>
 </div>
 
+<!-- TRUST BAR — every claim here is literally true and checkable on the site.
+     No "trusted by 100k bettors", no invented testimonials. -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+      <div><div class="t">Every pick published free</div><div class="s">No paywalled record</div></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+      <div><div class="t">Losses stay on the page</div><div class="s">Nothing deleted, ever</div></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+      <div><div class="t">Live odds, not retyped</div><div class="s">Straight from the feed</div></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+      <div><div class="t">Reasoning shown on every call</div><div class="s">Not just a side and a number</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════════════════════════════════════════════════
      PICK OF THE DAY — update this block every day, manually.
      Edit the 5 lines inside <div class="potd-card"> below:
@@ -920,14 +974,29 @@
       const L = live[`${g.away.code}|${g.home.code}`] || {};
       const wash = L.awayColor && L.homeColor
         ? `<div class="mc-wash" style="background:linear-gradient(100deg,#${L.awayColor},#${L.homeColor})"></div>` : '';
-      const side = (t, code, ml, rec) => `
+      /* No-vig probabilities. American odds imply a probability, but the two
+         sides always sum to more than 100% — that surplus is the book's hold.
+         Normalising both sides back to 100% strips the margin out and leaves
+         what the market actually thinks. This is market-implied maths on real
+         odds, not a proprietary model, and it's labelled that way on the card. */
+      const impl = o => { const n = Number(o); return n > 0 ? 100/(n+100) : Math.abs(n)/(Math.abs(n)+100); };
+      let pA = null, pH = null, hold = null;
+      if (L.awayML && L.homeML) {
+        const ra = impl(L.awayML), rh = impl(L.homeML), sum = ra + rh;
+        if (sum > 0) { pA = ra/sum; pH = rh/sum; hold = (sum - 1) * 100; }
+      }
+
+      const side = (t, code, ml, rec, p) => `
         <div class="mc-team">
           <img src="${logo(g.league, code)}" alt="${t}" loading="lazy"/>
           <div>
             <div class="mc-name">${t}</div>
             ${rec ? `<div class="mc-rec">${rec}</div>` : ''}
           </div>
-          ${ml ? `<div class="mc-ml ${String(ml).startsWith('-') ? 'fav' : ''}">${ml}</div>` : ''}
+          ${p !== null && p !== undefined
+            ? `<div class="mc-prob"><span class="pct">${(p*100).toFixed(1)}%</span>
+                 ${ml ? `<span class="ml">${ml}</span>` : ''}</div>`
+            : (ml ? `<div class="mc-ml ${String(ml).startsWith('-') ? 'fav' : ''}">${ml}</div>` : '')}
         </div>`;
       let status = `<span>${g.time}</span>`;
       if (L.state === 'in') status = `<span class="live">● LIVE — ${L.detail}</span>`;
@@ -948,10 +1017,19 @@
           <span class="mc-time">${g.time}</span>
         </div>
         <div class="mc-body">
-          ${side(g.away.name, g.away.code, L.awayML, L.awayRec)}
+          ${side(g.away.name, g.away.code, L.awayML, L.awayRec, pA)}
           <div class="mc-div"><span>AT</span></div>
-          ${side(g.home.name, g.home.code, L.homeML, L.homeRec)}
+          ${side(g.home.name, g.home.code, L.homeML, L.homeRec, pH)}
         </div>
+        ${pA !== null ? `
+          <div class="mc-bar">
+            <i class="a" style="width:${(pA*100).toFixed(1)}%"></i>
+            <i class="h" style="width:${(pH*100).toFixed(1)}%"></i>
+          </div>
+          <div class="mc-hold">
+            <span>Market win prob · vig removed</span>
+            <span>Book hold ${hold.toFixed(1)}%</span>
+          </div>` : ''}
         ${g.pick ? `
         <div class="mc-pick">
           <div class="mc-pick-l">Our Pick</div>
