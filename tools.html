@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Inside the Number — Free Betting Calculators</title>
-<meta name="description" content="Three free betting calculators: convert American odds to implied probability, work out true parlay payouts, and see the hold a sportsbook is baking into any two-sided line. No signup."/>
+<title>Free Betting Calculators — Odds, No-Vig, EV, Kelly & Hedge | Inside the Number</title>
+<meta name="description" content="Nine free betting calculators: convert American, decimal and fractional odds, strip the vig for true probability, size bets with Kelly, work out expected value, hedge a live bet, and see the hold a book is taking. No signup."/>
 <link rel="canonical" href="https://insidethenumber.com/tools.html"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
@@ -13,70 +13,119 @@
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/tools.html"/>
 <meta property="og:title" content="Free Betting Calculators — Inside the Number"/>
-<meta property="og:description" content="Odds to probability, real parlay payouts, and sportsbook hold. Three calculators, no signup."/>
+<meta property="og:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Nine calculators, no signup."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Free Betting Calculators — Inside the Number"/>
-<meta name="twitter:description" content="Odds to probability, real parlay payouts, and sportsbook hold. Three calculators, no signup."/>
+<meta name="twitter:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Nine calculators, no signup."/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --black: #050608; --dark: #0b0d11; --card: #12141a; --border: #1c2129; --border-lit: #2a2f3a;
-    --green: #00d084; --green-dim: rgba(0,208,132,0.12); --blue: #3ba7ff; --red: #ff5c5c; --gold: #f0b429;
-    --white: #f0f2f5; --muted: #6b7280; --mid: #9ca3af;
+    --black:#050608; --dark:#0b0d11; --card:#12141a; --border:#1c2129; --border-lit:#2a2f3a;
+    --surface-1:#0e1116; --surface-2:#141821; --surface-3:#1a1f2a;
+    --green:#00d084; --green-dim:rgba(0,208,132,0.12); --blue:#3ba7ff; --red:#ff5c5c; --gold:#f0b429;
+    --purple:#a78bfa;
+    --white:#f0f2f5; --muted:#6b7280; --mid:#9ca3af;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md:0 4px 14px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);
+    --shadow-lg:0 12px 34px rgba(0,0,0,0.55),0 2px 8px rgba(0,0,0,0.35);
+    --r-sm:8px; --r-md:12px; --r-lg:18px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Barlow',sans-serif; background:var(--black); color:var(--white); line-height:1.6; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Barlow',sans-serif; background:var(--black); color:var(--white); line-height:1.6; overflow-x:hidden; }
+
   nav { background:rgba(5,6,8,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
   .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
   .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .nav-logo-mark svg { width:100%; height:100%; display:block; }
   .nav-name { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
   .nav-name span { color:var(--green); }
-  .nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
+  .nav-links { display:flex; align-items:center; gap:30px; list-style:none; }
   .nav-links a { color:var(--muted); text-decoration:none; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; }
   .nav-links a:hover, .nav-links a.active { color:var(--green); }
   .nav-hamburger { display:none; width:40px; height:40px; background:none; border:none; cursor:pointer; flex-direction:column; justify-content:center; align-items:center; gap:5px; z-index:200; padding:0; }
-  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform 0.25s, opacity 0.25s; }
-  .nav-hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity:0; }
-  .nav-hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
-  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity 0.25s, transform 0.25s; }
+  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform .25s,opacity .25s; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }
   .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
-  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
   .mobile-menu a:hover { color:var(--green); }
   body.menu-open { overflow:hidden; }
 
-  .header { padding:70px 48px 40px; max-width:1100px; margin:0 auto; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 48px; }
+  .header { padding:66px 0 30px; }
   .eyebrow { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px; }
-  h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(34px,4.5vw,54px); font-weight:900; text-transform:uppercase; color:var(--white); margin-bottom:14px; }
-  .lead { font-size:15px; color:var(--mid); max-width:560px; line-height:1.8; font-weight:300; }
+  h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(34px,4.8vw,58px); font-weight:900; text-transform:uppercase; color:var(--white); line-height:0.98; margin-bottom:16px; }
+  h1 span { background:linear-gradient(100deg,var(--green),var(--blue)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lead { font-size:15.5px; color:var(--mid); max-width:660px; line-height:1.8; font-weight:300; }
 
-  .tools-grid { max-width:1100px; margin:0 auto 80px; padding:0 48px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; align-items:start; }
-  .tool-card { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:16px; padding:26px 24px; border-top:3px solid var(--accent); }
-  .tool-card.odds { --accent:var(--green); }
-  .tool-card.parlay { --accent:var(--blue); }
-  .tool-card.vig { --accent:var(--gold); }
-  .tool-card h2 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
-  .tool-card .desc { font-size:12.5px; color:var(--muted); margin-bottom:20px; line-height:1.6; }
-  label { display:block; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; margin-top:14px; }
+  /* jump nav */
+  .jump { display:flex; gap:8px; flex-wrap:wrap; margin:30px 0 8px; }
+  .jump a { font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--surface-1); border:1px solid var(--border); border-radius:20px; padding:7px 14px; text-decoration:none; transition:all .18s; }
+  .jump a:hover { color:var(--white); border-color:var(--border-lit); }
+
+  .group { padding:44px 0 10px; }
+  .group-title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; color:var(--white); margin-bottom:6px; }
+  .group-sub { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.05em; margin-bottom:24px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:16px; align-items:start; }
+  .tool {
+    background:linear-gradient(180deg,var(--surface-2),var(--surface-1));
+    border:1px solid var(--border); border-radius:var(--r-lg); padding:24px 22px;
+    border-top:3px solid var(--accent,var(--green)); box-shadow:var(--shadow-md);
+    transition:transform .2s,box-shadow .2s;
+  }
+  .tool:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+  .tool h2 { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em; margin-bottom:6px; color:var(--white); }
+  .tool .desc { font-size:12.5px; color:var(--muted); margin-bottom:18px; line-height:1.65; }
+  label { display:block; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.09em; margin-bottom:6px; margin-top:14px; }
   label:first-of-type { margin-top:0; }
-  input, select { width:100%; background:var(--dark); border:1px solid var(--border-lit); border-radius:8px; padding:10px 12px; color:var(--white); font-family:'IBM Plex Mono',monospace; font-size:13px; outline:none; }
-  input:focus, select:focus { border-color:var(--accent); }
-  .out { margin-top:20px; padding:16px; background:rgba(255,255,255,0.03); border-radius:10px; border:1px solid var(--border); }
-  .out .n { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:800; color:var(--accent); }
-  .out .l { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:2px; }
+  input {
+    width:100%; background:var(--black); border:1px solid var(--border-lit); border-radius:var(--r-sm);
+    padding:10px 12px; color:var(--white); font-family:'IBM Plex Mono',monospace; font-size:13px; outline:none;
+    transition:border-color .18s;
+  }
+  input:focus { border-color:var(--accent,var(--green)); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .out { margin-top:18px; padding:15px 16px; background:rgba(255,255,255,0.035); border-radius:var(--r-md); border:1px solid var(--border); }
+  .out .n { font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:800; color:var(--accent,var(--green)); line-height:1.1; }
+  .out .l { font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:3px; }
+  .out.split { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .out .sub { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--mid); margin-top:8px; line-height:1.6; }
+  .neg { color:var(--red) !important; }
+  .pos { color:var(--green) !important; }
+  .note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); line-height:1.7; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
   .leg-row { display:flex; gap:8px; margin-top:8px; }
-  .leg-row input { flex:1; }
-  .add-leg { margin-top:10px; background:none; border:1px dashed var(--border-lit); color:var(--mid); font-family:'IBM Plex Mono',monospace; font-size:11px; padding:8px; border-radius:8px; width:100%; cursor:pointer; }
+  .add-leg { margin-top:10px; background:none; border:1px dashed var(--border-lit); color:var(--mid); font-family:'IBM Plex Mono',monospace; font-size:11px; padding:8px; border-radius:var(--r-sm); width:100%; cursor:pointer; transition:all .18s; }
+  .add-leg:hover { border-color:var(--green); color:var(--green); }
+
+  .cta { background:linear-gradient(100deg,var(--green),var(--blue)); margin-top:70px; }
+  .cta-inner { max-width:700px; margin:0 auto; text-align:center; padding:66px 48px; }
+  .cta h2 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,4.2vw,46px); font-weight:900; text-transform:uppercase; color:var(--black); line-height:1; margin-bottom:14px; }
+  .cta p { font-size:15px; color:rgba(0,0,0,0.65); margin-bottom:28px; }
+  .cta a { display:inline-block; padding:15px 32px; background:var(--black); color:var(--green); font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; border-radius:26px; text-decoration:none; }
+  .cta a:hover { opacity:.85; }
+
+  footer { background:var(--dark); border-top:1px solid var(--border); padding:38px 48px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .footer-brand { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--white); }
+  .footer-brand span { color:var(--green); }
+  .footer-disclaimer { font-size:11px; color:var(--muted); max-width:520px; text-align:center; line-height:1.6; }
+  .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:0.06em; }
 
   @media (max-width:900px){
+    nav { padding:0 20px; }
     .nav-links { display:none; }
     .nav-hamburger { display:flex; }
-    .tools-grid { grid-template-columns:1fr; }
+    .wrap { padding:0 20px; }
+    .grid { grid-template-columns:1fr; }
+    .cta-inner { padding:52px 20px; }
+    footer { flex-direction:column; text-align:center; }
   }
 </style>
 </head>
@@ -86,18 +135,13 @@
   <a class="nav-brand" href="index.html">
     <div class="nav-logo-mark">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="navSpike" x1="0" y1="100" x2="0" y2="0">
-            <stop offset="0%" stop-color="var(--blue)"/>
-            <stop offset="100%" stop-color="var(--green)"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="navSpike" x1="0" y1="100" x2="0" y2="0">
+          <stop offset="0%" stop-color="var(--blue)"/><stop offset="100%" stop-color="var(--green)"/>
+        </linearGradient></defs>
         <rect x="2" y="2" width="96" height="96" rx="14" fill="var(--black)" stroke="var(--border-lit)" stroke-width="3"/>
         <line x1="6" y1="24" x2="94" y2="24" stroke="var(--border-lit)" stroke-width="1" opacity="0.5"/>
         <line x1="6" y1="50" x2="94" y2="50" stroke="var(--border-lit)" stroke-width="1" opacity="0.5"/>
         <line x1="6" y1="76" x2="94" y2="76" stroke="var(--border-lit)" stroke-width="1" opacity="0.5"/>
-        <text x="9" y="21" font-family="'IBM Plex Mono', monospace" font-size="7" fill="var(--green)" opacity="0.35">+6</text>
-        <text x="9" y="88" font-family="'IBM Plex Mono', monospace" font-size="7" fill="var(--green)" opacity="0.35">-3</text>
         <path d="M6,90 L16,84 L24,90 L32,66 L42,74 L52,44 L62,56 L74,16 L94,10" fill="none" stroke="url(#navSpike)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.32"/>
         <circle cx="94" cy="10" r="5" fill="var(--green)" opacity="0.32"/>
         <text x="50" y="63" font-family="'Bebas Neue', sans-serif" font-size="38" fill="var(--white)" text-anchor="middle" letter-spacing="2">ITN</text>
@@ -107,12 +151,11 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html#analysis">Analysis</a></li>
-    <li><a href="index.html#picks">Picks</a></li>
+    <li><a href="index.html#slate">Picks</a></li>
     <li><a href="record.html">Record</a></li>
     <li><a href="dfs.html">DFS</a></li>
     <li><a href="tools.html" class="active">Tools</a></li>
     <li><a href="index.html#team">Method</a></li>
-    <li><a href="index.html#pricing">Pricing</a></li>
   </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -121,133 +164,450 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html#analysis">Analysis</a>
-  <a href="index.html#picks">Picks</a>
+  <a href="index.html#slate">Picks</a>
   <a href="record.html">Record</a>
   <a href="dfs.html">DFS</a>
   <a href="tools.html">Tools</a>
   <a href="index.html#team">Method</a>
-  <a href="index.html#pricing">Pricing</a>
 </div>
 <script>
   (function(){
-    const btn = document.getElementById('navHamburger');
-    const menu = document.getElementById('mobileMenu');
-    function closeMenu(){
-      btn.classList.remove('open'); menu.classList.remove('open');
-      document.body.classList.remove('menu-open'); btn.setAttribute('aria-expanded','false');
-    }
-    btn.addEventListener('click', () => {
-      const open = btn.classList.toggle('open');
-      menu.classList.toggle('open', open);
-      document.body.classList.toggle('menu-open', open);
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
+    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
+    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
   })();
 </script>
 
-<div class="header">
-  <p class="eyebrow">// Free Tools</p>
-  <h1>Do the math before you bet it.</h1>
-  <p class="lead">Three quick calculators every bettor should have bookmarked — no signup required. Convert odds to real probability, check what a parlay actually pays, and see the hold you're giving up on any line.</p>
+<div class="wrap">
+  <div class="header">
+    <p class="eyebrow">// Free Tools</p>
+    <h1>Do the math<br/><span>before you bet it.</span></h1>
+    <p class="lead">Nine calculators covering the maths that actually decides whether a bet is worth making — converting prices, stripping out the bookmaker's margin, sizing a stake properly, and working out what you'd need to hit to break even. No signup, no account, nothing stored.</p>
+    <div class="jump">
+      <a href="#prices">Prices &amp; Probability</a>
+      <a href="#value">Value &amp; Edge</a>
+      <a href="#staking">Staking</a>
+      <a href="#situational">Situational</a>
+    </div>
+  </div>
+
+  <!-- ══════════ PRICES & PROBABILITY ══════════ -->
+  <div class="group" id="prices">
+    <div class="group-title">Prices &amp; Probability</div>
+    <div class="group-sub">// Reading what a number actually says</div>
+    <div class="grid">
+
+      <div class="tool" style="--accent:var(--green)">
+        <h2>Odds Converter</h2>
+        <p class="desc">American, decimal, fractional and implied probability are four ways of writing the same price. Type any one.</p>
+        <label>American odds</label>
+        <input type="number" id="cv-am" value="-150" step="1"/>
+        <div class="row2">
+          <div><label>Decimal</label><input type="number" id="cv-dec" step="0.01"/></div>
+          <div><label>Implied %</label><input type="number" id="cv-pct" step="0.1"/></div>
+        </div>
+        <div class="out">
+          <div class="n" id="cv-frac">—</div>
+          <div class="l">Fractional</div>
+          <div class="sub" id="cv-sub"></div>
+        </div>
+      </div>
+
+      <div class="tool" style="--accent:var(--blue)">
+        <h2>No-Vig Fair Odds</h2>
+        <p class="desc">Both sides of a market always add up to more than 100%. That surplus is the book's cut. Strip it out to see the true price.</p>
+        <div class="row2">
+          <div><label>Side A odds</label><input type="number" id="nv-a" value="-138" step="1"/></div>
+          <div><label>Side B odds</label><input type="number" id="nv-b" value="+116" step="1"/></div>
+        </div>
+        <div class="out split">
+          <div><div class="n" id="nv-pa">—</div><div class="l">A true prob</div></div>
+          <div><div class="n" id="nv-pb">—</div><div class="l">B true prob</div></div>
+        </div>
+        <div class="out" style="margin-top:10px">
+          <div class="n" id="nv-fair">—</div>
+          <div class="l">Fair prices, no margin</div>
+          <div class="sub" id="nv-sub"></div>
+        </div>
+      </div>
+
+      <div class="tool" style="--accent:var(--gold)">
+        <h2>Vig / Hold</h2>
+        <p class="desc">How much edge the sportsbook has baked into a two-sided market. Lower is better for you.</p>
+        <div class="row2">
+          <div><label>Side A odds</label><input type="number" id="vigA" value="-110" step="1"/></div>
+          <div><label>Side B odds</label><input type="number" id="vigB" value="-110" step="1"/></div>
+        </div>
+        <div class="out">
+          <div class="n" id="vigOut">—</div>
+          <div class="l">Book hold on this market</div>
+          <div class="sub" id="vig-sub"></div>
+        </div>
+        <p class="note">Standard two-way markets run about 4–5%. Anything under 3% is a sharp price; over 6% and you're paying well over the odds.</p>
+      </div>
+
+      <div class="tool" style="--accent:var(--purple)">
+        <h2>Break-Even Win Rate</h2>
+        <p class="desc">The percentage of bets you need to win at a given price just to break even. Anything below it loses money long-term.</p>
+        <label>American odds</label>
+        <input type="number" id="be-odds" value="-110" step="1"/>
+        <div class="out">
+          <div class="n" id="be-out">—</div>
+          <div class="l">Required win rate to break even</div>
+          <div class="sub" id="be-sub"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ VALUE & EDGE ══════════ -->
+  <div class="group" id="value">
+    <div class="group-title">Value &amp; Edge</div>
+    <div class="group-sub">// Is this bet actually worth making</div>
+    <div class="grid">
+
+      <div class="tool" style="--accent:var(--green)">
+        <h2>Expected Value</h2>
+        <p class="desc">What a bet is worth on average if you could make it over and over. Positive EV means the price is in your favour.</p>
+        <div class="row2">
+          <div><label>Stake ($)</label><input type="number" id="ev-stake" value="100" step="1"/></div>
+          <div><label>American odds</label><input type="number" id="ev-odds" value="+150" step="1"/></div>
+        </div>
+        <label>Your estimated win probability (%)</label>
+        <input type="number" id="ev-prob" value="45" step="0.1"/>
+        <div class="out">
+          <div class="n" id="ev-out">—</div>
+          <div class="l">Expected value per bet</div>
+          <div class="sub" id="ev-sub"></div>
+        </div>
+        <p class="note">The hard part isn't this maths — it's the probability estimate. Garbage in, garbage out.</p>
+      </div>
+
+      <div class="tool" style="--accent:var(--blue)">
+        <h2>Edge vs the Market</h2>
+        <p class="desc">Compare your own probability against the no-vig market price to see how much of an edge you actually have.</p>
+        <div class="row2">
+          <div><label>Side A odds</label><input type="number" id="eg-a" value="-138" step="1"/></div>
+          <div><label>Side B odds</label><input type="number" id="eg-b" value="+116" step="1"/></div>
+        </div>
+        <label>Your probability for side A (%)</label>
+        <input type="number" id="eg-prob" value="62" step="0.1"/>
+        <div class="out">
+          <div class="n" id="eg-out">—</div>
+          <div class="l">Your edge over the true price</div>
+          <div class="sub" id="eg-sub"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ STAKING ══════════ -->
+  <div class="group" id="staking">
+    <div class="group-title">Staking</div>
+    <div class="group-sub">// How much to actually put on it</div>
+    <div class="grid">
+
+      <div class="tool" style="--accent:var(--gold)">
+        <h2>Kelly Stake</h2>
+        <p class="desc">The mathematically optimal bet size for a given edge. Most people should use a fraction of it — full Kelly swings hard.</p>
+        <div class="row2">
+          <div><label>Bankroll ($)</label><input type="number" id="k-bank" value="1000" step="1"/></div>
+          <div><label>American odds</label><input type="number" id="k-odds" value="+150" step="1"/></div>
+        </div>
+        <label>Your estimated win probability (%)</label>
+        <input type="number" id="k-prob" value="45" step="0.1"/>
+        <div class="out split">
+          <div><div class="n" id="k-full">—</div><div class="l">Full Kelly</div></div>
+          <div><div class="n" id="k-half">—</div><div class="l">Half Kelly</div></div>
+        </div>
+        <div class="out" style="margin-top:10px">
+          <div class="n" id="k-quarter">—</div>
+          <div class="l">Quarter Kelly — most common in practice</div>
+          <div class="sub" id="k-sub"></div>
+        </div>
+        <p class="note">If Kelly returns zero or negative, the bet has no edge at your stated probability and shouldn't be made at all.</p>
+      </div>
+
+      <div class="tool" style="--accent:var(--purple)">
+        <h2>Parlay Payout</h2>
+        <p class="desc">What a multi-leg bet actually returns, and the true combined probability you're betting on.</p>
+        <label>Stake ($)</label>
+        <input type="number" id="stakeInput" value="100" step="1"/>
+        <div id="legsWrap">
+          <label>Leg 1 odds</label><input type="number" class="legInput" value="-110" step="1"/>
+          <label>Leg 2 odds</label><input type="number" class="legInput" value="-110" step="1"/>
+        </div>
+        <button class="add-leg" id="addLeg">+ Add another leg</button>
+        <div class="out split">
+          <div><div class="n" id="parlayOut">—</div><div class="l">Total payout</div></div>
+          <div><div class="n" id="parlayOdds">—</div><div class="l">Combined price</div></div>
+        </div>
+        <div class="out" style="margin-top:10px">
+          <div class="n" id="parlayProb">—</div>
+          <div class="l">Implied chance all legs land</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ SITUATIONAL ══════════ -->
+  <div class="group" id="situational">
+    <div class="group-title">Situational</div>
+    <div class="group-sub">// Once the bet is already live</div>
+    <div class="grid">
+
+      <div class="tool" style="--accent:var(--green)">
+        <h2>Hedge Calculator</h2>
+        <p class="desc">You're holding a live ticket and want to lock in a result. This is how much to put on the other side.</p>
+        <div class="row2">
+          <div><label>Original stake ($)</label><input type="number" id="h-stake" value="100" step="1"/></div>
+          <div><label>Original odds</label><input type="number" id="h-odds" value="+400" step="1"/></div>
+        </div>
+        <label>Current odds on the other side</label>
+        <input type="number" id="h-hedge" value="-200" step="1"/>
+        <div class="out split">
+          <div><div class="n" id="h-amt">—</div><div class="l">Hedge stake</div></div>
+          <div><div class="n" id="h-profit">—</div><div class="l">Locked either way</div></div>
+        </div>
+        <div class="out" style="margin-top:10px">
+          <div class="sub" id="h-sub"></div>
+        </div>
+      </div>
+
+      <div class="tool" style="--accent:var(--blue)">
+        <h2>Bankroll Drawdown</h2>
+        <p class="desc">Flat staking at a given unit size — how far a normal losing run can take you down. Variance is bigger than people expect.</p>
+        <div class="row2">
+          <div><label>Bankroll ($)</label><input type="number" id="d-bank" value="1000" step="1"/></div>
+          <div><label>Unit size (%)</label><input type="number" id="d-unit" value="2" step="0.1"/></div>
+        </div>
+        <label>Losing streak length</label>
+        <input type="number" id="d-streak" value="10" step="1"/>
+        <div class="out split">
+          <div><div class="n" id="d-left">—</div><div class="l">Bankroll after</div></div>
+          <div><div class="n" id="d-down">—</div><div class="l">Drawdown</div></div>
+        </div>
+        <p class="note">A 10-bet losing run is completely normal even for a winning bettor. Size so it's survivable, not so it's profitable if you never lose.</p>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<div class="tools-grid">
-
-  <div class="tool-card odds">
-    <h2>Odds → Probability</h2>
-    <p class="desc">Turn American odds into the implied win probability the book is pricing in.</p>
-    <label>American odds</label>
-    <input type="number" id="oddsInput" value="-150" step="1"/>
-    <div class="out">
-      <div class="n" id="oddsOut">60.0%</div>
-      <div class="l">Implied probability</div>
-    </div>
+<section class="cta">
+  <div class="cta-inner">
+    <h2>One free pick, every morning</h2>
+    <p>The same maths applied to real games — with the reasoning shown, and every result logged publicly.</p>
+    <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe Free →</a>
   </div>
+</section>
 
-  <div class="tool-card parlay">
-    <h2>Parlay Payout</h2>
-    <p class="desc">Add each leg's American odds to see combined payout on a $100 bet.</p>
-    <label>Stake ($)</label>
-    <input type="number" id="stakeInput" value="100" step="1"/>
-    <div id="legsWrap">
-      <label>Leg 1 odds</label>
-      <input type="number" class="legInput" value="-110" step="1"/>
-      <label>Leg 2 odds</label>
-      <input type="number" class="legInput" value="-110" step="1"/>
-    </div>
-    <button class="add-leg" id="addLeg">+ Add another leg</button>
-    <div class="out">
-      <div class="n" id="parlayOut">$364</div>
-      <div class="l">Total payout</div>
-    </div>
-  </div>
-
-  <div class="tool-card vig">
-    <h2>Vig / Hold Calculator</h2>
-    <p class="desc">See how much edge the sportsbook is baking into a two-sided line.</p>
-    <label>Side A odds</label>
-    <input type="number" id="vigA" value="-110" step="1"/>
-    <label>Side B odds</label>
-    <input type="number" id="vigB" value="-110" step="1"/>
-    <div class="out">
-      <div class="n" id="vigOut">4.8%</div>
-      <div class="l">Book hold on this line</div>
-    </div>
-  </div>
-
-</div>
+<footer>
+  <div class="footer-brand">Inside <span>the</span> Number</div>
+  <div class="footer-disclaimer">For entertainment and educational purposes only. Inside the Number does not facilitate gambling. Calculators are provided as-is; always confirm numbers with your sportsbook before placing a bet. Please gamble responsibly.</div>
+  <div class="footer-copy">© 2026 ITN · Nashville, TN</div>
+</footer>
 
 <script>
-function americanToProb(odds) {
-  odds = Number(odds);
-  if (odds > 0) return 100 / (odds + 100);
-  return -odds / (-odds + 100);
+/* ─── Shared odds maths ────────────────────────────────────────────
+   American odds are the US convention: a negative number is how much
+   you must stake to win $100; a positive number is what $100 returns.
+   Everything below converts through decimal odds, which are the
+   cleanest form to compute with.                                     */
+const toDec = a => { a = Number(a); return a > 0 ? 1 + a/100 : 1 + 100/Math.abs(a); };
+const toAm  = d => d >= 2 ? Math.round((d - 1) * 100) : Math.round(-100 / (d - 1));
+const toProb = a => { a = Number(a); return a > 0 ? 100/(a+100) : Math.abs(a)/(Math.abs(a)+100); };
+const probToAm = p => p >= 0.5 ? Math.round(-(p/(1-p))*100) : Math.round(((1-p)/p)*100);
+const sign = n => (n > 0 ? '+' : '') + n;
+const money = n => (n < 0 ? '-$' : '$') + Math.abs(n).toFixed(2);
+const pct = n => (n*100).toFixed(1) + '%';
+const gcd = (a,b) => b ? gcd(b, a%b) : a;
+function toFrac(dec){
+  const v = dec - 1;
+  let best = [1,1], err = Infinity;
+  for (let d = 1; d <= 50; d++){
+    const n = Math.round(v * d), e = Math.abs(v - n/d);
+    if (e < err && n > 0){ err = e; best = [n,d]; }
+  }
+  const g = gcd(best[0], best[1]);
+  return `${best[0]/g}/${best[1]/g}`;
 }
-function americanToDecimal(odds) {
-  odds = Number(odds);
-  if (odds > 0) return 1 + odds / 100;
-  return 1 + 100 / -odds;
-}
+const on = (id, fn) => { const el = document.getElementById(id); if (el) el.addEventListener('input', fn); };
 
-function updateOdds() {
-  const v = document.getElementById('oddsInput').value;
-  const p = americanToProb(v) * 100;
-  document.getElementById('oddsOut').textContent = p.toFixed(1) + '%';
+/* ─── Odds converter (three-way linked) ─── */
+let cvLock = false;
+function cvFrom(src){
+  if (cvLock) return; cvLock = true;
+  const am = document.getElementById('cv-am'), dec = document.getElementById('cv-dec'), pc = document.getElementById('cv-pct');
+  let d;
+  if (src === 'am')  d = toDec(am.value);
+  if (src === 'dec') d = Number(dec.value);
+  if (src === 'pct') { const p = Number(pc.value)/100; d = p > 0 ? 1/p : 0; }
+  if (!isFinite(d) || d <= 1) { cvLock = false; return; }
+  const a = toAm(d), p = 1/d;
+  if (src !== 'am')  am.value  = a;
+  if (src !== 'dec') dec.value = d.toFixed(3);
+  if (src !== 'pct') pc.value  = (p*100).toFixed(2);
+  document.getElementById('cv-frac').textContent = toFrac(d);
+  document.getElementById('cv-sub').textContent =
+    `${sign(a)} · ${d.toFixed(3)} decimal · ${(p*100).toFixed(2)}% implied · $100 returns ${money(100*d)}`;
+  cvLock = false;
 }
-document.getElementById('oddsInput').addEventListener('input', updateOdds);
+on('cv-am', ()=>cvFrom('am')); on('cv-dec', ()=>cvFrom('dec')); on('cv-pct', ()=>cvFrom('pct'));
 
-function updateParlay() {
+/* ─── No-vig fair odds ─── */
+function noVig(){
+  const a = Number(document.getElementById('nv-a').value), b = Number(document.getElementById('nv-b').value);
+  const ra = toProb(a), rb = toProb(b), s = ra + rb;
+  if (!isFinite(s) || s <= 0) return;
+  const pa = ra/s, pb = rb/s;
+  document.getElementById('nv-pa').textContent = pct(pa);
+  document.getElementById('nv-pb').textContent = pct(pb);
+  document.getElementById('nv-fair').textContent = `${sign(probToAm(pa))} / ${sign(probToAm(pb))}`;
+  document.getElementById('nv-sub').textContent =
+    `Raw implied total ${(s*100).toFixed(1)}% — the ${((s-1)*100).toFixed(2)}% above 100% is the book's margin.`;
+}
+['nv-a','nv-b'].forEach(id => on(id, noVig));
+
+/* ─── Vig / hold ─── */
+function vig(){
+  const a = toProb(document.getElementById('vigA').value), b = toProb(document.getElementById('vigB').value);
+  const hold = (a + b - 1) * 100;
+  const el = document.getElementById('vigOut');
+  el.textContent = hold.toFixed(2) + '%';
+  el.className = 'n' + (hold > 6 ? ' neg' : hold < 3 ? ' pos' : '');
+  document.getElementById('vig-sub').textContent =
+    hold < 3 ? 'Sharp price — unusually low margin.'
+    : hold > 6 ? 'Expensive. You are paying well over the standard rate.'
+    : 'Around the normal rate for a two-way market.';
+}
+['vigA','vigB'].forEach(id => on(id, vig));
+
+/* ─── Break-even win rate ─── */
+function breakEven(){
+  const o = Number(document.getElementById('be-odds').value);
+  const p = toProb(o);
+  document.getElementById('be-out').textContent = pct(p);
+  document.getElementById('be-sub').textContent =
+    `At ${sign(o)}, you need to win more than ${pct(p)} of these for the bet to be profitable. ` +
+    `Over 100 bets that's ${(p*100).toFixed(0)} wins just to stand still.`;
+}
+on('be-odds', breakEven);
+
+/* ─── Expected value ─── */
+function ev(){
+  const stake = Number(document.getElementById('ev-stake').value);
+  const odds  = Number(document.getElementById('ev-odds').value);
+  const p     = Number(document.getElementById('ev-prob').value)/100;
+  if (!(p >= 0 && p <= 1)) return;
+  const win = stake * (toDec(odds) - 1);
+  const e = p*win - (1-p)*stake;
+  const el = document.getElementById('ev-out');
+  el.textContent = money(e);
+  el.className = 'n ' + (e >= 0 ? 'pos' : 'neg');
+  document.getElementById('ev-sub').textContent =
+    `${(e/stake*100).toFixed(2)}% of stake. Break-even here needs ${pct(toProb(odds))}; ` +
+    `you've estimated ${(p*100).toFixed(1)}%.`;
+}
+['ev-stake','ev-odds','ev-prob'].forEach(id => on(id, ev));
+
+/* ─── Edge vs market ─── */
+function edge(){
+  const a = Number(document.getElementById('eg-a').value), b = Number(document.getElementById('eg-b').value);
+  const mine = Number(document.getElementById('eg-prob').value)/100;
+  const ra = toProb(a), rb = toProb(b), s = ra + rb;
+  if (!isFinite(s) || s <= 0) return;
+  const fair = ra/s;
+  const diff = mine - fair;
+  const el = document.getElementById('eg-out');
+  el.textContent = (diff >= 0 ? '+' : '') + (diff*100).toFixed(1) + ' pts';
+  el.className = 'n ' + (diff >= 0 ? 'pos' : 'neg');
+  document.getElementById('eg-sub').textContent =
+    `Market's true price on A is ${pct(fair)} (${sign(probToAm(fair))}). You have it at ${pct(mine)}. ` +
+    (diff > 0 ? 'That gap is your edge — if your number is right.'
+              : 'No edge here. The market is pricing A higher than you are.');
+}
+['eg-a','eg-b','eg-prob'].forEach(id => on(id, edge));
+
+/* ─── Kelly ─── */
+function kelly(){
+  const bank = Number(document.getElementById('k-bank').value);
+  const odds = Number(document.getElementById('k-odds').value);
+  const p    = Number(document.getElementById('k-prob').value)/100;
+  const bnet = toDec(odds) - 1;
+  const f = (bnet*p - (1-p)) / bnet;
+  const full = bank * f;
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    el.textContent = v > 0 ? money(v) : '$0.00';
+    el.className = 'n ' + (v > 0 ? '' : 'neg');
+  };
+  set('k-full', full); set('k-half', full/2); set('k-quarter', full/4);
+  document.getElementById('k-sub').textContent = f > 0
+    ? `Edge of ${(f*100).toFixed(2)}% of bankroll. Quarter Kelly is ${(f*25).toFixed(2)}% — ${money(full/4)}.`
+    : `No edge at ${(p*100).toFixed(1)}%. Break-even needs ${pct(toProb(odds))}. Don't make this bet.`;
+}
+['k-bank','k-odds','k-prob'].forEach(id => on(id, kelly));
+
+/* ─── Parlay ─── */
+function parlay(){
   const stake = Number(document.getElementById('stakeInput').value) || 0;
-  const legs = Array.from(document.querySelectorAll('.legInput')).map(i => americanToDecimal(i.value));
+  const legs = [...document.querySelectorAll('.legInput')].map(i => toDec(i.value));
   const combined = legs.reduce((a,b) => a*b, 1);
-  const payout = stake * combined;
-  document.getElementById('parlayOut').textContent = '$' + payout.toFixed(0);
+  document.getElementById('parlayOut').textContent = money(stake * combined);
+  document.getElementById('parlayOdds').textContent = sign(toAm(combined));
+  document.getElementById('parlayProb').textContent = pct(1/combined);
 }
-document.getElementById('stakeInput').addEventListener('input', updateParlay);
-document.getElementById('legsWrap').addEventListener('input', updateParlay);
+on('stakeInput', parlay);
+document.getElementById('legsWrap').addEventListener('input', parlay);
 document.getElementById('addLeg').addEventListener('click', () => {
   const wrap = document.getElementById('legsWrap');
   const n = document.querySelectorAll('.legInput').length + 1;
-  const label = document.createElement('label');
-  label.textContent = 'Leg ' + n + ' odds';
-  const input = document.createElement('input');
-  input.type = 'number'; input.className = 'legInput'; input.value = '-110'; input.step = '1';
-  input.addEventListener('input', updateParlay);
-  wrap.appendChild(label); wrap.appendChild(input);
-  updateParlay();
+  const l = document.createElement('label'); l.textContent = `Leg ${n} odds`;
+  const i = document.createElement('input');
+  i.type='number'; i.className='legInput'; i.value='-110'; i.step='1';
+  wrap.appendChild(l); wrap.appendChild(i); parlay();
 });
 
-function updateVig() {
-  const a = americanToProb(document.getElementById('vigA').value);
-  const b = americanToProb(document.getElementById('vigB').value);
-  const hold = (a + b - 1) * 100;
-  document.getElementById('vigOut').textContent = hold.toFixed(1) + '%';
+/* ─── Hedge ─── */
+function hedge(){
+  const stake = Number(document.getElementById('h-stake').value);
+  const odds  = Number(document.getElementById('h-odds').value);
+  const other = Number(document.getElementById('h-hedge').value);
+  const ret = stake * toDec(odds);            // total return if original wins
+  const hd  = toDec(other);
+  const amt = ret / hd;                        // stake needed so hedge returns the same
+  const profit = ret - stake - amt;
+  document.getElementById('h-amt').textContent = money(amt);
+  const pEl = document.getElementById('h-profit');
+  pEl.textContent = money(profit);
+  pEl.className = 'n ' + (profit >= 0 ? 'pos' : 'neg');
+  document.getElementById('h-sub').textContent =
+    `Original ticket returns ${money(ret)} if it wins. Staking ${money(amt)} on the other side returns ` +
+    `${money(amt*hd)}. Either way you finish with ${money(ret - amt)} against ${money(stake + amt)} risked` +
+    (profit < 0 ? ' — this hedge locks in a loss, it just caps the damage.' : '.');
 }
-document.getElementById('vigA').addEventListener('input', updateVig);
-document.getElementById('vigB').addEventListener('input', updateVig);
+['h-stake','h-odds','h-hedge'].forEach(id => on(id, hedge));
 
-updateOdds(); updateParlay(); updateVig();
+/* ─── Drawdown ─── */
+function draw(){
+  const bank = Number(document.getElementById('d-bank').value);
+  const unit = Number(document.getElementById('d-unit').value)/100;
+  const n    = Number(document.getElementById('d-streak').value);
+  const left = bank * Math.pow(1 - unit, n);   // compounding: unit recalculated each bet
+  document.getElementById('d-left').textContent = money(left);
+  const dEl = document.getElementById('d-down');
+  dEl.textContent = '-' + ((1 - left/bank)*100).toFixed(1) + '%';
+  dEl.className = 'n neg';
+}
+['d-bank','d-unit','d-streak'].forEach(id => on(id, draw));
+
+/* initial paint */
+cvFrom('am'); noVig(); vig(); breakEven(); ev(); edge(); kelly(); parlay(); hedge(); draw();
 </script>
 
 </body>
