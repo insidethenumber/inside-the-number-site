@@ -55,25 +55,48 @@ reasoning, not just the pick."* A bare lineup is the opposite of that.
 per week, fixed slate, fits the existing weekend routine. Daily MLB DFS would
 multiply operational load for a fraction of the audience.
 
-## The obligation this creates
+## Accountability — corrected Aug 21
 
-ITN's identity is *every result logged*. Adding DFS creates a duty to grade
-DFS too — finish position, cash rate, ROI on the core plays. Publishing DFS
-picks without grading them would directly undercut the thing the rest of the
-site is built on.
+An earlier draft of this doc said DFS picks must be graded as rigorously as
+betting picks, with a results table and ROI. **That was wrong and Chuck was
+right to push back.**
 
-**Do not launch this unless we're committed to grading it as rigorously as
-the betting picks.** That means a DFS section on record.html, its own results
-table, and a line in the weekly routine.
+W/L grading doesn't map onto DFS. A betting pick has a binary outcome; a
+player recommendation doesn't — a player either returned value on salary or
+didn't, which is continuous, not win/loss. DFS content sites don't run W/L
+ledgers on player plays, and imposing one here would be inventing a convention
+that doesn't exist.
+
+The real (narrower) issue is a claim-scope problem. The site currently states:
+
+- Trust bar: *"Losses stay on the page."*
+- Record page: *"This is the entire log — not a highlight reel."*
+
+If a DFS section ships with no accountability at all, those become untrue for
+part of the product. Fix without inventing a grading system:
+
+**1. Scope the claim.** The public record covers *betting picks*. DFS is a
+separate product with its own conventions. One line of copy; effectively free.
+
+**2. A weekly recap note.** "How last week's core plays did" — which players
+hit value, which didn't, one honest paragraph. Close to what DFS content
+actually does, costs minutes not infrastructure.
+
+Recommended: do both. Keeps the accountability positioning intact without
+pretending a DFS play is a bet.
+
+**Not required:** a DFS results table on record.html, finish-position tracking,
+or DFS ROI. Dropped.
 
 ## Build checklist (when we're ready)
 
 - [ ] `dfs.html` page, or a section on the homepage during NFL season
 - [ ] Player data source — check whether ESPN's feed carries DFS salaries
       (it likely does not; may need a separate source)
-- [ ] DFS results table on record.html, separate from betting picks so the
-      two records never get conflated
-- [ ] Weekly scheduled task (Thu or Fri) mirroring the daily routine
+- [ ] Scope the record/trust-bar copy to betting picks so the DFS section
+      doesn't quietly falsify it
+- [ ] Weekly scheduled task (Thu or Fri) that also writes the short
+      "how last week's core plays did" recap
 - [ ] Free/paid gating — currently no paywall mechanism exists at all
 - [ ] Ownership projections are the hard part; may not be feasible free
 
