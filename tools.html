@@ -219,7 +219,7 @@
         <p class="desc">Both sides of a market always add up to more than 100%. That surplus is the book's cut. Strip it out to see the true price.</p>
         <div class="row2">
           <div><label>Side A odds</label><input type="number" id="nv-a" value="-138" step="1"/></div>
-          <div><label>Side B odds</label><input type="number" id="nv-b" value="+116" step="1"/></div>
+          <div><label>Side B odds</label><input type="number" id="nv-b" value="116" step="1"/></div>
         </div>
         <div class="out split">
           <div><div class="n" id="nv-pa">—</div><div class="l">A true prob</div></div>
@@ -273,7 +273,7 @@
         <p class="desc">What a bet is worth on average if you could make it over and over. Positive EV means the price is in your favour.</p>
         <div class="row2">
           <div><label>Stake ($)</label><input type="number" id="ev-stake" value="100" step="1"/></div>
-          <div><label>American odds</label><input type="number" id="ev-odds" value="+150" step="1"/></div>
+          <div><label>American odds</label><input type="number" id="ev-odds" value="150" step="1"/></div>
         </div>
         <label>Your estimated win probability (%)</label>
         <input type="number" id="ev-prob" value="45" step="0.1"/>
@@ -290,7 +290,7 @@
         <p class="desc">Compare your own probability against the no-vig market price to see how much of an edge you actually have.</p>
         <div class="row2">
           <div><label>Side A odds</label><input type="number" id="eg-a" value="-138" step="1"/></div>
-          <div><label>Side B odds</label><input type="number" id="eg-b" value="+116" step="1"/></div>
+          <div><label>Side B odds</label><input type="number" id="eg-b" value="116" step="1"/></div>
         </div>
         <label>Your probability for side A (%)</label>
         <input type="number" id="eg-prob" value="62" step="0.1"/>
@@ -315,7 +315,7 @@
         <p class="desc">The mathematically optimal bet size for a given edge. Most people should use a fraction of it — full Kelly swings hard.</p>
         <div class="row2">
           <div><label>Bankroll ($)</label><input type="number" id="k-bank" value="1000" step="1"/></div>
-          <div><label>American odds</label><input type="number" id="k-odds" value="+150" step="1"/></div>
+          <div><label>American odds</label><input type="number" id="k-odds" value="150" step="1"/></div>
         </div>
         <label>Your estimated win probability (%)</label>
         <input type="number" id="k-prob" value="45" step="0.1"/>
@@ -365,7 +365,7 @@
         <p class="desc">You're holding a live ticket and want to lock in a result. This is how much to put on the other side.</p>
         <div class="row2">
           <div><label>Original stake ($)</label><input type="number" id="h-stake" value="100" step="1"/></div>
-          <div><label>Original odds</label><input type="number" id="h-odds" value="+400" step="1"/></div>
+          <div><label>Original odds</label><input type="number" id="h-odds" value="400" step="1"/></div>
         </div>
         <label>Current odds on the other side</label>
         <input type="number" id="h-hedge" value="-200" step="1"/>
@@ -418,9 +418,10 @@
    you must stake to win $100; a positive number is what $100 returns.
    Everything below converts through decimal odds, which are the
    cleanest form to compute with.                                     */
-const toDec = a => { a = Number(a); return a > 0 ? 1 + a/100 : 1 + 100/Math.abs(a); };
+const valid = a => { a = Number(a); return Number.isFinite(a) && Math.abs(a) >= 100; };
+const toDec = a => { a = Number(a); if (!valid(a)) return NaN; return a > 0 ? 1 + a/100 : 1 + 100/Math.abs(a); };
 const toAm  = d => d >= 2 ? Math.round((d - 1) * 100) : Math.round(-100 / (d - 1));
-const toProb = a => { a = Number(a); return a > 0 ? 100/(a+100) : Math.abs(a)/(Math.abs(a)+100); };
+const toProb = a => { a = Number(a); if (!valid(a)) return NaN; return a > 0 ? 100/(a+100) : Math.abs(a)/(Math.abs(a)+100); };
 const probToAm = p => p >= 0.5 ? Math.round(-(p/(1-p))*100) : Math.round(((1-p)/p)*100);
 const sign = n => (n > 0 ? '+' : '') + n;
 const money = n => (n < 0 ? '-$' : '$') + Math.abs(n).toFixed(2);
@@ -476,6 +477,7 @@ function noVig(){
 /* ─── Vig / hold ─── */
 function vig(){
   const a = toProb(document.getElementById('vigA').value), b = toProb(document.getElementById('vigB').value);
+  if (!isFinite(a) || !isFinite(b)) return;
   const hold = (a + b - 1) * 100;
   const el = document.getElementById('vigOut');
   el.textContent = hold.toFixed(2) + '%';
@@ -491,6 +493,7 @@ function vig(){
 function breakEven(){
   const o = Number(document.getElementById('be-odds').value);
   const p = toProb(o);
+  if (!isFinite(p)) return;
   document.getElementById('be-out').textContent = pct(p);
   document.getElementById('be-sub').textContent =
     `At ${sign(o)}, you need to win more than ${pct(p)} of these for the bet to be profitable. ` +
@@ -503,8 +506,9 @@ function ev(){
   const stake = Number(document.getElementById('ev-stake').value);
   const odds  = Number(document.getElementById('ev-odds').value);
   const p     = Number(document.getElementById('ev-prob').value)/100;
-  if (!(p >= 0 && p <= 1)) return;
-  const win = stake * (toDec(odds) - 1);
+  const dec = toDec(odds);
+  if (!(p >= 0 && p <= 1) || !isFinite(dec) || !isFinite(stake)) return;
+  const win = stake * (dec - 1);
   const e = p*win - (1-p)*stake;
   const el = document.getElementById('ev-out');
   el.textContent = money(e);
@@ -538,7 +542,9 @@ function kelly(){
   const bank = Number(document.getElementById('k-bank').value);
   const odds = Number(document.getElementById('k-odds').value);
   const p    = Number(document.getElementById('k-prob').value)/100;
-  const bnet = toDec(odds) - 1;
+  const dec = toDec(odds);
+  if (!isFinite(dec) || !isFinite(bank) || !(p >= 0 && p <= 1)) return;
+  const bnet = dec - 1;
   const f = (bnet*p - (1-p)) / bnet;
   const full = bank * f;
   const set = (id, v) => {
@@ -557,6 +563,7 @@ function kelly(){
 function parlay(){
   const stake = Number(document.getElementById('stakeInput').value) || 0;
   const legs = [...document.querySelectorAll('.legInput')].map(i => toDec(i.value));
+  if (legs.some(l => !isFinite(l))) return;
   const combined = legs.reduce((a,b) => a*b, 1);
   document.getElementById('parlayOut').textContent = money(stake * combined);
   document.getElementById('parlayOdds').textContent = sign(toAm(combined));
@@ -578,8 +585,9 @@ function hedge(){
   const stake = Number(document.getElementById('h-stake').value);
   const odds  = Number(document.getElementById('h-odds').value);
   const other = Number(document.getElementById('h-hedge').value);
-  const ret = stake * toDec(odds);            // total return if original wins
-  const hd  = toDec(other);
+  const dOdds = toDec(odds), hd = toDec(other);
+  if (!isFinite(dOdds) || !isFinite(hd) || !isFinite(stake)) return;
+  const ret = stake * dOdds;   // total return if original wins
   const amt = ret / hd;                        // stake needed so hedge returns the same
   const profit = ret - stake - amt;
   document.getElementById('h-amt').textContent = money(amt);
