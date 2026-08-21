@@ -4,6 +4,11 @@ Send this to Claude each morning (Cowork, same project folder) to kick off the d
 
 ---
 
+> **Note:** the copy/paste block below is the original Aug 17 version, kept
+> for reference. Where it conflicts with the dated rule sections further down
+> (newsletter format, byline, slate updates, repo health), **the later sections
+> win** — they reflect fixes made after real failures.
+
 ## The Prompt (copy/paste this)
 
 ```
@@ -52,10 +57,12 @@ Morning. Run today's Inside the Number routine:
     briefly went stale from a missed redeploy step).
 
 4. Draft the full Beehiiv post: subject line (2-3 options), preview
-   text, subtitle, and full body in our established format (intro,
-   free pick, a trend/story angle, what's coming up, the record so
-   far, membership pitch, disclaimer). Use the Claude in Chrome
-   connection to open Beehiiv and build the draft there directly.
+   text, subtitle, and full body. Format: intro hook, today's free
+   pick as the lead, a trend/story angle, what's coming up, one
+   linked line pointing to the public record, disclaimer.
+   NO results recap, NO win/loss count, NO season record or ROI —
+   see "Newsletter format rules" below. Byline is ITN Desk.
+   Use Claude in Chrome to open Beehiiv and build the draft there.
 
 5. Message me a short summary of what's in today's draft and picks
    so I can review before you send. Don't publish until I reply
@@ -135,8 +142,8 @@ Field notes:
 - `conf` is filled stars out of 5: **4 = High, 3 = Medium, 2 = Low.**
 - `free: true` marks the Pick of the Day. Exactly one game should have it, and
   it **must** be the same game featured as the free pick in the newsletter.
-- Also update `seasonRecord` just below the array so the ticker's record chip
-  matches record.html.
+- There is no longer a `seasonRecord` variable — the homepage stopped
+  displaying a win/loss record on Aug 21. Don't reintroduce one.
 
 The Pick of the Day card's date, sport, line and reasoning text are still
 plain HTML and still need editing by hand — only the matchup headline with the
