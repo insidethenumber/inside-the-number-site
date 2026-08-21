@@ -182,9 +182,15 @@ coming → membership pitch → record link → disclaimer.
 including every loss. The editorial decision is about what belongs in an email,
 not about what gets published.
 
-**Byline: never Chuck's name.** The publication is anonymous by design. Assign
-posts to the Beehiiv guest author using the "Authors" control under the title
-in the editor.
+**Byline: always "ITN Desk" — never Chuck's name.** The publication is
+anonymous by design. In the Beehiiv editor, use the "Authors" control beneath
+the post title and select the guest author **ITN Desk**. Remove Chuck's
+personal account from the author list if it's attached by default.
+
+"ITN Desk" is a collective masthead — the same convention The Economist and
+wire services use. It implies a working desk without inventing a named person,
+which is the line we hold: group attribution is fine, a fabricated individual
+is not.
 
 ## Repo health — clear locks before editing (added Aug 21, 2026)
 
