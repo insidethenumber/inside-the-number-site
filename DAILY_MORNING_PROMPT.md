@@ -174,17 +174,31 @@ Use this everywhere confidence appears — Today's Slate rows and sidebar pick
 cards. Don't write bare `★★★` or `★★★★` without the empty stars; the scale is
 unreadable when the denominator is missing.
 
-**2. The hero stats and philosophy stats must match record.html.** After
-grading results in record.html, update these to match `computeSummary()`:
+**2. The homepage does NOT display a win/loss record or win-rate %.**
+*(Changed Aug 20, 2026 — read carefully, this reverses an earlier rule.)*
 
-- Hero stat strip (`.stat-strip`): the `4-3-0` record cell and the `+4.8%` ROI cell
-- Philosophy stats (`.phil-stat`): the record figure and its "Record through
-  <date>" label
+The hero stat strip and philosophy stats now describe what the operation does
+— "Daily / Live / 100% / 8 Sports" — rather than how it's performing. Do not
+put a record, a win rate, an ROI figure or a units total back on the homepage
+without Chuck explicitly asking for it.
 
-If record.html says one thing and the homepage says another, the public record
-loses its credibility — which is the whole product. On Aug 20 the homepage was
-still advertising "0-0-0 — Just Launched" and "Tracking starts this season"
-days after real picks had been graded. Don't let that happen again.
+Reasoning, so this doesn't get quietly undone:
+
+- A small sample in the hero undersells the site early on.
+- A bare percentage is worse than a raw record, because it hides the sample
+  size while implying there is a meaningful one. "57% win rate" off seven
+  picks is indistinguishable from a coin flip, and displaying a win rate
+  without its denominator is the signature move of the touts this brand is
+  positioned against.
+- The complete record — with every row, so the denominator is self-evident —
+  lives on record.html, one click away, and is linked from the hero strip and
+  the ticker.
+
+record.html itself must stay fully accurate and completely up to date. That
+page is the product. Nothing there gets softened, rounded or omitted.
+
+Revisit featuring headline numbers once the sample is large enough to mean
+something (a few hundred picks, not a few dozen).
 
 **3. Site Pick of the Day must equal the newsletter's free pick.** They drifted
 apart on Aug 20 and it confuses readers.

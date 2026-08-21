@@ -608,8 +608,12 @@
       time:'2:10 PM ET', pick:'Kansas City ML (-138)', conf:3, free:false },
   ];
 
-  // Season record — keep in step with record.html's computeSummary() output.
-  const seasonRecord = { line: '4-3-0', roi: '+4.8%' };
+  // NOTE: the homepage deliberately does not display a win/loss record or a
+  // win-rate percentage. Early on, a small sample in the hero undersells the
+  // operation — and a bare percentage would hide the sample size, which is
+  // worse. The complete record, with its denominator visible, lives on
+  // record.html. Revisit featuring headline numbers once the sample is large
+  // enough to actually mean something.
 
   const logo = (league, code) =>
     `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${code}.png`;
@@ -637,8 +641,8 @@
         ${g.pick ? `<div class="tk-pick">${g.free ? '★ FREE · ' : ''}${g.pick}</div>` : ''}
       </a>`).join('') +
     `<a class="tk-record" href="record.html">
-       <span class="r-n">${seasonRecord.line} · ${seasonRecord.roi} ROI</span>
-       <span class="r-l">Every pick logged →</span>
+       <span class="r-n">Public Record</span>
+       <span class="r-l">Every pick, every result →</span>
      </a>`;
 
   // Clicking a ticker game scrolls to its row in Today's Slate and flashes it.
@@ -730,12 +734,14 @@
     <a href="#signup" class="btn-primary">Get Free Access →</a>
     <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
     <a class="stat-strip" href="record.html" title="See every pick we've ever published">
-      <!-- Update the record + ROI cells whenever record.html is graded.
-           Pull the numbers straight from record.html's computeSummary()
-           output so the hero and the record page never disagree. -->
-      <div class="stat-cell"><div class="n g">4-3-0</div><div class="l">Season Record</div></div>
-      <div class="stat-cell"><div class="n g">+4.8%</div><div class="l">ROI — 1 Unit Flat</div></div>
-      <div class="stat-cell"><div class="n b">100%</div><div class="l">Documented &amp; Public</div></div>
+      <!-- These cells describe what the operation DOES, not how long it's
+           been running. Deliberately no win/loss record or win-rate % here:
+           the full record lives on record.html, one click away, where the
+           sample size is visible alongside it. A percentage without its
+           denominator is the exact move this brand is positioned against. -->
+      <div class="stat-cell"><div class="n g">Daily</div><div class="l">Free Pick, Every Morning</div></div>
+      <div class="stat-cell"><div class="n b">Live</div><div class="l">Odds &amp; Line Movement</div></div>
+      <div class="stat-cell"><div class="n g">100%</div><div class="l">Of Picks Documented</div></div>
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Covered</div></div>
     </a>
   </div>
@@ -1289,7 +1295,7 @@
       </div>
       <div>
         <div class="phil-stats">
-          <div class="phil-stat"><div class="big">4-3</div><div class="lbl">Record through Aug 19 — every pick logged</div></div>
+          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Pick logged the day it settles — wins and losses</div></div>
           <div class="phil-stat"><div class="big">8</div><div class="lbl">Sports covered — dawn slate to primetime</div></div>
           <div class="phil-stat"><div class="big">100%</div><div class="lbl">Documented record — no hiding</div></div>
           <div class="phil-stat"><div class="big">Free</div><div class="lbl">Full public record, always visible</div></div>
