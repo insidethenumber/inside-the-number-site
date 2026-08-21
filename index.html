@@ -618,6 +618,25 @@
   const logo = (league, code) =>
     `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${code}.png`;
 
+  /* ESPN's scoreboard endpoint, called with no date, keeps serving YESTERDAY's
+     slate well into the following morning — at 8:50am on Aug 21 it was still
+     returning Aug 20's finished games with no odds attached. That made the
+     homepage show stale finals during exactly the hours when today's upcoming
+     games and their prices matter most.
+
+     Always pass an explicit date. Sports slates are organised on US Eastern
+     dates, so derive it in America/New_York rather than the viewer's timezone
+     — otherwise someone loading the page late evening in Europe (already
+     "tomorrow" locally) would be shown the wrong day's games. */
+  const espnDate = () => {
+    const p = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date()).reduce((a, x) => (a[x.type] = x.value, a), {});
+    return `${p.year}${p.month}${p.day}`;
+  };
+  const sbUrl = path =>
+    `https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${espnDate()}`;
+
   const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
   const confWord = n => n >= 4 ? 'High' : n === 3 ? 'Medium' : 'Low';
   const confClass = n => n >= 4 ? 'conf-high' : n === 3 ? 'conf-medium' : 'conf-low';
@@ -1059,7 +1078,7 @@
     await Promise.all(leagues.map(async l => {
       const p = pathFor(l); if (!p) return;
       try {
-        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${p}/scoreboard`);
+        const r = await fetch(sbUrl(p));
         if (!r.ok) return;
         const d = await r.json();
         (d.events || []).forEach(ev => {
@@ -1115,7 +1134,7 @@
 
     await Promise.all(LEAGUES.map(async ([label, path]) => {
       try {
-        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard`);
+        const r = await fetch(sbUrl(path));
         if (!r.ok) return;
         const data = await r.json();
         (data.events || []).forEach(ev => {
@@ -1196,7 +1215,7 @@
 
     await Promise.all(LEAGUES.map(async ([label, path]) => {
       try {
-        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard`);
+        const r = await fetch(sbUrl(path));
         if (!r.ok) return;
         const d = await r.json();
         const games = (d.events || []).map(ev => {
