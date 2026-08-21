@@ -159,6 +159,59 @@ eventually publish **closing line value** — whether our number beat the close.
 That's the most credible metric in this industry and much harder to fake than
 a win rate. See COMPETITOR_RESEARCH.md.
 
+## Newsletter format rules (changed Aug 21, 2026)
+
+**The newsletter no longer recaps results.** Do not include a "Hits & Misses"
+section, yesterday's win/loss count, the running season record, ROI, units, or
+any per-pick loss narration. Not in the body, not in the subject line, not in
+the preview text.
+
+Reasoning: a daily email that opens with a scoreboard trains readers to judge
+the whole product on the last 24 hours, and a run of losing days visible in the
+inbox is a reliable way to lose subscribers. Anyone who wants results can open
+the public record.
+
+What replaces it: **one plain linked line near the foot** — "Every pick we
+publish is logged at insidethenumber.com/record". The record stays one click
+away, so nothing is being hidden; the email just isn't about it.
+
+Order: hook → today's free pick (the lead) → a trend or story angle → what's
+coming → membership pitch → record link → disclaimer.
+
+**record.html itself does not change.** It stays complete, accurate and public,
+including every loss. The editorial decision is about what belongs in an email,
+not about what gets published.
+
+**Byline: never Chuck's name.** The publication is anonymous by design. Assign
+posts to the Beehiiv guest author using the "Authors" control under the title
+in the editor.
+
+## Repo health — clear locks before editing (added Aug 21, 2026)
+
+Stale git lock files have now broken two runs. Before touching any file:
+
+```
+cd "/Users/chuckwhite/Documents/Claude/Projects/Inside the Number"
+find .git -name "*.lock" -delete 2>/dev/null
+git fetch origin main -q && git reset --hard origin/main
+```
+
+Look for `.git/index.lock`, `HEAD.lock`, `refs/heads/main.lock` and
+`objects/maintenance.lock`. The hard reset matters too — on Aug 21 the local
+repo ended up *behind* remote because the recovery pushed from a separate
+clone.
+
+**If git still errors on a lock, don't fight it.** Clone fresh and work there:
+
+```
+rm -rf /tmp/itn
+git clone -q https://github.com/insidethenumber/inside-the-number-site.git /tmp/itn
+```
+
+Edit, commit and push from `/tmp/itn`, then copy the changed files back. That
+is how the Aug 21 recovery actually succeeded. Ninety seconds on a clone beats
+losing the send.
+
 ## Site consistency rules (added Aug 20, 2026)
 
 These apply to every run — automated or manual. They exist because the site
