@@ -1,8 +1,29 @@
 # Daily Morning Prompt — Inside the Number
 
-Send this to Claude each morning (Cowork, same project folder) to kick off the day's picks, results logging, and Beehiiv draft. Copy the block below as-is, or the shorthand version once we've got a rhythm going.
+Send this to Claude each morning (Cowork, same project folder) to kick off the day's picks and Beehiiv draft. Copy the block below as-is, or the shorthand version once we've got a rhythm going.
 
 ---
+
+> ## ⚠️ READ FIRST — the public record was retired on Aug 22, 2026
+>
+> **`record.html` has been deleted.** Record is gone from the nav on every
+> page, `/record` and `/record.html` now 301-redirect to `games.html`, and
+> there is no longer a results-grading step in any routine.
+>
+> **Everything below this banner that refers to grading picks, logging
+> results, updating `record.html`, or linking to a public record is DEAD.
+> Ignore it.** It is kept only so the reasoning behind the old design is
+> still legible. Do not recreate the file, do not add a win/loss tally, ROI,
+> units or win rate anywhere on the site or in the newsletter.
+>
+> The business model changed with it: the market data (line, movement, no-vig
+> true price) stays free on every game; the projection, edge, stated bet and
+> written breakdown become **ITN Pro at $19.99/mo**. Free tier also carries
+> sportsbook affiliate links.
+>
+> **The four scheduled task prompts are authoritative.** Where this file
+> disagrees with them on anything — timing, grading, newsletter format, pick
+> selection — the task prompt wins.
 
 > **Note:** the copy/paste block below is the original Aug 17 version, kept
 > for reference. Where it conflicts with the dated rule sections further down

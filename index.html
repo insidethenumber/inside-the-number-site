@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Inside the Number — Sharp Sports Analysis</title>
-<meta name="description" content="One free sports betting pick every morning, with the reasoning shown. Every result logged the day it settles — wins, losses and pushes. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
+<meta name="description" content="One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and true no-vig prices on every game — free. Full analysis, best bets and parlays with ITN Pro. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
 <link rel="canonical" href="https://insidethenumber.com/"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -27,7 +27,7 @@
     "height": 512
   },
   "image": "https://insidethenumber.com/og-image.png",
-  "description": "One free sports betting pick every morning, with the reasoning shown. Every result logged the day it settles.",
+  "description": "One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and true no-vig prices on every game.",
   "sameAs": ["https://insidethenumber.beehiiv.com/"]
 }
 </script>
@@ -39,13 +39,13 @@
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/"/>
 <meta property="og:title" content="Inside the Number — The number doesn't lie."/>
-<meta property="og:description" content="One free pick every morning, with the reasoning shown. Every result logged the day it settles."/>
+<meta property="og:description" content="One free pick every morning, with the reasoning shown. Live odds and true no-vig prices on every game."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Inside the Number — The number doesn't lie."/>
-<meta name="twitter:description" content="One free pick every morning, with the reasoning shown. Every result logged the day it settles."/>
+<meta name="twitter:description" content="One free pick every morning, with the reasoning shown. Live odds and true no-vig prices on every game."/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
@@ -804,12 +804,10 @@
       why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the no-vig number suggests the market would go higher still if the public were not already loaded on the favorite.' },
   ];
 
-  // NOTE: the homepage deliberately does not display a win/loss record or a
-  // win-rate percentage. Early on, a small sample in the hero undersells the
-  // operation — and a bare percentage would hide the sample size, which is
-  // worse. The complete record, with its denominator visible, lives on
-  // record.html. Revisit featuring headline numbers once the sample is large
-  // enough to actually mean something.
+  // NOTE: the site deliberately does not display a win/loss record or a
+  // win-rate percentage anywhere. A bare percentage hides its own sample
+  // size, which is the exact move this brand is positioned against. If
+  // headline numbers ever go up, they go up with the denominator attached.
 
   const logo = (league, code) =>
     `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${code}.png`;
@@ -874,7 +872,7 @@
       <li><a href="games.html">Games</a></li>
       <li><a href="dfs.html">DFS</a></li>
       <li><a href="tools.html">Tools</a></li>
-      <li><a href="record.html">Record</a></li>
+      <li><a href="#pricing">Pro</a></li>
       <li><a href="#signup" class="nav-cta">Get Access</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
@@ -889,7 +887,7 @@
     <a href="games.html">Games</a>
     <a href="dfs.html">DFS</a>
     <a href="tools.html">Tools</a>
-    <a href="record.html">Record</a>
+    <a href="#pricing">Pro</a>
     <a href="#signup" class="nav-cta">Get Access</a>
   </div>
 <script>
@@ -915,18 +913,17 @@
 <div class="hero">
   <div>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
-    <p class="hero-sub">One free pick every morning, with the reasoning shown. Every result logged the day it settles — wins, losses and the ugly ones. Across eight sports, all season.</p>
+    <p class="hero-sub">One free pick every morning, with the reasoning shown. Live odds, line movement and the true price on every game — with the vig stripped out. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
     <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
-    <a class="stat-strip" href="record.html" title="See every pick we've ever published">
+    <a class="stat-strip" href="games.html" title="See every game on today's board">
       <!-- These cells describe what the operation DOES, not how long it's
            been running. Deliberately no win/loss record or win-rate % here:
-           the full record lives on record.html, one click away, where the
-           sample size is visible alongside it. A percentage without its
-           denominator is the exact move this brand is positioned against. -->
+           a percentage without its denominator is the exact move this brand
+           is positioned against. -->
       <div class="stat-cell"><div class="n g">Daily</div><div class="l">Free Pick, Every Morning</div></div>
       <div class="stat-cell"><div class="n b">Live</div><div class="l">Odds &amp; Line Movement</div></div>
-      <div class="stat-cell"><div class="n g">100%</div><div class="l">Of Picks Documented</div></div>
+      <div class="stat-cell"><div class="n g">True</div><div class="l">Prices, Vig Removed</div></div>
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Covered</div></div>
     </a>
   </div>
@@ -963,11 +960,11 @@
   <div class="trust-inner">
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
-      <div><div class="t">Every pick published free</div><div class="s">No paywalled record</div></div>
+      <div><div class="t">A free pick every morning</div><div class="s">No card, no trial</div></div>
     </div>
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
-      <div><div class="t">Losses stay on the page</div><div class="s">Nothing deleted, ever</div></div>
+      <div><div class="t">The whole board, free</div><div class="s">Odds, moves and true prices</div></div>
     </div>
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
@@ -1480,10 +1477,10 @@
           </svg>
           <div class="team-avatar-initials">04</div>
         </div>
-        <div class="team-name">Grading &amp; Accountability</div>
+        <div class="team-name">Stated Sides &amp; Numbers</div>
         <div class="team-role">The part most sites skip</div>
-        <div class="team-desc">Every pick is graded the day it settles and logged publicly — wins, losses, pushes, and the one time we published without stating a side. Nothing gets quietly removed after a bad run.</div>
-        <div class="team-record"><a href="record.html" style="color:var(--green);text-decoration:none;">See the full record →</a></div>
+        <div class="team-desc">Every call names a real side and a real number, published before the game starts. No vague leans, no "value on the under somewhere," no pick you can only interpret after you know the result.</div>
+        <div class="team-record"><a href="games.html" style="color:var(--green);text-decoration:none;">See today's board →</a></div>
       </div>
     </div>
   </div>
@@ -1499,15 +1496,15 @@
         <div class="phil-text">
           <p>Inside the Number was built on a simple premise: <strong>most bettors lose because they react to narratives instead of numbers.</strong> The media tells a story. The public bets the story. The line moves. And sharp money fades the public. Our small team tracks that gap every day, across eight sports, so you don't have to.</p>
           <p>Every pick we publish is backed by a documented process — historical ATS trends, line movement tracking, situational factors, and a consistent model. We're not guessing. We're finding spots where <strong>the number tells a different story than the headline.</strong></p>
-          <p>We publish our full record — wins, losses, and pushes. No cherry-picking. No disappearing after a bad week. Accountability is built into everything we do.</p>
+          <p>The market data is free and always will be — the line, where it moved, and what the book is charging you in vig. That much you can check for yourself. What we sell is the read on top of it: the projection, the edge, and the bet.</p>
         </div>
       </div>
       <div>
         <div class="phil-stats">
-          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Pick logged the day it settles — wins and losses</div></div>
+          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Game on the board, priced with the vig stripped out</div></div>
           <div class="phil-stat"><div class="big">8</div><div class="lbl">Sports covered — dawn slate to primetime</div></div>
-          <div class="phil-stat"><div class="big">100%</div><div class="lbl">Documented record — no hiding</div></div>
-          <div class="phil-stat"><div class="big">Free</div><div class="lbl">Full public record, always visible</div></div>
+          <div class="phil-stat"><div class="big">Daily</div><div class="lbl">One free pick every morning, reasoning shown</div></div>
+          <div class="phil-stat"><div class="big">$19.99</div><div class="lbl">Full analysis, best bets and parlays</div></div>
         </div>
       </div>
     </div>
@@ -1519,33 +1516,45 @@
   <div class="section-inner">
     <div class="section-header">
       <p class="eyebrow">Access</p>
-      <h2 class="section-title">Everything's free.<br/>For now, on purpose.</h2>
-      <p class="section-lead">There's no paid tier on this site yet, and that's a deliberate decision rather than a missing feature.</p>
+      <h2 class="section-title">The market is free.<br/>The read costs $19.99.</h2>
+      <p class="section-lead">Every line, every move, every true price — open to everyone. The projection, the edge and the bet are what you pay for.</p>
     </div>
-    <!-- Free-only until the public record is long enough to justify charging.
-         Showing grayed-out paid tiers would just advertise something we can't
-         yet stand behind; saying so plainly is the stronger position. -->
-    <div class="pricing-grid" style="grid-template-columns:1fr;max-width:640px;margin:0 auto;">
-      <div class="price-card featured">
-        <span class="price-badge">Free — Everything, Right Now</span>
+    <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:820px;margin:0 auto;gap:20px;">
+      <div class="price-card">
+        <span class="price-badge">Always free</span>
         <h3>Free</h3>
         <div class="price-amount">$0</div>
-        <p class="price-period">no card, no trial, no upsell</p>
+        <p class="price-period">no card, no trial</p>
         <ul class="price-features">
-          <li>A free pick every morning, with the reasoning</li>
-          <li>The full daily slate we're tracking</li>
-          <li>Live odds, line movement and no-vig prices</li>
-          <li>Weekly NFL DFS core plays once the season opens</li>
+          <li>One free pick every morning, with the reasoning</li>
+          <li>Every game on the board, all eight sports</li>
+          <li>Live odds, line movement and no-vig true prices</li>
+          <li>What each book is charging you in vig</li>
           <li>Ten betting calculators, no signup</li>
-          <li>The complete public record — every pick, every result</li>
         </ul>
-        <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="price-btn">Subscribe Free</a>
+        <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="price-btn">Subscribe free</a>
+      </div>
+      <div class="price-card featured">
+        <span class="price-badge">ITN Pro</span>
+        <h3>Pro</h3>
+        <div class="price-amount">$19.99</div>
+        <p class="price-period">per month · cancel anytime</p>
+        <ul class="price-features">
+          <li>Everything in Free</li>
+          <li>Our projection and edge on every game</li>
+          <li>The stated bet, number and confidence</li>
+          <li>Full written breakdown per contest</li>
+          <li>Best bets and parlays</li>
+          <li>UFC card breakdowns, fight by fight</li>
+          <li>PGA tournament preview every Wednesday</li>
+        </ul>
+        <a href="#signup" class="price-btn">Join the waitlist</a>
       </div>
     </div>
 
-    <div style="max-width:640px;margin:26px auto 0;padding:22px 26px;background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;">Why there's nothing to buy yet</div>
-      <p style="font-size:14px;color:var(--mid);line-height:1.8;margin:0;">We'd rather not ask anyone for money on the strength of a few weeks of picks. A record only means something once there's enough of it to rule out luck — so we're publishing everything free, logging every result in public, and letting that pile up first. A paid tier will open when the record is long enough to be worth paying for, and you'll be able to read the whole thing before deciding.</p>
+    <div style="max-width:820px;margin:26px auto 0;padding:22px 26px;background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;">What stays free, permanently</div>
+      <p style="font-size:14px;color:var(--mid);line-height:1.8;margin:0;">The numbers on this site are facts about the market, not opinions — the line, where it opened, how far it moved, and the hold once you strip the vig out. That stays open to everyone, on every game, whether you pay us or not. You should be able to check our work before you buy any of it.</p>
     </div>
   </div>
 </section>
@@ -1559,7 +1568,7 @@
       <span style="flex:1; padding:16px 20px; background:rgba(0,0,0,0.12); border:2px solid rgba(0,0,0,0.2); border-right:none; border-radius:26px 0 0 26px; color:rgba(0,0,0,0.55); font-family:'Barlow',sans-serif; font-size:15px; display:flex; align-items:center;">Click to subscribe on Beehiiv</span>
       <button type="button">Subscribe Free →</button>
     </a>
-    <p class="signup-note" id="signup-msg">Free, and staying that way until the record earns otherwise. No card required.</p>
+    <p class="signup-note" id="signup-msg">The daily pick and the full board stay free. No card required.</p>
   </div>
 </section>
 

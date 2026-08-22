@@ -2,7 +2,6 @@
 !.gitignore
 !index.html
 !tools.html
-!record.html
 !dfs.html
 !learn.html
 !games.html
@@ -19,3 +18,4 @@
 !apple-touch-icon.png
 !site.webmanifest
 !_headers
+!_redirects

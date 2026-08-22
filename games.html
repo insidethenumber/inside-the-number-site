@@ -186,7 +186,7 @@
       <li><a href="games.html" class="active">Games</a></li>
       <li><a href="dfs.html">DFS</a></li>
       <li><a href="tools.html">Tools</a></li>
-      <li><a href="record.html">Record</a></li>
+      <li><a href="index.html#pricing">Pro</a></li>
       <li><a href="index.html#signup" class="nav-cta">Get Access</a></li>
     </ul>
 </nav>
@@ -536,7 +536,7 @@ function gameView(sport,id){
     </div>
     <div class="ac"><div class="k">Our position</div>
       ${g.ours?`<div class="big g" style="font-size:21px">${g.ours.pick}</div>
-        <div class="sub">Published this morning and logged on the record the day it settles.</div>`
+        <div class="sub">Published this morning, before the game started.</div>`
        :`<div class="big" style="font-size:21px;color:var(--muted)">No play</div>
         <div class="sub">We're not on this game. We publish only when we think the price is wrong.</div>`}
     </div>
@@ -557,7 +557,7 @@ function gameView(sport,id){
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p></div>`
-    : `<div class="nopick"><div class="l">No pick on this game</div><p>We're not on this one today. The numbers above are the market's, with the vig removed — we publish a pick only when we think the price is wrong, and we log every one of them on the <a href="record.html" style="color:var(--green)">public record</a>.</p></div>`;
+    : `<div class="nopick"><div class="l">No pick on this game</div><p>We're not on this one today. The numbers above are the market's, with the vig removed — we publish a pick only when we think the price is wrong. Full analysis on every game is part of <a href="index.html#pricing" style="color:var(--green)">ITN Pro</a>.</p></div>`;
 
   document.getElementById('view').innerHTML=`
     <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>${g.a.ab} @ ${g.h.ab}</span></div>
