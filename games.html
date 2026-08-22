@@ -846,7 +846,7 @@ function marketRead(){
     const breakeven = P.mktPct;
     const why=[];
     why.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home; ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road.`);
-    if(P.spNote) why.push(`On the mound it's ${g.a.sp.name} (${g.a.sp.w}-${g.a.sp.l}, <b>${g.a.sp.era}</b>) against ${g.h.sp.name} (${g.h.sp.w}-${g.h.sp.l}, <b>${g.h.sp.era}</b>) — ${P.spNote.gap>=0.5?`a ${P.spNote.gap.toFixed(2)} run edge to <b>${P.spNote.edgeTo.name}</b>`:`near enough a wash`}.`);
+    if(P.spNote) why.push(`On the mound it's ${g.a.sp.name} (${g.a.sp.w}-${g.a.sp.l}, <b>${g.a.sp.era}</b>) against ${g.h.sp.name} (${g.h.sp.w}-${g.h.sp.l}, <b>${g.h.sp.era}</b>) — ${P.spNote.gap>=0.5?`a ${P.spNote.gap.toFixed(2)}-run ERA advantage to the <b>${P.spNote.edgeTo.name}</b>`:`near enough a wash on ERA`}.`);
     why.push(`That puts our number on <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> against a market price of ${breakeven.toFixed(1)}% — an edge of <b>${e.toFixed(1)} points</b>.`);
     why.push(conf==='Pass'
       ? `That's inside the noise. We'd pass rather than take it.`
@@ -907,7 +907,6 @@ function marketRead(){
          <div class="l"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>The pick · ${pick.conf} confidence</div>
          <div class="v"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>${pick.label}</div>
          <p>${pick.why}</p>
-         ${read?`<p style="margin-top:10px">${read.detail}</p>`:''}
          <p style="margin-top:12px;font-size:12px;color:var(--muted)">Our number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current market, anchored so the model can't disagree with a liquid line by more than the evidence supports. It isn't one of the 3-4 staked plays we publish in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
