@@ -215,13 +215,43 @@ const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/co
                ["UFC","mma/ufc"],["PGA","golf/pga"]];
 const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
 
-/* Games we have a published pick on. Mirrors todaysGames on the homepage.
-   Kept as a small literal so this page needs nothing from the morning routine —
-   it renders entirely from the live feed and degrades to "no pick" if absent. */
-const OURS={"tor|nyy":{pick:"Toronto ML (+101)",why:"Dylan Cease is the sharper starter and Toronto is still priced as a near coin flip."},
-            "atl|mil":{pick:"Milwaukee ML (-165)",why:"The Brewers have been the better side at home all season against right-handed pitching."},
-            "tb|bal":{pick:"Baltimore ML (+110)",why:"Baltimore getting plus money at home is the value on this board."},
-            "pit|lad":{pick:"Los Angeles ML (-267)",why:"Steep price, but the gap between these teams at Dodger Stadium is real."}};
+/* Which games we have a published pick on.
+
+   Read from the homepage's own `todaysGames` array rather than kept as a
+   second copy here. One list, one place the morning routine edits — a second
+   copy is exactly the kind of duplication that has silently gone stale on this
+   project before.
+
+   Parsed with a regex rather than evaluated: the array is our own same-origin
+   markup, but pulling code out of a page and running it is a habit worth not
+   forming. If the fetch or the parse fails, OURS stays empty and every game
+   simply renders without a pick flag — the board still works.
+   ────────────────────────────────────────────────────────────────────── */
+let OURS = {};
+async function loadOurPicks(){
+  try{
+    const r = await fetch('index.html', {cache:'no-cache'});
+    if(!r.ok) return;
+    const html = await r.text();
+    const m = html.match(/const\s+todaysGames\s*=\s*\[([\s\S]*?)\n\s*\];/);
+    if(!m) return;
+    // one object per game
+    const objects = m[1].match(/\{[\s\S]*?\}(?=\s*,\s*(?:\{|$)|\s*$)/g) || [];
+    objects.forEach(o=>{
+      const away = o.match(/away:\s*\{[^}]*code:\s*'([^']+)'/);
+      const home = o.match(/home:\s*\{[^}]*code:\s*'([^']+)'/);
+      const pick = o.match(/pick:\s*'((?:[^'\\]|\\.)*)'/);
+      const why  = o.match(/why:\s*'((?:[^'\\]|\\.)*)'/);
+      const hook = o.match(/hook:\s*'((?:[^'\\]|\\.)*)'/);
+      if(!away||!home) return;
+      const unesc = t => t ? t.replace(/\\u2011/g,'\u2011').replace(/\\'/g,"'").replace(/\\\\/g,'\\') : '';
+      OURS[`${away[1].toLowerCase()}|${home[1].toLowerCase()}`] = {
+        pick: unesc(pick && pick[1]),
+        why : unesc(why && why[1]) || unesc(hook && hook[1])
+      };
+    });
+  }catch(e){ /* board renders fine without pick flags */ }
+}
 
 const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
   .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
@@ -233,6 +263,7 @@ const fmt=o=>{const n=num(o);return n==null?null:(n>0?`+${n}`:`${n}`)};
 const D={}; let ready=false;
 
 async function load(){
+  await loadOurPicks();
   await Promise.all(LEAGUES.map(async([label,path])=>{
     try{
       const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eDate()}`);
