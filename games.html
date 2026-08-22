@@ -70,9 +70,6 @@
   .rail a:hover{color:var(--white)}
   .rail a.on{color:var(--green);border-bottom-color:var(--green)}
   .rail .c{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);margin-left:5px}
-  .rail a.off{color:#5b626d}
-  .rail a.off:hover{color:#9ca3af}
-  .rail a.off .c{color:#4a505a}
 
   /* Score ticker — mirrors the homepage strip so the two surfaces feel
      continuous, and doubles as a jump menu between games in this league
@@ -401,14 +398,13 @@ const total=()=>LEAGUES.reduce((t,[l])=>t+(D[l]||[]).length,0);
 const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
 
 function rail(sel){
-  /* A league with nothing today renders a dim dash rather than a count, so a
-     dead click is visible before you make it. It stays clickable on purpose —
-     the empty view is genuinely useful, showing when the league is back plus
-     what is live right now. Dim means "nothing today", not "broken". */
+  /* A league with nothing today shows a dash instead of a count. Leagues are
+     deliberately NOT dimmed: the empty view is a real page — when the league
+     is back, plus what is live right now — so greying one out would read as
+     broken rather than simply idle. */
   document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
-    const cls=[l===sel?'on':'',n?'':'off'].filter(Boolean).join(' ');
-    return `<a href="?sport=${l}" data-l="${l}"${cls?` class="${cls}"`:''}>${l}<span class="c">${n||'—'}</span></a>`;
+    return `<a href="?sport=${l}" data-l="${l}"${l===sel?' class="on"':''}>${l}<span class="c">${n||'—'}</span></a>`;
   }).join('');
 }
 
@@ -652,6 +648,52 @@ function gameView(sport,id){
   const worst=holds.length?Math.max(...holds):null;
   const holdCls = worst==null?'':(worst>=5?'r':worst>=4?'a':'g');
 
+  /* ── COMPUTED MARKET READ ────────────────────────────────────────
+     Every game gets a read, not just the 3-4 we publish a staked pick on.
+     This is DERIVED, not an opinion: on a two-way market both sides are
+     priced worse than fair, but rarely by the same amount — books shade
+     the side the public wants. Comparing each side's implied probability
+     against its own no-vig fair number tells you which side the book is
+     charging you less to take. That plus the direction the number has
+     travelled is a genuine, checkable read.
+
+     It is deliberately NOT styled or worded like our published picks.
+     A staked play is researched and stated in the newsletter; this is a
+     description of the market. Conflating the two would inflate what the
+     site appears to be calling and would be dishonest about which is
+     which — hence "Where the value sits" rather than "our pick". */
+  function marketRead(){
+    if(!mlP) return null;
+    const ia=impl(o.moneyline?.away?.close?.odds), ih=impl(o.moneyline?.home?.close?.odds);
+    if(ia==null||ih==null) return null;
+    const mkA=(ia-mlP.a)*100, mkH=(ih-mlP.b)*100;          // points charged over fair
+    const cheapAway = mkA<mkH;
+    const side  = cheapAway?g.a:g.h;
+    const other = cheapAway?g.h:g.a;
+    const sideOdds = fmt(cheapAway?o.moneyline?.away?.close?.odds:o.moneyline?.home?.close?.odds);
+    const cheap = Math.min(mkA,mkH), dear = Math.max(mkA,mkH);
+    const gap = dear-cheap;
+    const fairPc = (cheapAway?mlP.a:mlP.b)*100;
+
+    // did the number move toward this side?
+    let moved=null;
+    if(mlOpenA!=null&&mlCloseA!=null&&mlOpenA!==mlCloseA){
+      const towardAway = mlCloseA<mlOpenA;                  // away price shortened
+      moved = (towardAway===cheapAway);
+    }
+    const headline = gap<0.4
+      ? `Both sides priced about the same over fair. No lean.`
+      : `Cheaper side of this number — ${gap.toFixed(1)} pts less over fair than ${other.ab}.`;
+    const detail = gap<0.4
+      ? `The book is charging ${side.ab} and ${other.ab} within ${gap.toFixed(1)} of a point of each other over their true prices. There's no shading to take advantage of here — this one is priced honestly on both sides.`
+      : `Stripped of vig, <b>${side.ab}</b> is a genuine <b>${fairPc.toFixed(1)}%</b> to win. You're paying <b>${sideOdds}</b>, which is ${cheap.toFixed(1)} points over that — while ${other.ab} backers are paying ${dear.toFixed(1)} over theirs. Books shade the side the public wants, and right now that's ${other.ab}.`
+        + (moved===true ? ` The number has also moved toward ${side.ab} since it opened, so the money agrees.`
+         : moved===false ? ` The number has moved the other way though, so the market is drifting against this.`
+         : ``);
+    return {side:gap<0.4?'Priced fair':`${side.ab} ${sideOdds}`, headline, detail, flat:gap<0.4};
+  }
+  const read = marketRead();
+
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
       ${mlP?`<div class="big g">${(favPc*100).toFixed(1)}%</div>
@@ -672,8 +714,10 @@ function gameView(sport,id){
     <div class="ac"><div class="k">Our position</div>
       ${g.ours?`<div class="big g" style="font-size:21px">${g.ours.pick}</div>
         <div class="sub">Published this morning, before the game started.</div>`
-       :`<div class="big" style="font-size:21px;color:var(--muted)">No play</div>
-        <div class="sub">We're not on this game. We publish only when we think the price is wrong.</div>`}
+       :read?`<div class="big a" style="font-size:21px">${read.side}</div>
+        <div class="sub">${read.headline}</div>`
+       :`<div class="big" style="font-size:21px;color:var(--muted)">No market</div>
+        <div class="sub">Nothing posted on this game yet to measure.</div>`}
     </div>
   </div>`;
 
@@ -686,13 +730,22 @@ function gameView(sport,id){
       The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favorite once the margin comes out.
       ${moveOpenTxt(mlOpenA,mlCloseA,g)}
       At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
-      ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`:`We don't have a play here today.`}
+      ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`
+        :read&&!read.flat?`On price alone the value sits with <b>${read.side}</b>.`
+        :`Neither side is being shaded, so there's nothing to take advantage of on price.`}
     </p></div>`;
   }
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p></div>`
-    : `<div class="nopick"><div class="l">No pick on this game</div><p>We're not on this one today. The numbers above are the market's, with the vig removed — we publish a pick only when we think the price is wrong. Full analysis on every game is part of <a href="index.html#pricing" style="color:var(--green)">ITN Pro</a>.</p></div>`;
+    : read
+    ? `<div class="callout" style="border-color:rgba(240,180,41,.4)">
+         <div class="l" style="color:var(--gold)">Where the value sits</div>
+         <div class="v" style="color:var(--gold)">${read.side}</div>
+         <p>${read.detail}</p>
+         <p style="margin-top:10px;font-size:12px;color:var(--muted)">This is a read of the market, computed from the posted prices — not one of our staked plays. We publish 3-4 of those a day, in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
+       </div>`
+    : `<div class="nopick"><div class="l">Nothing posted yet</div><p>No moneyline is up on this game, so there's no margin to strip out and nothing to read. Check back once the book puts a number on it.</p></div>`;
 
   document.getElementById('view').innerHTML=`
     <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>${g.a.ab} @ ${g.h.ab}</span></div>

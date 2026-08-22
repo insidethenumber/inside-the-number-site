@@ -596,6 +596,10 @@
   .price-amount { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(40px, 5vw, 60px); font-weight: 900; color: var(--white); line-height: 1; margin: 20px 0 4px; letter-spacing: -0.02em; white-space: nowrap; }
   .price-card.featured .price-amount { background: linear-gradient(100deg, var(--green), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .price-period { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 28px; }
+  .price-annual { display:flex; align-items:baseline; gap:7px; flex-wrap:wrap; margin:-8px 0 22px; padding:9px 13px;
+    background:rgba(0,208,132,0.08); border:1px solid rgba(0,208,132,0.3); border-radius:9px; }
+  .price-annual .pa-k { font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.05em; color:var(--mid); }
+  .price-annual .pa-v { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:var(--green); line-height:1; }
   .price-features { list-style: none; margin-bottom: 32px; }
   .price-features li { font-size: 14px; color: var(--mid); padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
   .price-features li::before { content: '→'; color: var(--green); font-size: 12px; flex-shrink: 0; }
@@ -707,10 +711,7 @@
     font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
   .tb-leagues a:hover{color:var(--white)}
   .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
-  .tb-leagues a.off{color:#5b626d}
-  .tb-leagues a.off:hover{color:#9ca3af}
   .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
-  .tb-leagues a.off .n{color:#4a505a}
   .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
     letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
 
@@ -1523,7 +1524,7 @@
     <div class="section-header">
       <p class="eyebrow">Access</p>
       <h2 class="section-title">The market is free.<br/>The read costs $19.99.</h2>
-      <p class="section-lead">Every line, every move, every true price — open to everyone. The projection, the edge and the bet are what you pay for.</p>
+      <p class="section-lead">Every line, every move, every true price — open to everyone. The projection, the edge and the bet are what you pay for. $149 a year if you'd rather not think about it monthly.</p>
     </div>
     <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
       <div class="price-card">
@@ -1536,6 +1537,7 @@
           <li>Every game on the board, all eight sports</li>
           <li>Live odds, line movement and no-vig true prices</li>
           <li>What each book is charging you in vig</li>
+          <li>Weekly NFL DFS core plays</li>
           <li>Ten betting calculators, no signup</li>
         </ul>
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="price-btn">Subscribe free</a>
@@ -1545,14 +1547,20 @@
         <h3>Pro</h3>
         <div class="price-amount">$19.99</div>
         <p class="price-period">per month · cancel anytime</p>
+        <div class="price-annual">
+          <span class="pa-k">or</span>
+          <span class="pa-v">$149</span>
+          <span class="pa-k">a year — save $91</span>
+        </div>
         <ul class="price-features">
           <li>Everything in Free</li>
           <li>Our projection and edge on every game</li>
           <li>The stated bet, number and confidence</li>
           <li>Full written breakdown per contest</li>
           <li>Best bets and parlays</li>
+          <li>Full DFS lineup builds, leverage and ownership reads</li>
           <li>UFC card breakdowns, fight by fight</li>
-          <li>PGA tournament preview every Wednesday</li>
+          <li>PGA preview Tuesday, re-priced after the Friday cut</li>
         </ul>
         <a href="#signup" class="price-btn">Join the waitlist</a>
       </div>
@@ -1630,7 +1638,10 @@
      league at once, ordered live → upcoming → final. That is strictly more
      than the old single-league view, so nothing was lost by dropping the
      filter. A league with nothing today renders a dim dash instead of a
-     count, so a dead click is visible before you make it. */
+     count, so you can see there is nothing on before you click. Leagues are
+     NOT dimmed — an out-of-season league still has a real page behind it
+     showing when it returns and what is live now, so greying it out would
+     misrepresent it as broken. */
   /* Ordered by league first, in the same sequence as the chips above, then
      live → upcoming → final inside each league. Sorting purely by state read
      badly: every fight on a UFC card inherits the EVENT's status, so a card
@@ -1646,7 +1657,7 @@
   function paint(){
     document.getElementById('tbL').innerHTML=
       LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games.html?sport=${l}" data-l="${l}"${n?'':' class="off"'}>${l}<span class="n">${n||'—'}</span></a>`;
+        return `<a href="games.html?sport=${l}" data-l="${l}">${l}<span class="n">${n||'—'}</span></a>`;
       }).join('')+`<a class="tb-all" href="games.html">Full board →</a>`;
     const g=allGames();
     document.getElementById('tbS').innerHTML=g.length
