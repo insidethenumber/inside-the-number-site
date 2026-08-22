@@ -112,6 +112,26 @@
     table { font-size:12px; }
     thead th, tbody td { padding:10px; }
   }
+
+  /* Mobile: every block on this page was hard-coded to 48px side padding,
+     so content sat inset far more than on the rest of the site and the
+     results table pushed past the viewport. Bring the gutters to 20px to
+     match index.html, and let the table scroll inside its own container
+     rather than widening the page. */
+  @media (max-width:600px){
+    nav { padding:0 20px; }
+    .header { padding:48px 20px 28px; }
+    .summary-strip { padding:0 20px; }
+    .chart-wrap { padding:0 20px; }
+    .table-wrap { padding:0 20px; }
+    .disclaimer { padding:0 20px 60px; }
+    .note-mono { padding:0 20px !important; }
+
+    .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { min-width:520px; }
+    thead th, tbody td { padding:9px 10px; }
+    footer { padding:32px 20px; }
+  }
 </style>
 </head>
 <body>
@@ -195,7 +215,7 @@
   <div class="sum-card"><div class="n b" id="sum-winrate">—</div><div class="l">Win Rate</div></div>
   <div class="sum-card"><div class="n" id="sum-logged">—</div><div class="l">Picks Logged</div></div>
 </div>
-<p style="max-width:1100px; margin:0 auto 32px; padding:0 48px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); line-height:1.7;">Note on Aug 17: Issue #1's featured game (Orioles @ Rays) never stated an explicit, actionable pick — it's logged here as a process error rather than a graded result, and won't count toward win/loss/ROI. Every pick from Aug 18 forward states an explicit side before publishing.</p>
+<p class="note-mono" style="max-width:1100px; margin:0 auto 32px; padding:0 48px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); line-height:1.7;">Note on Aug 17: Issue #1's featured game (Orioles @ Rays) never stated an explicit, actionable pick — it's logged here as a process error rather than a graded result, and won't count toward win/loss/ROI. Every pick from Aug 18 forward states an explicit side before publishing.</p>
 
 <div class="chart-wrap">
   <div class="chart-card">

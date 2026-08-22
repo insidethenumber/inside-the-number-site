@@ -584,6 +584,10 @@
     .nav-hamburger { display: flex; }
     .hero { grid-template-columns: 1fr; padding: 60px 20px; gap: 32px; }
     .section { padding: 60px 20px; }
+    /* these two have their own classes and were missing from this breakpoint,
+       leaving them inset 48px while every other section sat at 20px */
+    .potd-section { padding: 60px 20px 20px; }
+    footer { padding: 40px 20px; }
     .glass-grid.three, .glass-grid.eight, .pricing-grid, .team-grid { grid-template-columns: 1fr 1fr; }
     .sample-grid { grid-template-columns: 1fr; }
     .phil-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -595,6 +599,21 @@
   }
   @media (max-width: 600px) {
     .glass-grid.three, .glass-grid.eight, .pricing-grid, .team-grid { grid-template-columns: 1fr; }
+
+    /* Grid/flex children default to min-width:auto and refuse to shrink below
+       their min-content width. The 4-across stat strip had a 386px floor, which
+       forced the hero's grid track wider than its padded container and pushed
+       the whole page into ~20px of horizontal overflow. */
+    .hero > * { min-width: 0; }
+    .stat-strip { display: grid; grid-template-columns: 1fr 1fr; }
+    .stat-cell { padding: 14px 12px; border-bottom: 1px solid var(--border); }
+    .stat-cell:nth-child(2n) { border-right: none; }
+    .stat-cell:nth-child(n+3) { border-bottom: none; }
+
+    .potd-card { padding: 24px 20px; }
+    .potd-matchup { font-size: 25px; gap: 10px; }
+    .potd-matchup img { width: 34px; height: 34px; }
+    .potd-cta .btn-primary { white-space: normal; }
   }
 </style>
 </head>
