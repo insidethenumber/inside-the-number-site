@@ -14,7 +14,7 @@ It's the clearest possible expression of "model vs market."
 
 We can't run a proprietary model, but we can do the honest version: American
 odds imply a probability, and the two sides always sum to **more than 100%** —
-that surplus is the sportsbook's hold. Normalising both sides back to 100%
+that surplus is the sportsbook's hold. Normalizing both sides back to 100%
 strips the margin out and leaves what the market actually thinks.
 
 Verified against real data (Aug 21 slate):
@@ -25,7 +25,7 @@ Verified against real data (Aug 21 slate):
 | SF @ BOS | +149 / -181 | 104.6% | 38.4% / 61.6% | 4.57% |
 
 Those are textbook MLB numbers. Every matchup card now shows both sides'
-no-vig probability, a split bar, and the book's hold — **labelled "market
+no-vig probability, a split bar, and the book's hold — **labeled "market
 win prob · vig removed," not presented as our own model.** That distinction
 matters and should never be blurred.
 
@@ -43,7 +43,7 @@ Note their positioning — *"Make $500-$1000+ weekly. Use math, not luck."* —
 is nearly identical in spirit to *"The number doesn't lie."* Same lane.
 
 ### ESPN → live scoreboard, team records, date strip
-ESPN's public feed powers our live scoreboard, team records, brand colours
+ESPN's public feed powers our live scoreboard, team records, brand colors
 and live line movement. Their date-strip navigation (MON AUG 17 → SUN AUG 23)
 is a pattern worth adding to the record page later.
 

@@ -99,7 +99,7 @@
      full repaint on every scroll frame in several mobile browsers; a
      composited fixed layer does not.
 
-     Sits at z-index -1, so it is above the body colour and below all
+     Sits at z-index -1, so it is above the body color and below all
      content. Any card that should not have the grid showing through it must
      have an OPAQUE background — see .potd-card / .panel below. That was the
      real constraint here: translucent cards let the grid bleed through and
@@ -364,7 +364,7 @@
   }
   .mc:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--border-lit); }
   .mc.is-free { border-color: rgba(0,208,132,0.42); box-shadow: var(--shadow-glow); }
-  /* Team-colour wash, set inline from ESPN brand colours */
+  /* Team-color wash, set inline from ESPN brand colors */
   .mc-wash { position: absolute; inset: 0 0 auto 0; height: 92px; opacity: 0.16; pointer-events: none; }
   .mc-head {
     position: relative; display: flex; align-items: center; justify-content: space-between;
@@ -792,7 +792,7 @@
     { league:'MLB', away:{code:'pit', name:'Pirates'},   home:{code:'lad', name:'Dodgers'},
       time:'6:15 PM ET', pick:'Los Angeles ML (-267)', conf:4, free:false,
       hook:'Heavy chalk, but the gap is real',
-      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the no-vig number suggests the market would go higher still if the public were not already loaded on the favourite.' },
+      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the no-vig number suggests the market would go higher still if the public were not already loaded on the favorite.' },
   ];
 
   // NOTE: the homepage deliberately does not display a win/loss record or a
@@ -811,7 +811,7 @@
      homepage show stale finals during exactly the hours when today's upcoming
      games and their prices matter most.
 
-     Always pass an explicit date. Sports slates are organised on US Eastern
+     Always pass an explicit date. Sports slates are organized on US Eastern
      dates, so derive it in America/New_York rather than the viewer's timezone
      — otherwise someone loading the page late evening in Europe (already
      "tomorrow" locally) would be shown the wrong day's games. */
@@ -1079,9 +1079,9 @@
         ? `<div class="mc-wash" style="background:linear-gradient(100deg,#${L.awayColor},#${L.homeColor})"></div>` : '';
       /* No-vig probabilities. American odds imply a probability, but the two
          sides always sum to more than 100% — that surplus is the book's hold.
-         Normalising both sides back to 100% strips the margin out and leaves
-         what the market actually thinks. This is market-implied maths on real
-         odds, not a proprietary model, and it's labelled that way on the card. */
+         Normalizing both sides back to 100% strips the margin out and leaves
+         what the market actually thinks. This is market-implied math on real
+         odds, not a proprietary model, and it's labeled that way on the card. */
       const impl = o => { const n = Number(o); return n > 0 ? 100/(n+100) : Math.abs(n)/(Math.abs(n)+100); };
       let pA = null, pH = null, hold = null;
       if (L.awayML && L.homeML) {
@@ -1105,7 +1105,7 @@
       if (L.state === 'in') status = `<span class="live">● LIVE — ${L.detail}</span>`;
       if (L.state === 'post') {
         // Name the winner explicitly. "FINAL — 5-1" leaves the reader guessing
-        // which side that favoured, which matters a lot when we posted a pick.
+        // which side that favored, which matters a lot when we posted a pick.
         const a = Number(L.awayScore), h = Number(L.homeScore);
         const winner = a > h ? g.away.name : h > a ? g.home.name : null;
         status = `<span class="final">FINAL — ${g.away.name} ${a}, ${g.home.name} ${h}` +
@@ -1533,7 +1533,7 @@
       <p class="section-lead">There's no paid tier on this site yet, and that's a deliberate decision rather than a missing feature.</p>
     </div>
     <!-- Free-only until the public record is long enough to justify charging.
-         Showing greyed-out paid tiers would just advertise something we can't
+         Showing grayed-out paid tiers would just advertise something we can't
          yet stand behind; saying so plainly is the stronger position. -->
     <div class="pricing-grid" style="grid-template-columns:1fr;max-width:640px;margin:0 auto;">
       <div class="price-card featured">

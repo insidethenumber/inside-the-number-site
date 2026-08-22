@@ -329,7 +329,7 @@ ten NFL preseason games and a full UFC Fight Night card in Sacramento
 (Hernandez vs. Rodrigues) to publish a single MLB moneyline.
 
 **Why it matters, beyond looking repetitive.** MLB moneylines on -140 to
--190 favourites are among the most efficiently priced markets in North
+-190 favorites are among the most efficiently priced markets in North
 American sport: enormous handle, sharp money, tight closing lines. That is
 the hardest place on the board to find an edge. Preseason NFL is close to
 the opposite — low limits, and totals that hinge on information the market
@@ -352,7 +352,7 @@ board.
 5. If a constraint genuinely can't be satisfied, state that plainly in the
    run summary rather than quietly reverting to an all-MLB-moneyline card.
 
-**What this is not.** This is not a licence to force a pick in a sport
+**What this is not.** This is not a license to force a pick in a sport
 where there's no read, purely to fill a quota. Betting a spread blind to
 look sophisticated is worse than passing. The point is that the survey has
 to happen first — the edge is usually not in the MLB moneyline, and the

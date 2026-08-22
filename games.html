@@ -205,7 +205,7 @@
 
 <script>
 /* All eight sports the site claims in the hero, plus WNBA.
-   Note the shape differences — handled in normalise() below:
+   Note the shape differences — handled in normalize() below:
      team sports  → two competitors with logos, scores and odds
      UFC/MMA      → two athletes, country flags instead of logos, rarely any odds
      PGA          → a tournament with a full field, not a head-to-head matchup */
@@ -462,7 +462,7 @@ function gameView(sport,id){
   /* ── analysis cards ─────────────────────────────────────────────
      A price on its own doesn't say much. These four cards turn the raw
      market into the things a bettor actually wants: what the market thinks
-     once the margin is out, which way the number has travelled, what the
+     once the margin is out, which way the number has traveled, what the
      book is charging, and whether we have a view. */
   const favAb = mlP ? (mlP.a>mlP.b?g.a.ab:g.h.ab) : null;
   const favPc = mlP ? Math.max(mlP.a,mlP.b) : null;
@@ -482,7 +482,7 @@ function gameView(sport,id){
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
       ${mlP?`<div class="big g">${(favPc*100).toFixed(1)}%</div>
-        <div class="sub"><b style="color:var(--white)">${favAb}</b> is the side the market favours, once the vig is removed.</div>
+        <div class="sub"><b style="color:var(--white)">${favAb}</b> is the side the market favors, once the vig is removed.</div>
         <div class="pbar"><i class="x" style="width:${(mlP.a*100).toFixed(1)}%"></i><i class="y" style="width:${(mlP.b*100).toFixed(1)}%"></i></div>
         <div class="prow"><span>${g.a.ab} <b>${(mlP.a*100).toFixed(1)}%</b></span><span>${g.h.ab} <b>${(mlP.b*100).toFixed(1)}%</b></span></div>`
        :`<div class="big">—</div><div class="sub">The moneyline isn't posted for this game right now.</div>`}
@@ -510,7 +510,7 @@ function gameView(sport,id){
   if(mlP){
     const edge = worst!=null && worst<4 ? 'a competitive price' : worst!=null && worst>=5 ? 'an expensive price' : 'a normal price';
     takeaway = `<div class="takeaway"><div class="k">The read</div><p>
-      The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favourite once the margin comes out.
+      The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favorite once the margin comes out.
       ${moveOpenTxt(mlOpenA,mlCloseA,g)}
       At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
       ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`:`We don't have a play here today.`}
@@ -536,8 +536,8 @@ function gameView(sport,id){
     ${market('Spread',spRows,spP?.hold)}
     ${market('Total',toRows,toP?.hold)}
     <p class="expl">True price removes the book's margin. Both sides of any market always add up to more than 100% —
-      that surplus is the hold. Normalising back to 100% leaves what the market actually thinks, which is the number
-      worth arguing with. Move shows how far the price has travelled since it opened${g.provider?`, per ${g.provider}`:''}.</p>
+      that surplus is the hold. Normalizing back to 100% leaves what the market actually thinks, which is the number
+      worth arguing with. Move shows how far the price has traveled since it opened${g.provider?`, per ${g.provider}`:''}.</p>
     <p class="expl" style="border:none;padding-top:4px"><a href="?sport=${sport}" style="color:var(--green);text-decoration:none">← Back to all ${sport} games</a></p>`;
   document.title=`${g.a.ab} @ ${g.h.ab} — ${g.league} odds & true price | Inside the Number`;
 }
