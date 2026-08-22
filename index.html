@@ -747,10 +747,17 @@
   .hp-move .mv{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
   .hp-move .amt{font-family:'Barlow Condensed',sans-serif;font-size:31px;font-weight:900;line-height:1}
   .hp-move .amt.up{color:var(--green)} .hp-move .amt.dn{color:var(--red)}
-  .hp-move .who{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;text-transform:uppercase}
+  .hp-move .who{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+  /* Team logos come straight from ESPN and are transparent PNGs, so they sit on
+     the dark surface without a plate. object-fit keeps odd aspect ratios honest. */
+  .hp-logo{width:21px;height:21px;object-fit:contain;flex-shrink:0;vertical-align:-4px}
+  .hp .at{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);font-weight:400;margin:0 2px}
   .hp-move .det{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
   .hp-move .det b{color:var(--white);font-weight:600}
-  .hp-pick .game{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
+  .hp-pick .game{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;
+    margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .hp-pick .game .hp-logo{width:24px;height:24px}
   .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
   .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
   .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
@@ -1680,7 +1687,8 @@
           const delta=cl-op; if(delta===0)return;
           if(!best||Math.abs(delta)>Math.abs(best.delta))
             best={delta,op,cl,league:lab,away:a.team.abbreviation,home:h.team.abbreviation,
-                  awayName:a.team.shortDisplayName,homeName:h.team.shortDisplayName,id:ev.id};
+                  awayName:a.team.shortDisplayName,homeName:h.team.shortDisplayName,
+                  awayLogo:a.team.logo,homeLogo:h.team.logo,id:ev.id};
         });
       }catch(e){}
     }));
@@ -1688,9 +1696,11 @@
     if(!best){el.querySelector('.hp-load').textContent='No line has moved yet today.';return}
     const toward = best.delta>0 ? best.homeName : best.awayName;
     el.href=`games.html?sport=${best.league}&game=${best.id}`;
+    const lg=(u,alt)=>u?`<img class="hp-logo" src="${u}" alt="${alt}" loading="lazy"/>`:'';
     el.innerHTML=`<div class="hp-k">Biggest move on the board</div>
       <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${best.delta>0?'+':''}${best.delta}</span>
-        <span class="who">${best.away} @ ${best.home}</span></div>
+        <span class="who">${lg(best.awayLogo,best.away)}${best.away}
+          <span class="at">@</span>${lg(best.homeLogo,best.home)}${best.home}</span></div>
       <div class="det"><b>${best.away}</b> opened ${f(best.op)} and sits ${f(best.cl)} — money has come in on
         <b>${toward}</b>. See the full market →</div>`;
   })();
@@ -1702,7 +1712,8 @@
   const g = TG.find(x=>x.free) || TG[0];
   const pk=document.getElementById('hpPick');
   if(g) pk.innerHTML=`<div class="hp-k">Today's free pick</div>
-    <div class="game">${g.away.name} @ ${g.home.name}</div>
+    <div class="game"><img class="hp-logo" src="${logo(g.league,g.away.code)}" alt="${g.away.name}" loading="lazy"/>${g.away.name}
+      <span class="at">@</span><img class="hp-logo" src="${logo(g.league,g.home.code)}" alt="${g.home.name}" loading="lazy"/>${g.home.name}</div>
     <div class="side">${g.pick||''}</div>
     ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
 })();
