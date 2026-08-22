@@ -380,13 +380,22 @@ async function load(){
         if(!h||!a)return null;
         const o=c.odds?.[0]||{};
         const key=`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`;
+        /* Split records and probable starters are what the projection runs on,
+           so pull them here rather than re-fetching per game later. ESPN names
+           the split types differently across leagues (road/awayrecord). */
+        const recOf=(x,types)=>{for(const t of types){const r=x.records?.find(y=>y.type===t);if(r?.summary)return r.summary}return''};
+        const prob=x=>{
+          const p=x.probables?.[0]; if(!p)return null;
+          const st=n=>p.statistics?.find(s=>s.name===n)?.displayValue;
+          return{name:p.athlete?.shortName||p.athlete?.displayName||'',era:st('ERA'),w:st('wins'),l:st('losses')};
+        };
+        const side=x=>({ab:x.team.abbreviation,name:x.team.shortDisplayName||x.team.name,logo:x.team.logo,sc:x.score,
+          rec:recOf(x,['total']),
+          split:recOf(x,x===h?['home','homerecord']:['road','awayrecord']),
+          sp:prob(x)});
         return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
           venue:c.venue?.fullName||'',provider:o.provider?.name||'',
-          a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,
-             rec:a.records?.find(x=>x.type==='total')?.summary||''},
-          h:{ab:h.team.abbreviation,name:h.team.shortDisplayName||h.team.name,logo:h.team.logo,sc:h.score,
-             rec:h.records?.find(x=>x.type==='total')?.summary||''},
-          o,ours:OURS[key]||null};
+          a:side(a),h:side(h),o,ours:OURS[key]||null};
       }).filter(Boolean);
     }catch(e){D[label]=[]}
   }));
@@ -670,7 +679,67 @@ function gameView(sport,id){
      description of the market. Conflating the two would inflate what the
      site appears to be calling and would be dishonest about which is
      which — hence "Where the value sits" rather than "our pick". */
-  function marketRead(){
+  /* ── PROJECTION MODEL ──────────────────────────────────────────────────
+   Produces our own win probability for a game, independently of the price,
+   then compares it to the no-vig market number to find an edge.
+
+   Inputs are real and shown to the reader: each side's home/road split,
+   and in MLB the probable starters' ERA. Nothing here is invented.
+
+   Two deliberate constraints keep it honest:
+
+   1. REGRESSION. A 38-25 home record is 63 games, not a true talent level.
+      Each split is pulled toward .500 by n/(n+K) so a hot 12-game sample
+      cannot swing the number.
+
+   2. ANCHORING TO THE MARKET. The raw model is naive — home/road splits
+      alone had Chicago at 65% in a game the market priced at 51%. A
+      record-based model has no business disagreeing with a liquid market by
+      14 points, and publishing that as an edge would be dishonest. The
+      published number is therefore mostly the market, moved by our signal:
+      62% market / 38% model. Real disagreements survive at a believable
+      size; noise gets damped out.
+
+   Where a league has no meaningful record yet (season openers, 0-0 or 1-0),
+   the model returns null and the page falls back to the market read. */
+const WPCT=s=>{const m=/^(\d+)-(\d+)/.exec(String(s||''));if(!m)return null;
+  const w=+m[1],l=+m[2],n=w+l; return n?{p:w/n,n}:null};
+const REG={MLB:40,NFL:6,CFB:5,CBB:12,NBA:20,NHL:20};
+
+function project(g,marketHomeP){
+  if(g.kind!=='team'||marketHomeP==null) return null;
+  const K=REG[g.league]??15;
+  const hs=WPCT(g.h.split)||WPCT(g.h.rec), as=WPCT(g.a.split)||WPCT(g.a.rec);
+  if(!hs||!as) return null;
+  if(hs.n<K/3||as.n<K/3) return null;          // too early in the season to say anything
+
+  const reg=x=>0.5+(x.p-0.5)*(x.n/(x.n+K));
+  const ph=reg(hs), pa=reg(as);
+
+  // log5: probability home beats away given two independent strengths
+  const den=ph+pa-2*ph*pa;
+  if(!den) return null;
+  let raw=(ph-ph*pa)/den;
+
+  // MLB starting pitching: ERA gap, capped so one blow-up start can't dominate
+  let spNote=null;
+  if(g.league==='MLB'&&g.h.sp?.era&&g.a.sp?.era){
+    const eh=parseFloat(g.h.sp.era), ea=parseFloat(g.a.sp.era);
+    if(Number.isFinite(eh)&&Number.isFinite(ea)){
+      const adj=Math.max(-0.08,Math.min(0.08,(ea-eh)*0.022));
+      raw=Math.max(0.05,Math.min(0.95,raw+adj));
+      spNote={eh,ea,edgeTo:ea>eh?g.h:g.a,gap:Math.abs(ea-eh)};
+    }
+  }
+
+  const proj=marketHomeP*0.62+raw*0.38;
+  const edge=(proj-marketHomeP)*100;          // points, positive = value on home
+  return {proj,raw,edge,ph,pa,hs,as,spNote,
+          side: edge>=0?g.h:g.a, sidePct:(edge>=0?proj:1-proj)*100,
+          mktPct:(edge>=0?marketHomeP:1-marketHomeP)*100};
+}
+
+function marketRead(){
     /* ESPN drops the odds block the moment a game goes live, so mlP is null
        for anything in progress or finished. That is not "nothing to say" —
        it just means the pregame market is gone, which is itself the answer. */
@@ -763,6 +832,28 @@ function gameView(sport,id){
     return {side:S[0].head, headline:S[0].sub, detail:S.slice(0,3).map(x=>x.text).join(' ')};
   }
   const read = marketRead();
+  const P = project(g, mlP?.b);
+
+  /* The pick, stated. Confidence tracks edge size, and "Pass" is a real
+     outcome — if the model agrees with the price there is no bet, and
+     dressing that up as a play would be the tout move this site exists
+     against. The side is still named so the page always says something. */
+  let pick=null;
+  if(P){
+    const sideOdds=fmt(P.side===g.h ? o.moneyline?.home?.close?.odds : o.moneyline?.away?.close?.odds);
+    const e=Math.abs(P.edge);
+    const conf = e>=5?'High' : e>=2.5?'Medium' : e>=1.2?'Low' : 'Pass';
+    const breakeven = P.mktPct;
+    const why=[];
+    why.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home; ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road.`);
+    if(P.spNote) why.push(`On the mound it's ${g.a.sp.name} (${g.a.sp.w}-${g.a.sp.l}, <b>${g.a.sp.era}</b>) against ${g.h.sp.name} (${g.h.sp.w}-${g.h.sp.l}, <b>${g.h.sp.era}</b>) — ${P.spNote.gap>=0.5?`a ${P.spNote.gap.toFixed(2)} run edge to <b>${P.spNote.edgeTo.name}</b>`:`near enough a wash`}.`);
+    why.push(`That puts our number on <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> against a market price of ${breakeven.toFixed(1)}% — an edge of <b>${e.toFixed(1)} points</b>.`);
+    why.push(conf==='Pass'
+      ? `That's inside the noise. We'd pass rather than take it.`
+      : `At <b>${sideOdds}</b> you need ${breakeven.toFixed(1)}% to break even, and we make it ${P.sidePct.toFixed(1)}%.`);
+    pick={label:conf==='Pass'?`Pass — lean ${P.side.ab}`:`${P.side.name} ${sideOdds}`,
+          conf, edge:e, why:why.join(' '), sideOdds};
+  }
 
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
@@ -781,9 +872,11 @@ function gameView(sport,id){
         <div class="sub">Widest hold across the three markets. Under 4% is a fair price; over 5% is expensive.</div>`
        :`<div class="big">—</div><div class="sub">No markets posted to measure.</div>`}
     </div>
-    <div class="ac"><div class="k">Our position</div>
+    <div class="ac"><div class="k">${g.ours?'Our published pick':pick?'Our pick':'Our position'}</div>
       ${g.ours?`<div class="big g" style="font-size:21px">${g.ours.pick}</div>
         <div class="sub">Published this morning, before the game started.</div>`
+       :pick?`<div class="big ${pick.conf==='Pass'?'a':'g'}" style="font-size:19px;line-height:1.15">${pick.label}</div>
+        <div class="sub">${pick.conf} confidence · ${pick.edge.toFixed(1)}-point edge</div>`
        :read?`<div class="big a" style="font-size:18px;line-height:1.15">${read.side}</div>
         <div class="sub">${read.headline}</div>`
        :`<div class="big" style="font-size:21px;color:var(--muted)">No market</div>
@@ -801,18 +894,28 @@ function gameView(sport,id){
       ${moveOpenTxt(mlOpenA,mlCloseA,g)}
       At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
       ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`
+        :pick?`We make it <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b>, ${Math.abs(P.edge).toFixed(1)} points off the market — ${pick.conf==='Pass'?'not enough to bet.':`enough to play at ${pick.sideOdds}.`}`
         :read?`The thing worth noticing — <b>${read.side}</b>.`:``}
     </p></div>`;
   }
 
   const pickBlock=g.ours
-    ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p></div>`
+    ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
+         <p style="margin-top:10px;font-size:12px;color:var(--muted)">One of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch.</p></div>`
+    : pick
+    ? `<div class="callout"${pick.conf==='Pass'?' style="border-color:rgba(240,180,41,.4)"':''}>
+         <div class="l"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>The pick · ${pick.conf} confidence</div>
+         <div class="v"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>${pick.label}</div>
+         <p>${pick.why}</p>
+         ${read?`<p style="margin-top:10px">${read.detail}</p>`:''}
+         <p style="margin-top:12px;font-size:12px;color:var(--muted)">Our number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current market, anchored so the model can't disagree with a liquid line by more than the evidence supports. It isn't one of the 3-4 staked plays we publish in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
+       </div>`
     : read
     ? `<div class="callout" style="border-color:rgba(240,180,41,.4)">
          <div class="l" style="color:var(--gold)">What stands out</div>
          <div class="v" style="color:var(--gold)">${read.side}</div>
          <p>${read.detail}</p>
-         <p style="margin-top:10px;font-size:12px;color:var(--muted)">This is a read of the market, computed from the posted prices — not one of our staked plays. We publish 3-4 of those a day, in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
+         <p style="margin-top:10px;font-size:12px;color:var(--muted)">There isn't enough season on the board yet to project this one — records are still too thin to mean anything. This is a read of the posted market instead.</p>
        </div>`
     : `<div class="nopick"><div class="l">Nothing posted yet</div><p>No moneyline is up on this game, so there's no margin to strip out and nothing to read. Check back once the book puts a number on it.</p></div>`;
 
