@@ -78,7 +78,49 @@ daily card even in peak season.
 
 ---
 
-## 3. Standing items (carried from the Aug 22 audit)
+## 3. Public betting splits — blocked on data (raised Aug 22, 2026)
+
+**The ask:** show where the money is going. "72% of bets on the Rays" — and
+more usefully, the gap between % of *bets* and % of *money*, which is the
+classic sharp-vs-public tell.
+
+**Why it isn't built yet.** There is no free, CORS-enabled API for this. The
+site's JavaScript runs in the visitor's browser and calls ESPN directly;
+ESPN carries odds but not betting percentages. Everything that has splits is
+either a website (Covers, Wiseguy Team, PlayerProps.ai, Split Labs — HTML
+pages, not APIs) or a commercial feed.
+
+**This must not be faked.** Inventing "72% on the Rays" would be publishing
+a fabricated statistic to paying customers, and it's the exact thing that
+makes tout services worthless. No placeholder numbers, ever.
+
+**Real options, in order of preference**
+
+1. **Sportradar Betting Splits API** — aggregates 150+ books, covers NFL,
+   MLB, NHL, NBA, NCAAF, NCAAB. Enterprise pricing, needs a quote. The
+   correct answer if splits become a headline Pro feature.
+2. **The Odds API Business tier ($99/mo)** — already on the shortlist for
+   multi-book odds. Confirm whether its bookmaker spread implies anything
+   about handle. It does NOT publish bet percentages, so this is a partial
+   answer at best.
+3. **Cloudflare Function proxy + a licensed source.** Any server-side fetch
+   still needs a source whose terms permit it. Scraping a competitor's
+   consensus page is not something to build.
+
+**What we already ship that gets at the same idea.** Line movement is the
+honest proxy and it's live now: when a number moves, money moved it. The
+game pages state which way each of the three markets travelled and what that
+implies. That's a real signal derived from real data — it just can't be
+expressed as a percentage of tickets.
+
+**Worth knowing:** bet% and money% disagreeing is the actually valuable
+signal (many small tickets one way, big money the other). A single "72%"
+figure without that split is close to noise, so if this gets bought, buy the
+feed that carries both.
+
+---
+
+## 4. Standing items (carried from the Aug 22 audit)
 
 - **Legal pages** — `privacy.html`, `terms.html`, `responsible-gambling.html`
   all still 404. Blocker for Stripe approval on the Pro tier.
