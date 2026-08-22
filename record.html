@@ -60,6 +60,24 @@
   .lead { font-size:15px; color:var(--mid); max-width:560px; line-height:1.8; font-weight:300; }
 
   .summary-strip { max-width:1100px; margin:0 auto 40px; padding:0 48px; display:flex; gap:14px; }
+
+  /* Coverage panel — added Aug 22, 2026. Makes sport/market concentration
+     visible on the public record so it can't quietly drift back to
+     all-MLB-moneylines the way it did through Aug 21. */
+  .coverage { max-width:1100px; margin:0 auto 40px; padding:0 48px; }
+  .coverage-card { background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:14px; padding:20px 22px; }
+  .coverage-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+  .coverage-title { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; text-transform:uppercase; letter-spacing:0.03em; color:var(--white); }
+  .coverage-sub { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); letter-spacing:0.05em; }
+  .coverage-grid { display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:16px; }
+  .cov-label { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+  .cov-row { display:flex; align-items:center; gap:10px; margin-bottom:7px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .cov-name { width:78px; color:var(--mid); flex-shrink:0; }
+  .cov-bar { flex:1; height:7px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden; }
+  .cov-bar span { display:block; height:100%; border-radius:4px; background:var(--blue); }
+  .cov-pct { width:42px; text-align:right; color:var(--white); flex-shrink:0; }
+  .cov-empty { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+  @media (max-width:600px){ .coverage-grid { grid-template-columns:1fr; gap:20px; } .coverage { padding:0 20px; } }
   .sum-card { flex:1; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:14px; padding:20px 22px; }
   .sum-card .n { font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; }
   .sum-card .n.g { color:var(--green); } .sum-card .n.b { color:var(--blue); }
@@ -217,6 +235,25 @@
 </div>
 <p class="note-mono" style="max-width:1100px; margin:0 auto 32px; padding:0 48px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); line-height:1.7;">Note on Aug 17: Issue #1's featured game (Orioles @ Rays) never stated an explicit, actionable pick — it's logged here as a process error rather than a graded result, and won't count toward win/loss/ROI. Every pick from Aug 18 forward states an explicit side before publishing.</p>
 
+<div class="coverage">
+  <div class="coverage-card">
+    <div class="coverage-head">
+      <div class="coverage-title">Coverage</div>
+      <div class="coverage-sub">What we've actually been betting</div>
+    </div>
+    <div class="coverage-grid">
+      <div>
+        <div class="cov-label">By sport</div>
+        <div id="cov-sport"></div>
+      </div>
+      <div>
+        <div class="cov-label">By bet type</div>
+        <div id="cov-type"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="chart-wrap">
   <div class="chart-card">
     <div class="chart-head">
@@ -317,6 +354,51 @@ function computeSummary() {
     winRateEl.textContent = `${Math.round((w / staked) * 100)}%`;
   }
   loggedEl.textContent = picks.length;
+  renderCoverage();
+}
+
+// Coverage breakdown — added Aug 22, 2026.
+// Through Aug 21 every published pick was MLB and nearly all were moneylines.
+// Surfacing the split publicly keeps that honest: if the mix narrows again,
+// it shows up on the record page rather than going unnoticed for weeks.
+function betType(pick) {
+  const t = (pick || '').toLowerCase();
+  if (t.includes('no explicit pick')) return null;      // process error, not a bet
+  if (/\bml\b|moneyline/.test(t)) return 'Moneyline';
+  if (/\bover\b|\bunder\b|\bo\/u\b|\btotal\b/.test(t)) return 'Total';
+  if (/[+-]\d+(\.\d+)?/.test(t)) return 'Spread';
+  return 'Other';
+}
+
+function renderCoverage() {
+  const sportCounts = {}, typeCounts = {};
+  let n = 0;
+  picks.forEach(pk => {
+    const bt = betType(pk.pick);
+    if (!bt) return;                                     // exclude no-grades
+    n++;
+    sportCounts[pk.sport] = (sportCounts[pk.sport] || 0) + 1;
+    typeCounts[bt] = (typeCounts[bt] || 0) + 1;
+  });
+
+  const draw = (el, counts, total) => {
+    if (!total) { el.innerHTML = '<div class="cov-empty">No picks logged yet.</div>'; return; }
+    el.innerHTML = Object.entries(counts)
+      .sort((a,b) => b[1] - a[1])
+      .map(([name, c]) => {
+        const pct = Math.round((c / total) * 100);
+        // flag over-concentration in the same red used for losses
+        const col = pct >= 60 ? 'var(--red)' : pct >= 40 ? 'var(--gold)' : 'var(--blue)';
+        return `<div class="cov-row">
+          <span class="cov-name">${name}</span>
+          <span class="cov-bar"><span style="width:${pct}%;background:${col}"></span></span>
+          <span class="cov-pct">${pct}%</span>
+        </div>`;
+      }).join('');
+  };
+
+  draw(document.getElementById('cov-sport'), sportCounts, n);
+  draw(document.getElementById('cov-type'), typeCounts, n);
 }
 
 function render() {

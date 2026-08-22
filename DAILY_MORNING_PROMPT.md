@@ -25,12 +25,27 @@ Morning. Run today's Inside the Number routine:
    hand-edit those numbers directly (fixed Aug 19 to remove that
    manual, error-prone step).
 
-2. Research and select 3-4 real games for today/tonight across
-   whatever's in season. Pull live odds directly from sportsbook/odds
-   pages (not just search summaries) for accuracy. For each game give
-   me: matchup, current line, an explicit stated pick (no hedging —
-   a real side and number, e.g. "Baltimore +1.5"), brief reasoning,
-   and a confidence level (High/Medium/Low).
+2. Research and select 3-4 real games for today/tonight. Pull live odds
+   directly from sportsbook/odds pages (not just search summaries) for
+   accuracy. For each game give me: matchup, current line, an explicit
+   stated pick (no hedging — a real side and number, e.g. "Baltimore
+   +1.5"), brief reasoning, and a confidence level (High/Medium/Low).
+
+   **SELECTION RULES — these are hard constraints, added Aug 22, 2026.**
+   See "Diversification mandate" below for the full reasoning. In short:
+
+   - **Survey the WHOLE board first.** Check every in-season sport before
+     choosing anything: MLB, NFL (including preseason), CFB, NBA, CBB,
+     NHL, UFC/MMA, PGA. Do not start with MLB and stop there.
+   - **Max 2 picks from any one sport per day.**
+   - **If a non-MLB sport has a card today, at least one pick must come
+     from it.** A ten-game NFL preseason slate or a UFC card is not
+     optional to cover.
+   - **No more than half of a day's picks may be moneylines.** The rest
+     must be spreads, totals, or props.
+   - If a rule genuinely cannot be met (e.g. MLB is the only sport in
+     season), say so explicitly in the run summary to Chuck. Do not
+     silently ignore it.
 
 3. Pick one of today's games as the free "Pick of the Day" for the
    newsletter and site. Update the Pick of the Day card and Today's
@@ -284,3 +299,43 @@ Set up today's picks and draft.
 - **The final send is always your call.** Per how this is set up, drafts get built and queued automatically, but nothing goes out until you reply "send" to the daily summary — that step doesn't go away.
 - **No pick, ever, without an explicit side and number stated.** This was a real mistake in Issue #1 — the routine above is written specifically to prevent it from happening again.
 - **Every result gets logged, win or lose.** The whole value of the public record is that nothing gets cherry-picked or quietly dropped.
+
+---
+
+## Diversification mandate (added Aug 22, 2026)
+
+**The problem this fixes.** As of Aug 22, 2026, every pick ever published
+was MLB — 14 of 14 — and 13 of those 14 were moneylines. Not one spread,
+total, or prop. Not one other sport. On Aug 22 alone the routine ignored
+ten NFL preseason games and a full UFC Fight Night card in Sacramento
+(Hernandez vs. Rodrigues) to publish a single MLB moneyline.
+
+**Why it matters, beyond looking repetitive.** MLB moneylines on -140 to
+-190 favourites are among the most efficiently priced markets in North
+American sport: enormous handle, sharp money, tight closing lines. That is
+the hardest place on the board to find an edge. Preseason NFL is close to
+the opposite — low limits, and totals that hinge on information the market
+prices poorly, like how long starters actually play and how a coach plans
+to use series two and three. UFC props and totals are similarly thin.
+
+So the concentration wasn't just monotonous, it was pointing the operation
+at the toughest water available. A publication whose whole pitch is "the
+number doesn't lie" cannot only ever bet the most efficient number on the
+board.
+
+**The rules.**
+
+1. Survey every in-season sport before selecting. MLB is not the default.
+2. Maximum 2 picks from any single sport per day.
+3. If any non-MLB sport has a card that day, at least one pick must come
+   from it.
+4. Maximum 50% of a day's picks may be moneylines. Spreads, totals and
+   props make up the rest.
+5. If a constraint genuinely can't be satisfied, state that plainly in the
+   run summary rather than quietly reverting to an all-MLB-moneyline card.
+
+**What this is not.** This is not a licence to force a pick in a sport
+where there's no read, purely to fill a quota. Betting a spread blind to
+look sophisticated is worse than passing. The point is that the survey has
+to happen first — the edge is usually not in the MLB moneyline, and the
+old instruction never even asked the routine to look elsewhere.
