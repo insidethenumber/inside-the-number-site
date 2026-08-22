@@ -139,7 +139,38 @@ feed that carries both.
 
 ---
 
-## 4. Standing items (carried from the Aug 22 audit)
+## 4. MLB model — next refinements (built Aug 22, 2026)
+
+The predicted-score model is live: team runs scored and allowed, weighted for
+the probable starters, run over a joint Poisson distribution so the moneyline,
+runline and total all come off one projection. Runs on ESPN's free team
+statistics endpoint. Two known limitations, in priority order:
+
+**Park factors.** The raw model assumes a league-average run environment. At
+Coors it projected 9.67 runs into a posted total of 11 and called that a
+21.6-point edge on the under — which is altitude, not edge. Anchoring to the
+posted total currently bounds this (it lands at 10.49 and a 7.4-point gap),
+but anchoring is a bandage. Real park run indices — Coors ~1.33, Petco ~0.92,
+and so on for all 30 — would fix it at source and let the anchor weight drop,
+which would let genuine disagreements show at full size.
+
+**Weather and wind.** Same class of problem, particularly for totals in
+Chicago and San Francisco. The market prices it; we don't. Currently absorbed
+by the anchor.
+
+**Also worth doing:** back-test the model against completed games before
+leaning on it commercially. It has never been graded. Everything it says is
+plausible and internally consistent, which is not the same as accurate.
+
+**Other sports.** The Poisson approach fits baseball because scoring is close
+to Poisson. It does not transfer to football or basketball — those need a
+margin-distribution model (normal around a projected spread) rather than a
+run-count model. NFL/NBA/NHL currently fall back to the records-based
+moneyline model plus market reads on the other two markets.
+
+---
+
+## 5. Standing items (carried from the Aug 22 audit)
 
 - **Legal pages** — `privacy.html`, `terms.html`, `responsible-gambling.html`
   all still 404. Blocker for Stripe approval on the Pro tier.
