@@ -340,6 +340,86 @@ const pair=(a,b)=>{const ra=impl(a),rb=impl(b);if(ra==null||rb==null)return null
 const fmt=o=>{const n=num(o);return n==null?null:(n>0?`+${n}`:`${n}`)};
 const D={}; let ready=false;
 
+/* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
+   Projects runs for each side, then derives the moneyline, the runline AND
+   the total from one distribution. This replaced a win-probability-only
+   model: that version could only produce a moneyline number, so the runline
+   and total had to fall back to reading market structure. Projecting runs
+   fixes that at the root — every market comes off the same projection.
+
+   Method:
+     1. Cross-multiply offense against defense. A team's expected runs are
+        its own runs/game scaled by how well the opponent suppresses runs
+        relative to league average. Standard runs-created cross-ratio.
+     2. Weight the probable starter. He throws roughly two-thirds of the
+        innings, so effective suppression is 0.62 starter ERA + 0.38 bullpen
+        and defense behind him.
+     3. Home field: about a 3% swing, which is the long-run MLB figure.
+     4. Turn the two run expectations into a joint Poisson distribution and
+        read every market off it — P(win), P(margin >= 2) for the runline,
+        P(total over the posted number). Baseball scoring is close enough to
+        Poisson for this to be a fair approximation, and it means the three
+        markets can never contradict each other.
+     5. Ties can't stand in a real game, so extra-inning probability is
+        allocated in proportion to each side's run expectation.
+
+   Everything here comes from ESPN's free team statistics endpoint. */
+const MLBT={}; let mlbLg=4.45;
+async function loadMLBStats(){
+  try{
+    const r=await fetch('https://site.web.api.espn.com/apis/common/v3/sports/baseball/mlb/statistics/byteam?region=us&lang=en&season='+new Date().getFullYear()+'&seasontype=2');
+    if(!r.ok) return;
+    const j=await r.json();
+    const L={}; (j.categories||[]).forEach(c=>L[c.name]=c.names||[]);
+    const bi=n=>L.batting.indexOf(n), pi=n=>L.pitching.indexOf(n);
+    (j.teams||[]).forEach(t=>{
+      const b=t.categories.find(c=>c.name==='batting')?.values;
+      const p=t.categories.find(c=>c.name==='pitching')?.values;
+      if(!b||!p) return;
+      const gp=b[bi('gamesPlayed')]; if(!gp) return;
+      MLBT[t.team.abbreviation]={gp, rsg:b[bi('runs')]/gp, rag:p[pi('earnedRuns')]/gp, era:p[pi('ERA')]};
+    });
+    const v=Object.values(MLBT);
+    if(v.length) mlbLg=v.reduce((s,x)=>s+x.rsg,0)/v.length;
+  }catch(e){ /* model simply won't run; page falls back to the market read */ }
+}
+
+const POIS=(k,lam)=>{let p=Math.exp(-lam);for(let i=1;i<=k;i++)p*=lam/i;return p};
+function projectRuns(g){
+  if(g.league!=='MLB') return null;
+  const A=MLBT[g.a.ab], H=MLBT[g.h.ab];
+  if(!A||!H||A.gp<20||H.gp<20) return null;
+  const supp=(team,sp)=>{
+    const e=sp&&parseFloat(sp.era);
+    return Number.isFinite(e) ? 0.62*e+0.38*team.rag : team.rag;
+  };
+  let ea=A.rsg*(supp(H,g.h.sp)/mlbLg)*0.97;   // away
+  let eh=H.rsg*(supp(A,g.a.sp)/mlbLg)*1.03;   // home
+  ea=Math.max(1.5,Math.min(9,ea)); eh=Math.max(1.5,Math.min(9,eh));
+
+  const N=26;                                  // runs cap for the joint grid
+  let pHome=0,pAway=0,pTie=0;
+  const cover={h2:0,a2:0};
+  const totalPmf={};
+  for(let i=0;i<=N;i++){
+    const pa=POIS(i,ea);
+    for(let jj=0;jj<=N;jj++){
+      const ph=POIS(jj,eh), pr=pa*ph;
+      if(jj>i){pHome+=pr; if(jj-i>=2) cover.h2+=pr;}
+      else if(i>jj){pAway+=pr; if(i-jj>=2) cover.a2+=pr;}
+      else pTie+=pr;
+      totalPmf[i+jj]=(totalPmf[i+jj]||0)+pr;
+    }
+  }
+  const share=eh/(ea+eh);
+  pHome+=pTie*share; pAway+=pTie*(1-share);
+  cover.h2+=pTie*share*0.5; cover.a2+=pTie*(1-share)*0.5;   // extras decided by 1 most often
+  const s=pHome+pAway; pHome/=s; pAway/=s;
+  const overProb=T=>{let o=0;for(const k in totalPmf){if(+k>T)o+=totalPmf[k]}return o};
+  return {ea,eh,pHome,pAway,coverH:cover.h2/s,coverA:cover.a2/s,overProb,
+          total:ea+eh, supA:supp(H,g.h.sp), supH:supp(A,g.a.sp)};
+}
+
 async function load(){
   await Promise.all([loadOurPicks(), loadMLBStats()]);
   await Promise.all(LEAGUES.map(async([label,path])=>{
@@ -712,85 +792,6 @@ function gameView(sport,id){
    the model returns null and the page falls back to the market read. */
 const pairOk=p=>!!p;
 
-/* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
-   Projects runs for each side, then derives the moneyline, the runline AND
-   the total from one distribution. This replaced a win-probability-only
-   model: that version could only produce a moneyline number, so the runline
-   and total had to fall back to reading market structure. Projecting runs
-   fixes that at the root — every market comes off the same projection.
-
-   Method:
-     1. Cross-multiply offense against defense. A team's expected runs are
-        its own runs/game scaled by how well the opponent suppresses runs
-        relative to league average. Standard runs-created cross-ratio.
-     2. Weight the probable starter. He throws roughly two-thirds of the
-        innings, so effective suppression is 0.62 starter ERA + 0.38 bullpen
-        and defense behind him.
-     3. Home field: about a 3% swing, which is the long-run MLB figure.
-     4. Turn the two run expectations into a joint Poisson distribution and
-        read every market off it — P(win), P(margin >= 2) for the runline,
-        P(total over the posted number). Baseball scoring is close enough to
-        Poisson for this to be a fair approximation, and it means the three
-        markets can never contradict each other.
-     5. Ties can't stand in a real game, so extra-inning probability is
-        allocated in proportion to each side's run expectation.
-
-   Everything here comes from ESPN's free team statistics endpoint. */
-const MLBT={}; let mlbLg=4.45;
-async function loadMLBStats(){
-  try{
-    const r=await fetch('https://site.web.api.espn.com/apis/common/v3/sports/baseball/mlb/statistics/byteam?region=us&lang=en&season='+new Date().getFullYear()+'&seasontype=2');
-    if(!r.ok) return;
-    const j=await r.json();
-    const L={}; (j.categories||[]).forEach(c=>L[c.name]=c.names||[]);
-    const bi=n=>L.batting.indexOf(n), pi=n=>L.pitching.indexOf(n);
-    (j.teams||[]).forEach(t=>{
-      const b=t.categories.find(c=>c.name==='batting')?.values;
-      const p=t.categories.find(c=>c.name==='pitching')?.values;
-      if(!b||!p) return;
-      const gp=b[bi('gamesPlayed')]; if(!gp) return;
-      MLBT[t.team.abbreviation]={gp, rsg:b[bi('runs')]/gp, rag:p[pi('earnedRuns')]/gp, era:p[pi('ERA')]};
-    });
-    const v=Object.values(MLBT);
-    if(v.length) mlbLg=v.reduce((s,x)=>s+x.rsg,0)/v.length;
-  }catch(e){ /* model simply won't run; page falls back to the market read */ }
-}
-
-const POIS=(k,lam)=>{let p=Math.exp(-lam);for(let i=1;i<=k;i++)p*=lam/i;return p};
-function projectRuns(g){
-  if(g.league!=='MLB') return null;
-  const A=MLBT[g.a.ab], H=MLBT[g.h.ab];
-  if(!A||!H||A.gp<20||H.gp<20) return null;
-  const supp=(team,sp)=>{
-    const e=sp&&parseFloat(sp.era);
-    return Number.isFinite(e) ? 0.62*e+0.38*team.rag : team.rag;
-  };
-  let ea=A.rsg*(supp(H,g.h.sp)/mlbLg)*0.97;   // away
-  let eh=H.rsg*(supp(A,g.a.sp)/mlbLg)*1.03;   // home
-  ea=Math.max(1.5,Math.min(9,ea)); eh=Math.max(1.5,Math.min(9,eh));
-
-  const N=26;                                  // runs cap for the joint grid
-  let pHome=0,pAway=0,pTie=0;
-  const cover={h2:0,a2:0};
-  const totalPmf={};
-  for(let i=0;i<=N;i++){
-    const pa=POIS(i,ea);
-    for(let jj=0;jj<=N;jj++){
-      const ph=POIS(jj,eh), pr=pa*ph;
-      if(jj>i){pHome+=pr; if(jj-i>=2) cover.h2+=pr;}
-      else if(i>jj){pAway+=pr; if(i-jj>=2) cover.a2+=pr;}
-      else pTie+=pr;
-      totalPmf[i+jj]=(totalPmf[i+jj]||0)+pr;
-    }
-  }
-  const share=eh/(ea+eh);
-  pHome+=pTie*share; pAway+=pTie*(1-share);
-  cover.h2+=pTie*share*0.5; cover.a2+=pTie*(1-share)*0.5;   // extras decided by 1 most often
-  const s=pHome+pAway; pHome/=s; pAway/=s;
-  const overProb=T=>{let o=0;for(const k in totalPmf){if(+k>T)o+=totalPmf[k]}return o};
-  return {ea,eh,pHome,pAway,coverH:cover.h2/s,coverA:cover.a2/s,overProb,
-          total:ea+eh, supA:supp(H,g.h.sp), supH:supp(A,g.a.sp)};
-}
 const WPCT=s=>{const m=/^(\d+)-(\d+)/.exec(String(s||''));if(!m)return null;
   const w=+m[1],l=+m[2],n=w+l; return n?{p:w/n,n}:null};
 const REG={MLB:40,NFL:6,CFB:5,CBB:12,NBA:20,NHL:20};
