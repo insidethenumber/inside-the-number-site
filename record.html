@@ -144,7 +144,9 @@
   tbody tr:last-child td { border-bottom:none; }
   tbody tr:hover { background:rgba(255,255,255,0.02); }
   .sport-tag { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--blue); }
-  .matchup { color:var(--white); font-weight:500; }
+  .matchup { color:var(--white); font-weight:500; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .mu-logo { width:19px; height:19px; object-fit:contain; flex-shrink:0; }
+  .mu-at { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin:0 1px; }
   .result { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; padding:4px 10px; border-radius:6px; display:inline-block; }
   .result.W { color:var(--green); background:var(--green-dim); }
   .result.L { color:var(--red); background:rgba(255,92,92,0.1); }
@@ -350,7 +352,69 @@ const picks = [
 
 let sortKey = 'date', sortDir = -1, activeSport = 'all';
 
-function computeSummary() {
+/* ── Team logos on the record (added Aug 22, 2026) ──────────────────────
+     The picks array stores a matchup as one string ("Braves @ Brewers"), with
+     no team codes, so there was nothing to build a logo URL from and every row
+     rendered as plain text.
+
+     Rather than add codes to the data — which would mean the morning routine
+     supplying them on every future pick, and the 14 existing rows staying bare
+     forever — this maps nickname to ESPN slug at render time. History gets
+     logos too, and the automation is untouched.
+
+     Keyed by SPORT then nickname because nicknames collide: "Cardinals" is
+     stl in MLB and ari in the NFL; "Panthers" is car in the NFL and fla in the
+     NHL; "Jets" is nyj and wpg. An unmapped name (a college team, say) simply
+     renders without a logo rather than showing a broken image. */
+  const TEAM_SLUG = {
+    MLB:{'diamondbacks':'ari','braves':'atl','orioles':'bal','red sox':'bos','cubs':'chc',
+      'white sox':'chw','reds':'cin','guardians':'cle','rockies':'col','tigers':'det',
+      'astros':'hou','royals':'kc','angels':'laa','dodgers':'lad','marlins':'mia',
+      'brewers':'mil','twins':'min','mets':'nym','yankees':'nyy','athletics':'ath',
+      'phillies':'phi','pirates':'pit','padres':'sd','giants':'sf','mariners':'sea',
+      'cardinals':'stl','rays':'tb','rangers':'tex','blue jays':'tor','nationals':'wsh'},
+    NFL:{'cardinals':'ari','falcons':'atl','ravens':'bal','bills':'buf','panthers':'car',
+      'bears':'chi','bengals':'cin','browns':'cle','cowboys':'dal','broncos':'den',
+      'lions':'det','packers':'gb','texans':'hou','colts':'ind','jaguars':'jax',
+      'chiefs':'kc','raiders':'lv','chargers':'lac','rams':'lar','dolphins':'mia',
+      'vikings':'min','patriots':'ne','saints':'no','giants':'nyg','jets':'nyj',
+      'eagles':'phi','steelers':'pit','49ers':'sf','seahawks':'sea','buccaneers':'tb',
+      'titans':'ten','commanders':'wsh'},
+    NBA:{'hawks':'atl','celtics':'bos','nets':'bkn','hornets':'cha','bulls':'chi',
+      'cavaliers':'cle','mavericks':'dal','nuggets':'den','pistons':'det','warriors':'gs',
+      'rockets':'hou','pacers':'ind','clippers':'lac','lakers':'lal','grizzlies':'mem',
+      'heat':'mia','bucks':'mil','timberwolves':'min','pelicans':'no','knicks':'ny',
+      'thunder':'okc','magic':'orl','76ers':'phi','suns':'phx','trail blazers':'por',
+      'kings':'sac','spurs':'sa','raptors':'tor','jazz':'utah','wizards':'wsh'},
+    NHL:{'ducks':'ana','bruins':'bos','sabres':'buf','flames':'cgy','hurricanes':'car',
+      'blackhawks':'chi','avalanche':'col','blue jackets':'cbj','stars':'dal','red wings':'det',
+      'oilers':'edm','panthers':'fla','kings':'la','wild':'min','canadiens':'mtl',
+      'predators':'nsh','devils':'nj','islanders':'nyi','rangers':'nyr','senators':'ott',
+      'flyers':'phi','penguins':'pit','sharks':'sj','kraken':'sea','blues':'stl',
+      'lightning':'tb','maple leafs':'tor','canucks':'van','golden knights':'vgk',
+      'capitals':'wsh','jets':'wpg','mammoth':'utah'}
+  };
+  const LEAGUE_PATH = { MLB:'mlb', NFL:'nfl', NBA:'nba', NHL:'nhl' };
+
+  function teamLogo(sport, name){
+    const path = LEAGUE_PATH[sport];
+    const slug = TEAM_SLUG[sport]?.[String(name).trim().toLowerCase()];
+    if (!path || !slug) return '';
+    return `<img class="mu-logo" src="https://a.espncdn.com/i/teamlogos/${path}/500/${slug}.png" alt="" loading="lazy"/>`;
+  }
+
+  /* "Away @ Home" is the only shape the routine writes. Anything else falls
+     through and renders as-is. */
+  function matchupWithLogos(sport, matchup){
+    const parts = String(matchup).split(' @ ');
+    if (parts.length !== 2) return matchup;
+    const [away, home] = parts;
+    return `${teamLogo(sport,away)}<span>${away}</span>` +
+           `<span class="mu-at">@</span>` +
+           `${teamLogo(sport,home)}<span>${home}</span>`;
+  }
+
+  function computeSummary() {
   let w = 0, l = 0, p = 0, unitsWon = 0, staked = 0;
   picks.forEach(pk => {
     if (pk.result === 'W') {
@@ -448,7 +512,7 @@ function render() {
     <tr>
       <td>${p.date}</td>
       <td class="sport-tag">${p.sport}</td>
-      <td class="matchup">${p.matchup}</td>
+      <td class="matchup">${matchupWithLogos(p.sport, p.matchup)}</td>
       <td>${p.pick}</td>
       <td><span class="result ${p.result}">${p.result === 'W' ? 'Win' : p.result === 'L' ? 'Loss' : p.result === 'P' ? 'Push' : 'No Grade'}</span></td>
     </tr>
