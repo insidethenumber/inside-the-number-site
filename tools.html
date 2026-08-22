@@ -102,6 +102,8 @@
   /* jump nav */
   .jump { display:flex; gap:8px; flex-wrap:wrap; margin:30px 0 8px; }
   .jump a { font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--surface-1); border:1px solid var(--border); border-radius:20px; padding:7px 14px; text-decoration:none; transition:all .18s; }
+  .jump a.jump-learn { color:var(--green); border-color:rgba(0,208,132,0.42); background:rgba(0,208,132,0.07); }
+  .jump a.jump-learn:hover { border-color:var(--green); color:var(--white); }
   .jump a:hover { color:var(--white); border-color:var(--border-lit); }
 
   .group { padding:44px 0 10px; }
@@ -193,10 +195,9 @@
     <ul class="nav-links">
       <li><a href="index.html#analysis">Analysis</a></li>
       <li><a href="index.html#slate">Picks</a></li>
+      <li><a href="games.html">Games</a></li>
       <li><a href="dfs.html">DFS</a></li>
       <li><a href="tools.html" class="active">Tools</a></li>
-      <li><a href="learn.html">Learn</a></li>
-      <li><a href="index.html#team">Method</a></li>
       <li><a href="record.html">Record</a></li>
       <li><a href="index.html#signup" class="nav-cta">Get Access</a></li>
     </ul>
@@ -208,10 +209,9 @@
 <div class="mobile-menu" id="mobileMenu">
     <a href="index.html#analysis">Analysis</a>
     <a href="index.html#slate">Picks</a>
+    <a href="games.html">Games</a>
     <a href="dfs.html">DFS</a>
     <a href="tools.html">Tools</a>
-    <a href="learn.html">Learn</a>
-    <a href="index.html#team">Method</a>
     <a href="record.html">Record</a>
     <a href="index.html#signup" class="nav-cta">Get Access</a>
   </div>
@@ -230,6 +230,10 @@
     <h1>Do the math<br/><span>before you bet it.</span></h1>
     <p class="lead">Ten calculators covering the math that actually decides whether a bet is worth making — converting prices, stripping out the bookmaker's margin, sizing a stake properly, and working out what you'd need to hit to break even. No signup, no account, nothing stored.</p>
     <div class="jump">
+      <!-- Learn was folded out of the nav on Aug 22 — people arrive for lines,
+           not lessons. The page keeps its URL and its search ranking; this is
+           now how it is reached. -->
+      <a href="learn.html" class="jump-learn">↗ How to read a line</a>
       <a href="#prices">Prices &amp; Probability</a>
       <a href="#value">Value &amp; Edge</a>
       <a href="#staking">Staking</a>
