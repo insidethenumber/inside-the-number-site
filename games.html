@@ -636,13 +636,23 @@ function gameView(sport,id){
   const favAb = mlP ? (mlP.a>mlP.b?g.a.ab:g.h.ab) : null;
   const favPc = mlP ? Math.max(mlP.a,mlP.b) : null;
   const mlOpenA=num(o.moneyline?.away?.open?.odds), mlCloseA=num(o.moneyline?.away?.close?.odds);
+
+  /* Movement is measured in implied-probability points, NOT the raw American
+     difference. American odds are discontinuous across ±100: a drift from
+     -102 to +104 is a hair over one point of probability, but subtracting the
+     numbers reports it as a 206-cent move. Probability points are continuous,
+     comparable across price ranges, and are what the move actually means. */
+  const openPa=impl(mlOpenA), closePa=impl(mlCloseA);
+  const movePts = (openPa!=null&&closePa!=null) ? (closePa-openPa)*100 : null;
   let moveTxt='Not posted', moveCls='', moveBig='—';
-  if(mlOpenA!=null&&mlCloseA!=null){
-    const d=mlCloseA-mlOpenA;
-    moveBig = d===0 ? 'Flat' : `${d>0?'+':''}${d}`;
-    moveCls = d===0?'':(d>0?'g':'r');
-    moveTxt = d===0 ? `${g.a.ab} has not moved since it opened.`
-      : `${g.a.ab} went ${fmt(mlOpenA)} → ${fmt(mlCloseA)}. ${d>0?'Money has come in on '+g.h.ab:'Money has come in on '+g.a.ab}.`;
+  if(movePts!=null){
+    const mag=Math.abs(movePts);
+    const toward = movePts>0 ? g.a : g.h;   // away implied prob rose = money on away
+    moveBig = mag<0.5 ? 'Flat' : `${mag.toFixed(1)} pts`;
+    moveCls = mag<0.5 ? '' : (movePts>0 ? 'g' : 'r');
+    moveTxt = mag<0.5
+      ? `${g.a.ab} opened ${fmt(mlOpenA)} and has barely moved since.`
+      : `${g.a.ab} went ${fmt(mlOpenA)} → ${fmt(mlCloseA)}. Money has come in on ${toward.ab}.`;
   }
   const holds=[mlP?.hold,spP?.hold,toP?.hold].filter(x=>x!=null);
   const worst=holds.length?Math.max(...holds):null;
@@ -679,13 +689,13 @@ function gameView(sport,id){
        different words. Something true and specific always ranks first here. */
     const S=[];
 
-    // 1. line movement
-    if(mlOpenA!=null&&mlCloseA!=null&&mlOpenA!==mlCloseA){
-      const d=mlCloseA-mlOpenA, cents=Math.abs(d);
-      const toward = d<0 ? g.a : g.h, away = d<0 ? g.h : g.a;
-      S.push({score:20+Math.min(cents,60)/2,
-        head:`${away.ab} better than open`,
-        text:`${g.a.ab} opened ${fmt(mlOpenA)} and sits ${fmt(mlCloseA)} — a ${cents}-cent move toward <b>${toward.ab}</b>. If you like <b>${away.ab}</b>, you're getting a longer price than the market opened at. If you like ${toward.ab}, you've missed the number.`});
+    // 1. line movement, in probability points
+    if(movePts!=null&&Math.abs(movePts)>=0.5){
+      const mag=Math.abs(movePts);
+      const toward = movePts>0 ? g.a : g.h, drifted = movePts>0 ? g.h : g.a;
+      S.push({score:12+Math.min(mag,10)*3,
+        head:`${drifted.ab} better than open`,
+        text:`${g.a.ab} opened ${fmt(mlOpenA)} and sits ${fmt(mlCloseA)} — the market has moved <b>${mag.toFixed(1)} points</b> toward ${toward.ab}. If you like <b>${drifted.ab}</b>, you're getting a longer price than the number opened at. If you like ${toward.ab}, you've missed the best of it.`});
     }
 
     // 2. markup asymmetry — which side the book is shading
