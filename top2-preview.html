@@ -749,6 +749,35 @@
   body[data-place="below"] #wrapTop{display:flex;flex-direction:column}
   /* placement: strip above the nav (default) */
   body[data-place="above"] .tb{position:relative}
+
+  /* ── hero panel: biggest move → free pick → email ────────────────────
+     Replaces the old line-movement list. That showed four numbers with no
+     context; this leads with the one number that actually moved, then the
+     day's pick, then the ask. Deliberately NOT called "biggest edge" — an
+     edge implies our own model, and we only have market data here. */
+  .hp{padding:0!important;overflow:hidden}
+  .hp-k{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .hp-load{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
+  .hp-move,.hp-pick{display:block;text-decoration:none;color:inherit;padding:16px 18px;border-bottom:1px solid var(--border);transition:background .15s}
+  .hp-move:hover,.hp-pick:hover{background:rgba(255,255,255,.03)}
+  .hp-move .mv{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
+  .hp-move .amt{font-family:'Barlow Condensed',sans-serif;font-size:31px;font-weight:900;line-height:1}
+  .hp-move .amt.up{color:var(--green)} .hp-move .amt.dn{color:var(--red)}
+  .hp-move .who{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;text-transform:uppercase}
+  .hp-move .det{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
+  .hp-move .det b{color:var(--white);font-weight:600}
+  .hp-pick .game{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
+  .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
+  .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
+  .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
+  .hp-mail-row{display:flex;gap:7px}
+  .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
+    padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
+  .hp-mail input:focus{border-color:var(--green)}
+  .hp-mail button{background:linear-gradient(90deg,var(--green),var(--blue));color:#050608;border:none;border-radius:8px;
+    padding:9px 15px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;
+    letter-spacing:.04em;cursor:pointer;white-space:nowrap}
+  .hp-fine{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:7px;letter-spacing:.04em}
   /* the "@" only makes sense when both teams sit on one line */
   body[data-strip="tall"] .tg-sep{display:none}
 
@@ -968,12 +997,26 @@
   <!-- Real line movement: opening number vs current, pulled live from ESPN's
        public scoreboard feed (odds provided by DraftKings). Populated by
        renderLineMovement() below — no hand-maintained numbers. -->
-  <div class="panel">
-    <div class="panel-title">// Live Line Movement <span class="panel-live"><span class="dot"></span>LIVE</span></div>
-    <div id="line-movement">
-      <div class="panel-empty">Loading today's lines…</div>
-    </div>
-    <div class="panel-src" id="line-src"></div>
+  <div class="panel hp">
+    <!-- 1 · biggest move on the board — the number that traveled furthest -->
+    <a class="hp-move" id="hpMove" href="games.html">
+      <div class="hp-k">Biggest move on the board</div>
+      <div class="hp-load">Reading today's numbers…</div>
+    </a>
+    <!-- 2 · today's free pick -->
+    <a class="hp-pick" id="hpPick" href="#pick-of-the-day">
+      <div class="hp-k">Today's free pick</div>
+      <div class="hp-load">—</div>
+    </a>
+    <!-- 3 · email -->
+    <form class="hp-mail" id="hpMail" action="https://insidethenumber.beehiiv.com/subscribe" method="get" target="_blank">
+      <div class="hp-k">Get it in your inbox</div>
+      <div class="hp-mail-row">
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required/>
+        <button type="submit">Join free</button>
+      </div>
+      <div class="hp-fine">One pick every morning. No card, no spam.</div>
+    </form>
   </div>
 </div>
 </div>
@@ -1697,6 +1740,59 @@
       }).filter(Boolean);
     }catch(e){D[label]=[]}
   })).then(paint);
+})();
+</script>
+
+
+<script>
+/* Populate the hero panel from the same league feed the strip already loads.
+   Biggest move = largest absolute change between opening and current moneyline
+   across every game on today's board. */
+(function(){
+  const LG=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
+            ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],["NHL","hockey/nhl"]];
+  const eD=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
+    .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
+  const n=o=>{const v=Number(o);return Number.isFinite(v)&&o!=null&&o!==''?v:null};
+  const f=o=>{const v=n(o);return v==null?null:(v>0?`+${v}`:`${v}`)};
+
+  (async()=>{
+    let best=null;
+    await Promise.all(LG.map(async([lab,path])=>{
+      try{
+        const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eD()}`);
+        if(!r.ok)return; const d=await r.json();
+        (d.events||[]).forEach(ev=>{
+          const c=ev.competitions?.[0]; if(!c||ev.status?.type?.state!=='pre')return;
+          const a=c.competitors.find(x=>x.homeAway==='away'), h=c.competitors.find(x=>x.homeAway==='home');
+          const o=c.odds?.[0]; if(!o||!a||!h)return;
+          const op=n(o.moneyline?.away?.open?.odds), cl=n(o.moneyline?.away?.close?.odds);
+          if(op==null||cl==null)return;
+          const delta=cl-op; if(delta===0)return;
+          if(!best||Math.abs(delta)>Math.abs(best.delta))
+            best={delta,op,cl,league:lab,away:a.team.abbreviation,home:h.team.abbreviation,
+                  awayName:a.team.shortDisplayName,homeName:h.team.shortDisplayName,id:ev.id};
+        });
+      }catch(e){}
+    }));
+    const el=document.getElementById('hpMove');
+    if(!best){el.querySelector('.hp-load').textContent='No line has moved yet today.';return}
+    const toward = best.delta>0 ? best.homeName : best.awayName;
+    el.href=`games.html?sport=${best.league}&game=${best.id}`;
+    el.innerHTML=`<div class="hp-k">Biggest move on the board</div>
+      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${best.delta>0?'+':''}${best.delta}</span>
+        <span class="who">${best.away} @ ${best.home}</span></div>
+      <div class="det"><b>${best.away}</b> opened ${f(best.op)} and sits ${f(best.cl)} — money has come in on
+        <b>${toward}</b>. See the full market →</div>`;
+  })();
+
+  /* free pick, read from the homepage's own array so there is no second copy */
+  const g=(window.todaysGames||[]).find(x=>x.free)||(window.todaysGames||[])[0];
+  const pk=document.getElementById('hpPick');
+  if(g) pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+    <div class="game">${g.away.name} @ ${g.home.name}</div>
+    <div class="side">${g.pick||''}</div>
+    ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
 })();
 </script>
 
