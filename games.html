@@ -385,7 +385,7 @@ async function loadMLBStats(){
 }
 
 const POIS=(k,lam)=>{let p=Math.exp(-lam);for(let i=1;i<=k;i++)p*=lam/i;return p};
-function projectRuns(g){
+function projectRuns(g,mktTotal,mktHomeP){
   if(g.league!=='MLB') return null;
   const A=MLBT[g.a.ab], H=MLBT[g.h.ab];
   if(!A||!H||A.gp<20||H.gp<20) return null;
@@ -395,6 +395,38 @@ function projectRuns(g){
   };
   let ea=A.rsg*(supp(H,g.h.sp)/mlbLg)*0.97;   // away
   let eh=H.rsg*(supp(A,g.a.sp)/mlbLg)*1.03;   // home
+  ea=Math.max(1.5,Math.min(9,ea)); eh=Math.max(1.5,Math.min(9,eh));
+
+  /* ── ANCHORING ────────────────────────────────────────────────────
+     The raw model runs on league-average conditions and knows nothing
+     about the park, the weather or the wind. At Coors it projected 9.67
+     runs into a posted total of 11 and reported that as a 21.6-point
+     edge on the under — which is not an edge, it's altitude. The market
+     total already prices the park, the roof, the wind and the umpire.
+
+     So the run environment is anchored to the posted total (62% market /
+     38% model) and the team split is anchored to the posted moneyline the
+     same way. Scaling both run expectations by the same factor keeps the
+     distribution internally consistent, so the three markets still agree
+     with each other. Genuine disagreements survive at a believable size;
+     anything driven by a variable we don't model gets damped out.
+
+     Park factors would fix the bias at source and are the better long-term
+     answer — see BACKLOG.md. Anchoring bounds it in the meantime, including
+     for causes not yet anticipated. */
+  if(Number.isFinite(mktTotal)&&mktTotal>0){
+    const blended=mktTotal*0.62+(ea+eh)*0.38;
+    const k=blended/(ea+eh);
+    ea*=k; eh*=k;
+  }
+  if(Number.isFinite(mktHomeP)&&mktHomeP>0&&mktHomeP<1){
+    const tot=ea+eh;
+    // pull the split toward the market's implied strength, keeping the total fixed
+    const modelShare=eh/tot;
+    const target=modelShare*0.38+mktHomeP*0.62;
+    const s=Math.max(0.2,Math.min(0.8,target));
+    eh=tot*s; ea=tot*(1-s);
+  }
   ea=Math.max(1.5,Math.min(9,ea)); eh=Math.max(1.5,Math.min(9,eh));
 
   const N=26;                                  // runs cap for the joint grid
@@ -938,7 +970,9 @@ function marketRead(){
      "our model likes the under" would be a claim we can't support. */
   const lineNum=v=>{const n=parseFloat(String(v??'').replace(/^[ou]/i,''));return Number.isFinite(n)?n:null};
   const MK=[];
-  const R = projectRuns(g);   // MLB predicted-score model, null elsewhere
+  const R = projectRuns(g,
+    lineNum(o.total?.over?.close?.line ?? o.total?.over?.open?.line),
+    mlP?.b);   // MLB predicted-score model, anchored to the posted market
 
   /* When the run model is available every market is a true projection
      compared against the no-vig price, so the three leans all come from one
