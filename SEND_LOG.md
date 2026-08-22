@@ -2,9 +2,14 @@
 
 Automatic reliability tracking for the newsletter. The deadline-check tasks
 (`itn-deadline-check-weekday` at 1:15pm CST, `itn-deadline-check-weekend` at
-8:15am CST) append one row here every day, whether or not anything went wrong.
+9:30am CST) append one row here every day, whether or not anything went wrong.
 
-**Targets:** weekdays live by 1:00 PM CST · weekends live by 8:00 AM CST
+**Targets:** weekdays live by 1:00 PM CST · weekends live by 9:30 AM CST
+
+*Weekend target changed Aug 22, 2026* — the weekend run moved from a 4am start
+(8:00 AM target) to an 8am start (9:30 AM target). Rows dated Aug 22 and
+earlier were measured against the old 8:00 AM weekend target and are not
+directly comparable to later ones.
 
 Decision point: review this log around **Sept 3, 2026** (two weeks in). If the
 on-time rate is high, local automation is working and there's no reason to pay

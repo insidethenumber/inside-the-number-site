@@ -90,10 +90,17 @@ tasks (itn-daily-weekday, itn-daily-weekend) are a separate, standing
 setup — Chuck gave advance permission for those to research, update
 the site, and publish/send the newsletter fully automatically with no
 check-in, every weekday starting 10am CST (targeting live by 1pm CST)
-and weekend starting 4am CST (targeting live by 8am CST). Those tasks
+and weekend starting 8am CST (targeting live by 9:30am CST). Those tasks
 have their own self-contained prompts (not this file) that spell this
-out explicitly. If asked to run this routine ad hoc in chat, default
-to the manual "wait for send" behavior above unless told otherwise.
+out explicitly, and **those prompts are authoritative** — where this
+reference doc disagrees with them on timing, newsletter format or pick
+selection, the task prompt wins. If asked to run this routine ad hoc in
+chat, default to the manual "wait for send" behavior above unless told
+otherwise.
+
+*Weekend timing changed Aug 22, 2026:* the weekend run used to start at
+4am CST targeting an 8am inbox time. Chuck moved it to an 8am start,
+9:30am target. The safety net moved with it, from 8:15am to 9:30am.
 
 **Reliability safeguards (added Aug 20, 2026 after a missed 1pm send):**
 On Aug 20 the weekday routine got stuck in an unbounded retry loop
@@ -109,7 +116,7 @@ scheduled tasks themselves (not just this reference doc):
    so a re-trigger can never cause a duplicate send.
 3. *Deadline safety net* — two new scheduled tasks,
    itn-deadline-check-weekday (1:15pm CST Mon-Fri) and
-   itn-deadline-check-weekend (8:15am CST Sat/Sun), check whether that
+   itn-deadline-check-weekend (9:30am CST Sat/Sun), check whether that
    day's newsletter actually went out. If not, they run a recovery
    send themselves and always message Chuck explaining what happened.
    If everything went fine, they do nothing and stay silent.
