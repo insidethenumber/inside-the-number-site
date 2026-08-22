@@ -370,6 +370,31 @@
   .mc-prob .pct { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--white); display:block; line-height:1.15; }
   .mc-prob .ml  { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); display:block; }
   .mc-bar { display:flex; height:5px; border-radius:3px; overflow:hidden; margin:10px 18px 2px; background:var(--surface-3); }
+
+  /* Reasoning on every slate card — added Aug 22, 2026.
+     The trust bar promises "reasoning shown on every call", but only the
+     Pick of the Day carried any. A one-line hook is always visible; the
+     fuller breakdown sits behind a toggle so the grid stays scannable on
+     a phone. Built with <details> so it works without JS and is keyboard
+     accessible for free. */
+  .mc-why { margin: 0 18px 14px; border-top: 1px solid var(--border); padding-top: 11px; }
+  .mc-hook { font-size: 12.5px; color: var(--mid); line-height: 1.5; margin-bottom: 8px; }
+  .mc-why details { border: none; }
+  .mc-why summary {
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--green); list-style: none;
+    padding: 3px 0; transition: opacity 0.15s;
+  }
+  .mc-why summary::-webkit-details-marker { display: none; }
+  .mc-why summary:hover { opacity: 0.75; }
+  .mc-why summary .chev { transition: transform 0.2s; display: inline-block; }
+  .mc-why details[open] summary .chev { transform: rotate(90deg); }
+  .mc-why .mc-why-body {
+    font-size: 12.5px; color: var(--muted); line-height: 1.7; font-weight: 300;
+    padding-top: 9px;
+  }
+  .mc-why-none { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
   .mc-bar i { display:block; height:100%; }
   .mc-bar i.a { background:linear-gradient(90deg,#4b5563,#6b7280); }
   .mc-bar i.h { background:linear-gradient(90deg,var(--green),var(--blue)); }
@@ -643,13 +668,21 @@
 <script>
   const todaysGames = [
     { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'nyy', name:'Yankees'},
-      time:'12:35 PM ET', pick:'Toronto ML (+101)', conf:3, free:true },
+      time:'12:35 PM ET', pick:'Toronto ML (+101)', conf:3, free:true,
+      hook:'The better arm at plus money',
+      why:'Dylan Cease (7-5, 2.42 ERA) is the sharper starter here and Toronto is still priced as a near coin flip. Ryan Weathers (5-7, 3.56) is a full run worse. New York\u2019s five-game win streak is doing the work in this number, not the pitching matchup.' },
     { league:'MLB', away:{code:'atl', name:'Braves'},    home:{code:'mil', name:'Brewers'},
-      time:'1:10 PM ET', pick:'Milwaukee ML (-165)', conf:4, free:false },
+      time:'1:10 PM ET', pick:'Milwaukee ML (-165)', conf:4, free:false,
+      hook:'Milwaukee\u2019s home form is underpriced',
+      why:'The Brewers have been the better side at home all season and draw an Atlanta team that has struggled on the road against right-handed pitching. \u2011165 is short, but the gap between these two rotations is wider than the price implies.' },
     { league:'MLB', away:{code:'tb',  name:'Rays'},      home:{code:'bal', name:'Orioles'},
-      time:'6:05 PM ET', pick:'Baltimore ML (+110)', conf:3, free:false },
+      time:'6:05 PM ET', pick:'Baltimore ML (+110)', conf:3, free:false,
+      hook:'Live dog at home',
+      why:'Baltimore getting plus money at home is the value on this board. Tampa Bay has been the better team overall, but this is a bullpen game for the Rays and the Orioles have hit right-handed relief well over the last month.' },
     { league:'MLB', away:{code:'pit', name:'Pirates'},   home:{code:'lad', name:'Dodgers'},
-      time:'6:15 PM ET', pick:'Los Angeles ML (-267)', conf:4, free:false },
+      time:'6:15 PM ET', pick:'Los Angeles ML (-267)', conf:4, free:false,
+      hook:'Heavy chalk, but the gap is real',
+      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the no-vig number suggests the market would go higher still if the public were not already loaded on the favourite.' },
   ];
 
   // NOTE: the homepage deliberately does not display a win/loss record or a
@@ -997,6 +1030,15 @@
             <span class="mc-pick-t">${g.pick}</span>
             <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
           </div>
+        </div>` : ''}
+        ${(g.hook || g.why) ? `
+        <div class="mc-why">
+          ${g.hook ? `<div class="mc-hook">${g.hook}</div>` : ''}
+          ${g.why ? `
+          <details>
+            <summary><span class="chev">\u203A</span> Why this pick</summary>
+            <div class="mc-why-body">${g.why}</div>
+          </details>` : ''}
         </div>` : ''}
         <div class="mc-status">${status}</div>
       </div>`;
