@@ -137,7 +137,9 @@ Both are rendered by JavaScript from a single array near the top of
 ```js
 const todaysGames = [
   { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'tb', name:'Rays'},
-    time:'1:10 PM ET', pick:'Tampa Bay ML (-172)', conf:4, free:true },
+    time:'1:10 PM ET', pick:'Tampa Bay ML (-172)', conf:4, free:true,
+    hook:'The better arm at a short price',
+    why:'Two to three sentences of real reasoning. What the market is missing, and why the number is wrong.' },
   ...
 ];
 ```
@@ -157,6 +159,22 @@ Field notes:
 - `conf` is filled stars out of 5: **4 = High, 3 = Medium, 2 = Low.**
 - `free: true` marks the Pick of the Day. Exactly one game should have it, and
   it **must** be the same game featured as the free pick in the newsletter.
+- **`hook` and `why` are required on every game (added Aug 22, 2026).**
+  - `hook` — one short line, roughly 4-7 words, always visible on the card.
+    It's the angle in a phrase: "The better arm at plus money", "Live dog at
+    home", "Heavy chalk, but the gap is real". Not a restatement of the pick.
+  - `why` — 2-3 sentences, hidden behind the card's "Why this pick" toggle.
+    Say what the market is missing and why the number is wrong. Name the
+    starter, the trend, the situational edge — something concrete and
+    checkable, not "value here".
+  - Both are optional in the code and degrade gracefully, so a card without
+    them still renders. **Do not rely on that.** The trust bar promises
+    "Reasoning shown on every call"; a slate card with a pick and no reasoning
+    makes the homepage contradict itself, which is exactly the gap these
+    fields were added to close.
+  - Watch the apostrophes. The array uses single-quoted strings, so write
+    `’` for a curly apostrophe or escape a straight one. An unescaped `'`
+    breaks the array and blanks the entire slate and ticker.
 - There is no longer a `seasonRecord` variable — the homepage stopped
   displaying a win/loss record on Aug 21. Don't reintroduce one.
 
