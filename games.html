@@ -673,7 +673,24 @@ function gameView(sport,id){
      site appears to be calling and would be dishonest about which is
      which — hence "Where the value sits" rather than "our pick". */
   function marketRead(){
-    if(!mlP) return null;
+    /* ESPN drops the odds block the moment a game goes live, so mlP is null
+       for anything in progress or finished. That is not "nothing to say" —
+       it just means the pregame market is gone, which is itself the answer. */
+    if(!mlP){
+      if(g.state==='in'||g.state==='post'){
+        const done=g.state==='post';
+        const sc=`${g.a.ab} ${g.a.sc??'—'}, ${g.h.ab} ${g.h.sc??'—'}`;
+        return {
+          side: done?`Final — ${sc}`:`Live — ${sc}`,
+          headline: done?`Pregame market closed before first pitch.`
+                        :`${g.detail} · pregame market has come down.`,
+          detail: done
+            ? `This one is in the books at <b>${sc}</b>. Books pull the pregame number once a game ends, so there's no line left here to strip the vig from — the open, the move and the closing price are gone from the feed with it.`
+            : `<b>${sc}</b>, ${g.detail}. The pregame market has come down, which is standard — books replace it with in-play pricing that moves on every at-bat and carries far more margin than the number you could have taken this morning. Scores on this page keep updating.`
+        };
+      }
+      return null;
+    }
     const ia=impl(o.moneyline?.away?.close?.odds), ih=impl(o.moneyline?.home?.close?.odds);
     const favA = mlP.a>mlP.b;
     const fav  = favA?g.a:g.h, dog = favA?g.h:g.a;
