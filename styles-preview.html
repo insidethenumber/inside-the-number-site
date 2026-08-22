@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ITN — Board & game styles</title>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{--black:#050608;--dark:#0b0d11;--border:#1c2129;--border-lit:#2a2f3a;
+    --surface-1:#0e1116;--surface-2:#141821;--surface-3:#1a1f2a;
+    --green:#00d084;--blue:#3ba7ff;--red:#ff5c5c;--gold:#f0b429;
+    --white:#f0f2f5;--muted:#6b7280;--mid:#9ca3af;--r-md:12px;--r-lg:18px;
+    --shadow-md:0 4px 14px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.3)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);line-height:1.6}
+  body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+    linear-gradient(rgba(255,255,255,.11) 1px,transparent 1px) 0 0/100% 64px,
+    linear-gradient(90deg,rgba(255,255,255,.11) 1px,transparent 1px) 0 0/64px 100%,
+    radial-gradient(ellipse 65% 28% at 8% 10%,rgba(0,208,132,.38) 0%,transparent 62%),
+    radial-gradient(ellipse 58% 24% at 94% 32%,rgba(59,167,255,.34) 0%,transparent 60%)}
+
+  .sec{max-width:1120px;margin:0 auto;padding:26px 26px 46px}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  h2{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:14px}
+  .sw{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .sw button{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--mid);background:var(--surface-1);border:1px solid var(--border);border-radius:20px;padding:7px 13px;cursor:pointer}
+  .sw button.on{color:#050608;background:var(--green);border-color:var(--green);font-weight:600}
+  .desc{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:18px;min-height:30px;line-height:1.7}
+  .divider{border-top:1px solid var(--border);margin:0}
+  .lg{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.1em;color:var(--blue);
+      border:1px solid rgba(59,167,255,.3);background:rgba(59,167,255,.08);padding:2px 6px;border-radius:4px}
+  .live{color:var(--red)}
+
+  /* ───── BOARD 1 · cards ───── */
+  .b1{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:12px}
+  .b1 .g{background:linear-gradient(180deg,var(--surface-2),var(--surface-1));border:1px solid var(--border);
+    border-radius:var(--r-md);padding:13px 15px;cursor:pointer;transition:transform .15s,border-color .15s}
+  .b1 .g:hover{transform:translateY(-2px);border-color:var(--border-lit)}
+  .b1 .g.ours{border-color:rgba(0,208,132,.45)}
+  .b1 .t{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+  .b1 .st{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+  .b1 .r{display:flex;align-items:center;gap:9px;padding:4px 0}
+  .b1 .r img{width:22px;height:22px;object-fit:contain}
+  .b1 .ab{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase}
+  .b1 .ml{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mid)}
+  .b1 .f{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .b1 .f b{color:var(--green);font-weight:600}
+
+  /* ───── BOARD 2 · dense rows ───── */
+  .b2{border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;background:var(--surface-1)}
+  .b2 .row{display:grid;grid-template-columns:74px 1fr 92px 92px;gap:12px;align-items:center;
+    padding:11px 15px;border-bottom:1px solid rgba(28,33,41,.7);cursor:pointer}
+  .b2 .row:last-child{border-bottom:none}
+  .b2 .row:hover{background:rgba(255,255,255,.035)}
+  .b2 .row.ours{box-shadow:inset 2px 0 0 var(--green)}
+  .b2 .when{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);line-height:1.4}
+  .b2 .teams{display:flex;flex-direction:column;gap:3px}
+  .b2 .tm{display:flex;align-items:center;gap:8px}
+  .b2 .tm img{width:17px;height:17px;object-fit:contain}
+  .b2 .tm span{font-family:'Barlow',sans-serif;font-size:13px;font-weight:500}
+  .b2 .px{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mid);text-align:right;line-height:1.7}
+  .b2 .tr{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--green);text-align:right;line-height:1.7}
+  .b2 .hd{display:grid;grid-template-columns:74px 1fr 92px 92px;gap:12px;padding:9px 15px;border-bottom:1px solid var(--border);
+    font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .b2 .hd span:nth-child(3),.b2 .hd span:nth-child(4){text-align:right}
+
+  /* ───── BOARD 3 · sportsbook price buttons ───── */
+  .b3{display:flex;flex-direction:column;gap:9px}
+  .b3 .g{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px}
+  .b3 .g.ours{border-color:rgba(0,208,132,.4)}
+  .b3 .t{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .b3 .st{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+  .b3 .grid{display:grid;grid-template-columns:1fr 84px 84px 84px;gap:8px;align-items:center}
+  .b3 .hd{display:grid;grid-template-columns:1fr 84px 84px 84px;gap:8px;margin-bottom:6px;
+    font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .b3 .hd span:not(:first-child){text-align:center}
+  .b3 .tm{display:flex;align-items:center;gap:8px}
+  .b3 .tm img{width:19px;height:19px;object-fit:contain}
+  .b3 .tm span{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;text-transform:uppercase}
+  .b3 .cell{background:var(--surface-3);border:1px solid var(--border);border-radius:8px;padding:7px 4px;text-align:center;cursor:pointer}
+  .b3 .cell:hover{border-color:var(--green)}
+  .b3 .cell .l{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--white);display:block}
+  .b3 .cell .o{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted)}
+  .b3 .cell .tr{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--green);display:block;margin-top:2px}
+  .b3 .cell.na{opacity:.4;cursor:default}
+
+  /* ───── BOARD 4 · editorial ───── */
+  .b4{display:flex;flex-direction:column;gap:12px}
+  .b4 .g{background:linear-gradient(180deg,var(--surface-2),var(--surface-1));border:1px solid var(--border);
+    border-radius:var(--r-lg);padding:18px 20px;display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:center}
+  .b4 .g.ours{border-color:rgba(0,208,132,.42)}
+  .b4 .mu{font-family:'Barlow Condensed',sans-serif;font-size:23px;font-weight:900;text-transform:uppercase;
+    display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:5px}
+  .b4 .mu img{width:30px;height:30px;object-fit:contain}
+  .b4 .at{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);font-weight:400}
+  .b4 .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:7px}
+  .b4 .hook{font-size:13.5px;color:var(--mid);font-weight:300;line-height:1.6}
+  .b4 .side{border-left:1px solid var(--border);padding-left:18px}
+  .b4 .side .l{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  .b4 .side .v{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--white);margin-bottom:9px}
+  .b4 .side .v b{color:var(--green)}
+
+  /* ───── DETAIL 1 · table ───── */
+  .d1{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:12px}
+  .d1 .h{display:flex;justify-content:space-between;align-items:baseline;padding:12px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+  .d1 .h b{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+  .d1 .h i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .d1 table{width:100%;border-collapse:collapse}
+  .d1 th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);padding:8px 15px;border-bottom:1px solid var(--border);font-weight:500}
+  .d1 td{padding:10px 15px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mid);border-bottom:1px solid rgba(28,33,41,.6)}
+  .d1 tr:last-child td{border-bottom:none}
+  .d1 td.s{color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;text-transform:uppercase}
+  .d1 td.t b{color:var(--green);font-weight:600;font-size:13px}
+  .up{color:var(--green)}.dn{color:var(--red)}.flat{color:var(--muted)}
+
+  /* ───── DETAIL 2 · price buttons ───── */
+  .d2{display:flex;flex-direction:column;gap:10px}
+  .d2 .m{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:13px 15px}
+  .d2 .mh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .d2 .mh b{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase}
+  .d2 .mh i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .d2 .pair{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .d2 .p{background:var(--surface-3);border:1px solid var(--border);border-radius:10px;padding:12px}
+  .d2 .p .s{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
+  .d2 .p .o{font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--white)}
+  .d2 .p .mv{font-family:'IBM Plex Mono',monospace;font-size:9.5px;margin-top:3px}
+  .d2 .p .tr{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .d2 .p .tr b{color:var(--green);font-size:12.5px;display:block;letter-spacing:0}
+
+  /* ───── DETAIL 3 · probability bars ───── */
+  .d3{display:flex;flex-direction:column;gap:11px}
+  .d3 .m{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+  .d3 .mh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+  .d3 .mh b{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase}
+  .d3 .mh i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .d3 .lbl{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:5px}
+  .d3 .lbl .n{color:var(--white)}
+  .d3 .lbl .p{color:var(--green)}
+  .d3 .bar{height:9px;border-radius:5px;background:var(--surface-3);overflow:hidden;display:flex;margin-bottom:9px}
+  .d3 .bar i{display:block}
+  .d3 .bar .a{background:var(--blue)}.d3 .bar .b{background:var(--green)}
+  .d3 .meta{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:7px;border-top:1px solid var(--border)}
+  .hide{display:none!important}
+  .load{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);padding:30px 0}
+  @media(max-width:760px){.b4 .g{grid-template-columns:1fr}.b4 .side{border-left:none;border-top:1px solid var(--border);padding-left:0;padding-top:12px}
+    .b3 .grid,.b3 .hd{grid-template-columns:1fr 62px 62px 62px}.b2 .row,.b2 .hd{grid-template-columns:62px 1fr 76px}
+    .b2 .row>:nth-child(4),.b2 .hd>:nth-child(4){display:none}}
+</style>
+</head>
+<body>
+
+<div class="sec">
+  <p class="kicker">Part one</p>
+  <h2>Board styles — the list of games</h2>
+  <div class="sw" id="swB">
+    <button data-b="1" class="on">1 · Cards</button>
+    <button data-b="2">2 · Dense rows</button>
+    <button data-b="3">3 · Sportsbook grid</button>
+    <button data-b="4">4 · Editorial</button>
+  </div>
+  <p class="desc" id="descB"></p>
+  <div id="board"><div class="load">Loading today's NFL board…</div></div>
+</div>
+
+<hr class="divider"/>
+
+<div class="sec">
+  <p class="kicker">Part two</p>
+  <h2>Game styles — one game, all markets</h2>
+  <div class="sw" id="swD">
+    <button data-d="1" class="on">1 · Table</button>
+    <button data-d="2">2 · Price cards</button>
+    <button data-d="3">3 · Probability bars</button>
+  </div>
+  <p class="desc" id="descD"></p>
+  <div id="detail"><div class="load">Loading…</div></div>
+</div>
+
+<script>
+const DB={1:"1 — what games.html uses now. Roomy, scannable, works at any width. Fewest games per screen.",
+2:"2 — ESPN-style rows. Roughly three times as many games visible without scrolling. Best when a league has 15 games.",
+3:"3 — sportsbook layout. Every market priced on one line, spread / ML / total as tappable cells. Densest, most familiar to anyone who bets — but it looks like a book, and we don't take bets.",
+4:"4 — editorial. Few games, large type, the angle in words rather than numbers. Closest to the brand voice, worst for browsing a full slate."};
+const DD={1:"1 — the table currently on games.html. Open, current, move and true price in columns. Most information, most scanning.",
+2:"2 — big price cards per side. Fastest to read the number and the move. Familiar from betting apps.",
+3:"3 — probability bars. Leads with what the market thinks after the vig comes out, rather than the price itself. Most on-brand, least conventional."};
+
+const num=o=>{const n=Number(o);return Number.isFinite(n)&&o!==''&&o!=null?n:null};
+const impl=o=>{const n=num(o);if(n==null)return null;return n>0?100/(n+100):Math.abs(n)/(Math.abs(n)+100)};
+const pair=(a,b)=>{const ra=impl(a),rb=impl(b);if(ra==null||rb==null)return null;const s=ra+rb;
+  return s>0?{a:ra/s,b:rb/s,hold:(s-1)*100}:null};
+const fmt=o=>{const n=num(o);return n==null?null:(n>0?`+${n}`:`${n}`)};
+const mv=(o,c)=>{const a=num(o),b=num(c);if(a==null||b==null||a===b)return'<span class="flat">—</span>';
+  const d=b-a;return `<span class="${d>0?'up':'dn'}">${d>0?'+':''}${d}</span>`};
+const OURS=new Set(['no|lar','kc|tb']);
+let G=[];
+
+const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
+  .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
+
+async function load(){
+  try{
+    const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=${eDate()}`);
+    const d=await r.json();
+    G=(d.events||[]).map(ev=>{
+      const c=ev.competitions?.[0];if(!c)return null;
+      const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
+      if(!h||!a)return null;const o=c.odds?.[0]||{};
+      return{id:ev.id,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+        a:{ab:a.team.abbreviation,nm:a.team.shortDisplayName,logo:a.team.logo,sc:a.score},
+        h:{ab:h.team.abbreviation,nm:h.team.shortDisplayName,logo:h.team.logo,sc:h.score},o,
+        ours:OURS.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
+    }).filter(Boolean);
+  }catch(e){G=[]}
+  paintBoard(document.querySelector('#swB button.on').dataset.b);
+  paintDetail(document.querySelector('#swD button.on').dataset.d);
+}
+
+function paintBoard(v){
+  document.getElementById('descB').textContent=DB[v];
+  const el=document.getElementById('board');
+  if(!G.length){el.innerHTML='<div class="load">No NFL games on the board today.</div>';return}
+  const ml=g=>pair(g.o.moneyline?.away?.close?.odds,g.o.moneyline?.home?.close?.odds);
+  const stat=g=>g.state==='in'?`<span class="st live">● ${g.detail}</span>`:`<span class="st">${g.detail}</span>`;
+
+  if(v==='1'){
+    el.className='b1';
+    el.innerHTML=G.map(g=>{const p=ml(g),sc=g.state!=='pre';
+      const row=t=>`<div class="r"><img src="${t.logo}" alt=""/><span class="ab">${t.ab}</span>
+        <span class="ml">${sc?(t.sc??''):(fmt(g.o.moneyline?.[t===g.a?'away':'home']?.close?.odds)??'—')}</span></div>`;
+      return `<div class="g ${g.ours?'ours':''}"><div class="t"><span class="lg">NFL</span>${stat(g)}</div>
+        ${row(g.a)}${row(g.h)}
+        ${p?`<div class="f"><span>True ${g.a.ab} <b>${(p.a*100).toFixed(1)}%</b> · ${g.h.ab} <b>${(p.b*100).toFixed(1)}%</b></span><span>Hold ${p.hold.toFixed(1)}%</span></div>`:''}</div>`;
+    }).join('');
+  }
+  else if(v==='2'){
+    el.className='b2';
+    el.innerHTML=`<div class="hd"><span>Time</span><span>Matchup</span><span>Moneyline</span><span>True %</span></div>`+
+      G.map(g=>{const p=ml(g),sc=g.state!=='pre';
+      return `<div class="row ${g.ours?'ours':''}">
+        <div class="when ${g.state==='in'?'live':''}">${g.detail.replace(' - ','<br/>')}</div>
+        <div class="teams">
+          <div class="tm"><img src="${g.a.logo}" alt=""/><span>${g.a.nm}</span></div>
+          <div class="tm"><img src="${g.h.logo}" alt=""/><span>${g.h.nm}</span></div></div>
+        <div class="px">${sc?(g.a.sc??''):(fmt(g.o.moneyline?.away?.close?.odds)??'—')}<br/>${sc?(g.h.sc??''):(fmt(g.o.moneyline?.home?.close?.odds)??'—')}</div>
+        <div class="tr">${p?`${(p.a*100).toFixed(1)}%<br/>${(p.b*100).toFixed(1)}%`:'—'}</div></div>`;
+    }).join('');
+  }
+  else if(v==='3'){
+    el.className='b3';
+    el.innerHTML=G.map(g=>{
+      const o=g.o, spA=o.pointSpread?.away?.close, spH=o.pointSpread?.home?.close;
+      const ov=o.total?.over?.close, un=o.total?.under?.close;
+      const spP=pair(spA?.odds,spH?.odds), mlP=ml(g), toP=pair(ov?.odds,un?.odds);
+      const cell=(line,odds,tr)=>odds==null?`<div class="cell na"><span class="l">—</span></div>`
+        :`<div class="cell">${line?`<span class="l">${line}</span>`:''}<span class="o">${fmt(odds)}</span>${tr!=null?`<span class="tr">${(tr*100).toFixed(0)}%</span>`:''}</div>`;
+      return `<div class="g ${g.ours?'ours':''}"><div class="t"><span class="lg">NFL</span>${stat(g)}</div>
+        <div class="hd"><span>Team</span><span>Spread</span><span>Money</span><span>Total</span></div>
+        <div class="grid">
+          <div class="tm"><img src="${g.a.logo}" alt=""/><span>${g.a.ab}</span></div>
+          ${cell(spA?.line,spA?.odds,spP?.a)}${cell(null,o.moneyline?.away?.close?.odds,mlP?.a)}${cell(ov?.line,ov?.odds,toP?.a)}
+        </div>
+        <div class="grid" style="margin-top:8px">
+          <div class="tm"><img src="${g.h.logo}" alt=""/><span>${g.h.ab}</span></div>
+          ${cell(spH?.line,spH?.odds,spP?.b)}${cell(null,o.moneyline?.home?.close?.odds,mlP?.b)}${cell(un?.line,un?.odds,toP?.b)}
+        </div></div>`;
+    }).join('');
+  }
+  else{
+    el.className='b4';
+    const hooks={'NO':'Rams laying short at home after a Week 1 cover','KC':'Chiefs on the road as a live dog','WSH':'Two backups, one number that has not moved','BUF':'Preseason snap counts are doing the work here'};
+    el.innerHTML=G.slice(0,4).map(g=>{const p=ml(g);
+      return `<div class="g ${g.ours?'ours':''}">
+        <div><div class="mu"><img src="${g.a.logo}" alt=""/>${g.a.nm}<span class="at">at</span><img src="${g.h.logo}" alt=""/>${g.h.nm}</div>
+          <div class="meta">${g.detail}${g.o.details?` · ${g.o.details}`:''}${g.o.overUnder?` · O/U ${g.o.overUnder}`:''}</div>
+          <div class="hook">${hooks[g.a.ab]||'The number and what it implies once the margin comes out.'}</div></div>
+        <div class="side"><div class="l">Market · true price</div>
+          <div class="v">${g.a.ab} ${fmt(g.o.moneyline?.away?.close?.odds)??'—'} → <b>${p?(p.a*100).toFixed(1)+'%':'—'}</b></div>
+          <div class="v">${g.h.ab} ${fmt(g.o.moneyline?.home?.close?.odds)??'—'} → <b>${p?(p.b*100).toFixed(1)+'%':'—'}</b></div>
+          <div class="l">${p?`Book hold ${p.hold.toFixed(1)}%`:'Market not posted'}</div></div></div>`;
+    }).join('');
+  }
+}
+
+function paintDetail(v){
+  document.getElementById('descD').textContent=DD[v];
+  const el=document.getElementById('detail');
+  const g=G.find(x=>x.o?.moneyline?.away?.close?.odds)||G[0];
+  if(!g){el.innerHTML='<div class="load">No game with posted odds right now.</div>';return}
+  const o=g.o;
+  const mkts=[
+    {t:'Moneyline',rows:[{s:g.a.ab,line:'—',op:o.moneyline?.away?.open?.odds,cl:o.moneyline?.away?.close?.odds},
+                         {s:g.h.ab,line:'—',op:o.moneyline?.home?.open?.odds,cl:o.moneyline?.home?.close?.odds}]},
+    {t:'Spread',rows:[{s:g.a.ab,line:o.pointSpread?.away?.close?.line,op:o.pointSpread?.away?.open?.odds,cl:o.pointSpread?.away?.close?.odds},
+                      {s:g.h.ab,line:o.pointSpread?.home?.close?.line,op:o.pointSpread?.home?.open?.odds,cl:o.pointSpread?.home?.close?.odds}]},
+    {t:'Total',rows:[{s:'Over',line:o.total?.over?.close?.line,op:o.total?.over?.open?.odds,cl:o.total?.over?.close?.odds},
+                     {s:'Under',line:o.total?.under?.close?.line,op:o.total?.under?.open?.odds,cl:o.total?.under?.close?.odds}]}];
+  mkts.forEach(m=>{m.p=pair(m.rows[0].cl,m.rows[1].cl)});
+  const head=`<div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:12px">
+    ${g.a.nm} at ${g.h.nm} · ${g.detail}</div>`;
+
+  if(v==='1'){
+    el.className='';
+    el.innerHTML=head+mkts.map(m=>`<div class="d1">
+      <div class="h"><b>${m.t}</b><i>${m.p?`Book hold ${m.p.hold.toFixed(1)}%`:'Not posted'}</i></div>
+      ${m.p?`<table><thead><tr><th>Side</th><th>Line</th><th>Open</th><th>Current</th><th>Move</th><th>True</th></tr></thead><tbody>
+        ${m.rows.map((r,i)=>`<tr><td class="s">${r.s}</td><td>${r.line??'—'}</td><td>${fmt(r.op)??'—'}</td>
+          <td>${fmt(r.cl)??'—'}</td><td>${mv(r.op,r.cl)}</td>
+          <td class="t"><b>${((i?m.p.b:m.p.a)*100).toFixed(1)}%</b></td></tr>`).join('')}
+      </tbody></table>`:`<div style="padding:14px 15px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Not posted right now.</div>`}
+    </div>`).join('');
+  }
+  else if(v==='2'){
+    el.className='d2';
+    el.innerHTML=head+mkts.map(m=>`<div class="m">
+      <div class="mh"><b>${m.t}</b><i>${m.p?`Hold ${m.p.hold.toFixed(1)}%`:'Not posted'}</i></div>
+      ${m.p?`<div class="pair">${m.rows.map((r,i)=>`<div class="p">
+        <div class="s">${r.s}${r.line&&r.line!=='—'?` ${r.line}`:''}</div>
+        <div class="o">${fmt(r.cl)??'—'}</div>
+        <div class="mv">from ${fmt(r.op)??'—'} ${mv(r.op,r.cl)}</div>
+        <div class="tr">True price<b>${((i?m.p.b:m.p.a)*100).toFixed(1)}%</b></div></div>`).join('')}</div>`
+      :`<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Not posted right now.</div>`}
+    </div>`).join('');
+  }
+  else{
+    el.className='d3';
+    el.innerHTML=head+mkts.map(m=>`<div class="m">
+      <div class="mh"><b>${m.t}</b><i>${m.p?`Hold ${m.p.hold.toFixed(1)}%`:'Not posted'}</i></div>
+      ${m.p?`
+        <div class="lbl"><span class="n">${m.rows[0].s}${m.rows[0].line&&m.rows[0].line!=='—'?` ${m.rows[0].line}`:''} · ${fmt(m.rows[0].cl)}</span><span class="p">${(m.p.a*100).toFixed(1)}%</span></div>
+        <div class="bar"><i class="a" style="width:${(m.p.a*100).toFixed(1)}%"></i><i class="b" style="width:${(m.p.b*100).toFixed(1)}%"></i></div>
+        <div class="lbl"><span class="n">${m.rows[1].s}${m.rows[1].line&&m.rows[1].line!=='—'?` ${m.rows[1].line}`:''} · ${fmt(m.rows[1].cl)}</span><span class="p">${(m.p.b*100).toFixed(1)}%</span></div>
+        <div class="meta"><span>Market win probability · vig removed</span><span>${m.rows[0].s} ${mv(m.rows[0].op,m.rows[0].cl)} since open</span></div>`
+      :`<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Not posted right now.</div>`}
+    </div>`).join('');
+  }
+}
+
+document.getElementById('swB').addEventListener('click',e=>{const b=e.target.closest('button[data-b]');if(!b)return;
+  document.querySelectorAll('#swB button').forEach(x=>x.classList.toggle('on',x===b));paintBoard(b.dataset.b)});
+document.getElementById('swD').addEventListener('click',e=>{const b=e.target.closest('button[data-d]');if(!b)return;
+  document.querySelectorAll('#swD button').forEach(x=>x.classList.toggle('on',x===b));paintDetail(b.dataset.d)});
+document.getElementById('descB').textContent=DB[1];
+document.getElementById('descD').textContent=DD[1];
+load();
+</script>
+</body>
+</html>
