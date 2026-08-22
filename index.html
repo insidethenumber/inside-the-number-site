@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Inside the Number — Sharp Sports Analysis</title>
-<meta name="description" content="One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and true no-vig prices on every game — free. Full analysis, best bets and parlays with ITN Pro. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
+<meta name="description" content="One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and the true price on every game — free. Full analysis, best bets and parlays with ITN Pro. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
 <link rel="canonical" href="https://insidethenumber.com/"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -27,7 +27,7 @@
     "height": 512
   },
   "image": "https://insidethenumber.com/og-image.png",
-  "description": "One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and true no-vig prices on every game.",
+  "description": "One free sports betting pick every morning, with the reasoning shown. Live odds, line movement and the true price on every game.",
   "sameAs": ["https://insidethenumber.beehiiv.com/"]
 }
 </script>
@@ -39,13 +39,13 @@
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/"/>
 <meta property="og:title" content="Inside the Number — The number doesn't lie."/>
-<meta property="og:description" content="One free pick every morning, with the reasoning shown. Live odds and true no-vig prices on every game."/>
+<meta property="og:description" content="One free pick every morning, with the reasoning shown. Live odds and the true price on every game."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Inside the Number — The number doesn't lie."/>
-<meta name="twitter:description" content="One free pick every morning, with the reasoning shown. Live odds and true no-vig prices on every game."/>
+<meta name="twitter:description" content="One free pick every morning, with the reasoning shown. Live odds and the true price on every game."/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
@@ -395,7 +395,7 @@
   .mc-pick-v { display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .mc-pick-t { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; color:var(--white); text-transform:uppercase; letter-spacing:0.03em; }
   .mc-conf { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--accent, var(--green)); white-space:nowrap; }
-  /* No-vig win probability — market's true read once the book's margin is removed */
+  /* True win probability — the market's read with the book's margin taken out */
   .mc-prob { margin-left:auto; text-align:right; }
   .mc-prob .pct { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--white); display:block; line-height:1.15; }
   .mc-prob .ml  { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); display:block; }
@@ -821,7 +821,7 @@
     { league:'MLB', away:{code:'pit', name:'Pirates'},   home:{code:'lad', name:'Dodgers'},
       time:'6:15 PM ET', pick:'Los Angeles ML (-267)', conf:4, free:false,
       hook:'Heavy chalk, but the gap is real',
-      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the no-vig number suggests the market would go higher still if the public were not already loaded on the favorite.' },
+      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the true price suggests the market would go higher still if the public were not already loaded on the favorite.' },
   ];
 
   // NOTE: the site deliberately does not display a win/loss record or a
@@ -933,7 +933,7 @@
 <div class="hero">
   <div>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
-    <p class="hero-sub">One free pick every morning, with the reasoning shown. Live odds, line movement and the true price on every game — with the vig stripped out. Across eight sports, all season.</p>
+    <p class="hero-sub">One free pick every morning, with the reasoning shown. Live odds, line movement and the true price on every game — what the market actually thinks, not what you're charged to bet it. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
     <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
     <a class="stat-strip" href="games.html" title="See every game on today's board">
@@ -943,7 +943,7 @@
            is positioned against. -->
       <div class="stat-cell"><div class="n g">Daily</div><div class="l">Free Pick, Every Morning</div></div>
       <div class="stat-cell"><div class="n b">Live</div><div class="l">Odds &amp; Line Movement</div></div>
-      <div class="stat-cell"><div class="n g">True</div><div class="l">Prices, Vig Removed</div></div>
+      <div class="stat-cell"><div class="n g">True</div><div class="l">Prices, Every Game</div></div>
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Covered</div></div>
     </a>
   </div>
@@ -1084,8 +1084,8 @@
       const L = live[`${g.away.code}|${g.home.code}`] || {};
       const wash = L.awayColor && L.homeColor
         ? `<div class="mc-wash" style="background:linear-gradient(100deg,#${L.awayColor},#${L.homeColor})"></div>` : '';
-      /* No-vig probabilities. American odds imply a probability, but the two
-         sides always sum to more than 100% — that surplus is the book's hold.
+      /* True probabilities. American odds imply a probability, but the two
+         sides always sum to more than 100% — that surplus is the book's cut.
          Normalizing both sides back to 100% strips the margin out and leaves
          what the market actually thinks. This is market-implied math on real
          odds, not a proprietary model, and it's labeled that way on the card. */
@@ -1137,8 +1137,8 @@
             <i class="h" style="width:${(pH*100).toFixed(1)}%"></i>
           </div>
           <div class="mc-hold">
-            <span>Market win prob · vig removed</span>
-            <span>Book hold ${hold.toFixed(1)}%</span>
+            <span>Market win prob · true price</span>
+            <span>Book takes ${hold.toFixed(1)}%</span>
           </div>` : ''}
         ${g.pick ? `
         <div class="mc-pick">
@@ -1477,8 +1477,8 @@
           <div class="team-avatar-initials">03</div>
         </div>
         <div class="team-name">The True Price</div>
-        <div class="team-role">Market, with the vig removed</div>
-        <div class="team-desc">Both sides of a line always add up to more than 100% — that surplus is the book's cut. Strip it out and you get what the market actually thinks, which is the number worth arguing with.</div>
+        <div class="team-role">What the market really thinks</div>
+        <div class="team-desc">Both sides of a line always add up to more than 100% — that surplus is what the book keeps. Take it out and you get what the market actually thinks, which is the number worth arguing with.</div>
         <div class="team-record">Shown on every matchup card</div>
       </div>
       <div class="team-card">
@@ -1516,12 +1516,12 @@
         <div class="phil-text">
           <p>Inside the Number was built on a simple premise: <strong>most bettors lose because they react to narratives instead of numbers.</strong> The media tells a story. The public bets the story. The line moves. And sharp money fades the public. Our small team tracks that gap every day, across eight sports, so you don't have to.</p>
           <p>Every pick we publish is backed by a documented process — historical ATS trends, line movement tracking, situational factors, and a consistent model. We're not guessing. We're finding spots where <strong>the number tells a different story than the headline.</strong></p>
-          <p>The market data is free and always will be — the line, where it moved, and what the book is charging you in vig. That much you can check for yourself. What we sell is the read on top of it: the projection, the edge, and the bet.</p>
+          <p>The market data is free and always will be — the line, where it moved, and the true price underneath it. That much you can check for yourself. What we sell is the read on top of it: the projection, the edge, and the bet.</p>
         </div>
       </div>
       <div>
         <div class="phil-stats">
-          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Game on the board, priced with the vig stripped out</div></div>
+          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Game on the board, priced at its true number</div></div>
           <div class="phil-stat"><div class="big">8</div><div class="lbl">Sports covered — dawn slate to primetime</div></div>
           <div class="phil-stat"><div class="big">Daily</div><div class="lbl">One free pick every morning, reasoning shown</div></div>
           <div class="phil-stat"><div class="big">3-4</div><div class="lbl">Picks a day — we pass on everything else</div></div>
@@ -1548,8 +1548,8 @@
         <ul class="price-features">
           <li>One free pick every morning, with the reasoning</li>
           <li>Every game on the board, all eight sports</li>
-          <li>Live odds, line movement and no-vig true prices</li>
-          <li>What each book is charging you in vig</li>
+          <li>Live odds, line movement and true prices</li>
+          <li>What each book is really charging you</li>
           <li>Weekly NFL DFS core plays</li>
           <li>Ten betting calculators, no signup</li>
         </ul>
@@ -1581,7 +1581,7 @@
 
     <div style="margin:26px 0 0;padding:22px 26px;background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;">What stays free, permanently</div>
-      <p style="font-size:14px;color:var(--mid);line-height:1.8;margin:0;">The numbers on this site are facts about the market, not opinions — the line, where it opened, how far it moved, and the hold once you strip the vig out. That stays open to everyone, on every game, whether you pay us or not. You should be able to check our work before you buy any of it.</p>
+      <p style="font-size:14px;color:var(--mid);line-height:1.8;margin:0;">The numbers on this site are facts about the market, not opinions — the line, where it opened, how far it moved, and the true price underneath it. That stays open to everyone, on every game, whether you pay us or not. You should be able to check our work before you buy any of it.</p>
     </div>
   </div>
 </section>
