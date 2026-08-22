@@ -117,7 +117,7 @@
 </nav>
 
 <div id="heroFull" class="hero-full">
-  <p class="eyebrow">MLB · NFL · CFB · NBA · NHL · WNBA</p>
+  <p class="eyebrow">MLB · NFL · CFB · NBA · NHL</p>
   <h1>The Number<br/>Doesn't <i>Lie</i></h1>
   <p>One free pick every morning, with the reasoning shown. Every result logged the day it settles.</p>
 </div>
@@ -151,7 +151,7 @@ const DESC={
  3:"3 — games at the very top, brand statement below the board. Most ESPN-like. Strongest for return visitors, weakest at explaining the site to a newcomer."
 };
 const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
-               ["NBA","basketball/nba"],["NHL","hockey/nhl"],["WNBA","basketball/wnba"]];
+               ["NBA","basketball/nba"],["NHL","hockey/nhl"]];
 const OURS=new Set(["tor|nyy","atl|mil","tb|bal","pit|lad"]);
 const espnDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
   .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};

@@ -187,7 +187,7 @@
   .nav-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); }
   .nav-name span { color: var(--green); }
   .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a { color: #b6bdc8; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover { color: var(--green); }
   .nav-cta { background: linear-gradient(90deg, var(--green), var(--blue)); color: var(--black) !important; padding: 9px 22px; border-radius: 22px; font-weight: 700 !important; transition: opacity 0.2s !important; }
   .nav-cta:hover { opacity: 0.85; color: var(--black) !important; }
@@ -698,8 +698,8 @@
      ═══════════════════════════════════════════════════════════ -->
 <div id="__sw" style="position:sticky;top:0;z-index:300;background:rgba(5,6,8,.96);backdrop-filter:blur(14px);border-bottom:1px solid #1c2129;padding:11px 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap">
   <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280">Placement</span>
-  <button data-p="above" class="on">A · Strip above nav</button>
-  <button data-p="below">B · Strip below nav</button>
+  <button data-p="above">A · Strip above nav</button>
+  <button data-p="below" class="on">B · Strip below nav</button>
   <span style="width:1px;height:22px;background:#1c2129;margin:0 4px"></span>
   <button data-t="tall" class="on">Two-line</button>
   <button data-t="mid">One-line</button>
@@ -714,7 +714,7 @@
   .tb{background:#080a0e;border-bottom:1px solid var(--border);position:relative}
   .tb-leagues{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 14px;overflow-x:auto;scrollbar-width:none}
   .tb-leagues::-webkit-scrollbar{display:none}
-  .tb-leagues a{color:var(--muted);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
+  .tb-leagues a{color:#c9cfd8;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
     font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
   .tb-leagues a:hover{color:var(--white)}
   .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
@@ -1304,7 +1304,7 @@
   (async function renderScoreboard(){
     const LEAGUES = [
       ['MLB','baseball/mlb'], ['NFL','football/nfl'], ['CFB','football/college-football'],
-      ['NBA','basketball/nba'], ['NHL','hockey/nhl'], ['WNBA','basketball/wnba'],
+      ['NBA','basketball/nba'], ['NHL','hockey/nhl'],
     ];
     const tabsEl = document.getElementById('sb-tabs');
     const gridEl = document.getElementById('sb-grid');
@@ -1605,7 +1605,7 @@
   };
   const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
                  ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],
-                 ["WNBA","basketball/wnba"],["NHL","hockey/nhl"],
+                 ["NHL","hockey/nhl"],
                  ["UFC","mma/ufc"],["PGA","golf/pga"]];
   const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
   const ours=new Set((window.todaysGames||[]).map(g=>`${g.away.code}|${g.home.code}`));
@@ -1660,8 +1660,8 @@
   document.getElementById('tbPrev').onclick=()=>sc().scrollBy({left:-360,behavior:'smooth'});
   document.getElementById('tbNext').onclick=()=>sc().scrollBy({left:360,behavior:'smooth'});
   document.body.dataset.strip='tall';
-  document.body.dataset.place='above';
-  document.getElementById('__d').textContent=PLACE.above;
+  document.body.dataset.place='below';
+  document.getElementById('__d').textContent=PLACE.below;
 
   Promise.all(LEAGUES.map(async([label,path])=>{
     try{

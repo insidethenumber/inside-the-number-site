@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Today's Games — Odds, True Prices & Line Movement | Inside the Number</title>
-<meta name="description" content="Every game on today's board across MLB, NFL, CFB, NBA, NHL and WNBA — with the moneyline, spread and total, the vig stripped out of each, and how far the number has moved since it opened."/>
+<meta name="description" content="Every game on today's board across MLB, NFL, CFB, NBA, NHL — with the moneyline, spread and total, the vig stripped out of each, and how far the number has moved since it opened."/>
 <link rel="canonical" href="https://insidethenumber.com/games.html"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -48,13 +48,13 @@
   .nav-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase;color:var(--white)}
   .nav-name span{color:var(--green)}
   .nav-links{display:flex;align-items:center;gap:30px;list-style:none}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+  .nav-links a{color:#b6bdc8;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
   .nav-links a:hover,.nav-links a.active{color:var(--green)}
 
   .rail{background:#080a0e;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;
         scrollbar-width:none;padding:0 48px;position:sticky;top:60px;z-index:99}
   .rail::-webkit-scrollbar{display:none}
-  .rail a{background:none;border-bottom:2px solid transparent;color:var(--muted);text-decoration:none;
+  .rail a{background:none;border-bottom:2px solid transparent;color:#c9cfd8;text-decoration:none;
     font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.06em;
     text-transform:uppercase;padding:13px 17px;white-space:nowrap}
   .rail a:hover{color:var(--white)}
@@ -204,14 +204,14 @@
 </footer>
 
 <script>
-/* All eight sports the site claims in the hero, plus WNBA.
+/* All eight sports the site claims in the hero.
    Note the shape differences — handled in normalize() below:
      team sports  → two competitors with logos, scores and odds
      UFC/MMA      → two athletes, country flags instead of logos, rarely any odds
      PGA          → a tournament with a full field, not a head-to-head matchup */
 const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
                ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],
-               ["WNBA","basketball/wnba"],["NHL","hockey/nhl"],
+               ["NHL","hockey/nhl"],
                ["UFC","mma/ufc"],["PGA","golf/pga"]];
 const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
 
