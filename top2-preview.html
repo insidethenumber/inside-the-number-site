@@ -697,10 +697,12 @@
                  IMPORTANT: this must match the newsletter's free pick.
      ═══════════════════════════════════════════════════════════ -->
 <div id="__sw" style="position:sticky;top:0;z-index:300;background:rgba(5,6,8,.96);backdrop-filter:blur(14px);border-bottom:1px solid #1c2129;padding:11px 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap">
-  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280">Strip height</span>
-  <button data-t="tall" class="on">1 · Two-line (ESPN)</button>
-  <button data-t="mid">2 · One-line</button>
-  <button data-t="slim">3 · Slim text</button>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280">Placement</span>
+  <button data-p="above" class="on">A · Strip above nav</button>
+  <button data-p="below">B · Strip below nav</button>
+  <span style="width:1px;height:22px;background:#1c2129;margin:0 4px"></span>
+  <button data-t="tall" class="on">Two-line</button>
+  <button data-t="mid">One-line</button>
   <span id="__d" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#6b7280;flex-basis:100%;line-height:1.7"></span>
 </div>
 <style>
@@ -740,6 +742,13 @@
   .tg-ab{font-family:'Barlow',sans-serif;font-size:11.5px;color:var(--white);font-weight:500}
   .tg-v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
   .tg-v.win{color:var(--white);font-weight:600}
+
+  /* placement: strip below the nav */
+  body[data-place="below"] nav{order:-1}
+  body[data-place="below"] .tb{position:sticky;top:60px;z-index:98}
+  body[data-place="below"] #wrapTop{display:flex;flex-direction:column}
+  /* placement: strip above the nav (default) */
+  body[data-place="above"] .tb{position:relative}
   /* the "@" only makes sense when both teams sit on one line */
   body[data-strip="tall"] .tg-sep{display:none}
 
@@ -763,6 +772,7 @@
   @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
 </style>
 
+<div id="wrapTop">
 <div class="tb">
   <div class="tb-leagues" id="tbL"></div>
   <div style="position:relative">
@@ -904,6 +914,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+</div><!-- /wrapTop -->
 
 <div class="mobile-menu" id="mobileMenu">
     <a href="#analysis">Analysis</a>
@@ -1583,6 +1594,10 @@
 
 <script>
 (function(){
+  const PLACE={
+    above:"A — strip above the nav, like ESPN. Scores are the first thing on the page; the brand sits under them. Best for return visitors who come for the board.",
+    below:"B — nav first, strip beneath it. Brand and navigation lead, scores follow. Reads more like a publication than a scoreboard, and the strip stays stuck under the nav as you scroll."
+  };
   const DESC={
     tall:"1 — ESPN's shape. Two lines per game with logos, scores and prices. Most readable, tallest at ~86px.",
     mid:"2 — one line per game, logos kept. About half the height. Good balance.",
@@ -1630,10 +1645,14 @@
   }
 
   document.addEventListener('click',e=>{
+    const pl=e.target.closest('#__sw button[data-p]');
+    if(pl){document.body.dataset.place=pl.dataset.p;
+      document.querySelectorAll('#__sw button[data-p]').forEach(b=>b.classList.toggle('on',b===pl));
+      document.getElementById('__d').textContent=PLACE[pl.dataset.p];return}
     const sw=e.target.closest('#__sw button[data-t]');
     if(sw){document.body.dataset.strip=sw.dataset.t;
-      document.querySelectorAll('#__sw button').forEach(b=>b.classList.toggle('on',b===sw));
-      document.getElementById('__d').textContent=DESC[sw.dataset.t];return}
+      document.querySelectorAll('#__sw button[data-t]').forEach(b=>b.classList.toggle('on',b===sw));
+      return}
     const lg=e.target.closest('#tbL a[data-l]');
     if(lg){e.preventDefault();active=lg.dataset.l;paint();return}
   });
@@ -1641,7 +1660,8 @@
   document.getElementById('tbPrev').onclick=()=>sc().scrollBy({left:-360,behavior:'smooth'});
   document.getElementById('tbNext').onclick=()=>sc().scrollBy({left:360,behavior:'smooth'});
   document.body.dataset.strip='tall';
-  document.getElementById('__d').textContent=DESC.tall;
+  document.body.dataset.place='above';
+  document.getElementById('__d').textContent=PLACE.above;
 
   Promise.all(LEAGUES.map(async([label,path])=>{
     try{
