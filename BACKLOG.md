@@ -94,18 +94,37 @@ pages, not APIs) or a commercial feed.
 a fabricated statistic to paying customers, and it's the exact thing that
 makes tout services worthless. No placeholder numbers, ever.
 
-**Real options, in order of preference**
+**Paying for Action PRO does NOT unlock this.** Their terms were read in
+full on Aug 22, 2026. Betting percentages are enumerated by name as their
+protected Content; the licence granted is limited to personal, non-commercial
+home use; republishing any part of the site for a commercial enterprise
+requires their written consent; and page-scraping, robots and spiders are
+separately prohibited. Their arbitration clause carves out the right to seek
+injunctive relief in court for IP violations, with the user indemnifying
+their costs. A PRO subscription is a viewing licence, nothing more.
 
-1. **Sportradar Betting Splits API** — aggregates 150+ books, covers NFL,
-   MLB, NHL, NBA, NCAAF, NCAAB. Enterprise pricing, needs a quote. The
-   correct answer if splits become a headline Pro feature.
-2. **The Odds API Business tier ($99/mo)** — already on the shortlist for
-   multi-book odds. Confirm whether its bookmaker spread implies anything
-   about handle. It does NOT publish bet percentages, so this is a partial
-   answer at best.
-3. **Cloudflare Function proxy + a licensed source.** Any server-side fetch
-   still needs a source whose terms permit it. Scraping a competitor's
-   consensus page is not something to build.
+*What a PRO subscription IS good for:* reading it and letting it inform
+picks we write ourselves. That's legitimate and cheap at $99.99/yr. The line
+is input-to-judgment (fine) versus republished-as-data (not fine).
+
+**Do not buy a splits feed yet.** Sportradar's Betting Splits API is the
+licensed answer, but it's enterprise-priced — realistically four figures a
+month — and buying it before there are paid subscribers to serve is
+backwards. Revisit only if Pro grows to where that's a rounding error.
+
+**If data spend happens, this is the better first purchase.** The Odds API
+Business tier at **$99/mo** gets 50+ books including **Pinnacle**:
+  - A no-vig Pinnacle line is far closer to true probability than the single
+    provider ESPN returns, which would improve the projections themselves
+    rather than just adding a stat to the page.
+  - Multi-book enables a "best available price" feature on every game, which
+    points directly at the sportsbook affiliate links. Improves the product
+    and earns at the same time.
+
+**What we currently get free from ESPN** — and it is a lot: scores,
+moneyline/spread/total with opening AND closing numbers, team records
+including home/road splits, and probable starters with ERA. The whole
+projection model and all three market reads run on this at zero cost.
 
 **What we already ship that gets at the same idea.** Line movement is the
 honest proxy and it's live now: when a number moves, money moved it. The
