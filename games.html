@@ -186,6 +186,14 @@
   .nopick{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;margin-bottom:14px}
   .nopick .l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
   .nopick p{font-size:13.5px;color:var(--mid);line-height:1.7;font-weight:300}
+  .mk-others{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+  .mk-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
+  .mk-row{margin-bottom:13px}
+  .mk-row:last-child{margin-bottom:0}
+  .mk-m{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:3px}
+  .mk-s{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;text-transform:uppercase;color:var(--white);line-height:1.15}
+  .mk-s span{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--mid);margin-left:4px}
+  .mk-row p{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;margin-top:4px}
 
   .expl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);line-height:1.8;
     border-top:1px solid var(--border);padding-top:16px;margin-top:6px}
@@ -702,6 +710,7 @@ function gameView(sport,id){
 
    Where a league has no meaningful record yet (season openers, 0-0 or 1-0),
    the model returns null and the page falls back to the market read. */
+const pairOk=p=>!!p;
 const WPCT=s=>{const m=/^(\d+)-(\d+)/.exec(String(s||''));if(!m)return null;
   const w=+m[1],l=+m[2],n=w+l; return n?{p:w/n,n}:null};
 const REG={MLB:40,NFL:6,CFB:5,CBB:12,NBA:20,NHL:20};
@@ -834,26 +843,73 @@ function marketRead(){
   const read = marketRead();
   const P = project(g, mlP?.b);
 
-  /* The pick, stated. Confidence tracks edge size, and "Pass" is a real
-     outcome — if the model agrees with the price there is no bet, and
-     dressing that up as a play would be the tout move this site exists
-     against. The side is still named so the page always says something. */
-  let pick=null;
-  if(P){
-    const sideOdds=fmt(P.side===g.h ? o.moneyline?.home?.close?.odds : o.moneyline?.away?.close?.odds);
+  /* ── THREE MARKETS ────────────────────────────────────────────────
+     Every game is priced three ways and the best bet is rarely the
+     moneyline, so grading only the ML was leaving the two softer markets
+     unexamined. Each market below produces a side, a price and a strength
+     score; the strongest becomes the headline play.
+
+     Only the moneyline has a projection behind it — that's the one market
+     where our own win probability is directly comparable to the price. The
+     spread and total leans are read off market structure instead: where the
+     number opened versus where it sits, and which side the book is shading.
+     That distinction is stated on the page rather than blurred, because
+     "our model likes the under" would be a claim we can't support. */
+  const lineNum=v=>{const n=parseFloat(String(v??'').replace(/^[ou]/i,''));return Number.isFinite(n)?n:null};
+  const MK=[];
+
+  if(P&&pairOk(mlP)){
     const e=Math.abs(P.edge);
-    const conf = e>=5?'High' : e>=2.5?'Medium' : e>=1.2?'Low' : 'Pass';
-    const breakeven = P.mktPct;
-    const why=[];
-    why.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home; ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road.`);
-    if(P.spNote) why.push(`On the mound it's ${g.a.sp.name} (${g.a.sp.w}-${g.a.sp.l}, <b>${g.a.sp.era}</b>) against ${g.h.sp.name} (${g.h.sp.w}-${g.h.sp.l}, <b>${g.h.sp.era}</b>) — ${P.spNote.gap>=0.5?`a ${P.spNote.gap.toFixed(2)}-run ERA advantage to the <b>${P.spNote.edgeTo.name}</b>`:`near enough a wash on ERA`}.`);
-    why.push(`That puts our number on <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> against a market price of ${breakeven.toFixed(1)}% — an edge of <b>${e.toFixed(1)} points</b>.`);
-    why.push(conf==='Pass'
-      ? `That's inside the noise. We'd pass rather than take it.`
-      : `At <b>${sideOdds}</b> you need ${breakeven.toFixed(1)}% to break even, and we make it ${P.sidePct.toFixed(1)}%.`);
-    pick={label:conf==='Pass'?`Pass — lean ${P.side.ab}`:`${P.side.name} ${sideOdds}`,
-          conf, edge:e, why:why.join(' '), sideOdds};
+    const sideOdds=fmt(P.side===g.h?o.moneyline?.home?.close?.odds:o.moneyline?.away?.close?.odds);
+    const w=[];
+    w.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home; ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road.`);
+    if(P.spNote) w.push(`On the mound it's ${g.a.sp.name} (${g.a.sp.w}-${g.a.sp.l}, <b>${g.a.sp.era}</b>) against ${g.h.sp.name} (${g.h.sp.w}-${g.h.sp.l}, <b>${g.h.sp.era}</b>) — ${P.spNote.gap>=0.5?`a ${P.spNote.gap.toFixed(2)}-run ERA advantage to the <b>${P.spNote.edgeTo.name}</b>`:`near enough a wash on ERA`}.`);
+    w.push(`That puts our number on <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> against a market price of ${P.mktPct.toFixed(1)}% — an edge of <b>${e.toFixed(1)} points</b>.`);
+    w.push(e<1.2 ? `That's inside the noise; the price is about right.`
+                 : `At <b>${sideOdds}</b> you need ${P.mktPct.toFixed(1)}% to break even and we make it ${P.sidePct.toFixed(1)}%.`);
+    MK.push({m:'Moneyline',side:P.side.name,price:sideOdds,
+      strength:e*1.6, modelled:true, why:w.join(' ')});
   }
+
+  // Runline / spread
+  if(spP){
+    const aO=lineNum(o.pointSpread?.away?.open?.line), aC=lineNum(o.pointSpread?.away?.close?.line);
+    const iA=impl(o.pointSpread?.away?.close?.odds), iH=impl(o.pointSpread?.home?.close?.odds);
+    const shade=(iA!=null&&iH!=null)?((iA-spP.a)-(iH-spP.b))*100:0;   // + means away is dearer
+    const cheap = shade>0 ? g.h : g.a;
+    const moved = (aO!=null&&aC!=null&&aO!==aC);
+    const better = moved ? (aC>aO ? g.a : g.h) : null;               // number got longer for this side
+    const side = better || cheap;
+    const isAway = side===g.a;
+    const ln = isAway ? (aC??aO) : lineNum(o.pointSpread?.home?.close?.line);
+    const px = fmt(isAway?o.pointSpread?.away?.close?.odds:o.pointSpread?.home?.close?.odds);
+    const bits=[];
+    if(moved) bits.push(`The ${g.league==='MLB'?'runline':'spread'} moved from ${aO>0?'+':''}${aO} to ${aC>0?'+':''}${aC} on ${g.a.ab}, so <b>${better.name}</b> is available at a better number than it opened.`);
+    if(Math.abs(shade)>=0.4) bits.push(`The book is shading ${(shade>0?g.a:g.h).ab} — ${cheap.name} is the cheaper side of the two by ${Math.abs(shade).toFixed(1)} points over fair.`);
+    if(!bits.length) bits.push(`${cheap.name} is fractionally the better-priced side, but there's nothing much in it.`);
+    MK.push({m:g.league==='MLB'?'Runline':'Spread',side:`${side.name} ${ln>0?'+':''}${ln}`,price:px,
+      strength:(moved?3.5:0)+Math.abs(shade)*2.2, modelled:false, why:bits.join(' ')});
+  }
+
+  // Total
+  if(toP){
+    const oO=lineNum(o.total?.over?.open?.line), oC=lineNum(o.total?.over?.close?.line);
+    const iO=impl(o.total?.over?.close?.odds), iU=impl(o.total?.under?.close?.odds);
+    const shade=(iO!=null&&iU!=null)?((iO-toP.a)-(iU-toP.b))*100:0;   // + means over is dearer
+    const moved=(oO!=null&&oC!=null&&oO!==oC);
+    const dir = moved ? (oC>oO?'up':'down') : null;
+    const better = moved ? (dir==='up'?'Under':'Over') : (shade>0?'Under':'Over');
+    const px = fmt(better==='Over'?o.total?.over?.close?.odds:o.total?.under?.close?.odds);
+    const bits=[];
+    if(moved) bits.push(`The total opened at <b>${oO}</b> and sits at <b>${oC}</b> — money has come in on the ${dir==='up'?'over':'under'}, which means the <b>${better.toLowerCase()}</b> is now a ${Math.abs(oC-oO)}-run better number than it was.`);
+    if(Math.abs(shade)>=0.4) bits.push(`On price, the book is charging ${(shade>0?'over':'under')} backers ${Math.abs(shade).toFixed(1)} points more over fair.`);
+    if(!bits.length) bits.push(`The total hasn't moved off <b>${oC??oO}</b> and both sides are priced within a rounding error of fair.`);
+    MK.push({m:'Total',side:`${better} ${oC??oO}`,price:px,
+      strength:(moved?Math.abs(oC-oO)*7:0)+Math.abs(shade)*2.2, modelled:false, why:bits.join(' ')});
+  }
+
+  MK.sort((a,b)=>b.strength-a.strength);
+  const best = MK[0]||null;
 
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
@@ -867,16 +923,17 @@ function marketRead(){
       <div class="big ${moveCls}">${moveBig}</div>
       <div class="sub">${moveTxt}</div>
     </div>
-    <div class="ac"><div class="k">What the book charges</div>
-      ${worst!=null?`<div class="big ${holdCls}">${worst.toFixed(1)}%</div>
-        <div class="sub">Widest hold across the three markets. Under 4% is a fair price; over 5% is expensive.</div>`
-       :`<div class="big">—</div><div class="sub">No markets posted to measure.</div>`}
+    <div class="ac"><div class="k">Our projection</div>
+      ${P?`<div class="big g">${P.sidePct.toFixed(1)}%</div>
+        <div class="sub"><b style="color:var(--white)">${P.side.name}</b> by our number, against ${P.mktPct.toFixed(1)}% from the market — ${Math.abs(P.edge).toFixed(1)} points of difference.</div>`
+       :`<div class="big" style="font-size:21px;color:var(--muted)">Not enough</div>
+        <div class="sub">Too little of the season on the board to project this one yet.</div>`}
     </div>
-    <div class="ac"><div class="k">${g.ours?'Our published pick':pick?'Our pick':'Our position'}</div>
+    <div class="ac"><div class="k">${g.ours?'Our published pick':'Best bet'}</div>
       ${g.ours?`<div class="big g" style="font-size:21px">${g.ours.pick}</div>
         <div class="sub">Published this morning, before the game started.</div>`
-       :pick?`<div class="big ${pick.conf==='Pass'?'a':'g'}" style="font-size:19px;line-height:1.15">${pick.label}</div>
-        <div class="sub">${pick.conf} confidence · ${pick.edge.toFixed(1)}-point edge</div>`
+       :best?`<div class="big g" style="font-size:19px;line-height:1.15">${best.side} ${best.price||''}</div>
+        <div class="sub">${best.m} · ${best.strength>=6?'High':best.strength>=3?'Medium':'Low'} confidence</div>`
        :read?`<div class="big a" style="font-size:18px;line-height:1.15">${read.side}</div>
         <div class="sub">${read.headline}</div>`
        :`<div class="big" style="font-size:21px;color:var(--muted)">No market</div>
@@ -888,26 +945,34 @@ function marketRead(){
      rather than only showing something. */
   let takeaway='';
   if(mlP){
-    const edge = worst!=null && worst<4 ? 'a competitive price' : worst!=null && worst>=5 ? 'an expensive price' : 'a normal price';
-    takeaway = `<div class="takeaway"><div class="k">The read</div><p>
-      The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favorite once the margin comes out.
-      ${moveOpenTxt(mlOpenA,mlCloseA,g)}
-      At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
-      ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`
-        :pick?`We make it <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b>, ${Math.abs(P.edge).toFixed(1)} points off the market — ${pick.conf==='Pass'?'not enough to bet.':`enough to play at ${pick.sideOdds}.`}`
-        :read?`The thing worth noticing — <b>${read.side}</b>.`:``}
-    </p></div>`;
+    const sp=[];
+    sp.push(`The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favorite once the margin comes out. ${moveOpenTxt(mlOpenA,mlCloseA,g)}`);
+    if(P){
+      sp.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home and ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road${P.spNote?`, with ${g.a.sp.name} (${g.a.sp.era}) opposite ${g.h.sp.name} (${g.h.sp.era})`:''}. Run through our number that comes out <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> — ${Math.abs(P.edge).toFixed(1)} points ${P.edge>=0?'above':'below'} where the market has it.`);
+    }
+    const other=MK.filter(x=>x!==best);
+    if(other.length) sp.push(`Across the other markets: ${other.map(x=>`<b>${x.m.toLowerCase()}</b> leans ${x.side}`).join(', ')}.`);
+    if(g.ours) sp.push(`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`);
+    else if(best) sp.push(`The best of the three is the <b>${best.m.toLowerCase()}</b>: <b>${best.side} ${best.price||''}</b>.`);
+    takeaway = `<div class="takeaway"><div class="k">The read</div><p>${sp.join(' ')}</p></div>`;
   }
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
          <p style="margin-top:10px;font-size:12px;color:var(--muted)">One of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch.</p></div>`
-    : pick
-    ? `<div class="callout"${pick.conf==='Pass'?' style="border-color:rgba(240,180,41,.4)"':''}>
-         <div class="l"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>The pick · ${pick.conf} confidence</div>
-         <div class="v"${pick.conf==='Pass'?' style="color:var(--gold)"':''}>${pick.label}</div>
-         <p>${pick.why}</p>
-         <p style="margin-top:12px;font-size:12px;color:var(--muted)">Our number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current market, anchored so the model can't disagree with a liquid line by more than the evidence supports. It isn't one of the 3-4 staked plays we publish in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
+    : best
+    ? `<div class="callout">
+         <div class="l">★ Our pick on this game · ${best.m}</div>
+         <div class="v">${best.side} ${best.price||''}</div>
+         <p>${best.why}</p>
+         ${MK.length>1?`<div class="mk-others">
+           <div class="mk-k">The other two markets</div>
+           ${MK.filter(x=>x!==best).map(x=>`<div class="mk-row">
+             <div class="mk-m">${x.m}</div>
+             <div class="mk-s">${x.side} <span>${x.price||''}</span></div>
+             <p>${x.why}</p></div>`).join('')}
+         </div>`:''}
+         <p style="margin-top:14px;font-size:12px;color:var(--muted)">The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now — we don't project them separately, and we don't pretend to. None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
     ? `<div class="callout" style="border-color:rgba(240,180,41,.4)">
