@@ -764,7 +764,7 @@ function gameView(sport,id){
       ${moveOpenTxt(mlOpenA,mlCloseA,g)}
       At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
       ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`
-        :read?`The thing worth noticing: <b>${read.side.toLowerCase()}</b>.`:``}
+        :read?`The thing worth noticing — <b>${read.side}</b>.`:``}
     </p></div>`;
   }
 
