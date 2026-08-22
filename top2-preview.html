@@ -696,80 +696,77 @@
        free    → true for the one game that is the free Pick of the Day.
                  IMPORTANT: this must match the newsletter's free pick.
      ═══════════════════════════════════════════════════════════ -->
-<div id="__sw" style="position:sticky;top:0;z-index:300;background:rgba(5,6,8,.96);backdrop-filter:blur(14px);border-bottom:1px solid #1c2129;padding:12px 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap">
-  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280">Top strip</span>
-  <button data-t="a" class="on">A · Rail + scores</button>
-  <button data-t="b">B · Leagues pinned left</button>
-  <button data-t="c">C · Scores + sport menu</button>
-  <span id="__d" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#6b7280;flex-basis:100%"></span>
+<div id="__sw" style="position:sticky;top:0;z-index:300;background:rgba(5,6,8,.96);backdrop-filter:blur(14px);border-bottom:1px solid #1c2129;padding:11px 22px;display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280">Strip height</span>
+  <button data-t="tall" class="on">1 · Two-line (ESPN)</button>
+  <button data-t="mid">2 · One-line</button>
+  <button data-t="slim">3 · Slim text</button>
+  <span id="__d" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#6b7280;flex-basis:100%;line-height:1.7"></span>
 </div>
 <style>
   #__sw button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#9ca3af;background:#0e1116;border:1px solid #1c2129;border-radius:20px;padding:7px 14px;cursor:pointer}
   #__sw button.on{color:#050608;background:#00d084;border-color:#00d084;font-weight:600}
   .ticker{display:none!important}
 
-  /* shared strip furniture */
-  .ns{background:linear-gradient(180deg,#0c0f14 0%,#050608 100%);border-bottom:1px solid var(--border)}
-  .ns-rail{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;padding:0 20px}
-  .ns-rail::-webkit-scrollbar{display:none}
-  .ns-rail button{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;
-    font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
-    padding:10px 14px;white-space:nowrap}
-  .ns-rail button:hover{color:var(--white)}
-  .ns-rail button.on{color:var(--green);border-bottom-color:var(--green)}
-  .ns-rail .c{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-left:4px}
-  .ns-scroll{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .ns-scroll::-webkit-scrollbar{display:none}
-  .ns-g{display:flex;flex-direction:column;gap:4px;padding:9px 16px;min-width:176px;flex-shrink:0;
-    border-right:1px solid var(--border);text-decoration:none;transition:background .15s}
-  .ns-g:hover{background:rgba(255,255,255,.05)}
-  .ns-g.ours{background:rgba(0,208,132,.05)}
-  .ns-g.ours::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green)}
-  .ns-g{position:relative}
-  .ns-t{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .ns-time{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap}
-  .ns-time.live{color:var(--red)}
-  .ns-r{display:flex;align-items:center;gap:7px}
-  .ns-r img{width:16px;height:16px;object-fit:contain;flex-shrink:0}
-  .ns-ab{font-family:'Barlow',sans-serif;font-size:12px;color:var(--white);font-weight:500}
-  .ns-ml{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mid)}
-  .ns-all{display:flex;align-items:center;padding:0 18px;flex-shrink:0;text-decoration:none;
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);white-space:nowrap}
-  .ns-pin{display:flex;align-items:center;gap:6px;padding:0 14px;flex-shrink:0;border-right:1px solid var(--border);background:#0a0d12;position:sticky;left:0;z-index:2}
-  .ns-pin button{background:none;border:1px solid var(--border);border-radius:20px;color:var(--muted);cursor:pointer;
-    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px}
-  .ns-pin button.on{color:#050608;background:var(--green);border-color:var(--green);font-weight:600}
-  .ns-menu{position:relative;display:flex;align-items:center;padding:0 14px;flex-shrink:0;border-right:1px solid var(--border);background:#0a0d12;position:sticky;left:0;z-index:3}
-  .ns-menu>button{background:none;border:1px solid var(--border-lit);border-radius:20px;color:var(--white);cursor:pointer;
-    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;padding:5px 12px}
-  .ns-pop{position:absolute;top:100%;left:12px;background:#0e1116;border:1px solid var(--border-lit);border-radius:10px;
-    padding:6px;display:none;min-width:132px;box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:400}
-  .ns-pop.open{display:block}
-  .ns-pop a{display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border-radius:6px;text-decoration:none;
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
-  .ns-pop a:hover{background:rgba(255,255,255,.06);color:var(--white)}
-  .ns-hide{display:none!important}
+  /* ── ESPN-style top scores strip ───────────────────────────── */
+  .tb{background:#080a0e;border-bottom:1px solid var(--border);position:relative}
+  .tb-leagues{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 14px;overflow-x:auto;scrollbar-width:none}
+  .tb-leagues::-webkit-scrollbar{display:none}
+  .tb-leagues a{color:var(--muted);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
+    font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
+  .tb-leagues a:hover{color:var(--white)}
+  .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
+  .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
+  .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
+    letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
+
+  .tb-scroll{position:relative;display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+  .tb-scroll::-webkit-scrollbar{display:none}
+  .tb-nav{position:absolute;top:0;bottom:0;width:34px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(90deg,#080a0e 55%,transparent);border:none;color:var(--mid);cursor:pointer;z-index:4;font-size:17px}
+  .tb-nav.r{right:0;background:linear-gradient(270deg,#080a0e 55%,transparent)}
+  .tb-nav:hover{color:var(--white)}
+
+  .tg{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:8px 15px;min-width:172px;
+    flex-shrink:0;border-right:1px solid var(--border);text-decoration:none;position:relative;transition:background .15s}
+  .tg:hover{background:rgba(255,255,255,.05)}
+  .tg.ours::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green)}
+  .tg-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .tg-lg{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.09em;color:var(--blue)}
+  .tg-st{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--muted);white-space:nowrap}
+  .tg-st.live{color:var(--red)}
+  .tg-r{display:flex;align-items:center;gap:6px}
+  .tg-r img{width:15px;height:15px;object-fit:contain;flex-shrink:0}
+  .tg-ab{font-family:'Barlow',sans-serif;font-size:11.5px;color:var(--white);font-weight:500}
+  .tg-v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
+  .tg-v.win{color:var(--white);font-weight:600}
+
+  /* one-line variant */
+  body[data-strip="mid"] .tg{flex-direction:row;align-items:center;gap:9px;min-width:auto;padding:9px 14px}
+  body[data-strip="mid"] .tg-h{flex-direction:row;gap:6px}
+  body[data-strip="mid"] .tg-lg{display:none}
+  body[data-strip="mid"] .tg-body{display:flex;align-items:center;gap:7px}
+  body[data-strip="mid"] .tg-r{gap:5px}
+  body[data-strip="mid"] .tg-sep{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
+
+  /* slim text-only variant */
+  body[data-strip="slim"] .tg{flex-direction:row;align-items:center;gap:8px;min-width:auto;padding:7px 13px}
+  body[data-strip="slim"] .tg img{display:none}
+  body[data-strip="slim"] .tg-lg{display:none}
+  body[data-strip="slim"] .tg-body{display:flex;align-items:center;gap:6px}
+  body[data-strip="slim"] .tg-ab{font-family:'IBM Plex Mono',monospace;font-size:10.5px}
+  body[data-strip="slim"] .tg-sep{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
+  body[data-strip="slim"] .tb-leagues a{font-size:12.5px;padding:7px 11px}
+
+  @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
 </style>
 
-<div id="stripA" class="ns">
-  <div class="ns-rail" id="railA"></div>
-  <div class="ns-scroll" id="scrollA"></div>
-</div>
-
-<div id="stripB" class="ns ns-hide">
-  <div class="ns-scroll">
-    <div class="ns-pin" id="pinB"></div>
-    <div style="display:flex" id="scrollB"></div>
-  </div>
-</div>
-
-<div id="stripC" class="ns ns-hide">
-  <div class="ns-scroll">
-    <div class="ns-menu">
-      <button id="menuBtn">All sports ▾</button>
-      <div class="ns-pop" id="menuPop"></div>
-    </div>
-    <div style="display:flex" id="scrollC"></div>
+<div class="tb">
+  <div class="tb-leagues" id="tbL"></div>
+  <div style="position:relative">
+    <button class="tb-nav l" id="tbPrev" aria-label="Scroll left">‹</button>
+    <div class="tb-scroll" id="tbS"></div>
+    <button class="tb-nav r" id="tbNext" aria-label="Scroll right">›</button>
   </div>
 </div>
 
@@ -1585,62 +1582,56 @@
 <script>
 (function(){
   const DESC={
-    a:"A — two tiers: league tabs with live game counts, then that league's games. Most browsable, tallest.",
-    b:"B — one row. League pills pinned at the left while games scroll past them. Compact, still navigable.",
-    c:"C — closest to the current look. All of today's games scroll; a sport menu at the left filters them."
+    tall:"1 — ESPN's shape. Two lines per game with logos, scores and prices. Most readable, tallest at ~86px.",
+    mid:"2 — one line per game, logos kept. About half the height. Good balance.",
+    slim:"3 — text only, no logos. Shortest at ~34px — closest to a stock ticker, least scannable at a glance."
   };
   const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
                  ["NBA","basketball/nba"],["NHL","hockey/nhl"],["WNBA","basketball/wnba"]];
   const ours=new Set((window.todaysGames||[]).map(g=>`${g.away.code}|${g.home.code}`));
   const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
-  const D={}; let active='ALL';
+  const fmt=o=>{const n=Number(o);return Number.isFinite(n)&&o!=null&&o!==''?(n>0?`+${n}`:`${n}`):null};
+  const D={}; let active=null;
 
-  function chip(x){
-    const live=x.state==='in';
-    const t=live?`<span class="ns-time live">● ${x.detail}</span>`:`<span class="ns-time">${x.detail}</span>`;
-    const row=(s,showScore)=>`<div class="ns-r"><img src="${s.logo}" alt="" loading="lazy"/><span class="ns-ab">${s.ab}</span>
-      <span class="ns-ml">${showScore?(s.sc??''):(s.ml??'')}</span></div>`;
-    const sc=x.state!=='pre';
-    return `<a class="ns-g ${x.ours?'ours':''}" href="#picks">
-      <div class="ns-t"><span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--blue)">${x.league}</span>${t}</div>
-      ${row(x.a,sc)}${row(x.h,sc)}</a>`;
+  function chip(g){
+    const live=g.state==='in', done=g.state==='post';
+    const st=live?`<span class="tg-st live">● ${g.detail}</span>`:`<span class="tg-st">${g.detail}</span>`;
+    const val=t=>{
+      if(g.state==='pre') return fmt(t.ml)??'';
+      const me=Number(t.sc), them=Number(t===g.a?g.h.sc:g.a.sc);
+      return `<span class="tg-v ${done&&me>them?'win':''}">${t.sc??''}</span>`;
+    };
+    const row=t=>`<div class="tg-r"><img src="${t.logo}" alt="" loading="lazy"/><span class="tg-ab">${t.ab}</span>
+      ${g.state==='pre'?`<span class="tg-v">${fmt(t.ml)??''}</span>`:val(t)}</div>`;
+    return `<a class="tg ${g.ours?'ours':''}" href="games.html?sport=${g.league}&game=${g.id}">
+      <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
+      <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
   }
-  const listFor=l=> l==='ALL'?LEAGUES.flatMap(([n])=>D[n]||[]):(D[l]||[]);
 
   function paint(){
-    document.getElementById('railA').innerHTML=LEAGUES.map(([l])=>{
-      const n=(D[l]||[]).length;
-      return `<button data-l="${l}" ${l===(active==='ALL'?firstWith():active)?'class="on"':''} ${n?'':'style="opacity:.3"'}>${l}<span class="c">${n}</span></button>`;
-    }).join('');
-    const a=active==='ALL'?firstWith():active;
-    document.getElementById('scrollA').innerHTML=(D[a]||[]).map(chip).join('')+`<a class="ns-all" href="#picks">All ${a} →</a>`;
-
-    document.getElementById('pinB').innerHTML=LEAGUES.filter(([l])=>(D[l]||[]).length)
-      .map(([l])=>`<button data-l="${l}" ${l===a?'class="on"':''}>${l}</button>`).join('');
-    document.getElementById('scrollB').innerHTML=(D[a]||[]).map(chip).join('')+`<a class="ns-all" href="#picks">All →</a>`;
-
-    document.getElementById('menuBtn').textContent=(active==='ALL'?'All sports':active)+' ▾';
-    document.getElementById('menuPop').innerHTML=[['ALL','All sports']].concat(LEAGUES.map(([l])=>[l,l]))
-      .map(([v,label])=>`<a href="#" data-l="${v}">${label}<span>${v==='ALL'?LEAGUES.reduce((t,[n])=>t+(D[n]||[]).length,0):(D[v]||[]).length}</span></a>`).join('');
-    document.getElementById('scrollC').innerHTML=listFor(active).map(chip).join('')+`<a class="ns-all" href="#picks">Full board →</a>`;
+    const withGames=LEAGUES.filter(([l])=>(D[l]||[]).length);
+    if(!active||!(D[active]||[]).length) active=(withGames[0]||['MLB'])[0];
+    document.getElementById('tbL').innerHTML=
+      LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
+        return `<a href="games.html?sport=${l}" data-l="${l}" class="${l===active?'on':''}" ${n?'':'style="opacity:.3"'}>${l}<span class="n">${n}</span></a>`;
+      }).join('')+`<a class="tb-all" href="games.html?sport=${active}">Full board →</a>`;
+    document.getElementById('tbS').innerHTML=(D[active]||[]).map(chip).join('');
   }
-  const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
 
   document.addEventListener('click',e=>{
     const sw=e.target.closest('#__sw button[data-t]');
-    if(sw){const v=sw.dataset.t;
+    if(sw){document.body.dataset.strip=sw.dataset.t;
       document.querySelectorAll('#__sw button').forEach(b=>b.classList.toggle('on',b===sw));
-      ['a','b','c'].forEach(k=>document.getElementById('strip'+k.toUpperCase()).classList.toggle('ns-hide',k!==v));
-      document.getElementById('__d').textContent=DESC[v];return;}
-    const lb=e.target.closest('.ns-rail button[data-l], .ns-pin button[data-l]');
-    if(lb){active=lb.dataset.l;paint();return;}
-    if(e.target.closest('#menuBtn')){document.getElementById('menuPop').classList.toggle('open');e.preventDefault();return;}
-    const ml=e.target.closest('#menuPop a[data-l]');
-    if(ml){e.preventDefault();active=ml.dataset.l;document.getElementById('menuPop').classList.remove('open');paint();return;}
-    document.getElementById('menuPop')?.classList.remove('open');
+      document.getElementById('__d').textContent=DESC[sw.dataset.t];return}
+    const lg=e.target.closest('#tbL a[data-l]');
+    if(lg){e.preventDefault();active=lg.dataset.l;paint();return}
   });
-  document.getElementById('__d').textContent=DESC.a;
+  const sc=()=>document.getElementById('tbS');
+  document.getElementById('tbPrev').onclick=()=>sc().scrollBy({left:-360,behavior:'smooth'});
+  document.getElementById('tbNext').onclick=()=>sc().scrollBy({left:360,behavior:'smooth'});
+  document.body.dataset.strip='tall';
+  document.getElementById('__d').textContent=DESC.tall;
 
   Promise.all(LEAGUES.map(async([label,path])=>{
     try{
@@ -1649,13 +1640,12 @@
       const d=await r.json();
       D[label]=(d.events||[]).map(ev=>{
         const c=ev.competitions?.[0];if(!c)return null;
-        const h=c.competitors.find(x=>x.homeAway==='home'),aw=c.competitors.find(x=>x.homeAway==='away');
-        if(!h||!aw)return null;
-        const o=c.odds?.[0];
-        return{league:label,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
-          a:{ab:aw.team.abbreviation,logo:aw.team.logo,sc:aw.score,ml:o?.awayTeamOdds?.moneyLine},
-          h:{ab:h.team.abbreviation,logo:h.team.logo,sc:h.score,ml:o?.homeTeamOdds?.moneyLine},
-          ours:ours.has(`${aw.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
+        const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
+        if(!h||!a)return null;const o=c.odds?.[0]||{};
+        return{id:ev.id,league:label,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+          a:{ab:a.team.abbreviation,logo:a.team.logo,sc:a.score,ml:o.moneyline?.away?.close?.odds},
+          h:{ab:h.team.abbreviation,logo:h.team.logo,sc:h.score,ml:o.moneyline?.home?.close?.odds},
+          ours:ours.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
       }).filter(Boolean);
     }catch(e){D[label]=[]}
   })).then(paint);
