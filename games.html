@@ -950,28 +950,33 @@ function marketRead(){
     if(P){
       sp.push(`${g.h.name} are <b>${g.h.split||g.h.rec}</b> at home and ${g.a.name} are <b>${g.a.split||g.a.rec}</b> on the road${P.spNote?`, with ${g.a.sp.name} (${g.a.sp.era}) opposite ${g.h.sp.name} (${g.h.sp.era})`:''}. Run through our number that comes out <b>${P.side.name} ${P.sidePct.toFixed(1)}%</b> — ${Math.abs(P.edge).toFixed(1)} points ${P.edge>=0?'above':'below'} where the market has it.`);
     }
-    const other=MK.filter(x=>x!==best);
-    if(other.length) sp.push(`Across the other markets: ${other.map(x=>`<b>${x.m.toLowerCase()}</b> leans ${x.side}`).join(', ')}.`);
+    if(MK.length) sp.push(`Priced three ways, ${MK.length===3?'all three lean':'they lean'} like this: ${MK.map(x=>`<b>${x.m.toLowerCase()}</b> to ${x.side}${x.price?' '+x.price:''}`).join(', ')}.`);
     if(g.ours) sp.push(`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`);
     else if(best) sp.push(`The best of the three is the <b>${best.m.toLowerCase()}</b>: <b>${best.side} ${best.price||''}</b>.`);
     takeaway = `<div class="takeaway"><div class="k">The read</div><p>${sp.join(' ')}</p></div>`;
   }
 
+  /* Shown under the pick on every game, including the ones we have a staked
+     play on — the published pick is a moneyline call, and a reader still
+     wants to know what the runline and total are doing. */
+  const mkList=(items,label)=>items.length?`<div class="mk-others">
+      <div class="mk-k">${label}</div>
+      ${items.map(x=>`<div class="mk-row">
+        <div class="mk-m">${x.m}${x.modelled?' · projected':' · market read'}</div>
+        <div class="mk-s">${x.side} <span>${x.price||''}</span></div>
+        <p>${x.why}</p></div>`).join('')}
+    </div>`:'';
+
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
-         <p style="margin-top:10px;font-size:12px;color:var(--muted)">One of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch.</p></div>`
+         ${mkList(MK,'All three markets')}
+         <p style="margin-top:14px;font-size:12px;color:var(--muted)">The pick above is one of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch. The three reads beneath it are generated from the market and our projection.</p></div>`
     : best
     ? `<div class="callout">
          <div class="l">★ Our pick on this game · ${best.m}</div>
          <div class="v">${best.side} ${best.price||''}</div>
          <p>${best.why}</p>
-         ${MK.length>1?`<div class="mk-others">
-           <div class="mk-k">The other two markets</div>
-           ${MK.filter(x=>x!==best).map(x=>`<div class="mk-row">
-             <div class="mk-m">${x.m}</div>
-             <div class="mk-s">${x.side} <span>${x.price||''}</span></div>
-             <p>${x.why}</p></div>`).join('')}
-         </div>`:''}
+         ${mkList(MK.filter(x=>x!==best),'The other two markets')}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now — we don't project them separately, and we don't pretend to. None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
