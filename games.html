@@ -447,8 +447,19 @@ function projectRuns(g,mktTotal,mktHomeP){
   pHome+=pTie*share; pAway+=pTie*(1-share);
   cover.h2+=pTie*share*0.5; cover.a2+=pTie*(1-share)*0.5;   // extras decided by 1 most often
   const s=pHome+pAway; pHome/=s; pAway/=s;
-  const overProb=T=>{let o=0;for(const k in totalPmf){if(+k>T)o+=totalPmf[k]}return o};
-  return {ea,eh,pHome,pAway,coverH:cover.h2/s,coverA:cover.a2/s,overProb,
+  /* Totals are frequently whole numbers in baseball (11, not 10.5), and an
+     exact push is not an under win. Counting the push mass as under was
+     inflating every under by several points. Over and under are normalised
+     against each other with the push removed, which is also how the no-vig
+     market number is derived — so the two are finally comparable. */
+  const overProb=T=>{
+    let o=0,u=0,p=0;
+    for(const k in totalPmf){const n=+k; if(n>T)o+=totalPmf[k]; else if(n<T)u+=totalPmf[k]; else p+=totalPmf[k];}
+    const live=o+u;
+    return live>0 ? o/live : 0.5;
+  };
+  const pushProb=T=>{let p=0;for(const k in totalPmf){if(+k===T)p+=totalPmf[k]}return p};
+  return {ea,eh,pHome,pAway,coverH:cover.h2/s,coverA:cover.a2/s,overProb,pushProb,
           total:ea+eh, supA:supp(H,g.h.sp), supH:supp(A,g.a.sp)};
 }
 
@@ -1013,8 +1024,9 @@ function marketRead(){
         const mine=takeOver?modelOver:100-modelOver, mkt=takeOver?mktOver:100-mktOver;
         const px=fmt(takeOver?o.total?.over?.close?.odds:o.total?.under?.close?.odds);
         const e=Math.abs(mine-mkt);
+        const push=R.pushProb(T);
         MK.push({m:'Total',side:`${takeOver?'Over':'Under'} ${T}`,price:px,strength:e*1.5,modelled:true,conf:conf(e),
-          why:`We project <b>${R.total.toFixed(2)} total runs</b> — ${g.a.name} ${R.ea.toFixed(2)}, ${g.h.name} ${R.eh.toFixed(2)} — against a posted number of <b>${T}</b>. That makes the ${takeOver?'over':'under'} a <b>${mine.toFixed(1)}%</b> proposition where the market has it at ${mkt.toFixed(1)}%, a gap of <b>${e.toFixed(1)} points</b>.`});
+          why:`We project <b>${R.total.toFixed(2)} total runs</b> — ${g.a.name} ${R.ea.toFixed(2)}, ${g.h.name} ${R.eh.toFixed(2)} — against a posted number of <b>${T}</b>. That makes the ${takeOver?'over':'under'} a <b>${mine.toFixed(1)}%</b> proposition where the market has it at ${mkt.toFixed(1)}%, a gap of <b>${e.toFixed(1)} points</b>.${push>0.02?` Note this is a whole number, so exactly ${T} pushes — we make that ${(push*100).toFixed(1)}% likely and it's excluded from the percentages above.`:''}`});
       }
     }
   }
