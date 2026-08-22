@@ -39,6 +39,36 @@
   html { scroll-behavior:smooth; }
   body { font-family:'Barlow',sans-serif; background:var(--black); color:var(--white); line-height:1.6; overflow-x:hidden; }
 
+  /* ── AMBIENT BACKGROUND (added Aug 22, 2026) ────────────────────────────
+     Breaks up the flat #050608 without competing with content: a 64px grid
+     that nods at the market/data theme, plus soft green/blue pools.
+
+     Painted on a fixed pseudo-element rather than `background-attachment:
+     fixed` on <body>. Both look identical, but fixed attachment forces a
+     full repaint on every scroll frame in several mobile browsers; a
+     composited fixed layer does not.
+
+     Sits at z-index -1, so it is above the body colour and below all
+     content. Any card that should not have the grid showing through it must
+     have an OPAQUE background — see .potd-card / .panel below. That was the
+     real constraint here: translucent cards let the grid bleed through and
+     made every stronger value read as noise rather than depth. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 100% 64px,
+      linear-gradient(90deg, rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 64px 100%,
+      radial-gradient(ellipse 65% 28% at 8% 10%,   rgba(0,208,132,0.38) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 94% 32%,  rgba(59,167,255,0.34) 0%, transparent 60%),
+      radial-gradient(ellipse 65% 28% at 14% 58%,  rgba(0,208,132,0.30) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 90% 80%,  rgba(59,167,255,0.29) 0%, transparent 60%);
+  }
+  @media (prefers-reduced-motion: reduce) { body::before { position: absolute; } }
+
   nav { background:rgba(5,6,8,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
   .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
   .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
@@ -118,6 +148,7 @@
     .cta-inner { padding:52px 20px; }
     footer { flex-direction:column; text-align:center; padding:32px 20px; }
   }
+
 </style>
 </head>
 <body>

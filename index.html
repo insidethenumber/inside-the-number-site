@@ -90,6 +90,36 @@
     overflow-x: hidden;
   }
 
+  /* ── AMBIENT BACKGROUND (added Aug 22, 2026) ────────────────────────────
+     Breaks up the flat #050608 without competing with content: a 64px grid
+     that nods at the market/data theme, plus soft green/blue pools.
+
+     Painted on a fixed pseudo-element rather than `background-attachment:
+     fixed` on <body>. Both look identical, but fixed attachment forces a
+     full repaint on every scroll frame in several mobile browsers; a
+     composited fixed layer does not.
+
+     Sits at z-index -1, so it is above the body colour and below all
+     content. Any card that should not have the grid showing through it must
+     have an OPAQUE background — see .potd-card / .panel below. That was the
+     real constraint here: translucent cards let the grid bleed through and
+     made every stronger value read as noise rather than depth. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 100% 64px,
+      linear-gradient(90deg, rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 64px 100%,
+      radial-gradient(ellipse 65% 28% at 8% 10%,   rgba(0,208,132,0.38) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 94% 32%,  rgba(59,167,255,0.34) 0%, transparent 60%),
+      radial-gradient(ellipse 65% 28% at 14% 58%,  rgba(0,208,132,0.30) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 90% 80%,  rgba(59,167,255,0.29) 0%, transparent 60%);
+  }
+  @media (prefers-reduced-motion: reduce) { body::before { position: absolute; } }
+
   /* ── TICKER (clickable game strip) ── */
   .ticker {
     background: linear-gradient(180deg, #0c0f14 0%, var(--black) 100%);
@@ -640,6 +670,10 @@
     .potd-matchup img { width: 34px; height: 34px; }
     .potd-cta .btn-primary { white-space: normal; }
   }
+
+  /* Opaque so the ambient grid cannot show through the card face. */
+  .potd-card { background: linear-gradient(135deg, rgba(0,208,132,0.07), rgba(59,167,255,0.05)), #080a0e; }
+  .panel { background-color: #0c0f14; }
 </style>
 </head>
 <body>
