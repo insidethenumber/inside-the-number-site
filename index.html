@@ -630,6 +630,21 @@
   .signup-form button { padding: 16px 28px; background: var(--black); color: var(--green); font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border: none; border-radius: 0 26px 26px 0; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
   .signup-form button:hover { opacity: 0.85; }
   .signup-note { font-size: 12px; color: rgba(0,0,0,0.45); margin-top: 14px; }
+  .signup-pro { margin: 34px auto 0; max-width: 560px; background: rgba(5,6,8,0.86); border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 16px; padding: 24px 26px; text-align: center; }
+  .signup-pro .sp-k { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.15em; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .signup-pro .sp-row { display:flex; align-items:baseline; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .signup-pro .sp-price { font-family:'Barlow Condensed',sans-serif; color:var(--white); line-height:1; }
+  .signup-pro .sp-price b { font-size:30px; font-weight:900; }
+  .signup-pro .sp-price span { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--mid); margin-left:2px; }
+  .signup-pro .sp-or { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+  .signup-pro .sp-save { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--green); border:1px solid rgba(0,208,132,0.4); background:rgba(0,208,132,0.1); padding:3px 9px; border-radius:20px; }
+  .signup-pro .sp-copy { font-size:13.5px; color:var(--mid); line-height:1.7; margin:0 0 18px; font-weight:300; }
+  .signup-pro .sp-btn { display:inline-block; background:linear-gradient(90deg,var(--green),var(--blue)); color:var(--black);
+    font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:900; letter-spacing:0.08em; text-transform:uppercase;
+    text-decoration:none; padding:12px 28px; border-radius:26px; }
+  .signup-pro .sp-note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:12px; }
 
   /* ── FOOTER ── */
   footer { background: var(--dark); border-top: 1px solid var(--border); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; }
@@ -878,8 +893,7 @@
       <li><a href="games.html">Games</a></li>
       <li><a href="dfs.html">DFS</a></li>
       <li><a href="tools.html">Tools</a></li>
-      <li><a href="#pricing">Pro</a></li>
-      <li><a href="#signup" class="nav-cta">Get Access</a></li>
+      <li><a href="#pricing" class="nav-cta">Get Access</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -894,8 +908,7 @@
     <a href="games.html">Games</a>
     <a href="dfs.html">DFS</a>
     <a href="tools.html">Tools</a>
-    <a href="#pricing">Pro</a>
-    <a href="#signup" class="nav-cta">Get Access</a>
+    <a href="#pricing" class="nav-cta">Get Access</a>
   </div>
 <script>
   (function(){
@@ -1583,6 +1596,23 @@
       <button type="button">Subscribe Free →</button>
     </a>
     <p class="signup-note" id="signup-msg">The daily pick and the full board stay free. No card required.</p>
+
+    <!-- Pro block. The nav CTA and the pricing card's waitlist button both
+         land here, so the paid option has to be present at the bottom of the
+         page too — otherwise those clicks arrive at a free-only signup and
+         the offer disappears. Dark card on the bright gradient for contrast. -->
+    <div class="signup-pro">
+      <div class="sp-k">Or go Pro</div>
+      <div class="sp-row">
+        <div class="sp-price"><b>$19.99</b><span>/mo</span></div>
+        <div class="sp-or">or</div>
+        <div class="sp-price"><b>$149</b><span>/year</span></div>
+        <div class="sp-save">save $91</div>
+      </div>
+      <p class="sp-copy">Our projection and edge on every game, the stated bet with confidence, best bets and parlays, full DFS builds, UFC card breakdowns and the PGA preview.</p>
+      <a href="#pricing" class="sp-btn">See what's in Pro →</a>
+      <div class="sp-note">Not open yet — the free list gets first access when it is.</div>
+    </div>
   </div>
 </section>
 
