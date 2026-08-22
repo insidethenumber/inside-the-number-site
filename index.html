@@ -1631,11 +1631,17 @@
      than the old single-league view, so nothing was lost by dropping the
      filter. A league with nothing today renders a dim dash instead of a
      count, so a dead click is visible before you make it. */
+  /* Ordered by league first, in the same sequence as the chips above, then
+     live → upcoming → final inside each league. Sorting purely by state read
+     badly: every fight on a UFC card inherits the EVENT's status, so a card
+     in progress marks all 13 bouts "in" and buries MLB and NFL behind a wall
+     of fighter names. League order keeps the strip legible and means the
+     ticker and the chips always tell the same story. */
   const ORDER={in:0,pre:1,post:2};
   function allGames(){
-    return LEAGUES.flatMap(([l])=>D[l]||[])
-      .sort((x,y)=>(ORDER[x.state]??3)-(ORDER[y.state]??3)
-        || String(x.date||'').localeCompare(String(y.date||'')));
+    return LEAGUES.flatMap(([l])=>
+      (D[l]||[]).slice().sort((x,y)=>(ORDER[x.state]??3)-(ORDER[y.state]??3)
+        || String(x.date||'').localeCompare(String(y.date||''))));
   }
   function paint(){
     document.getElementById('tbL').innerHTML=
