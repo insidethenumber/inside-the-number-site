@@ -977,7 +977,6 @@
 <div class="hero-wrap">
 <div class="hero">
   <div>
-    <p class="hero-eyebrow">MLB · NFL · CFB · NBA · CBB · NHL · UFC · PGA</p>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
     <p class="hero-sub">One free pick every morning, with the reasoning shown. Every result logged the day it settles — wins, losses and the ugly ones. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
@@ -1651,7 +1650,7 @@
                  ["NHL","hockey/nhl"],
                  ["UFC","mma/ufc"],["PGA","golf/pga"]];
   const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
-  const ours=new Set((window.todaysGames||[]).map(g=>`${g.away.code}|${g.home.code}`));
+  const ours=new Set(((typeof todaysGames!=='undefined')?todaysGames:[]).map(g=>`${g.away.code}|${g.home.code}`));
   const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
   const fmt=o=>{const n=Number(o);return Number.isFinite(n)&&o!=null&&o!==''?(n>0?`+${n}`:`${n}`):null};
@@ -1787,7 +1786,10 @@
   })();
 
   /* free pick, read from the homepage's own array so there is no second copy */
-  const g=(window.todaysGames||[]).find(x=>x.free)||(window.todaysGames||[])[0];
+  /* todaysGames is declared with `const` at top level, so it lives in script
+     scope and never lands on `window`. Reference the bare binding instead. */
+  const TG = (typeof todaysGames !== 'undefined') ? todaysGames : [];
+  const g = TG.find(x=>x.free) || TG[0];
   const pk=document.getElementById('hpPick');
   if(g) pk.innerHTML=`<div class="hp-k">Today's free pick</div>
     <div class="game">${g.away.name} @ ${g.home.name}</div>
