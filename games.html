@@ -689,12 +689,13 @@ function gameView(sport,id){
        different words. Something true and specific always ranks first here. */
     const S=[];
 
-    // 1. line movement, in probability points
+    // 1. line movement, in probability points — usually the most game-specific
     if(movePts!=null&&Math.abs(movePts)>=0.5){
       const mag=Math.abs(movePts);
       const toward = movePts>0 ? g.a : g.h, drifted = movePts>0 ? g.h : g.a;
-      S.push({score:12+Math.min(mag,10)*3,
+      S.push({score:18+Math.min(mag,10)*3,
         head:`${drifted.ab} better than open`,
+        sub:`${g.a.ab} ${fmt(mlOpenA)} → ${fmt(mlCloseA)}, a ${mag.toFixed(1)}-point move toward ${toward.ab}.`,
         text:`${g.a.ab} opened ${fmt(mlOpenA)} and sits ${fmt(mlCloseA)} — the market has moved <b>${mag.toFixed(1)} points</b> toward ${toward.ab}. If you like <b>${drifted.ab}</b>, you're getting a longer price than the number opened at. If you like ${toward.ab}, you've missed the best of it.`});
     }
 
@@ -705,35 +706,46 @@ function gameView(sport,id){
         const cheapAway=mkA<mkH, s=cheapAway?g.a:g.h, other=cheapAway?g.h:g.a;
         S.push({score:14+gap*10,
           head:`${s.ab} is the cheaper side`,
+          sub:`Book takes ${Math.min(mkA,mkH).toFixed(1)} pts over fair on ${s.ab}, ${Math.max(mkA,mkH).toFixed(1)} on ${other.ab}.`,
           text:`The book is charging <b>${s.ab}</b> backers ${Math.min(mkA,mkH).toFixed(1)} points over fair and ${other.ab} backers ${Math.max(mkA,mkH).toFixed(1)}. Books shade the side the public wants — right now that's ${other.ab}.`});
       }
     }
 
-    // 3. hold — expensive or unusually tight
+    /* Hold only outranks movement when it is genuinely punitive. A ~4.7%
+       total hold is normal across a whole MLB slate, so at the old weighting
+       it headlined every game and the page read the same everywhere. */
     if(worst!=null){
-      if(worst>=4.5) S.push({score:16+worst,
+      if(worst>=5.5) S.push({score:24+worst,
+        head:`Expensive at ${worst.toFixed(1)}%`,
+        sub:`Widest hold across the three markets. Worth shopping elsewhere.`,
+        text:`The widest hold across these three markets is <b>${worst.toFixed(1)}%</b>, which is a genuinely expensive price to pay. Shop this one to another book before you bet it.`});
+      else if(worst>=4.5) S.push({score:14+worst,
         head:`Book charging ${worst.toFixed(1)}%`,
-        text:`The widest hold across these three markets is <b>${worst.toFixed(1)}%</b>. Anything over 5% is an expensive price to pay — this is a game worth shopping to another book before you bet it.`});
+        sub:`Widest hold across the three markets — above a fair price.`,
+        text:`The widest hold across these three markets is <b>${worst.toFixed(1)}%</b>. Under 4% is fair, so there's margin here worth shopping around.`});
       else if(worst<=2) S.push({score:10,
         head:`Tightly priced at ${worst.toFixed(1)}%`,
+        sub:`One of the cheaper markets on the board.`,
         text:`At a <b>${worst.toFixed(1)}%</b> hold this is one of the cheaper markets on the board. The book isn't taking much out, which means the number is close to what it really thinks.`});
     }
 
     // 4. shape of the price itself
-    if(favPct>=70) S.push({score:12+(favPct-70)/2,
+    if(favPct>=70) S.push({score:15+(favPct-70)/2,
       head:`Steep price on ${fav.ab}`,
-      text:`<b>${fav.ab}</b> is a genuine <b>${favPct.toFixed(1)}%</b> here, and you're laying <b>${favOdds}</b> to get it. Heavy chalk like this is where books make their money — ${dog.ab} at ${dogOdds} only needs to win ${dogPct.toFixed(1)}% of the time to be worth it.`});
-    else if(Math.abs(mlP.a-mlP.b)<=0.04) S.push({score:11,
+      sub:`${fav.ab} is a true ${favPct.toFixed(1)}% and you're laying ${favOdds}.`,
+      text:`<b>${fav.ab}</b> is a genuine <b>${favPct.toFixed(1)}%</b> here, and you're laying <b>${favOdds}</b> to get it. Heavy chalk like this is where books make their money — ${dog.ab} at ${dogOdds} only needs to win ${dogPct.toFixed(1)}% of the time to be worth backing.`});
+    else if(Math.abs(mlP.a-mlP.b)<=0.04) S.push({score:16,
       head:`The market can't separate them`,
+      sub:`${(mlP.a*100).toFixed(1)}% / ${(mlP.b*100).toFixed(1)}% once the vig is out.`,
       text:`Stripped of vig this is <b>${(mlP.a*100).toFixed(1)}%</b> / <b>${(mlP.b*100).toFixed(1)}%</b> — as close to a coin flip as the board gets. Nobody has an edge from the price alone, so this one comes down to what you think the market is missing.`});
 
     if(!S.length) S.push({score:1,
       head:`${fav.ab} favored at ${favPct.toFixed(1)}%`,
+      sub:`${dog.ab} at ${dogOdds} needs ${dogPct.toFixed(1)}% to break even.`,
       text:`With the margin stripped out the market makes <b>${fav.ab}</b> a <b>${favPct.toFixed(1)}%</b> side. ${dog.ab} at <b>${dogOdds}</b> needs to win ${dogPct.toFixed(1)}% of the time to break even.`});
 
     S.sort((a,b)=>b.score-a.score);
-    return {side:S[0].head, headline:S[0].text.replace(/<[^>]+>/g,'').split('.')[0]+'.',
-            detail:S.slice(0,3).map(x=>x.text).join(' ')};
+    return {side:S[0].head, headline:S[0].sub, detail:S.slice(0,3).map(x=>x.text).join(' ')};
   }
   const read = marketRead();
 
