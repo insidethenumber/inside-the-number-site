@@ -91,6 +91,28 @@
   .flag{margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
   .empty{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);padding:34px 0}
 
+
+  /* ── analysis cards on the game page (added Aug 22) ── */
+  .acards{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px;margin-bottom:16px}
+  .ac{background:linear-gradient(180deg,var(--surface-2),var(--surface-1));border:1px solid var(--border);
+      border-radius:var(--r-md);padding:15px 16px}
+  .ac .k{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:9px}
+  .ac .big{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;line-height:1;margin-bottom:5px}
+  .ac .big.g{color:var(--green)} .ac .big.r{color:var(--red)} .ac .big.a{color:var(--gold)}
+  .ac .sub{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.6}
+  .ac .pbar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--surface-3);margin:8px 0 7px}
+  .ac .pbar i{display:block}
+  .ac .pbar .x{background:var(--blue)} .ac .pbar .y{background:var(--green)}
+  .ac .prow{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
+  .ac .prow b{color:var(--white);font-weight:600}
+  .takeaway{background:rgba(59,167,255,.05);border:1px solid rgba(59,167,255,.28);border-radius:var(--r-md);
+    padding:15px 17px;margin-bottom:16px}
+  .takeaway .k{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--blue);margin-bottom:7px}
+  .takeaway p{font-size:13.5px;color:var(--mid);line-height:1.75;font-weight:300}
+  .takeaway p b{color:var(--white);font-weight:600}
+
   /* game detail */
   .gh{background:linear-gradient(180deg,var(--surface-2),var(--surface-1));border:1px solid var(--border);
       border-radius:var(--r-lg);padding:24px 26px;margin-bottom:20px}
@@ -182,8 +204,16 @@
 </footer>
 
 <script>
+/* All eight sports the site claims in the hero, plus WNBA.
+   Note the shape differences — handled in normalise() below:
+     team sports  → two competitors with logos, scores and odds
+     UFC/MMA      → two athletes, country flags instead of logos, rarely any odds
+     PGA          → a tournament with a full field, not a head-to-head matchup */
 const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
-               ["NBA","basketball/nba"],["NHL","hockey/nhl"],["WNBA","basketball/wnba"]];
+               ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],
+               ["WNBA","basketball/wnba"],["NHL","hockey/nhl"],
+               ["UFC","mma/ufc"],["PGA","golf/pga"]];
+const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
 
 /* Games we have a published pick on. Mirrors todaysGames on the homepage.
    Kept as a small literal so this page needs nothing from the morning routine —
@@ -208,13 +238,48 @@ async function load(){
       const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eDate()}`);
       if(!r.ok){D[label]=[];return}
       const d=await r.json();
+      const kind=KIND(label);
+      if(kind==='golf'){
+        /* A golf event is a tournament, not a matchup. Show the tournament
+           itself with its status and the current leader — inventing a
+           head-to-head here would be dishonest. */
+        D[label]=(d.events||[]).map(ev=>{
+          const c=ev.competitions?.[0];
+          const field=(c?.competitors||[]);
+          const lead=field.slice().sort((x,y)=>(x.order??999)-(y.order??999))[0];
+          return{id:ev.id,league:label,kind:'golf',state:ev.status?.type?.state,
+            detail:ev.status?.type?.shortDetail||ev.status?.type?.detail||'',
+            title:ev.name||ev.shortName||'Tournament',venue:c?.venue?.fullName||'',
+            fieldSize:field.length,
+            leader:lead?{name:lead.athlete?.displayName||'',score:(lead.score ?? lead.statistics?.[0]?.displayValue ?? '')}:null,
+            o:{},ours:null};
+        }).filter(Boolean);
+        return;
+      }
+      if(kind==='mma'){
+        /* One ESPN "event" is a card; each competition is a single fight. */
+        D[label]=(d.events||[]).flatMap(ev=>(ev.competitions||[]).map(c=>{
+          const cs=c.competitors||[]; if(cs.length<2) return null;
+          const [x,y]=cs;
+          const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';
+          return{id:c.id,league:label,kind:'mma',state:ev.status?.type?.state,
+            detail:c.status?.type?.shortDetail||ev.status?.type?.shortDetail||'',
+            card:ev.name||'',weight:c.type?.abbreviation||'',venue:c.venue?.fullName||'',
+            a:{ab:nm(x),name:x.athlete?.displayName||'',logo:x.athlete?.flag?.href||'',sc:'',
+               rec:x.records?.find(r=>r.type==='total')?.summary||''},
+            h:{ab:nm(y),name:y.athlete?.displayName||'',logo:y.athlete?.flag?.href||'',sc:'',
+               rec:y.records?.find(r=>r.type==='total')?.summary||''},
+            o:c.odds?.[0]||{},ours:null};
+        })).filter(Boolean);
+        return;
+      }
       D[label]=(d.events||[]).map(ev=>{
         const c=ev.competitions?.[0];if(!c)return null;
         const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
         if(!h||!a)return null;
         const o=c.odds?.[0]||{};
         const key=`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`;
-        return{id:ev.id,league:label,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+        return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
           venue:c.venue?.fullName||'',provider:o.provider?.name||'',
           a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,
              rec:a.records?.find(x=>x.type==='total')?.summary||''},
@@ -230,13 +295,32 @@ const total=()=>LEAGUES.reduce((t,[l])=>t+(D[l]||[]).length,0);
 const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
 
 function rail(sel){
+  /* Every league stays fully legible and clickable even with nothing on today.
+     Dimming them implied they were broken; an out-of-season league still has a
+     next fixture worth showing, which is what listView falls back to. */
   document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
-    return `<a href="?sport=${l}" data-l="${l}" class="${l===sel?'on':''}" ${n?'':'style="opacity:.32"'}>${l}<span class="c">${n}</span></a>`;
+    return `<a href="?sport=${l}" data-l="${l}" class="${l===sel?'on':''}">${l}${n?`<span class="c">${n}</span>`:''}</a>`;
   }).join('');
 }
 
 function card(g){
+  if(g.kind==='golf'){
+    return `<a class="gc" href="?sport=${g.league}&game=${g.id}">
+      <div class="gc-top"><span class="lg">${g.league}</span><span class="st">${g.detail}</span></div>
+      <div class="row"><span class="ab" style="font-size:15px;line-height:1.25">${g.title}</span></div>
+      <div class="foot"><span>${g.venue||'Tournament'}</span><span>${g.fieldSize?g.fieldSize+' in field':''}</span></div>
+      ${g.leader?`<div class="flag" style="color:var(--mid)">Leader — ${g.leader.name} ${g.leader.score??''}</div>`:''}</a>`;
+  }
+  if(g.kind==='mma'){
+    const f=t=>`<div class="row">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:'<span style="width:22px"></span>'}
+      <span class="ab" style="font-size:15px">${t.ab}</span>
+      ${t.rec?`<span class="ml">${t.rec}</span>`:''}</div>`;
+    return `<a class="gc" href="?sport=${g.league}&game=${g.id}">
+      <div class="gc-top"><span class="lg">${g.weight||g.league}</span><span class="st">${g.detail}</span></div>
+      ${f(g.a)}${f(g.h)}
+      ${g.card?`<div class="foot"><span>${g.card}</span></div>`:''}</a>`;
+  }
   const st=g.state==='in'?`<span class="st live">● ${g.detail}</span>`:`<span class="st">${g.detail}</span>`;
   const mlA=g.o.moneyline?.away?.close?.odds, mlH=g.o.moneyline?.home?.close?.odds;
   const p=pair(mlA,mlH);
@@ -250,16 +334,55 @@ function card(g){
     ${g.ours?`<div class="flag">★ ITN pick — ${g.ours.pick}</div>`:''}</a>`;
 }
 
-function listView(sport){
+const UP={};
+async function upcoming(sport){
+  if(UP[sport])return UP[sport];
+  const path=(LEAGUES.find(([l])=>l===sport)||[])[1]; if(!path){UP[sport]=[];return []}
+  const d0=new Date(), d1=new Date(Date.now()+30*864e5);
+  const f=d=>`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  try{
+    const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${f(d0)}-${f(d1)}&limit=60`);
+    const j=await r.json();
+    UP[sport]=(j.events||[]).map(ev=>{
+      const c=ev.competitions?.[0];if(!c)return null;
+      const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
+      if(!h||!a)return null;
+      return{id:ev.id,league:sport,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+        venue:c.venue?.fullName||'',provider:'',o:c.odds?.[0]||{},
+        a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,rec:''},
+        h:{ab:h.team.abbreviation,name:h.team.shortDisplayName||h.team.name,logo:h.team.logo,sc:h.score,rec:''},
+        ours:null};
+    }).filter(Boolean).slice(0,12);
+  }catch(e){UP[sport]=[]}
+  return UP[sport];
+}
+
+async function listView(sport){
   rail(sport);
   const g=D[sport]||[];
-  document.getElementById('view').innerHTML=`
-    <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
-    <h1>${sport} — Today's Board</h1>
-    <p class="lead">Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the vig stripped out and the move since the number opened.</p>
-    ${g.length?`<div class="list">${g.map(card).join('')}</div>`
-      :`<div class="empty">No ${sport} games scheduled today. Try another league above.</div>`}`;
-  document.title=`${sport} — Today's Board | Inside the Number`;
+  const view=document.getElementById('view');
+  if(g.length){
+    view.innerHTML=`
+      <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
+      <h1>${sport} — Today's Board</h1>
+      <p class="lead">Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the vig stripped out and the move since the number opened.</p>
+      <div class="list">${g.map(card).join('')}</div>`;
+  } else {
+    view.innerHTML=`
+      <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
+      <h1>${sport} — Nothing On Today</h1>
+      <p class="lead">No ${sport} games are scheduled today. Here's what's next on the calendar.</p>
+      <div class="empty">Checking the ${sport} schedule…</div>`;
+    const u=await upcoming(sport);
+    // guard: the user may have navigated away while this was in flight
+    if(new URLSearchParams(location.search).get('sport')?.toUpperCase()!==sport && !(sport===firstWith())) return;
+    const list=view.querySelector('.empty');
+    if(!list)return;
+    list.outerHTML=u.length
+      ? `<div class="list">${u.map(x=>{D[sport]=(D[sport]||[]).concat([x]);return card(x)}).join('')}</div>`
+      : `<div class="empty">Nothing scheduled in the next 30 days either — ${sport} is out of season. Try another league above.</div>`;
+  }
+  document.title=`${sport} — Board | Inside the Number`;
 }
 
 function mktRows(rows){
@@ -289,6 +412,14 @@ function market(title,rows,hold){
   </div>`;
 }
 
+
+function moveOpenTxt(op,cl,g){
+  if(op==null||cl==null) return '';
+  if(op===cl) return `It has not moved since it opened.`;
+  const d=cl-op;
+  return `${g.a.ab} opened ${op>0?'+':''}${op} and sits ${cl>0?'+':''}${cl}, so the number has drifted ${d>0?'away from':'toward'} them.`;
+}
+
 function gameView(sport,id){
   rail(sport);
   const g=(D[sport]||[]).find(x=>x.id===id);
@@ -296,6 +427,21 @@ function gameView(sport,id){
     `<div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>Game</span></div>
      <div class="empty">That game isn't on today's board. <a href="?sport=${sport}" style="color:var(--green)">Back to ${sport} →</a></div>`;return}
 
+  if(g.kind==='golf'){
+    document.getElementById('view').innerHTML=`
+      <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.title}</span></div>
+      <div class="gh"><div class="gh-top"><span class="lg">${g.league}</span><span class="st">${g.detail}</span>
+        ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
+        <div class="gh-row"><div><div class="gh-name" style="font-size:22px">${g.title}</div>
+          ${g.leader?`<div class="gh-rec">Leader — ${g.leader.name} ${g.leader.score??''}</div>`:''}</div></div></div>
+      <div class="nopick"><div class="l">Golf is priced differently</div>
+        <p>A tournament isn't a two-way market, so there's no moneyline to strip the vig from. Outrights and matchups
+        for golf carry far more margin than a sides market — often 30% or more across the field — which is worth
+        knowing before backing a name. We cover PGA in the newsletter when a number stands out rather than pricing
+        the whole field here.</p></div>
+      <p class="expl" style="border:none"><a href="?sport=${g.league}" style="color:var(--green);text-decoration:none">← Back to ${g.league}</a></p>`;
+    document.title=`${g.title} | Inside the Number`; return;
+  }
   const o=g.o;
   const mlP=pair(o.moneyline?.away?.close?.odds,o.moneyline?.home?.close?.odds);
   const spP=pair(o.pointSpread?.away?.close?.odds,o.pointSpread?.home?.close?.odds);
@@ -313,6 +459,64 @@ function gameView(sport,id){
     <div><div class="gh-name">${t.name}</div>${t.rec?`<div class="gh-rec">${t.rec}</div>`:''}</div>
     ${showSc?`<span class="gh-sc">${t.sc??''}</span>`:''}</div>`;
 
+  /* ── analysis cards ─────────────────────────────────────────────
+     A price on its own doesn't say much. These four cards turn the raw
+     market into the things a bettor actually wants: what the market thinks
+     once the margin is out, which way the number has travelled, what the
+     book is charging, and whether we have a view. */
+  const favAb = mlP ? (mlP.a>mlP.b?g.a.ab:g.h.ab) : null;
+  const favPc = mlP ? Math.max(mlP.a,mlP.b) : null;
+  const mlOpenA=num(o.moneyline?.away?.open?.odds), mlCloseA=num(o.moneyline?.away?.close?.odds);
+  let moveTxt='Not posted', moveCls='', moveBig='—';
+  if(mlOpenA!=null&&mlCloseA!=null){
+    const d=mlCloseA-mlOpenA;
+    moveBig = d===0 ? 'Flat' : `${d>0?'+':''}${d}`;
+    moveCls = d===0?'':(d>0?'g':'r');
+    moveTxt = d===0 ? `${g.a.ab} has not moved since it opened.`
+      : `${g.a.ab} went ${fmt(mlOpenA)} → ${fmt(mlCloseA)}. ${d>0?'Money has come in on '+g.h.ab:'Money has come in on '+g.a.ab}.`;
+  }
+  const holds=[mlP?.hold,spP?.hold,toP?.hold].filter(x=>x!=null);
+  const worst=holds.length?Math.max(...holds):null;
+  const holdCls = worst==null?'':(worst>=5?'r':worst>=4?'a':'g');
+
+  const cards = `<div class="acards">
+    <div class="ac"><div class="k">Market says</div>
+      ${mlP?`<div class="big g">${(favPc*100).toFixed(1)}%</div>
+        <div class="sub"><b style="color:var(--white)">${favAb}</b> is the side the market favours, once the vig is removed.</div>
+        <div class="pbar"><i class="x" style="width:${(mlP.a*100).toFixed(1)}%"></i><i class="y" style="width:${(mlP.b*100).toFixed(1)}%"></i></div>
+        <div class="prow"><span>${g.a.ab} <b>${(mlP.a*100).toFixed(1)}%</b></span><span>${g.h.ab} <b>${(mlP.b*100).toFixed(1)}%</b></span></div>`
+       :`<div class="big">—</div><div class="sub">The moneyline isn't posted for this game right now.</div>`}
+    </div>
+    <div class="ac"><div class="k">Where the number went</div>
+      <div class="big ${moveCls}">${moveBig}</div>
+      <div class="sub">${moveTxt}</div>
+    </div>
+    <div class="ac"><div class="k">What the book charges</div>
+      ${worst!=null?`<div class="big ${holdCls}">${worst.toFixed(1)}%</div>
+        <div class="sub">Widest hold across the three markets. Under 4% is a fair price; over 5% is expensive.</div>`
+       :`<div class="big">—</div><div class="sub">No markets posted to measure.</div>`}
+    </div>
+    <div class="ac"><div class="k">Our position</div>
+      ${g.ours?`<div class="big g" style="font-size:21px">${g.ours.pick}</div>
+        <div class="sub">Published this morning and logged on the record the day it settles.</div>`
+       :`<div class="big" style="font-size:21px;color:var(--muted)">No play</div>
+        <div class="sub">We're not on this game. We publish only when we think the price is wrong.</div>`}
+    </div>
+  </div>`;
+
+  /* Plain-language read of the same numbers, so the page says something
+     rather than only showing something. */
+  let takeaway='';
+  if(mlP){
+    const edge = worst!=null && worst<4 ? 'a competitive price' : worst!=null && worst>=5 ? 'an expensive price' : 'a normal price';
+    takeaway = `<div class="takeaway"><div class="k">The read</div><p>
+      The market makes <b>${favAb}</b> a <b>${(favPc*100).toFixed(1)}%</b> favourite once the margin comes out.
+      ${moveOpenTxt(mlOpenA,mlCloseA,g)}
+      At a ${worst!=null?worst.toFixed(1)+'%':'—'} hold this is ${edge} to be taking.
+      ${g.ours?`We're on <b>${g.ours.pick}</b> — ${g.ours.why}`:`We don't have a play here today.`}
+    </p></div>`;
+  }
+
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p></div>`
     : `<div class="nopick"><div class="l">No pick on this game</div><p>We're not on this one today. The numbers above are the market's, with the vig removed — we publish a pick only when we think the price is wrong, and we log every one of them on the <a href="record.html" style="color:var(--green)">public record</a>.</p></div>`;
@@ -325,6 +529,8 @@ function gameView(sport,id){
         ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
       ${side(g.a)}${side(g.h)}
     </div>
+    ${cards}
+    ${takeaway}
     ${pickBlock}
     ${market('Moneyline',mlRows,mlP?.hold)}
     ${market('Spread',spRows,spP?.hold)}

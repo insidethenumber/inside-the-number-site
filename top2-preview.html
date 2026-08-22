@@ -740,6 +740,8 @@
   .tg-ab{font-family:'Barlow',sans-serif;font-size:11.5px;color:var(--white);font-weight:500}
   .tg-v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
   .tg-v.win{color:var(--white);font-weight:600}
+  /* the "@" only makes sense when both teams sit on one line */
+  body[data-strip="tall"] .tg-sep{display:none}
 
   /* one-line variant */
   body[data-strip="mid"] .tg{flex-direction:row;align-items:center;gap:9px;min-width:auto;padding:9px 14px}
@@ -1587,7 +1589,10 @@
     slim:"3 — text only, no logos. Shortest at ~34px — closest to a stock ticker, least scannable at a glance."
   };
   const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
-                 ["NBA","basketball/nba"],["NHL","hockey/nhl"],["WNBA","basketball/wnba"]];
+                 ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],
+                 ["WNBA","basketball/wnba"],["NHL","hockey/nhl"],
+                 ["UFC","mma/ufc"],["PGA","golf/pga"]];
+  const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
   const ours=new Set((window.todaysGames||[]).map(g=>`${g.away.code}|${g.home.code}`));
   const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
@@ -1602,8 +1607,13 @@
       const me=Number(t.sc), them=Number(t===g.a?g.h.sc:g.a.sc);
       return `<span class="tg-v ${done&&me>them?'win':''}">${t.sc??''}</span>`;
     };
-    const row=t=>`<div class="tg-r"><img src="${t.logo}" alt="" loading="lazy"/><span class="tg-ab">${t.ab}</span>
+    const row=t=>`<div class="tg-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:''}<span class="tg-ab">${t.ab}</span>
       ${g.state==='pre'?`<span class="tg-v">${fmt(t.ml)??''}</span>`:val(t)}</div>`;
+    if(g.kind==='golf'){
+      return `<a class="tg" href="games.html?sport=${g.league}&game=${g.id}">
+        <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
+        <div class="tg-body"><span class="tg-ab">${g.title}</span></div></a>`;
+    }
     return `<a class="tg ${g.ours?'ours':''}" href="games.html?sport=${g.league}&game=${g.id}">
       <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
       <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
@@ -1614,7 +1624,7 @@
     if(!active||!(D[active]||[]).length) active=(withGames[0]||['MLB'])[0];
     document.getElementById('tbL').innerHTML=
       LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games.html?sport=${l}" data-l="${l}" class="${l===active?'on':''}" ${n?'':'style="opacity:.3"'}>${l}<span class="n">${n}</span></a>`;
+        return `<a href="games.html?sport=${l}" data-l="${l}" class="${l===active?'on':''}">${l}${n?`<span class="n">${n}</span>`:''}</a>`;
       }).join('')+`<a class="tb-all" href="games.html?sport=${active}">Full board →</a>`;
     document.getElementById('tbS').innerHTML=(D[active]||[]).map(chip).join('');
   }
@@ -1638,11 +1648,29 @@
       const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eDate()}`);
       if(!r.ok){D[label]=[];return}
       const d=await r.json();
+      const kind=KIND(label);
+      if(kind==='golf'){
+        D[label]=(d.events||[]).map(ev=>({id:ev.id,league:label,kind:'golf',
+          state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+          title:ev.shortName||ev.name||'Tournament'})).filter(Boolean);
+        return;
+      }
+      if(kind==='mma'){
+        D[label]=(d.events||[]).flatMap(ev=>(ev.competitions||[]).map(c=>{
+          const cs=c.competitors||[]; if(cs.length<2)return null;
+          const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';
+          return{id:c.id,league:label,kind:'mma',state:ev.status?.type?.state,
+            detail:c.status?.type?.shortDetail||ev.status?.type?.shortDetail||'',
+            a:{ab:nm(cs[0]),logo:cs[0].athlete?.flag?.href||'',sc:'',ml:null},
+            h:{ab:nm(cs[1]),logo:cs[1].athlete?.flag?.href||'',sc:'',ml:null},ours:false};
+        })).filter(Boolean);
+        return;
+      }
       D[label]=(d.events||[]).map(ev=>{
         const c=ev.competitions?.[0];if(!c)return null;
         const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
         if(!h||!a)return null;const o=c.odds?.[0]||{};
-        return{id:ev.id,league:label,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+        return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
           a:{ab:a.team.abbreviation,logo:a.team.logo,sc:a.score,ml:o.moneyline?.away?.close?.odds},
           h:{ab:h.team.abbreviation,logo:h.team.logo,sc:h.score,ml:o.moneyline?.home?.close?.odds},
           ours:ours.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
