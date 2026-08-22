@@ -696,8 +696,86 @@
        free    → true for the one game that is the free Pick of the Day.
                  IMPORTANT: this must match the newsletter's free pick.
      ═══════════════════════════════════════════════════════════ -->
-<div class="ticker">
-  <div class="ticker-track" id="ticker-track"></div>
+<style>
+
+  /* ── ESPN-style top scores strip ───────────────────────────── */
+  .tb{background:#080a0e;border-bottom:1px solid var(--border);position:relative}
+  .tb-leagues{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 14px;overflow-x:auto;scrollbar-width:none}
+  .tb-leagues::-webkit-scrollbar{display:none}
+  .tb-leagues a{color:#c9cfd8;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
+    font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
+  .tb-leagues a:hover{color:var(--white)}
+  .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
+  .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
+  .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
+    letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
+
+  .tb-scroll{position:relative;display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+  .tb-scroll::-webkit-scrollbar{display:none}
+  .tb-nav{position:absolute;top:0;bottom:0;width:34px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(90deg,#080a0e 55%,transparent);border:none;color:var(--mid);cursor:pointer;z-index:4;font-size:17px}
+  .tb-nav.r{right:0;background:linear-gradient(270deg,#080a0e 55%,transparent)}
+  .tb-nav:hover{color:var(--white)}
+
+  .tg{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:8px 15px;min-width:172px;
+    flex-shrink:0;border-right:1px solid var(--border);text-decoration:none;position:relative;transition:background .15s}
+  .tg:hover{background:rgba(255,255,255,.05)}
+  .tg.ours::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--green)}
+  .tg-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .tg-lg{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.09em;color:var(--blue)}
+  .tg-st{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--muted);white-space:nowrap}
+  .tg-st.live{color:var(--red)}
+  .tg-r{display:flex;align-items:center;gap:6px}
+  .tg-r img{width:15px;height:15px;object-fit:contain;flex-shrink:0}
+  .tg-ab{font-family:'Barlow',sans-serif;font-size:11.5px;color:var(--white);font-weight:500}
+  .tg-v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid)}
+  .tg-v.win{color:var(--white);font-weight:600}
+  nav{order:-1}
+  .tb{position:sticky;top:60px;z-index:98}
+  #wrapTop{display:flex;flex-direction:column}
+
+  /* ── hero panel: biggest move → free pick → email ────────────────────
+     Replaces the old line-movement list. That showed four numbers with no
+     context; this leads with the one number that actually moved, then the
+     day's pick, then the ask. Deliberately NOT called "biggest edge" — an
+     edge implies our own model, and we only have market data here. */
+  .hp{padding:0!important;overflow:hidden}
+  .hp-k{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .hp-load{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
+  .hp-move,.hp-pick{display:block;text-decoration:none;color:inherit;padding:16px 18px;border-bottom:1px solid var(--border);transition:background .15s}
+  .hp-move:hover,.hp-pick:hover{background:rgba(255,255,255,.03)}
+  .hp-move .mv{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
+  .hp-move .amt{font-family:'Barlow Condensed',sans-serif;font-size:31px;font-weight:900;line-height:1}
+  .hp-move .amt.up{color:var(--green)} .hp-move .amt.dn{color:var(--red)}
+  .hp-move .who{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;text-transform:uppercase}
+  .hp-move .det{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
+  .hp-move .det b{color:var(--white);font-weight:600}
+  .hp-pick .game{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
+  .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
+  .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
+  .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
+  .hp-mail-row{display:flex;gap:7px}
+  .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
+    padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
+  .hp-mail input:focus{border-color:var(--green)}
+  .hp-mail button{background:linear-gradient(90deg,var(--green),var(--blue));color:#050608;border:none;border-radius:8px;
+    padding:9px 15px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;
+    letter-spacing:.04em;cursor:pointer;white-space:nowrap}
+  .hp-fine{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:7px;letter-spacing:.04em}
+  /* the "@" only makes sense when both teams sit on one line */
+  .tg-sep{display:none}
+
+  @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
+</style>
+
+<div id="wrapTop">
+<div class="tb">
+  <div class="tb-leagues" id="tbL"></div>
+  <div style="position:relative">
+    <button class="tb-nav l" id="tbPrev" aria-label="Scroll left">‹</button>
+    <div class="tb-scroll" id="tbS"></div>
+    <button class="tb-nav r" id="tbNext" aria-label="Scroll right">›</button>
+  </div>
 </div>
 <script>
   const todaysGames = [
@@ -752,41 +830,10 @@
   const confWord = n => n >= 4 ? 'High' : n === 3 ? 'Medium' : 'Low';
   const confClass = n => n >= 4 ? 'conf-high' : n === 3 ? 'conf-medium' : 'conf-low';
 
-  // ── Ticker ──────────────────────────────────────────────
-  document.getElementById('ticker-track').innerHTML =
-    todaysGames.map((g, i) => `
-      <a class="tk-game ${g.pick ? 'is-pick' : ''}" href="#slate" data-game="${i}">
-        <div class="tk-top">
-          <span class="tk-league s-${g.league.toLowerCase()}">${g.league}</span>
-          <span class="tk-time">${g.time}</span>
-        </div>
-        <div class="tk-row">
-          <img src="${logo(g.league, g.away.code)}" alt="${g.away.name}" loading="lazy"/>
-          <span class="tk-team">${g.away.name}</span>
-        </div>
-        <div class="tk-row">
-          <img src="${logo(g.league, g.home.code)}" alt="${g.home.name}" loading="lazy"/>
-          <span class="tk-team">${g.home.name}</span>
-        </div>
-        ${g.pick ? `<div class="tk-pick">${g.free ? '★ FREE · ' : ''}${g.pick}</div>` : ''}
-      </a>`).join('') +
-    `<a class="tk-record" href="record.html">
-       <span class="r-n">Public Record</span>
-       <span class="r-l">Every pick, every result →</span>
-     </a>`;
-
-  // Clicking a ticker game scrolls to its row in Today's Slate and flashes it.
-  document.getElementById('ticker-track').addEventListener('click', e => {
-    const card = e.target.closest('.tk-game');
-    if (!card) return;
-    const row = document.querySelector(`.slate-row[data-game="${card.dataset.game}"]`);
-    if (!row) return;
-    e.preventDefault();
-    row.scrollIntoView({ behavior:'smooth', block:'center' });
-    row.classList.remove('flash');
-    void row.offsetWidth;
-    row.classList.add('flash');
-  });
+  /* The old ticker was replaced on Aug 22 by the league strip beneath the
+     nav (see .tb). It rendered from todaysGames, so it showed our four picks
+     dressed up as a scoreboard — which is what made the top of the page
+     confusing. The strip shows real league slates and links into games.html. */
 </script>
 
 <!-- NAV -->
@@ -827,6 +874,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+</div><!-- /wrapTop -->
 
 <div class="mobile-menu" id="mobileMenu">
     <a href="#analysis">Analysis</a>
@@ -859,7 +907,6 @@
 <div class="hero-wrap">
 <div class="hero">
   <div>
-    <p class="hero-eyebrow">MLB · NFL · CFB · NBA · CBB · NHL · UFC · PGA</p>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
     <p class="hero-sub">One free pick every morning, with the reasoning shown. Every result logged the day it settles — wins, losses and the ugly ones. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
@@ -879,12 +926,26 @@
   <!-- Real line movement: opening number vs current, pulled live from ESPN's
        public scoreboard feed (odds provided by DraftKings). Populated by
        renderLineMovement() below — no hand-maintained numbers. -->
-  <div class="panel">
-    <div class="panel-title">// Live Line Movement <span class="panel-live"><span class="dot"></span>LIVE</span></div>
-    <div id="line-movement">
-      <div class="panel-empty">Loading today's lines…</div>
-    </div>
-    <div class="panel-src" id="line-src"></div>
+  <div class="panel hp">
+    <!-- 1 · biggest move on the board — the number that traveled furthest -->
+    <a class="hp-move" id="hpMove" href="games.html">
+      <div class="hp-k">Biggest move on the board</div>
+      <div class="hp-load">Reading today's numbers…</div>
+    </a>
+    <!-- 2 · today's free pick -->
+    <a class="hp-pick" id="hpPick" href="#pick-of-the-day">
+      <div class="hp-k">Today's free pick</div>
+      <div class="hp-load">—</div>
+    </a>
+    <!-- 3 · email -->
+    <form class="hp-mail" id="hpMail" action="https://insidethenumber.beehiiv.com/subscribe" method="get" target="_blank">
+      <div class="hp-k">Get it in your inbox</div>
+      <div class="hp-mail-row">
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required/>
+        <button type="submit">Join free</button>
+      </div>
+      <div class="hp-fine">One pick every morning. No card, no spam.</div>
+    </form>
   </div>
 </div>
 </div>
@@ -1501,6 +1562,151 @@
   <div class="footer-disclaimer">For entertainment purposes only. Inside the Number does not facilitate gambling. All picks are documented and published for analytical and educational purposes. Please gamble responsibly.</div>
   <div class="footer-copy">© 2026 ITN · Nashville, TN</div>
 </footer>
+
+
+<script>
+(function(){
+  const LEAGUES=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
+                 ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],
+                 ["NHL","hockey/nhl"],
+                 ["UFC","mma/ufc"],["PGA","golf/pga"]];
+  const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
+  const ours=new Set(((typeof todaysGames!=='undefined')?todaysGames:[]).map(g=>`${g.away.code}|${g.home.code}`));
+  const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
+    .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
+  const fmt=o=>{const n=Number(o);return Number.isFinite(n)&&o!=null&&o!==''?(n>0?`+${n}`:`${n}`):null};
+  const D={}; let active=null;
+
+  function chip(g){
+    const live=g.state==='in', done=g.state==='post';
+    const st=live?`<span class="tg-st live">● ${g.detail}</span>`:`<span class="tg-st">${g.detail}</span>`;
+    const val=t=>{
+      if(g.state==='pre') return fmt(t.ml)??'';
+      const me=Number(t.sc), them=Number(t===g.a?g.h.sc:g.a.sc);
+      return `<span class="tg-v ${done&&me>them?'win':''}">${t.sc??''}</span>`;
+    };
+    const row=t=>`<div class="tg-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:''}<span class="tg-ab">${t.ab}</span>
+      ${g.state==='pre'?`<span class="tg-v">${fmt(t.ml)??''}</span>`:val(t)}</div>`;
+    if(g.kind==='golf'){
+      return `<a class="tg" href="games.html?sport=${g.league}&game=${g.id}">
+        <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
+        <div class="tg-body"><span class="tg-ab">${g.title}</span></div></a>`;
+    }
+    return `<a class="tg ${g.ours?'ours':''}" href="games.html?sport=${g.league}&game=${g.id}">
+      <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
+      <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
+  }
+
+  function paint(){
+    const withGames=LEAGUES.filter(([l])=>(D[l]||[]).length);
+    if(!active||!(D[active]||[]).length) active=(withGames[0]||['MLB'])[0];
+    document.getElementById('tbL').innerHTML=
+      LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
+        return `<a href="games.html?sport=${l}" data-l="${l}" class="${l===active?'on':''}">${l}${n?`<span class="n">${n}</span>`:''}</a>`;
+      }).join('')+`<a class="tb-all" href="games.html?sport=${active}">Full board →</a>`;
+    document.getElementById('tbS').innerHTML=(D[active]||[]).map(chip).join('');
+  }
+
+  document.addEventListener('click',e=>{
+    const lg=e.target.closest('#tbL a[data-l]');
+    if(lg){e.preventDefault();active=lg.dataset.l;paint();return}
+  });
+  const sc=()=>document.getElementById('tbS');
+  document.getElementById('tbPrev').onclick=()=>sc().scrollBy({left:-360,behavior:'smooth'});
+  document.getElementById('tbNext').onclick=()=>sc().scrollBy({left:360,behavior:'smooth'});
+
+  Promise.all(LEAGUES.map(async([label,path])=>{
+    try{
+      const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eDate()}`);
+      if(!r.ok){D[label]=[];return}
+      const d=await r.json();
+      const kind=KIND(label);
+      if(kind==='golf'){
+        D[label]=(d.events||[]).map(ev=>({id:ev.id,league:label,kind:'golf',
+          state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+          title:ev.shortName||ev.name||'Tournament'})).filter(Boolean);
+        return;
+      }
+      if(kind==='mma'){
+        D[label]=(d.events||[]).flatMap(ev=>(ev.competitions||[]).map(c=>{
+          const cs=c.competitors||[]; if(cs.length<2)return null;
+          const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';
+          return{id:c.id,league:label,kind:'mma',state:ev.status?.type?.state,
+            detail:c.status?.type?.shortDetail||ev.status?.type?.shortDetail||'',
+            a:{ab:nm(cs[0]),logo:cs[0].athlete?.flag?.href||'',sc:'',ml:null},
+            h:{ab:nm(cs[1]),logo:cs[1].athlete?.flag?.href||'',sc:'',ml:null},ours:false};
+        })).filter(Boolean);
+        return;
+      }
+      D[label]=(d.events||[]).map(ev=>{
+        const c=ev.competitions?.[0];if(!c)return null;
+        const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
+        if(!h||!a)return null;const o=c.odds?.[0]||{};
+        return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+          a:{ab:a.team.abbreviation,logo:a.team.logo,sc:a.score,ml:o.moneyline?.away?.close?.odds},
+          h:{ab:h.team.abbreviation,logo:h.team.logo,sc:h.score,ml:o.moneyline?.home?.close?.odds},
+          ours:ours.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
+      }).filter(Boolean);
+    }catch(e){D[label]=[]}
+  })).then(paint);
+})();
+</script>
+
+
+<script>
+/* Populate the hero panel from the same league feed the strip already loads.
+   Biggest move = largest absolute change between opening and current moneyline
+   across every game on today's board. */
+(function(){
+  const LG=[["MLB","baseball/mlb"],["NFL","football/nfl"],["CFB","football/college-football"],
+            ["CBB","basketball/mens-college-basketball"],["NBA","basketball/nba"],["NHL","hockey/nhl"]];
+  const eD=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
+    .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
+  const n=o=>{const v=Number(o);return Number.isFinite(v)&&o!=null&&o!==''?v:null};
+  const f=o=>{const v=n(o);return v==null?null:(v>0?`+${v}`:`${v}`)};
+
+  (async()=>{
+    let best=null;
+    await Promise.all(LG.map(async([lab,path])=>{
+      try{
+        const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eD()}`);
+        if(!r.ok)return; const d=await r.json();
+        (d.events||[]).forEach(ev=>{
+          const c=ev.competitions?.[0]; if(!c||ev.status?.type?.state!=='pre')return;
+          const a=c.competitors.find(x=>x.homeAway==='away'), h=c.competitors.find(x=>x.homeAway==='home');
+          const o=c.odds?.[0]; if(!o||!a||!h)return;
+          const op=n(o.moneyline?.away?.open?.odds), cl=n(o.moneyline?.away?.close?.odds);
+          if(op==null||cl==null)return;
+          const delta=cl-op; if(delta===0)return;
+          if(!best||Math.abs(delta)>Math.abs(best.delta))
+            best={delta,op,cl,league:lab,away:a.team.abbreviation,home:h.team.abbreviation,
+                  awayName:a.team.shortDisplayName,homeName:h.team.shortDisplayName,id:ev.id};
+        });
+      }catch(e){}
+    }));
+    const el=document.getElementById('hpMove');
+    if(!best){el.querySelector('.hp-load').textContent='No line has moved yet today.';return}
+    const toward = best.delta>0 ? best.homeName : best.awayName;
+    el.href=`games.html?sport=${best.league}&game=${best.id}`;
+    el.innerHTML=`<div class="hp-k">Biggest move on the board</div>
+      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${best.delta>0?'+':''}${best.delta}</span>
+        <span class="who">${best.away} @ ${best.home}</span></div>
+      <div class="det"><b>${best.away}</b> opened ${f(best.op)} and sits ${f(best.cl)} — money has come in on
+        <b>${toward}</b>. See the full market →</div>`;
+  })();
+
+  /* free pick, read from the homepage's own array so there is no second copy */
+  /* todaysGames is declared with `const` at top level, so it lives in script
+     scope and never lands on `window`. Reference the bare binding instead. */
+  const TG = (typeof todaysGames !== 'undefined') ? todaysGames : [];
+  const g = TG.find(x=>x.free) || TG[0];
+  const pk=document.getElementById('hpPick');
+  if(g) pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+    <div class="game">${g.away.name} @ ${g.home.name}</div>
+    <div class="side">${g.pick||''}</div>
+    ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
+})();
+</script>
 
 </body>
 </html>
