@@ -707,7 +707,10 @@
     font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
   .tb-leagues a:hover{color:var(--white)}
   .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
+  .tb-leagues a.off{color:#5b626d}
+  .tb-leagues a.off:hover{color:#9ca3af}
   .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
+  .tb-leagues a.off .n{color:#4a505a}
   .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
     letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
 
@@ -1594,7 +1597,7 @@
   const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
   const fmt=o=>{const n=Number(o);return Number.isFinite(n)&&o!=null&&o!==''?(n>0?`+${n}`:`${n}`):null};
-  const D={}; let active=null;
+  const D={};
 
   function chip(g){
     const live=g.state==='in', done=g.state==='post';
@@ -1616,20 +1619,34 @@
       <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
   }
 
+  /* The league chips are NAVIGATION, not filters (changed Aug 22, 2026).
+     They used to preventDefault and merely swap which league the ticker
+     showed, which meant "NFL" did one thing here and something else one
+     click later on games.html — you had to pick the sport twice to reach
+     the actual cards. They now follow their href straight to that league's
+     board, which is where the true prices, hold and pick flags live.
+
+     Because nothing is "selected" here any more, the ticker shows EVERY
+     league at once, ordered live → upcoming → final. That is strictly more
+     than the old single-league view, so nothing was lost by dropping the
+     filter. A league with nothing today renders a dim dash instead of a
+     count, so a dead click is visible before you make it. */
+  const ORDER={in:0,pre:1,post:2};
+  function allGames(){
+    return LEAGUES.flatMap(([l])=>D[l]||[])
+      .sort((x,y)=>(ORDER[x.state]??3)-(ORDER[y.state]??3)
+        || String(x.date||'').localeCompare(String(y.date||'')));
+  }
   function paint(){
-    const withGames=LEAGUES.filter(([l])=>(D[l]||[]).length);
-    if(!active||!(D[active]||[]).length) active=(withGames[0]||['MLB'])[0];
     document.getElementById('tbL').innerHTML=
       LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games.html?sport=${l}" data-l="${l}" class="${l===active?'on':''}">${l}${n?`<span class="n">${n}</span>`:''}</a>`;
-      }).join('')+`<a class="tb-all" href="games.html?sport=${active}">Full board →</a>`;
-    document.getElementById('tbS').innerHTML=(D[active]||[]).map(chip).join('');
+        return `<a href="games.html?sport=${l}" data-l="${l}"${n?'':' class="off"'}>${l}<span class="n">${n||'—'}</span></a>`;
+      }).join('')+`<a class="tb-all" href="games.html">Full board →</a>`;
+    const g=allGames();
+    document.getElementById('tbS').innerHTML=g.length
+      ? g.map(chip).join('')
+      : `<div style="padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Nothing on the board right now.</div>`;
   }
-
-  document.addEventListener('click',e=>{
-    const lg=e.target.closest('#tbL a[data-l]');
-    if(lg){e.preventDefault();active=lg.dataset.l;paint();return}
-  });
   const sc=()=>document.getElementById('tbS');
   document.getElementById('tbPrev').onclick=()=>sc().scrollBy({left:-360,behavior:'smooth'});
   document.getElementById('tbNext').onclick=()=>sc().scrollBy({left:360,behavior:'smooth'});
@@ -1661,7 +1678,7 @@
         const c=ev.competitions?.[0];if(!c)return null;
         const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
         if(!h||!a)return null;const o=c.odds?.[0]||{};
-        return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+        return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',date:ev.date||'',
           a:{ab:a.team.abbreviation,logo:a.team.logo,sc:a.score,ml:o.moneyline?.away?.close?.odds},
           h:{ab:h.team.abbreviation,logo:h.team.logo,sc:h.score,ml:o.moneyline?.home?.close?.odds},
           ours:ours.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};

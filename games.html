@@ -70,6 +70,41 @@
   .rail a:hover{color:var(--white)}
   .rail a.on{color:var(--green);border-bottom-color:var(--green)}
   .rail .c{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);margin-left:5px}
+  .rail a.off{color:#5b626d}
+  .rail a.off:hover{color:#9ca3af}
+  .rail a.off .c{color:#4a505a}
+
+  /* Score ticker — mirrors the homepage strip so the two surfaces feel
+     continuous, and doubles as a jump menu between games in this league
+     when you are inside a single matchup. */
+  .tick{display:flex;overflow-x:auto;scrollbar-width:none;background:#050608;border-bottom:1px solid var(--border)}
+  .tick::-webkit-scrollbar{display:none}
+  .tk{min-width:138px;flex-shrink:0;border-right:1px solid var(--border);padding:8px 12px;text-decoration:none;color:inherit;display:block}
+  .tk:hover{background:var(--surface-1)}
+  .tk.on{background:var(--surface-1);box-shadow:inset 0 -2px 0 var(--green)}
+  .tk.ours{box-shadow:inset 3px 0 0 var(--green)}
+  .tk.ours.on{box-shadow:inset 3px 0 0 var(--green),inset 0 -2px 0 var(--green)}
+  .tk-h{display:flex;justify-content:space-between;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted);margin-bottom:5px}
+  .tk-h .lg{color:var(--blue)}
+  .tk-h .lv{color:var(--red)}
+  .tk-r{display:flex;align-items:center;gap:6px;padding:1px 0}
+  .tk-r img{width:15px;height:15px;object-fit:contain;flex-shrink:0}
+  .tk-r .ab{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase}
+  .tk-r .v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mid)}
+  .tk-r .v.w{color:var(--white)}
+
+  /* Empty-league state */
+  .off-hero{padding:44px 0 30px;text-align:center}
+  .off-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  .off-h{font-family:'Barlow Condensed',sans-serif;font-size:clamp(24px,3.4vw,34px);font-weight:900;text-transform:uppercase;line-height:1.05;margin-bottom:9px}
+  .off-when{font-size:14px;color:var(--mid);margin-bottom:4px}
+  .off-out{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+  .off-lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:26px 0 11px}
+  .off-chips{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+  .off-chip{text-decoration:none;border:1px solid rgba(0,208,132,.4);background:rgba(0,208,132,.07);border-radius:9px;padding:9px 15px;display:inline-block}
+  .off-chip:hover{background:rgba(0,208,132,.14)}
+  .off-chip .l{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;color:var(--green)}
+  .off-chip .s{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--muted)}
 
   .wrap{max-width:1100px;margin:0 auto;padding:30px 48px 70px}
   .crumb{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
@@ -224,6 +259,7 @@
 </script>
 
 <div class="rail" id="rail"></div>
+<div class="tick" id="tick"></div>
 
 <div class="wrap">
   <div id="view"><div class="empty">Loading today's board…</div></div>
@@ -365,12 +401,45 @@ const total=()=>LEAGUES.reduce((t,[l])=>t+(D[l]||[]).length,0);
 const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
 
 function rail(sel){
-  /* Every league stays fully legible and clickable even with nothing on today.
-     Dimming them implied they were broken; an out-of-season league still has a
-     next fixture worth showing, which is what listView falls back to. */
+  /* A league with nothing today renders a dim dash rather than a count, so a
+     dead click is visible before you make it. It stays clickable on purpose —
+     the empty view is genuinely useful, showing when the league is back plus
+     what is live right now. Dim means "nothing today", not "broken". */
   document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
-    return `<a href="?sport=${l}" data-l="${l}" class="${l===sel?'on':''}">${l}${n?`<span class="c">${n}</span>`:''}</a>`;
+    const cls=[l===sel?'on':'',n?'':'off'].filter(Boolean).join(' ');
+    return `<a href="?sport=${l}" data-l="${l}"${cls?` class="${cls}"`:''}>${l}<span class="c">${n||'—'}</span></a>`;
+  }).join('');
+}
+
+/* Score ticker under the rail. Shows this league's games; highlights the one
+   you are currently looking at so it reads as a jump menu inside a matchup. */
+function ticker(sport,currentId){
+  const el=document.getElementById('tick');
+  const g=D[sport]||[];
+  if(!g.length){el.innerHTML='';el.style.display='none';return}
+  el.style.display='';
+  el.innerHTML=g.map(x=>{
+    const live=x.state==='in', done=x.state==='post';
+    const st=live?`<span class="lv">● ${x.detail}</span>`:`<span>${x.detail}</span>`;
+    const cls=['tk',x.ours?'ours':'',String(x.id)===String(currentId)?'on':''].filter(Boolean).join(' ');
+    if(x.kind==='golf'){
+      return `<a class="${cls}" href="?sport=${x.league}&game=${x.id}">
+        <div class="tk-h"><span class="lg">${x.league}</span>${st}</div>
+        <div class="tk-r"><span class="ab" style="font-size:12px">${x.title||'Tournament'}</span></div></a>`;
+    }
+    const val=t=>{
+      if(x.state==='pre'){
+        const ml=x.kind==='mma'?null:(t===x.a?x.o?.moneyline?.away?.close?.odds:x.o?.moneyline?.home?.close?.odds);
+        return `<span class="v">${fmt(ml)??''}</span>`;
+      }
+      const me=Number(t.sc), them=Number(t===x.a?x.h.sc:x.a.sc);
+      return `<span class="v ${done&&me>them?'w':''}">${t.sc??''}</span>`;
+    };
+    const row=t=>`<div class="tk-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:'<span style="width:15px"></span>'}<span class="ab">${t.ab}</span>${val(t)}</div>`;
+    return `<a class="${cls}" href="?sport=${x.league}&game=${x.id}">
+      <div class="tk-h"><span class="lg">${x.league}</span>${st}</div>
+      ${row(x.a)}${row(x.h)}</a>`;
   }).join('');
 }
 
@@ -417,7 +486,7 @@ async function upcoming(sport){
       const c=ev.competitions?.[0];if(!c)return null;
       const h=c.competitors.find(x=>x.homeAway==='home'),a=c.competitors.find(x=>x.homeAway==='away');
       if(!h||!a)return null;
-      return{id:ev.id,league:sport,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
+      return{id:ev.id,league:sport,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',date:ev.date||'',
         venue:c.venue?.fullName||'',provider:'',o:c.odds?.[0]||{},
         a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,rec:''},
         h:{ab:h.team.abbreviation,name:h.team.shortDisplayName||h.team.name,logo:h.team.logo,sc:h.score,rec:''},
@@ -427,30 +496,63 @@ async function upcoming(sport){
   return UP[sport];
 }
 
+/* Leagues with something on today, as tappable chips. This is the whole point
+   of the empty state: a dead end becomes the fastest route to a live board. */
+function liveChips(exclude){
+  const live=LEAGUES.map(([l])=>[l,(D[l]||[]).length]).filter(([l,n])=>n&&l!==exclude);
+  if(!live.length) return '';
+  return `<div class="off-lab">On the board right now</div>
+    <div class="off-chips">${live.map(([l,n])=>
+      `<a class="off-chip" href="?sport=${l}"><div class="l">${l}</div><div class="s">${n} game${n>1?'s':''}</div></a>`).join('')}</div>`;
+}
+
+const WD=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function backOn(iso){
+  if(!iso) return null;
+  const d=new Date(iso); if(isNaN(d)) return null;
+  const days=Math.round((d-new Date())/864e5);
+  const when=`${WD[d.getDay()]}, ${MO[d.getMonth()]} ${d.getDate()}`;
+  const out=days<=0?'later today':days===1?'tomorrow':days<14?`${days} days out`
+    :days<60?`about ${Math.round(days/7)} weeks out`:`about ${Math.round(days/30)} months out`;
+  return {when,out};
+}
+
 async function listView(sport){
   rail(sport);
   const g=D[sport]||[];
   const view=document.getElementById('view');
   if(g.length){
+    ticker(sport,null);
     view.innerHTML=`
       <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
       <h1>${sport} — Today's Board</h1>
       <p class="lead">Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the vig stripped out and the move since the number opened.</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
+    ticker(sport,null);
     view.innerHTML=`
-      <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
-      <h1>${sport} — Nothing On Today</h1>
-      <p class="lead">No ${sport} games are scheduled today. Here's what's next on the calendar.</p>
-      <div class="empty">Checking the ${sport} schedule…</div>`;
+      <div class="off-hero">
+        <div class="off-tag">${sport} · off today</div>
+        <div class="off-h">No ${sport} games on the board</div>
+        <div class="off-when" id="offWhen">Checking the ${sport} schedule…</div>
+        <div class="off-out" id="offOut"></div>
+        ${liveChips(sport)}
+      </div>`;
     const u=await upcoming(sport);
     // guard: the user may have navigated away while this was in flight
     if(new URLSearchParams(location.search).get('sport')?.toUpperCase()!==sport && !(sport===firstWith())) return;
-    const list=view.querySelector('.empty');
-    if(!list)return;
-    list.outerHTML=u.length
-      ? `<div class="list">${u.map(x=>{D[sport]=(D[sport]||[]).concat([x]);return card(x)}).join('')}</div>`
-      : `<div class="empty">Nothing scheduled in the next 30 days either — ${sport} is out of season. Try another league above.</div>`;
+    const w=document.getElementById('offWhen'), o=document.getElementById('offOut');
+    if(!w) return;
+    const b=u.length?backOn(u[0].date):null;
+    w.textContent=b?`Back ${b.when}`:`Nothing scheduled in the next 30 days — ${sport} is out of season.`;
+    if(o&&b) o.textContent=b.out;
+    if(u.length){
+      const host=document.createElement('div');
+      host.innerHTML=`<div class="off-lab" style="text-align:left">Next up in ${sport}</div>
+        <div class="list">${u.slice(0,6).map(x=>{D[sport]=(D[sport]||[]).concat([x]);return card(x)}).join('')}</div>`;
+      view.appendChild(host);
+    }
   }
   document.title=`${sport} — Board | Inside the Number`;
 }
@@ -492,6 +594,7 @@ function moveOpenTxt(op,cl,g){
 
 function gameView(sport,id){
   rail(sport);
+  ticker(sport,id);
   const g=(D[sport]||[]).find(x=>x.id===id);
   if(!g){document.getElementById('view').innerHTML=
     `<div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>Game</span></div>
