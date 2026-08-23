@@ -1439,14 +1439,14 @@ function marketRead(){
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
-         ${statGrid()}<div id="ctxSlot"></div>
+         ${statGrid()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">The pick above is one of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch. The three reads beneath it are generated from the market and our projection.</p></div>`
     : best
     ? `<div class="callout">
          <div class="l">★ Our pick on this game · ${best.m}</div>
          <div class="v">${best.side} ${best.price||''}</div>
          <p>${best.why}</p>
-         ${statGrid()}<div id="ctxSlot"></div>
+         ${statGrid()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">${R?`All three come off one projection: each side's runs scored and allowed, weighted for the probable starters, then run over a full distribution of scores. That number is anchored to the posted market, because the line already prices the park, the weather and the wind — things we don't model. Genuine disagreements survive; noise gets damped out.`:`The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now.`} None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
@@ -1485,7 +1485,7 @@ function marketRead(){
     const seq=f=>f?f.games.map(x=>`<span class="fm ${x.r==='W'?'w':'l'}">${x.r}</span>`).join(''):'';
     const last=f=>f?f.games.map(x=>`${x.r} ${x.s} ${x.at} ${x.opp}`).slice(0,3).join(' \u00b7 '):'';
 
-    let html=`<div class="matchup"><div class="mx-k">The matchup</div>`;
+    let html=`<div class="callout" style="border-color:var(--border)"><div class="l">The matchup</div><div class="matchup" style="margin-top:4px;padding-top:0;border-top:none">`;
     if(g.a.sp||g.h.sp){
       const sp=t=>t.sp?`${t.sp.name}${t.sp.w!=null?` (${t.sp.w}-${t.sp.l}, ${t.sp.era} ERA)`:''}`:'TBD';
       html+=chip('On the mound', `${g.a.ab} \u2014 ${sp(g.a)}`, `${g.h.ab} \u2014 ${sp(g.h)}`);
@@ -1498,7 +1498,7 @@ function marketRead(){
         ha&&hh?`Power: ${ha.name} ${ha.val} HR \u00b7 ${hh.name} ${hh.val} HR`:'Leading average for each side');
     if(ven?.fullName) html+=chip('Ballpark', ven.fullName, [ven.address?.city, ven.grass?'grass':null].filter(Boolean).join(' \u00b7 '));
     if(wx) html+=chip('First pitch conditions', wx, 'Wind and rain move totals more than any other outside factor');
-    html+=`</div>`;
+    html+=`</div></div>`;
     slot.innerHTML=html;
   })();
 
@@ -1513,6 +1513,7 @@ function marketRead(){
     ${cards}
     ${takeaway}
     ${pickBlock}
+    <div id="ctxSlot"></div>
     ${market('Moneyline',mlRows,mlP?.hold)}
     ${market('Spread',spRows,spP?.hold)}
     ${market('Total',toRows,toP?.hold)}
