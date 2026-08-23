@@ -382,10 +382,14 @@ const D={}; let ready=false;
 
    Fetched only on the game page, never for the board, and cached per game. */
 const SUM={};
-async function loadSummary(id){
+async function loadSummary(id,league){
   if(SUM[id]!==undefined) return SUM[id];
+  /* The summary path is per-sport. Hardcoding baseball here meant every
+     football, hockey and basketball game silently got no matchup block. */
+  const path=(LEAGUES.find(([l])=>l===league)||[])[1];
+  if(!path){ SUM[id]=null; return null; }
   try{
-    const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/summary?event='+id);
+    const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/'+path+'/summary?event='+id);
     SUM[id]= r.ok ? await r.json() : null;
   }catch(e){ SUM[id]=null; }
   return SUM[id];
@@ -407,9 +411,21 @@ const weatherOf=j=>{
 };
 const leaderOf=(j,ab,cat)=>{
   const t=(j?.leaders||[]).find(x=>x.team?.abbreviation===ab);
-  const c=(t?.leaders||[]).find(x=>(x.displayName||x.name||'')===cat);
+  const c=(t?.leaders||[]).find(x=>(x.displayName||x.name||'')===cat||(x.name||'')===cat);
   const l=(c?.leaders||[])[0];
-  return l?{name:l.athlete?.shortName, val:l.displayValue}:null;
+  return l&&l.athlete?{name:l.athlete.shortName, val:l.displayValue}:null;
+};
+/* Who's banged up. ESPN carries this for every sport. Out and doubtful are
+   the ones that move a number; questionable is noise most weeks, so it's
+   counted but not named. */
+const injOf=(j,ab)=>{
+  const t=(j?.injuries||[]).find(x=>x.team?.abbreviation===ab);
+  const all=(t?.injuries||[]);
+  if(!all.length) return null;
+  const nm=x=>`${x.athlete?.shortName||'?'}${x.athlete?.position?.abbreviation?` (${x.athlete.position.abbreviation})`:''}`;
+  const isOut=x=>/out|injured reserve|doubtful|suspend|day-to-day/i.test(x.status||'');
+  const out=all.filter(isOut), q=all.filter(x=>!isOut(x));
+  return {out:out.map(nm), q:q.map(nm), n:all.length};
 };
 
 /* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
@@ -1463,7 +1479,7 @@ function marketRead(){
      after the fact so the page paints immediately on the data we already have
      and the extra request never delays the pick. */
   (async()=>{
-    const j=await loadSummary(id);
+    const j=await loadSummary(id,g.league);
     if(!j) { const fc=document.getElementById('acForm'); if(fc) fc.remove(); return; }
     const fa=formOf(j,g.a.ab), fh=formOf(j,g.h.ab);
 
@@ -1485,6 +1501,19 @@ function marketRead(){
     const seq=f=>f?f.games.map(x=>`<span class="fm ${x.r==='W'?'w':'l'}">${x.r}</span>`).join(''):'';
     const last=f=>f?f.games.map(x=>`${x.r} ${x.s} ${x.at} ${x.opp}`).slice(0,3).join(' \u00b7 '):'';
 
+    /* The matchup section is sport-shaped. Baseball leads with the pitching
+       matchup because that is the single biggest input into the number;
+       football has no equivalent, so it leads with form and the injury
+       report instead. Labels change with it \u2014 "Ballpark / First pitch" is
+       wrong on a football page. */
+    const isMLB=g.league==='MLB';
+    const isFB=g.league==='NFL'||g.league==='CFB';
+    const venLabel=isMLB?'Ballpark':isFB?'Stadium':'Venue';
+    const wxLabel=isMLB?'First pitch conditions':isFB?'Kickoff conditions':'Conditions';
+    const wxNote=isMLB?'Wind and rain move totals more than any other outside factor'
+                :isFB?'Wind is the one that matters \u2014 it shortens the passing game and the total with it'
+                :'Conditions at kickoff';
+
     let html=`<div class="callout" style="border-color:var(--border)"><div class="l">The matchup</div><div class="matchup" style="margin-top:4px;padding-top:0;border-top:none">`;
     if(g.a.sp||g.h.sp){
       const sp=t=>t.sp?`${t.sp.name}${t.sp.w!=null?` (${t.sp.w}-${t.sp.l}, ${t.sp.era} ERA)`:''}`:'TBD';
@@ -1493,11 +1522,37 @@ function marketRead(){
     if(fa&&fh) html+=chip('Form', `${seq(fa)} <span class="fmt">${g.a.ab}</span> &nbsp; ${seq(fh)} <span class="fmt">${g.h.ab}</span>`,
         `${g.a.ab}: ${last(fa)}<br/>${g.h.ab}: ${last(fh)}`);
     if(series) html+=chip('Season series', series, 'How they have split it so far this year');
-    const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
-    if(ba&&bh) html+=chip('Bats to watch', `${ba.name} ${ba.val} \u00b7 ${bh.name} ${bh.val}`,
-        ha&&hh?`Power: ${ha.name} ${ha.val} HR \u00b7 ${hh.name} ${hh.val} HR`:'Leading average for each side');
-    if(ven?.fullName) html+=chip('Ballpark', ven.fullName, [ven.address?.city, ven.grass?'grass':null].filter(Boolean).join(' \u00b7 '));
-    if(wx) html+=chip('First pitch conditions', wx, 'Wind and rain move totals more than any other outside factor');
+
+    /* Players to watch: batting average and power in baseball, the yardage
+       leaders in football. Both come from the same leaders block, so this is
+       a category swap rather than a different code path. */
+    if(isMLB){
+      const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
+      if(ba&&bh) html+=chip('Bats to watch', `${ba.name} ${ba.val} \u00b7 ${bh.name} ${bh.val}`,
+          ha&&hh?`Power: ${ha.name} ${ha.val} HR \u00b7 ${hh.name} ${hh.val} HR`:'Leading average for each side');
+    } else {
+      const ld=(ab,c)=>leaderOf(j,ab,c);
+      const rows=[['passingYards','Passing'],['rushingYards','Rushing'],['receivingYards','Receiving']]
+        .map(([c,lbl])=>{const A=ld(g.a.ab,c),H=ld(g.h.ab,c);
+          return (A&&H)?`${lbl}: ${A.name} ${A.val} \u00b7 ${H.name} ${H.val}`:null}).filter(Boolean);
+      if(rows.length) html+=chip('Players to watch', rows[0], rows.slice(1).join('<br/>'));
+    }
+
+    /* Injuries. Named only when someone is actually out \u2014 a list of
+       questionables every week is noise, so those get a count instead. */
+    const ia=injOf(j,g.a.ab), ih=injOf(j,g.h.ab);
+    if(ia||ih){
+      const line=(t,ab)=>{ if(!t) return `${ab}: nothing reported`;
+        if(t.out.length) return `${ab}: ${t.out.slice(0,3).join(', ')} out${t.out.length>3?` +${t.out.length-3}`:''}`;
+        return `${ab}: no one ruled out${t.q.length?`, ${t.q.length} questionable`:''}`; };
+      const headline=(ia?.out.length||0)+(ih?.out.length||0);
+      html+=chip('Injury report', headline?`${headline} ruled out`:'Nobody ruled out',
+        `${line(ia,g.a.ab)}<br/>${line(ih,g.h.ab)}`);
+    }
+
+    if(ven?.fullName) html+=chip(venLabel, ven.fullName,
+      [ven.address?.city, ven.grass===true?'grass':ven.grass===false?'turf':null].filter(Boolean).join(' \u00b7 '));
+    if(wx) html+=chip(wxLabel, wx, wxNote);
     html+=`</div></div>`;
     slot.innerHTML=html;
   })();
