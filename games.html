@@ -169,6 +169,26 @@
   .gh-name{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;text-transform:uppercase}
   .gh-rec{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted)}
   .gh-sc{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:24px}
+  /* Starter under the team name — in baseball this belongs beside the team,
+     not three sections down the page. */
+  .gh-sp{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--mid);margin-top:4px}
+  .gh-sp b{color:var(--white);font-weight:600}
+  /* All three markets on the header row, so the first thing on the page
+     answers "what are the numbers" without any scrolling. */
+  .gh-odds{display:flex;gap:20px;margin-left:18px}
+  .gh-odds.push{margin-left:auto}
+  .gho{text-align:right;min-width:72px}
+  .gho-k{display:block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .gho-v{font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--white);font-weight:600;white-space:nowrap}
+  .gho-v i{font-style:normal;color:var(--mid);font-size:11.5px}
+  .gho-v.off{color:var(--muted);font-weight:400}
+  @media(max-width:680px){
+    .gh-row{flex-wrap:wrap}
+    .gh-odds,.gh-odds.push{flex:1 0 100%;margin:9px 0 0;padding-left:56px;justify-content:space-between;gap:10px}
+    .gho{text-align:left;min-width:0}
+  }
+  @media(max-width:440px){ .gh-odds,.gh-odds.push{padding-left:0} }
 
   .mkt{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;overflow:hidden}
   .mkt-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
@@ -391,6 +411,11 @@ const pair=(a,b)=>{const ra=impl(a),rb=impl(b);if(ra==null||rb==null)return null
 const lastName=s=>String(s||'').trim().split(/\s+/).pop().toLowerCase().replace(/[^a-z]/g,'');
 const mmaKey=(p,q)=>`${lastName(p)}|${lastName(q)}`;
 const fmt=o=>{const n=num(o);return n==null?null:(n>0?`+${n}`:`${n}`)};
+/* Strips the o/u prefix ESPN puts on total lines ("o7.5") and returns a
+   number. Top level because the game header reads it before the market
+   section does — declared inside gameView it sat in the temporal dead zone
+   for any caller that ran earlier. */
+const lineNum=v=>{const n=parseFloat(String(v??'').replace(/^[ou]/i,''));return Number.isFinite(n)?n:null};
 const D={}; let ready=false;
 
 
@@ -1077,9 +1102,34 @@ function gameView(sport,id){
                 {side:'Under',line:o.total?.under?.close?.line,open:o.total?.under?.open?.odds,close:o.total?.under?.close?.odds,truth:toP?.b}];
 
   const showSc=g.state!=='pre';
+
+  /* Header row now carries the whole market for that side: moneyline, the
+     spread (runline in baseball) with its price, and that side's half of the
+     total. Previously you had to scroll past four cards and a paragraph to
+     find out what the game was actually priced at. */
+  const sgn=v=>{const n=lineNum(v); return n==null?null:(n>0?`+${n}`:`${n}`)};
+  const spreadLbl=(g.league==='MLB')?'Run line':'Spread';
+  const cell=(k,v)=>`<div class="gho"><span class="gho-k">${k}</span><span class="gho-v${v?'':' off'}">${v||'—'}</span></div>`;
+  const oddsFor=t=>{
+    const away=t===g.a;
+    const ml=fmt(away?o.moneyline?.away?.close?.odds:o.moneyline?.home?.close?.odds);
+    const spL=sgn(away?o.pointSpread?.away?.close?.line:o.pointSpread?.home?.close?.line);
+    const spO=fmt(away?o.pointSpread?.away?.close?.odds:o.pointSpread?.home?.close?.odds);
+    /* Away row shows the over, home row the under — one side of the total
+       each, so the pair reads as a complete market across the two rows. */
+    const tL=lineNum(away?o.total?.over?.close?.line:o.total?.under?.close?.line);
+    const tO=fmt(away?o.total?.over?.close?.odds:o.total?.under?.close?.odds);
+    return `<div class="gh-odds${showSc?'':' push'}">
+      ${cell('Moneyline', ml)}
+      ${cell(spreadLbl, spL?`${spL}${spO?` <i>${spO}</i>`:''}`:null)}
+      ${cell('Total', tL!=null?`${away?'O':'U'} ${tL}${tO?` <i>${tO}</i>`:''}`:null)}
+    </div>`;
+  };
+
   const side=t=>`<div class="gh-row"><img src="${t.logo}" alt=""/>
-    <div><div class="gh-name">${t.name}</div>${t.rec?`<div class="gh-rec">${t.rec}</div>`:''}</div>
-    ${showSc?`<span class="gh-sc">${t.sc??''}</span>`:''}</div>`;
+    <div><div class="gh-name">${t.name}</div>${t.rec?`<div class="gh-rec">${t.rec}</div>`:''}
+      ${t.sp?`<div class="gh-sp"><b>${t.sp.name}</b>${t.sp.w!=null?` · ${t.sp.w}-${t.sp.l}, ${t.sp.era} ERA`:''}</div>`:''}</div>
+    ${showSc?`<span class="gh-sc">${t.sc??''}</span>`:''}${oddsFor(t)}</div>`;
 
   /* ── analysis cards ─────────────────────────────────────────────
      A price on its own doesn't say much. These four cards turn the raw
@@ -1316,7 +1366,6 @@ function marketRead(){
      number opened versus where it sits, and which side the book is shading.
      That distinction is stated on the page rather than blurred, because
      "our model likes the under" would be a claim we can't support. */
-  const lineNum=v=>{const n=parseFloat(String(v??'').replace(/^[ou]/i,''));return Number.isFinite(n)?n:null};
   const MK=[];
   const R = projectRuns(g,
     lineNum(o.total?.over?.close?.line ?? o.total?.over?.open?.line),
