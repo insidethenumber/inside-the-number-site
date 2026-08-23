@@ -1,0 +1,6 @@
+# Inside the Number
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://insidethenumber.com/sitemap.xml
