@@ -530,6 +530,24 @@ function projectRuns(g,mktTotal,mktHomeP){
   pHome+=pTie*share; pAway+=pTie*(1-share);
   cover.h2+=pTie*share*0.5; cover.a2+=pTie*(1-share)*0.5;   // extras decided by 1 most often
   const s=pHome+pAway; pHome/=s; pAway/=s;
+
+  /* Extra innings need a MARGIN, not just a winner. Regulation ties were being
+     folded into the win probabilities but left out of the margin buckets, so
+     the two sets of numbers sat on different scales — a page could show a team
+     winning 54.8% and winning by 2+ 33.2%, implying 21.6% by exactly one run,
+     while the margin bucket said 14.1%. Anyone checking the arithmetic would
+     catch it.
+
+     With the automatic runner on second since 2020, roughly three-quarters of
+     extra-inning games finish by a single run. Allocating the tie mass on that
+     basis puts every figure on one scale and is closer to how extras actually
+     play out than treating them as marginless. */
+  const EX_ONE=0.72;
+  margin.one         += pTie*EX_ONE;
+  margin.homeBy1     += pTie*EX_ONE*share;
+  margin.awayBy1     += pTie*EX_ONE*(1-share);
+  margin.homeBy2plus += pTie*(1-EX_ONE)*share;
+  margin.awayBy2plus += pTie*(1-EX_ONE)*(1-share);
   /* Totals are frequently whole numbers in baseball (11, not 10.5), and an
      exact push is not an under win. Counting the push mass as under was
      inflating every under by several points. Over and under are normalised
