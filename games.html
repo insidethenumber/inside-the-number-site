@@ -370,6 +370,13 @@ const D={}; let ready=false;
 
    Everything here comes from ESPN's free team statistics endpoint. */
 const MLBT={}; let mlbLg=4.45; let mlbUnearnedAdj=1;
+
+/* How much of the published number is the market versus our model. The model
+   has never been back-tested against completed games, so the honest weight is
+   high. At 62% it was producing 20-point disagreements with a liquid market on
+   individual totals — that is not an edge, it is an unvalidated model shouting.
+   Lower this only once there is a graded sample to justify it. */
+const MKT_W = 0.75;
 async function loadMLBStats(){
   try{
     const r=await fetch('https://site.web.api.espn.com/apis/common/v3/sports/baseball/mlb/statistics/byteam?region=us&lang=en&season='+new Date().getFullYear()+'&seasontype=2');
@@ -448,16 +455,39 @@ function projectRuns(g,mktTotal,mktHomeP){
      answer — see BACKLOG.md. Anchoring bounds it in the meantime, including
      for causes not yet anticipated. */
   if(Number.isFinite(mktTotal)&&mktTotal>0){
-    const blended=mktTotal*0.62+(ea+eh)*0.38;
+    const blended=mktTotal*MKT_W+(ea+eh)*(1-MKT_W);
     const k=blended/(ea+eh);
     ea*=k; eh*=k;
   }
+  /* Anchor the WIN PROBABILITY, not the run share. These are different scales:
+     a 55/45 split of runs produces roughly a 60/40 win rate, because winning
+     is about out-scoring on the night rather than out-scoring on average. An
+     earlier version blended the run share against the market's implied win
+     probability, which meant the moneyline was never actually anchored — its
+     edge sat at 16 points whether the market weight was 62% or 85%.
+
+     So: read the model's own win probability off the distribution, blend THAT
+     with the market, then solve back for the run split that reproduces it.
+     Bisection converges in ~30 steps and costs nothing at this scale. */
   if(Number.isFinite(mktHomeP)&&mktHomeP>0&&mktHomeP<1){
     const tot=ea+eh;
-    // pull the split toward the market's implied strength, keeping the total fixed
-    const modelShare=eh/tot;
-    const target=modelShare*0.38+mktHomeP*0.62;
-    const s=Math.max(0.2,Math.min(0.8,target));
+    const pWin=s=>{                       // P(home wins) for a given home run share
+      const A=tot*(1-s), H=tot*s, N=26;
+      let ph=0,pa=0,pt=0;
+      for(let i=0;i<=N;i++){const p1=POIS(i,A);
+        for(let j=0;j<=N;j++){const pr=p1*POIS(j,H);
+          if(j>i)ph+=pr; else if(i>j)pa+=pr; else pt+=pr;}}
+      ph+=pt*s; pa+=pt*(1-s);
+      return ph/(ph+pa);
+    };
+    const raw=pWin(eh/tot);
+    const target=Math.max(0.05,Math.min(0.95, mktHomeP*MKT_W + raw*(1-MKT_W)));
+    let lo=0.20, hi=0.80;
+    for(let i=0;i<30;i++){
+      const mid=(lo+hi)/2;
+      if(pWin(mid)<target) lo=mid; else hi=mid;
+    }
+    const s=(lo+hi)/2;
     eh=tot*s; ea=tot*(1-s);
   }
   ea=Math.max(1.5,Math.min(9,ea)); eh=Math.max(1.5,Math.min(9,eh));
