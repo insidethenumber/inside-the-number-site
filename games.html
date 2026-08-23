@@ -244,13 +244,25 @@
     .mx-two{grid-template-columns:30px 1fr;gap:5px 9px}
     .mx-meta{grid-column:2;text-align:left;margin-top:-4px}
   }
-  .bynum{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
-  .bn-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-  .bn-row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:9px 0;border-bottom:1px solid rgba(28,33,41,.7)}
-  .bn-row:last-child{border-bottom:none}
-  .bn-l{font-size:13.5px;color:var(--white);font-weight:500}
-  .bn-v{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--green);text-align:right;font-weight:600}
-  .bn-s{grid-column:1/2;font-size:12px;color:var(--muted);line-height:1.5}
+  /* "Why this pick" — the case for the play, in labelled rows, plus the
+     counter-case in its own red-edged box so it can't be mistaken for
+     supporting evidence. */
+  .why{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+  .why-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--green);margin-bottom:11px}
+  .why-r{display:grid;grid-template-columns:92px 1fr;gap:3px 15px;padding:9px 0;border-bottom:1px solid rgba(28,33,41,.7)}
+  .why-r:last-child{border-bottom:none}
+  .why-l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);padding-top:3px}
+  .why-v{font-size:13px;color:var(--mid);line-height:1.65;font-weight:300}
+  .why-v b{color:var(--white);font-weight:600}
+  .risk{margin-top:14px;padding:12px 14px;background:rgba(255,92,92,.05);
+    border:1px solid rgba(255,92,92,.22);border-radius:var(--r-md)}
+  .risk-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--red);margin-bottom:6px}
+  .risk p{font-size:12.5px;color:var(--mid);line-height:1.65;font-weight:300}
+  .risk p b{color:var(--white);font-weight:600}
+  @media(max-width:560px){ .why-r{grid-template-columns:1fr;gap:2px} }
   .mk-others{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
   .mk-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
   .mk-row{margin-bottom:13px}
@@ -1450,7 +1462,10 @@ function marketRead(){
       const side=onHome?g.h:g.a, mine=onHome?modelH:100-modelH, mkt=onHome?mktH:100-mktH;
       const px=fmt(onHome?o.moneyline?.home?.close?.odds:o.moneyline?.away?.close?.odds);
       const e=Math.abs(mine-mkt);
+      const other=onHome?g.a:g.h;
       MK.push({m:'Moneyline',side:side.name,price:px,strength:e*1.6,modelled:true,conf:conf(e),
+        mine,mkt,
+        beats:`${other.name} winning outright, which our own number still has happening <b>${(100-mine).toFixed(1)}%</b> of the time. There is no cushion on a moneyline — ${side.name} have to actually win the game.`,
         why:`Our run projection has <b>${g.a.name} ${R.ea.toFixed(2)}</b>, <b>${g.h.name} ${R.eh.toFixed(2)}</b>, which makes ${side.name} a <b>${mine.toFixed(1)}%</b> winner. The market prices that side at ${mkt.toFixed(1)}% — <b>${e.toFixed(1)} points</b> of difference. At ${px} you break even at ${mkt.toFixed(1)}%.`});
     }
 
@@ -1466,6 +1481,10 @@ function marketRead(){
       const mine=takeFav?modelCover:100-modelCover, mkt=takeFav?mktFavCover:100-mktFavCover;
       const e=Math.abs(mine-mkt);
       MK.push({m:'Runline',side:`${side.name} ${ln>0?'+':''}${ln}`,price:px,strength:e*1.4,modelled:true,conf:conf(e),
+        mine,mkt,
+        beats:takeFav
+          ? `A one-run game. We make that <b>${(R.margin.one*100).toFixed(1)}%</b> likely here, and every one of those loses this bet even when ${side.name} win.`
+          : `${side.name} losing by two or more. Our number puts that at <b>${(100-mine).toFixed(1)}%</b> — the run and a half covers a one-run loss, nothing worse.`,
         why:`Run out that same projection over a full distribution of scores and ${side.name} ${ln>0?'+':''}${ln} lands <b>${mine.toFixed(1)}%</b> of the time. The runline is priced at ${mkt.toFixed(1)}% — <b>${e.toFixed(1)} points</b> of difference. ${takeFav?'The favorite wins by two or more often enough to justify laying the run.':'One-run games are common enough here that the extra run and a half is worth more than the market is charging.'}`});
     }
 
@@ -1479,6 +1498,10 @@ function marketRead(){
         const e=Math.abs(mine-mkt);
         const push=R.pushProb(T);
         MK.push({m:'Total',side:`${takeOver?'Over':'Under'} ${T}`,price:px,strength:e*1.5,modelled:true,conf:conf(e),
+          mine,mkt,
+          beats:takeOver
+            ? `Two starters going deep and a quiet night at the plate. Our number still has the under at <b>${(100-mine).toFixed(1)}%</b>${push>0.02?`, plus a <b>${(push*100).toFixed(1)}%</b> chance it lands exactly on ${T}`:''}.`
+            : `One big inning. Totals rarely die slowly — a single crooked number flips this, and we still have the over at <b>${(100-mine).toFixed(1)}%</b>${push>0.02?`, with a <b>${(push*100).toFixed(1)}%</b> chance of landing exactly on ${T}`:''}.`,
           why:`We project <b>${R.total.toFixed(2)} total runs</b> — ${g.a.name} ${R.ea.toFixed(2)}, ${g.h.name} ${R.eh.toFixed(2)} — against a posted number of <b>${T}</b>. That makes the ${takeOver?'over':'under'} a <b>${mine.toFixed(1)}%</b> proposition where the market has it at ${mkt.toFixed(1)}%, a gap of <b>${e.toFixed(1)} points</b>.${push>0.02?` Note this is a whole number, so exactly ${T} pushes — we make that ${(push*100).toFixed(1)}% likely and it's excluded from the percentages above.`:''}`});
       }
     }
@@ -1614,47 +1637,67 @@ function marketRead(){
      the shape of the margin, so it gets one-run-game frequency. A total is a
      bet on the distribution of runs, so it gets the modal score. */
   const pct=v=>`${(v*100).toFixed(1)}%`;
-  function statGrid(){
-    if(!R||!best) return '';
+
+  /* ── WHY THIS PICK ─────────────────────────────────────────────────
+     Replaced "By the numbers", a grid of model probabilities. It was
+     accurate but inert: a column of percentages restates the projection
+     already shown in the card above it and never says why any of it should
+     change your mind. It also took the most valuable space on the page —
+     directly under the pick.
+
+     What goes here instead is the actual case, in the order a bettor would
+     build it: the price you're getting, the arms, who is swinging it, who is
+     unavailable, and the conditions. Then the honest counter-case, because
+     the fastest way to lose trust is to publish a pick with no downside.
+
+     Rows that depend on a second request fill in asynchronously; each has
+     its own slot so two writers never race, and any slot with nothing to say
+     removes itself. */
+  function whyBlock(){
+    if(!best) return '';
     const rows=[];
-    const fav = R.eh>R.ea ? g.h : g.a, dog = R.eh>R.ea ? g.a : g.h;
-    if(best.m==='Runline'){
-      rows.push(['One-run game', pct(R.margin.one), 'Exactly what the extra run and a half is buying']);
-      rows.push([`${fav.ab} by 2 or more`, pct(fav===g.h?R.margin.homeBy2plus:R.margin.awayBy2plus), `What ${fav.ab} needs to beat this number`]);
-      // use the tested impl() helper rather than rolling the conversion by hand;
-      // the hand-written version returned the complement of the break-even.
-      const be=impl(best.price);
-      if(be!=null) rows.push(['Break-even at this price', pct(be), `You need it to land that often at ${best.price} just to stand still`]);
-    } else if(best.m==='Total'){
-      rows.push(['Projected total', R.total.toFixed(2), `${g.a.ab} ${R.ea.toFixed(2)} · ${g.h.ab} ${R.eh.toFixed(2)}`]);
-      rows.push(['Most likely total', String(R.modeTotal), `Lands exactly there ${pct(R.modeP)} of the time`]);
-      const T=lineNum(o.total?.over?.close?.line);
-      if(T!=null){
-        rows.push(['Over the posted number', pct(R.overProb(T)), `Posted at ${T}`]);
-        const pu=R.pushProb(T);
-        if(pu>0.02) rows.push(['Pushes exactly', pct(pu), 'Whole number, so a tie refunds']);
-      }
-    } else {
-      rows.push([`${g.a.name}`, pct(R.pAway), 'Our win probability']);
-      rows.push([`${g.h.name}`, pct(R.pHome), 'Our win probability']);
-      rows.push(['One-run game', pct(R.margin.one), 'How often this is decided by a single run']);
-      rows.push(['Projected score', `${R.ea.toFixed(2)} – ${R.eh.toFixed(2)}`, `${R.total.toFixed(2)} total runs`]);
+
+    /* Break-even is the bar the bet actually has to clear. It comes off the
+       posted price and includes the book's margin, so it is a stricter and
+       more honest number than the no-vig probability. */
+    const be=impl(best.price);
+    if(be!=null&&best.mine!=null){
+      const cushion=best.mine-be*100;
+      rows.push(['The price',
+        `At <b>${best.price}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. Our number puts it at <b>${best.mine.toFixed(1)}%</b> — ${cushion>=0?`<b>${cushion.toFixed(1)} points</b> of room`:`<b>${Math.abs(cushion).toFixed(1)} points</b> short, which is why this is a lean and not a strong play`}.`]);
     }
-    return `<div class="bynum"><div class="bn-k">By the numbers</div>
-      ${rows.map(r=>`<div class="bn-row"><div class="bn-l">${r[0]}</div><div class="bn-v">${r[1]}</div><div class="bn-s">${r[2]}</div></div>`).join('')}
-    </div>`;
+
+    if(g.league==='MLB'&&g.a.sp&&g.h.sp&&g.a.sp.era&&g.h.sp.era){
+      const ea=parseFloat(g.a.sp.era), eh=parseFloat(g.h.sp.era);
+      let note='';
+      if(Number.isFinite(ea)&&Number.isFinite(eh)){
+        const gap=Math.abs(ea-eh), bt=ea<eh?g.a:g.h;
+        note = gap>=0.75 ? ` <b>${bt.ab}</b> have the better arm by ${gap.toFixed(2)} of earned run average, and the starter is roughly two thirds of the run prevention in any game.`
+             : ` Close to even on the mound — ${gap.toFixed(2)} between them, which is inside the noise.`;
+      }
+      rows.push(['The arms',
+        `<b>${g.a.sp.name}</b> (${g.a.sp.w!=null?`${g.a.sp.w}-${g.a.sp.l}, `:''}${g.a.sp.era}) opposite <b>${g.h.sp.name}</b> (${g.h.sp.w!=null?`${g.h.sp.w}-${g.h.sp.l}, `:''}${g.h.sp.era}).${note}`]);
+    }
+
+    const slots=['<div id="whyBats"></div>','<div id="whyInj"></div>','<div id="whyCond"></div>'].join('');
+    const risk=best.beats?`<div class="risk"><div class="risk-k">What beats it</div><p>${best.beats}</p></div>`:'';
+
+    return `<div class="why"><div class="why-k">Why this pick</div>
+      ${rows.map(r=>`<div class="why-r"><div class="why-l">${r[0]}</div><div class="why-v">${r[1]}</div></div>`).join('')}
+      ${slots}</div>${risk}`;
   }
+
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
-         ${statGrid()}
+         ${whyBlock()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">The pick above is one of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch. The three reads beneath it are generated from the market and our projection.</p></div>`
     : best
     ? `<div class="callout">
          <div class="l">★ Our pick on this game · ${best.m}</div>
          <div class="v">${best.side} ${best.price||''}</div>
          <p>${best.why}</p>
-         ${statGrid()}
+         ${whyBlock()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">${R?`All three come off one projection: each side's runs scored and allowed, weighted for the probable starters, then run over a full distribution of scores. That number is anchored to the posted market, because the line already prices the park, the weather and the wind — things we don't model. Genuine disagreements survive; noise gets damped out.`:`The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now.`} None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
@@ -1684,6 +1727,15 @@ function marketRead(){
     const poss=n=>/s$/i.test(n)?`${n}'`:`${n}'s`;   // Braves' but Red Sox's
     if(cold.length) s+=` Gone quiet: ${cold.map(x=>`${poss(x.t)} <b>${x.c.name}</b> at <b>${x.c.avg}</b>`).join(' and ')}.`;
     el.innerHTML=s;
+
+    /* Same data, framed as evidence for the pick rather than colour. */
+    const bs=document.getElementById('whyBats');
+    if(bs){
+      const line=(f,t)=>f?`${t.ab} <b>${f.hot.name}</b> ${f.hot.avg} (${f.hot.ops} OPS), coldest bat <b>${f.cold.name}</b> ${f.cold.avg}`:null;
+      const parts=[line(ha,g.a),line(hh,g.h)].filter(Boolean);
+      if(parts.length) bs.outerHTML=`<div class="why-r"><div class="why-l">The bats</div><div class="why-v">${parts.join('. ')}. Last fifteen games, minimum 25 at-bats.</div></div>`;
+      else bs.remove();
+    }
   })();
 
   /* Fill the form card and the matchup block once the summary lands. Rendered
@@ -1818,6 +1870,32 @@ function marketRead(){
       const ca=cell(ia), ch=cell(ih);
       html+=two('Injury report', [[g.a.ab,ca[0],ca[1]],[g.h.ab,ch[0],ch[1]]],
         'Unavailable players only. Pitchers on the list are the ones that move a number.');
+    }
+
+    /* Feed the same injury and conditions facts into the pick reasoning.
+       Pitchers and quarterbacks are called out separately because those are
+       the ones that actually move a number. */
+    const wi=document.getElementById('whyInj');
+    if(wi){
+      const keyPos=/^(SP|RP|P|QB)$/i;
+      const bits=[];
+      [[ia,g.a],[ih,g.h]].forEach(([t,tm])=>{
+        if(!t||!t.out.length) return;
+        const arms=t.out.filter(x=>keyPos.test((x.n.match(/\(([^)]+)\)/)||[])[1]||''));
+        bits.push(arms.length
+          ? `${tm.ab} are without <b>${arms.slice(0,2).map(x=>x.n.replace(/\s*\([^)]*\)/,'')).join('</b> and <b>')}</b> on the mound${t.out.length>arms.length?`, plus ${t.out.length-arms.length} more`:''}`
+          : `${tm.ab} have <b>${t.out.length}</b> unavailable`);
+      });
+      if(bits.length) wi.outerHTML=`<div class="why-r"><div class="why-l">Who's out</div><div class="why-v">${bits.join('. ')}.</div></div>`;
+      else wi.remove();
+    }
+    const wc=document.getElementById('whyCond');
+    if(wc){
+      const cb=[];
+      if(ven?.fullName) cb.push(`<b>${ven.fullName}</b>${ven.address?.city?`, ${ven.address.city}`:''}`);
+      if(wx) cb.push(wx);
+      if(cb.length) wc.outerHTML=`<div class="why-r"><div class="why-l">Conditions</div><div class="why-v">${cb.join(' · ')}.${wx&&isMLB?' Wind and rain move a total further than any other outside factor.':''}</div></div>`;
+      else wc.remove();
     }
 
     if(ven?.fullName) html+=chip(venLabel, ven.fullName,
