@@ -1233,9 +1233,18 @@ function gameView(sport,id){
           <div class="sub">${g.detail||''}</div></div>
       </div>
       ${readTxt?`<div class="takeaway"><div class="k">The read</div><p>${readTxt}</p></div>`:''}
-      ${g.ours?`<div class="callout"><div class="l">★ Our pick on this fight</div>
+      ${g.ours?(()=>{
+        /* Same shape as every other sport: the price, then what beats it.
+           The published pick string carries the number we took, so break-even
+           can be computed from it even though MMA isn't in the odds feed. */
+        const px=(String(g.ours.pick).match(/([+-]\d{3,4})/)||[])[1]||null;
+        const be=px?impl(px):null;
+        const priceRow=be!=null?`<div class="why-r"><div class="why-l">The price</div><div class="why-v">At <b>${px}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. We don't run a model on MMA — this number was taken by hand, so judge it on the reasoning above rather than on a projection.</div></div>`:'';
+        return `<div class="callout"><div class="l">★ Our pick on this fight</div>
         <div class="v">${g.ours.pick}</div><p>${g.ours.why||''}</p>
-        <p style="margin-top:10px;font-size:12px;color:var(--muted)">Priced by hand from multiple books, before the walkouts. Fight markets aren't in our automated feed, so UFC is covered the way it should be — one card at a time.</p></div>`:''}
+        ${priceRow?`<div class="why"><div class="why-k">Why this pick</div>${priceRow}</div>`:''}
+        <div class="risk"><div class="risk-k">What beats it</div><p>One exchange. MMA carries more variance than anything else on this board — a three-round fight can turn on a single clean shot regardless of records, camps or styles, and no model prices that. Stake it smaller than you would a side in a team sport.</p></div>
+        <p style="margin-top:12px;font-size:12px;color:var(--muted)">Priced by hand from multiple books, before the walkouts. Fight markets aren't in our automated feed, so UFC is covered the way it should be — one card at a time.</p></div>`;})():''}
       <div class="nopick"><div class="l">${g.ours?'Why there\'s no live price on this page':'Why there\'s no price here'}</div>
         <p>A fight is a two-way market like any other, but the feed behind this board doesn't carry MMA odds — so there's no opening number, no move and no true price to work back from. Rather than guess, we leave it blank.</p>
         <p style="margin-top:10px">UFC is covered properly where it can be done by hand: we survey every card and the fights we like go out in the <a href="index.html#signup" style="color:var(--green)">morning email</a>, with the reasoning. Fight markets are among the softest on the board, which is exactly why they're worth writing about rather than automating badly.</p></div>
@@ -1593,7 +1602,9 @@ function marketRead(){
     w.push(e<1.2 ? `That's inside the noise; the price is about right.`
                  : `At <b>${sideOdds}</b> you need ${P.mktPct.toFixed(1)}% to break even and we make it ${P.sidePct.toFixed(1)}%.`);
     MK.push({m:'Moneyline',side:P.side.name,price:sideOdds,
-      strength:e*1.6, modelled:true, why:w.join(' ')});
+      strength:e*1.6, modelled:true, mine:P.sidePct, mkt:P.mktPct,
+      beats:`${(P.side===g.h?g.a:g.h).name} winning outright. A moneyline gives you no cushion at all — ${P.side.name} have to actually win the game, and our own number still has them losing it <b>${(100-P.sidePct).toFixed(1)}%</b> of the time.`,
+      why:w.join(' ')});
   }
 
   // Runline / spread
@@ -1612,8 +1623,14 @@ function marketRead(){
     if(moved) bits.push(`The ${g.league==='MLB'?'runline':'spread'} moved from ${aO>0?'+':''}${aO} to ${aC>0?'+':''}${aC} on ${g.a.ab}, so <b>${better.name}</b> is available at a better number than it opened.`);
     if(Math.abs(shade)>=0.4) bits.push(`The book is shading ${(shade>0?g.a:g.h).ab} — ${cheap.name} is the cheaper side of the two by ${Math.abs(shade).toFixed(1)} points over fair.`);
     if(!bits.length) bits.push(`Slight edge in price to the <b>${cheap.name}</b>, but the number hasn't moved and there's little in it either way.`);
+    const unitW=g.league==='MLB'?'run':'point';
+    const beatTxt = ln>0
+      ? `${side.name} losing by more than ${Math.abs(ln)} ${unitW}${Math.abs(ln)===1?'':'s'}. The cushion only covers a defeat inside that number — a blowout loses this the same as a close one.`
+      : `${side.name} winning by less than ${Math.abs(ln)}, or not winning at all. You're laying the ${unitW}s here, so a narrow win still loses the bet.`;
     MK.push({m:g.league==='MLB'?'Runline':'Spread',side:`${side.name} ${ln>0?'+':''}${ln}`,price:px,
-      strength:(moved?3.5:0)+Math.abs(shade)*2.2, modelled:false, why:bits.join(' ')});
+      strength:(moved?3.5:0)+Math.abs(shade)*2.2, modelled:false,
+      beats:beatTxt + (Number.isInteger(ln)?` Landing exactly on ${Math.abs(ln)} is a push and you get the stake back.`:''),
+      why:bits.join(' ')});
   }
 
   // Total
@@ -1629,8 +1646,19 @@ function marketRead(){
     if(moved) bits.push(`The total opened at <b>${oO}</b> and sits at <b>${oC}</b> — money has come in on the ${dir==='up'?'over':'under'}, which means the <b>${better.toLowerCase()}</b> is now a ${Math.abs(oC-oO)}-run better number than it was.`);
     if(Math.abs(shade)>=0.4) bits.push(`On price, the book is charging ${(shade>0?'over':'under')} backers ${Math.abs(shade).toFixed(1)} points more over fair.`);
     if(!bits.length) bits.push(`The total hasn't moved off <b>${oC??oO}</b> and both sides are priced within a rounding error of fair.`);
-    MK.push({m:'Total',side:`${better} ${oC??oO}`,price:px,
-      strength:(moved?Math.abs(oC-oO)*7:0)+Math.abs(shade)*2.2, modelled:false, why:bits.join(' ')});
+    /* Sport-appropriate description of the single event that flips a total. */
+    const burst = g.league==='MLB' ? 'one big inning'
+                : (g.league==='NFL'||g.league==='CFB') ? 'one long touchdown drive and a quick answer'
+                : (g.league==='NHL') ? 'one two-goal period'
+                : 'one quick scoring run';
+    const T2=oC??oO;
+    MK.push({m:'Total',side:`${better} ${T2}`,price:px,
+      strength:(moved?Math.abs(oC-oO)*7:0)+Math.abs(shade)*2.2, modelled:false,
+      beats: better==='Over'
+        ? `A quiet game from both sides. Overs die slowly — you need scoring all the way through, and one cold stretch is usually enough to bury it.`
+        : `${burst.charAt(0).toUpperCase()+burst.slice(1)}. Unders rarely lose gradually; a single burst puts the number out of reach with time still on the clock.`
+        + (Number.isInteger(T2)?` Exactly ${T2} is a push.`:''),
+      why:bits.join(' ')});
   }
   }   // end !R fallback
 
@@ -1735,10 +1763,19 @@ function marketRead(){
        posted price and includes the book's margin, so it is a stricter and
        more honest number than the no-vig probability. */
     const be=impl(best.price);
-    if(be!=null&&best.mine!=null){
-      const cushion=best.mine-be*100;
-      rows.push(['The price',
-        `At <b>${best.price}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. Our number puts it at <b>${best.mine.toFixed(1)}%</b> — ${cushion>=0?`<b>${cushion.toFixed(1)} points</b> of room`:`<b>${Math.abs(cushion).toFixed(1)} points</b> short, which is why this is a lean and not a strong play`}.`]);
+    if(be!=null){
+      /* Break-even works on any price in any sport. The comparison against
+         our own number only appears where we actually have one — outside
+         baseball there is no run model yet, and implying otherwise would be
+         the dishonest version of consistency. */
+      if(best.mine!=null){
+        const cushion=best.mine-be*100;
+        rows.push(['The price',
+          `At <b>${best.price}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. Our number puts it at <b>${best.mine.toFixed(1)}%</b> — ${cushion>=0?`<b>${cushion.toFixed(1)} points</b> of room`:`<b>${Math.abs(cushion).toFixed(1)} points</b> short, which is why this is a lean and not a strong play`}.`]);
+      } else {
+        rows.push(['The price',
+          `At <b>${best.price}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. We don't run a scoring model on ${g.league} yet, so this is a read of how the market has moved rather than a projected edge.`]);
+      }
     }
 
     /* Only the last-three-starts row is fetched here. The arms, the bats,
@@ -1823,7 +1860,7 @@ function marketRead(){
      and the extra request never delays the pick. */
   (async()=>{
     const j=await loadSummary(id,g.league);
-    if(!j) { const fc=document.getElementById('acForm'); if(fc) fc.remove(); return; }
+    if(!j) { ['acForm','whyForm'].forEach(x=>document.getElementById(x)?.remove()); return; }
     const fa=formOf(j,g.a.ab), fh=formOf(j,g.h.ab);
 
     const fc=document.getElementById('acForm');
@@ -1868,6 +1905,28 @@ function marketRead(){
           ${row(g.h,fh,g.h.split?`${g.h.split} home`:'')}
           <div class="sub" style="margin-top:7px">Last ${fa.n} games each, with the season split alongside.</div>`;
       } else fc.remove();
+    }
+
+    /* The non-baseball version of "the headline number is misleading".
+       Winning games and covering spreads are different skills, and a team's
+       record against the number is the one everybody quotes least. Falls back
+       to recent scoring when ESPN hasn't populated ATS — it stays empty for
+       MLB all year and for football until the regular season starts. */
+    if(g.league!=='MLB'){
+      const wf=document.getElementById('whyForm');
+      if(wf){
+        const atsOf=ab=>{
+          const t=(j.againstTheSpread||[]).find(x=>x.team?.abbreviation===ab);
+          const r=(t?.records||[]).find(x=>x.summary);
+          return r?r.summary:null;
+        };
+        const aa=atsOf(g.a.ab), ah=atsOf(g.h.ab);
+        if(aa&&ah){
+          wf.outerHTML=`<div class="why-r"><div class="why-l">Against the number</div><div class="why-v">${g.a.ab} <b>${aa}</b> and ${g.h.ab} <b>${ah}</b> against the spread this season. Winning games and covering them are different skills — the record everyone quotes is the first one, and the market only pays on the second.</div></div>`;
+        } else if(fa&&fh&&fa.pf!=null&&fh.pf!=null){
+          wf.outerHTML=`<div class="why-r"><div class="why-l">Recent scoring</div><div class="why-v">${g.a.ab} <b>${fa.pf.toFixed(1)}</b> scored and <b>${fa.pa.toFixed(1)}</b> allowed over its last ${fa.n}; ${g.h.ab} <b>${fh.pf.toFixed(1)}</b> and <b>${fh.pa.toFixed(1)}</b>. Against-the-spread records aren't posted for this competition yet.</div></div>`;
+        } else wf.remove();
+      }
     }
 
     const slot=document.getElementById('ctxSlot'); if(!slot) return;
