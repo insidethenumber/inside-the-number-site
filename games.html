@@ -127,6 +127,11 @@
   .ab{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase}
   .sc{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:14px}
   .ml{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mid);min-width:46px;text-align:right}
+  .sp-row{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.7}
+  .sp-row .sp-t{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--blue);font-size:11px;letter-spacing:.05em}
+  .sp-row .sp-n{color:var(--white);font-weight:500}
+  .sp-row .sp-r{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mid);margin-left:3px}
+  .sp-row .sp-v{color:var(--muted);margin:0 5px}
   .foot{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;
     font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .foot b{color:var(--green);font-weight:600}
@@ -186,6 +191,18 @@
   .nopick{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;margin-bottom:14px}
   .nopick .l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
   .nopick p{font-size:13.5px;color:var(--mid);line-height:1.7;font-weight:300}
+  .matchup{margin-top:18px;padding-top:15px;border-top:1px solid var(--border)}
+  .mx-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .mx-row{padding:10px 0;border-bottom:1px solid rgba(28,33,41,.7)}
+  .mx-row:last-child{border-bottom:none}
+  .mx-l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+  .mx-v{font-size:14.5px;color:var(--white);font-weight:500;line-height:1.55}
+  .mx-s{font-size:12px;color:var(--muted);line-height:1.6;margin-top:3px}
+  .fm{display:inline-block;width:17px;height:17px;line-height:17px;text-align:center;border-radius:4px;
+      font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;margin-right:3px}
+  .fm.w{background:rgba(0,208,132,.16);color:var(--green)}
+  .fm.l{background:rgba(255,92,92,.14);color:var(--red)}
+  .fmt{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.05em;margin-left:2px}
   .bynum{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
   .bn-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
   .bn-row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:9px 0;border-bottom:1px solid rgba(28,33,41,.7)}
@@ -354,6 +371,46 @@ const lastName=s=>String(s||'').trim().split(/\s+/).pop().toLowerCase().replace(
 const mmaKey=(p,q)=>`${lastName(p)}|${lastName(q)}`;
 const fmt=o=>{const n=num(o);return n==null?null:(n>0?`+${n}`:`${n}`)};
 const D={}; let ready=false;
+
+
+/* ── MATCHUP CONTEXT ───────────────────────────────────────────────────
+   The scoreboard feed gives prices and records. ESPN's per-game summary
+   endpoint gives the human material: last five results, the season series,
+   the weather at first pitch, injuries and team leaders. That is the stuff
+   that makes a pick readable — "these two just played twice and both went to
+   the wire" lands harder than "one-run game 37.5%".
+
+   Fetched only on the game page, never for the board, and cached per game. */
+const SUM={};
+async function loadSummary(id){
+  if(SUM[id]!==undefined) return SUM[id];
+  try{
+    const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/summary?event='+id);
+    SUM[id]= r.ok ? await r.json() : null;
+  }catch(e){ SUM[id]=null; }
+  return SUM[id];
+}
+const formOf=(j,ab)=>{
+  const t=(j?.lastFiveGames||[]).find(x=>x.team?.abbreviation===ab);
+  if(!t) return null;
+  const ev=(t.events||[]);
+  return {seq:ev.map(e=>e.gameResult).join(''), w:ev.filter(e=>e.gameResult==='W').length, n:ev.length,
+          games:ev.map(e=>({r:e.gameResult,s:e.score,opp:e.opponent?.abbreviation,at:e.atVs}))};
+};
+const weatherOf=j=>{
+  const w=j?.gameInfo?.weather; if(!w) return null;
+  const bits=[];
+  if(w.temperature!=null) bits.push(w.temperature+'\u00b0F');
+  if(w.gust!=null) bits.push(w.gust+' mph wind');
+  if(w.precipitation!=null) bits.push(w.precipitation+'% rain');
+  return bits.length?bits.join(' \u00b7 '):null;
+};
+const leaderOf=(j,ab,cat)=>{
+  const t=(j?.leaders||[]).find(x=>x.team?.abbreviation===ab);
+  const c=(t?.leaders||[]).find(x=>(x.displayName||x.name||'')===cat);
+  const l=(c?.leaders||[])[0];
+  return l?{name:l.athlete?.shortName, val:l.displayValue}:null;
+};
 
 /* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
    Projects runs for each side, then derives the moneyline, the runline AND
@@ -712,9 +769,17 @@ function card(g){
   const side=t=>`<div class="row"><img src="${t.logo}" alt="" loading="lazy"/><span class="ab">${t.ab}</span>
     ${showSc?`<span class="sc">${t.sc??''}</span>`:''}<span class="ml">${fmt(t===g.a?mlA:mlH)??'—'}</span></div>`;
   const foot=p?`<div class="foot"><span>True ${g.a.ab} <b>${(p.a*100).toFixed(1)}%</b> · ${g.h.ab} <b>${(p.b*100).toFixed(1)}%</b></span><span>Book takes ${p.hold.toFixed(1)}%</span></div>`:'';
+  /* Probable starters on the card itself. In baseball the pitching matchup is
+     the single biggest driver of a game, so making people click through to see
+     who is throwing was hiding the most important fact on the board. */
+  const spLine=(g.a.sp||g.h.sp)?`<div class="sp-row">
+    <span class="sp-t">${g.a.ab}</span> <span class="sp-n">${g.a.sp?g.a.sp.name:'TBD'}</span>${g.a.sp&&g.a.sp.w!=null?`<span class="sp-r">${g.a.sp.w}-${g.a.sp.l}, ${g.a.sp.era}</span>`:''}
+    <span class="sp-v">vs</span>
+    <span class="sp-t">${g.h.ab}</span> <span class="sp-n">${g.h.sp?g.h.sp.name:'TBD'}</span>${g.h.sp&&g.h.sp.w!=null?`<span class="sp-r">${g.h.sp.w}-${g.h.sp.l}, ${g.h.sp.era}</span>`:''}
+  </div>`:'';
   return `<a class="gc ${g.ours?'ours':''}" href="?sport=${g.league}&game=${g.id}">
     <div class="gc-top"><span class="lg">${g.league}</span>${st}</div>
-    ${side(g.a)}${side(g.h)}${foot}
+    ${side(g.a)}${side(g.h)}${g.state==='pre'?spLine:''}${foot}
     ${g.ours?`<div class="flag">★ ITN pick — ${g.ours.pick}</div>`:''}</a>`;
 }
 
@@ -1282,9 +1347,9 @@ function marketRead(){
         <div class="prow"><span>${g.a.ab} <b>${(mlP.a*100).toFixed(1)}%</b></span><span>${g.h.ab} <b>${(mlP.b*100).toFixed(1)}%</b></span></div>`
        :`<div class="big">—</div><div class="sub">The moneyline isn't posted for this game right now.</div>`}
     </div>
-    <div class="ac"><div class="k">Where the number went</div>
-      <div class="big ${moveCls}">${moveBig}</div>
-      <div class="sub">${moveTxt}</div>
+    <div class="ac" id="acForm"><div class="k">Recent form</div>
+      <div class="big" style="font-size:21px;color:var(--muted)">\u2014</div>
+      <div class="sub">Loading last five games\u2026</div>
     </div>
     <div class="ac"><div class="k">${R?'Predicted score':'Our projection'}</div>
       ${R?`<div class="big g" style="font-size:26px">${R.ea.toFixed(2)} — ${R.eh.toFixed(2)}</div>
@@ -1347,8 +1412,7 @@ function marketRead(){
     const fav = R.eh>R.ea ? g.h : g.a, dog = R.eh>R.ea ? g.a : g.h;
     if(best.m==='Runline'){
       rows.push(['One-run game', pct(R.margin.one), 'Exactly what the extra run and a half is buying']);
-      rows.push([`${fav.ab} by 2+`, pct(fav===g.h?R.margin.homeBy2plus:R.margin.awayBy2plus), 'What the favourite needs to cover']);
-      rows.push([`${dog.ab} wins outright`, pct(fav===g.h?R.pAway:R.pHome), 'The other way the underdog runline cashes']);
+      rows.push([`${fav.ab} by 2 or more`, pct(fav===g.h?R.margin.homeBy2plus:R.margin.awayBy2plus), `What ${fav.ab} needs to beat this number`]);
       // use the tested impl() helper rather than rolling the conversion by hand;
       // the hand-written version returned the complement of the break-even.
       const be=impl(best.price);
@@ -1373,29 +1437,16 @@ function marketRead(){
     </div>`;
   }
 
-  /* The raw inputs, so the projection is checkable rather than asserted. */
-  function inputRow(){
-    if(!R||!MLBT[g.a.ab]||!MLBT[g.h.ab]) return '';
-    const A=MLBT[g.a.ab],H=MLBT[g.h.ab];
-    const sp=t=>t.sp&&t.sp.era?`${t.sp.name} (${t.sp.era} ERA)`:'not posted';
-    return `<div class="bynum" style="margin-top:12px">
-      <div class="bn-k">What that is built from</div>
-      <div class="bn-row"><div class="bn-l">${g.a.name}</div><div class="bn-v">${A.rsg.toFixed(2)} / ${A.rag.toFixed(2)}</div><div class="bn-s">Runs scored / allowed per game · ${sp(g.a)}</div></div>
-      <div class="bn-row"><div class="bn-l">${g.h.name}</div><div class="bn-v">${H.rsg.toFixed(2)} / ${H.rag.toFixed(2)}</div><div class="bn-s">Runs scored / allowed per game · ${sp(g.h)}</div></div>
-      ${movePts!=null&&Math.abs(movePts)>=0.5?`<div class="bn-row"><div class="bn-l">Line movement</div><div class="bn-v">${Math.abs(movePts).toFixed(1)} pts</div><div class="bn-s">${g.a.ab} ${fmt(mlOpenA)} → ${fmt(mlCloseA)} since it opened</div></div>`:''}
-    </div>`;
-  }
-
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
-         ${statGrid()}${inputRow()}
+         ${statGrid()}<div id="ctxSlot"></div>
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">The pick above is one of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch. The three reads beneath it are generated from the market and our projection.</p></div>`
     : best
     ? `<div class="callout">
          <div class="l">★ Our pick on this game · ${best.m}</div>
          <div class="v">${best.side} ${best.price||''}</div>
          <p>${best.why}</p>
-         ${statGrid()}${inputRow()}
+         ${statGrid()}<div id="ctxSlot"></div>
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">${R?`All three come off one projection: each side's runs scored and allowed, weighted for the probable starters, then run over a full distribution of scores. That number is anchored to the posted market, because the line already prices the park, the weather and the wind — things we don't model. Genuine disagreements survive; noise gets damped out.`:`The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now.`} None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
@@ -1406,6 +1457,50 @@ function marketRead(){
          <p style="margin-top:10px;font-size:12px;color:var(--muted)">There isn't enough season on the board yet to project this one — records are still too thin to mean anything. This is a read of the posted market instead.</p>
        </div>`
     : `<div class="nopick"><div class="l">Nothing posted yet</div><p>No moneyline is up on this game, so there's no margin to strip out and nothing to read. Check back once the book puts a number on it.</p></div>`;
+
+
+  /* Fill the form card and the matchup block once the summary lands. Rendered
+     after the fact so the page paints immediately on the data we already have
+     and the extra request never delays the pick. */
+  (async()=>{
+    const j=await loadSummary(id);
+    if(!j) { const fc=document.getElementById('acForm'); if(fc) fc.remove(); return; }
+    const fa=formOf(j,g.a.ab), fh=formOf(j,g.h.ab);
+
+    const fc=document.getElementById('acForm');
+    if(fc){
+      if(fa&&fh){
+        fc.innerHTML=`<div class="k">Recent form</div>
+          <div class="big" style="font-size:22px;line-height:1.15">${g.a.ab} ${fa.w}-${fa.n-fa.w} <span style="color:var(--muted)">/</span> ${g.h.ab} ${fh.w}-${fh.n-fh.w}</div>
+          <div class="sub">Last ${fa.n} games each.</div>`;
+      } else fc.remove();
+    }
+
+    const slot=document.getElementById('ctxSlot'); if(!slot) return;
+    const wx=weatherOf(j);
+    const ven=j.gameInfo?.venue;
+    const series=(j.seasonseries||[])[0]?.summary||null;
+    const bat=ab=>leaderOf(j,ab,'Batting Average'), hr=ab=>leaderOf(j,ab,'Home Runs');
+    const chip=(t,v,s2)=>`<div class="mx-row"><div class="mx-l">${t}</div><div class="mx-v">${v}</div>${s2?`<div class="mx-s">${s2}</div>`:''}</div>`;
+    const seq=f=>f?f.games.map(x=>`<span class="fm ${x.r==='W'?'w':'l'}">${x.r}</span>`).join(''):'';
+    const last=f=>f?f.games.map(x=>`${x.r} ${x.s} ${x.at} ${x.opp}`).slice(0,3).join(' \u00b7 '):'';
+
+    let html=`<div class="matchup"><div class="mx-k">The matchup</div>`;
+    if(g.a.sp||g.h.sp){
+      const sp=t=>t.sp?`${t.sp.name}${t.sp.w!=null?` (${t.sp.w}-${t.sp.l}, ${t.sp.era} ERA)`:''}`:'TBD';
+      html+=chip('On the mound', `${g.a.ab} \u2014 ${sp(g.a)}`, `${g.h.ab} \u2014 ${sp(g.h)}`);
+    }
+    if(fa&&fh) html+=chip('Form', `${seq(fa)} <span class="fmt">${g.a.ab}</span> &nbsp; ${seq(fh)} <span class="fmt">${g.h.ab}</span>`,
+        `${g.a.ab}: ${last(fa)}<br/>${g.h.ab}: ${last(fh)}`);
+    if(series) html+=chip('Season series', series, 'How they have split it so far this year');
+    const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
+    if(ba&&bh) html+=chip('Bats to watch', `${ba.name} ${ba.val} \u00b7 ${bh.name} ${bh.val}`,
+        ha&&hh?`Power: ${ha.name} ${ha.val} HR \u00b7 ${hh.name} ${hh.val} HR`:'Leading average for each side');
+    if(ven?.fullName) html+=chip('Ballpark', ven.fullName, [ven.address?.city, ven.grass?'grass':null].filter(Boolean).join(' \u00b7 '));
+    if(wx) html+=chip('First pitch conditions', wx, 'Wind and rain move totals more than any other outside factor');
+    html+=`</div>`;
+    slot.innerHTML=html;
+  })();
 
   document.getElementById('view').innerHTML=`
     <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>${g.a.ab} @ ${g.h.ab}</span></div>
