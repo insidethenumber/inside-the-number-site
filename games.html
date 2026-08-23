@@ -1564,10 +1564,22 @@ function marketRead(){
            The home/road split is the one season-long number that belongs
            here — five games is a small sample and it gives it context. */
         const unit=g.league==='MLB'?'runs':'pts';
+        /* A five-game average is fragile: one blowout can carry it. Milwaukee
+           scoring 22 once and 2-7 in the other four averages 8.0, which reads
+           like a juggernaut and would talk somebody into an over. Say so when
+           a single game is doing most of the work. */
+        const skew=f=>{
+          const v=f.games.map(x=>x.f).filter(x=>x!=null);
+          if(v.length<4) return null;
+          const tot=v.reduce((s,x)=>s+x,0), mx=Math.max(...v);
+          return (tot>0 && mx/tot>=0.38) ? mx : null;
+        };
         const row=(t,f,where)=>{
           const bits=[];
           if(f.pf!=null&&f.pa!=null) bits.push(`${f.pf.toFixed(1)} ${unit} for, ${f.pa.toFixed(1)} against`);
           if(where) bits.push(where);
+          const sk=skew(f);
+          if(sk!=null) bits.push(`one ${sk}-${unit==='runs'?'run':'point'} game skews that`);
           return `<div class="fmr">
             <span class="fmr-t">${t.ab}</span>
             <span class="fmr-w">${f.w}-${f.n-f.w}</span>
