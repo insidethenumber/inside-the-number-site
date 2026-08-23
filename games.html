@@ -779,8 +779,13 @@ function gameView(sport,id){
        fights "in" — including ones that haven't walked out yet. The bout's
        own shortDetail is the only per-fight signal in the feed. */
     const dt=String(g.detail||'');
-    const done=/final|decision|submission|ko|tko/i.test(dt);
-    const live=!done && /round|rd\b|\d+:\d+/i.test(dt) && !/pre-?fight/i.test(dt);
+    const done=/final|decision|submission|\bko\b|\btko\b/i.test(dt);
+    /* A scheduled bout reads "8/22 - 8:00 PM EDT", which contains a colon and
+       therefore matched a naive round-clock test — every upcoming fight showed
+       as Live. Anchor on round language instead, and explicitly exclude
+       anything carrying a date or an am/pm stamp. */
+    const scheduled=/pre-?fight|\d{1,2}\/\d{1,2}|\b(am|pm)\b/i.test(dt);
+    const live=!done && !scheduled && /\bround\b|\brd\b|\br[1-5]\b|end r/i.test(dt);
     const wl=s=>{const m=/^(\d+)-(\d+)/.exec(String(s||''));return m?{w:+m[1],l:+m[2]}:null};
     const ra=wl(g.a.rec), rh=wl(g.h.rec);
     let readTxt='';
