@@ -509,6 +509,64 @@ const injOf=(j,ab)=>{
           il:out.every(x=>/il\b/i.test(x.status||''))};
 };
 
+/* ── HOT AND COLD BATS (MLB.com StatsAPI) ──────────────────────────────
+   ESPN's leaders block is season-long, so it can't answer "who is swinging
+   it right now" — the thing that actually separates a lineup this week from
+   the same lineup last month. MLB's own public StatsAPI can: one request per
+   team hydrates the whole active roster with last-15-games hitting.
+
+   It is free, needs no key, and sends permissive CORS headers, so the page
+   can call it directly the same way it calls ESPN. Cached per team. */
+const MLBTEAM={_p:null};
+async function mlbTeams(){
+  if(!MLBTEAM._p) MLBTEAM._p=(async()=>{
+    try{
+      const j=await (await fetch('https://statsapi.mlb.com/api/v1/teams?sportId=1')).json();
+      const m={};
+      (j.teams||[]).forEach(t=>{
+        if(t.abbreviation) m['ab:'+String(t.abbreviation).toUpperCase()]=t.id;
+        if(t.teamName) m['nm:'+String(t.teamName).toLowerCase()]=t.id;
+        if(t.clubName) m['nm:'+String(t.clubName).toLowerCase()]=t.id;
+      });
+      return m;
+    }catch(e){ return {}; }
+  })();
+  return MLBTEAM._p;
+}
+const shortName=f=>{const p=String(f||'').trim().split(/\s+/);return p.length<2?f:`${p[0][0]}. ${p.slice(1).join(' ')}`};
+const HOTC={};
+function hotCold(ab,name){
+  const key=`${ab}|${name}`;
+  if(HOTC[key]===undefined) HOTC[key]=(async()=>{
+    try{
+      const m=await mlbTeams();
+      /* Abbreviations disagree between feeds (ESPN says CHW, MLB says CWS),
+         so fall back to the club name, which both spell the same. */
+      const id=m['ab:'+String(ab||'').toUpperCase()] ?? m['nm:'+String(name||'').toLowerCase()];
+      if(!id) return null;
+      const yr=new Date().getFullYear();
+      const u=`https://statsapi.mlb.com/api/v1/teams/${id}/roster?rosterType=active&hydrate=person(stats(type=[lastXGames],limit=15,season=${yr},group=hitting))`;
+      const j=await (await fetch(u)).json();
+      const men=[];
+      (j.roster||[]).forEach(x=>{
+        const b=(x.person?.stats||[]).find(s=>s.type?.displayName==='lastXGames'&&s.group?.displayName==='hitting');
+        const sp=(b?.splits||[])[0]; if(!sp) return;          // feed repeats each split; first is enough
+        const st=sp.stat||{};
+        /* Under 25 at-bats in fifteen games is a bench player or a pitcher,
+           and small samples produce meaningless .500s and .050s. */
+        if(Number(st.atBats||0)<25) return;
+        men.push({name:shortName(x.person.fullName), avg:st.avg, ops:st.ops,
+                  hr:Number(st.homeRuns||0), rbi:Number(st.rbi||0), opsN:parseFloat(st.ops)||0,
+                  avgN:parseFloat(st.avg)||0});
+      });
+      if(men.length<2) return null;
+      men.sort((a,b)=>b.opsN-a.opsN);
+      return {hot:men[0], cold:men[men.length-1], n:men.length};
+    }catch(e){ return null; }
+  })();
+  return HOTC[key];
+}
+
 /* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
    Projects runs for each side, then derives the moneyline, the runline AND
    the total from one distribution. This replaced a win-probability-only
@@ -1532,7 +1590,10 @@ function marketRead(){
        same paragraph twice on the page. */
     if(g.ours) sp.push(`Our play is <b>${g.ours.pick}</b>, and the case for it is right below.`);
     else if(best) sp.push(`The best of the three is the <b>${best.m.toLowerCase()}</b>: <b>${best.side} ${best.price||''}</b>.`);
-    takeaway = `<div class="takeaway"><div class="k">The read</div><p>${sp.join(' ')}</p></div>`;
+    /* Player form lands here asynchronously — one sentence, appended rather
+       than rebuilt, so the paragraph paints immediately and grows once
+       MLB.com answers. */
+    takeaway = `<div class="takeaway"><div class="k">The read</div><p>${sp.join(' ')} <span id="rdHot"></span></p></div>`;
   }
 
   /* Shown under the pick on every game, including the ones we have a staked
@@ -1605,6 +1666,25 @@ function marketRead(){
        </div>`
     : `<div class="nopick"><div class="l">Nothing posted yet</div><p>No moneyline is up on this game, so there's no margin to strip out and nothing to read. Check back once the book puts a number on it.</p></div>`;
 
+
+  /* Who is swinging it, added to The Read as one sentence. Kept deliberately
+     short: the point is the name and the number, not a paragraph. */
+  if(g.league==='MLB') (async()=>{
+    const [ha,hh]=await Promise.all([hotCold(g.a.ab,g.a.name), hotCold(g.h.ab,g.h.name)]);
+    const el=document.getElementById('rdHot');
+    if(!el||(!ha&&!hh)) return;
+    const hot=[];
+    if(ha) hot.push(`<b>${ha.hot.name}</b> is the bat for ${g.a.name} at <b>${ha.hot.avg}</b> (${ha.hot.ops} OPS)`);
+    if(hh) hot.push(`<b>${hh.hot.name}</b> leads ${g.h.name} at <b>${hh.hot.avg}</b> (${hh.hot.ops})`);
+    let s=`Over the last fifteen games ${hot.join(', while ')}.`;
+    /* Only name a cold bat when it is genuinely cold — otherwise this turns
+       into "and the worst hitter is hitting .260", which says nothing. */
+    const cold=[ha&&{t:g.a.name,c:ha.cold}, hh&&{t:g.h.name,c:hh.cold}]
+      .filter(x=>x&&x.c.avgN>0&&x.c.avgN<0.200);
+    const poss=n=>/s$/i.test(n)?`${n}'`:`${n}'s`;   // Braves' but Red Sox's
+    if(cold.length) s+=` Gone quiet: ${cold.map(x=>`${poss(x.t)} <b>${x.c.name}</b> at <b>${x.c.avg}</b>`).join(' and ')}.`;
+    el.innerHTML=s;
+  })();
 
   /* Fill the form card and the matchup block once the summary lands. Rendered
      after the fact so the page paints immediately on the data we already have
