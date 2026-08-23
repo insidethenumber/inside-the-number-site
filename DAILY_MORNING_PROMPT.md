@@ -21,6 +21,20 @@ Send this to Claude each morning (Cowork, same project folder) to kick off the d
 > written breakdown become **ITN Pro at $19.99/mo**. Free tier also carries
 > sportsbook affiliate links.
 >
+> **Beehiiv: stay on the publishing path.** The daily run needs exactly two
+> areas — `app.beehiiv.com/posts` (to check nothing is already published) and
+> `app.beehiiv.com/posts/new` (to write and publish). Do not open Automations,
+> Settings, Billing or Design, and never create anything in them. On Aug 23 a
+> run left an empty draft in Automations at 8:12 AM, six minutes after the
+> send. Harmless that time, but Settings and Billing are not places to wander
+> into unattended.
+>
+> **Beehiiv plan note (Aug 23, 2026):** the Max free trial ends Aug 24. The
+> account reverts to **Launch (free, up to 2,500 subscribers)**. Publishing
+> and email delivery are included in Launch, so the daily send is unaffected.
+> What lapses is Automations, paid subscriptions and branding removal — none
+> of which the daily routine uses.
+>
 > **The four scheduled task prompts are authoritative.** Where this file
 > disagrees with them on anything — timing, grading, newsletter format, pick
 > selection — the task prompt wins.
