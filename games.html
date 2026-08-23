@@ -198,6 +198,15 @@
   .mx-l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
   .mx-v{font-size:14.5px;color:var(--white);font-weight:500;line-height:1.55}
   .mx-s{font-size:12px;color:var(--muted);line-height:1.6;margin-top:3px}
+  /* Recent-form card rows: team, W-L, current run, then the detail line. */
+  .fmr{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 7px;margin-top:6px}
+  .fmr-t{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--mid);letter-spacing:.04em;min-width:34px}
+  .fmr-w{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:var(--white);line-height:1}
+  .fmr-s{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;padding:1px 4px;border-radius:3px;letter-spacing:.04em}
+  .fmr-s.w{background:rgba(0,208,132,.16);color:var(--green)}
+  .fmr-s.l{background:rgba(255,92,92,.14);color:var(--red)}
+  .fmr-d{flex:1 0 100%;font-size:11.5px;color:var(--muted);line-height:1.45;padding-left:41px;margin-top:-1px}
+  @media(max-width:560px){ .fmr-d{padding-left:0} }
   .fm{display:inline-block;width:17px;height:17px;line-height:17px;text-align:center;border-radius:4px;
       font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;margin-right:3px}
   .fm.w{background:rgba(0,208,132,.16);color:var(--green)}
@@ -417,10 +426,27 @@ const formOf=(j,ab)=>{
   const t=(j?.lastFiveGames||[]).find(x=>x.team?.abbreviation===ab);
   if(!t) return null;
   const ev=(t.events||[]).slice().sort((a,b)=>new Date(a.gameDate)-new Date(b.gameDate));
-  const map=e=>({r:e.gameResult,s:e.score,opp:e.opponent?.abbreviation,at:e.atVs,d:e.gameDate});
+  const tid=String(t.team?.id||'');
+  /* Work out which side of each score line belongs to this team. The `score`
+     string is winner-first, so it can't be trusted for direction — use the
+     explicit home/away ids instead. */
+  const map=e=>{
+    const home=String(e.homeTeamId||'')===tid;
+    const f=Number(home?e.homeTeamScore:e.awayTeamScore);
+    const a=Number(home?e.awayTeamScore:e.homeTeamScore);
+    return {r:e.gameResult,s:e.score,opp:e.opponent?.abbreviation,at:e.atVs,d:e.gameDate,
+            f:Number.isFinite(f)?f:null, a:Number.isFinite(a)?a:null};
+  };
   const games=ev.map(map);
+  const scored=games.filter(x=>x.f!=null), allowed=games.filter(x=>x.a!=null);
+  const avg=(arr,k)=>arr.length?arr.reduce((s,x)=>s+x[k],0)/arr.length:null;
+  /* Current run: walk back from the most recent game while the result holds. */
+  let streak=0, sr=null;
+  for(let i=games.length-1;i>=0;i--){ if(sr===null) sr=games[i].r; if(games[i].r!==sr) break; streak++; }
   return {seq:ev.map(e=>e.gameResult).join(''), w:ev.filter(e=>e.gameResult==='W').length, n:ev.length,
-          games, recent:games.slice().reverse()};
+          games, recent:games.slice().reverse(),
+          pf:avg(scored,'f'), pa:avg(allowed,'a'),
+          streak:streak?`${sr}${streak}`:null};
 };
 const weatherOf=j=>{
   const w=j?.gameInfo?.weather; if(!w) return null;
@@ -1062,6 +1088,28 @@ function gameView(sport,id){
      book is charging, and whether we have a view. */
   const favAb = mlP ? (mlP.a>mlP.b?g.a.ab:g.h.ab) : null;
   const favPc = mlP ? Math.max(mlP.a,mlP.b) : null;
+  const favNm = mlP ? (mlP.a>mlP.b?g.a.name:g.h.name) : null;
+  const dogNm = mlP ? (mlP.a>mlP.b?g.h.name:g.a.name) : null;
+
+  /* Say what the price MEANS, not just what it is. A bare "51.9%" is a true
+     statement that leaves the reader no better off — the headline should be
+     a sentence anyone can read, with the numbers kept underneath for the
+     people who want them. Bands are set where the betting language actually
+     changes, not on round numbers. */
+  const marketMood=p=>{
+    if(p<0.525) return ['Near coin flip',
+      `${favNm} and ${dogNm} are priced within a hair of each other. The market has no real opinion on this one.`];
+    if(p<0.565) return ['Slight favorite',
+      `${favNm} are favored, but barely. This is close to a pick'em.`];
+    if(p<0.625) return ['Clear favorite',
+      `${favNm} are favored by a comfortable margin — not a dominant one.`];
+    if(p<0.70) return ['Strong favorite',
+      `${favNm} are expected to win this more often than not, and you'll pay for it.`];
+    if(p<0.80) return ['Heavy favorite',
+      `${favNm} are a big favorite. Backing them costs a lot for a small return.`];
+    return ['Lopsided',
+      `${favNm} are priced close to a lock. There is usually little worth betting at numbers this extreme.`];
+  };
   const mlOpenA=num(o.moneyline?.away?.open?.odds), mlCloseA=num(o.moneyline?.away?.close?.odds);
 
   /* Movement is measured in implied-probability points, NOT the raw American
@@ -1378,10 +1426,11 @@ function marketRead(){
 
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
-      ${mlP?`<div class="big g">${(favPc*100).toFixed(1)}%</div>
-        <div class="sub"><b style="color:var(--white)">${favAb}</b> is the side the market favors at the true price.</div>
+      ${mlP?(()=>{const [head,line]=marketMood(favPc);
+        return `<div class="big g" style="font-size:23px;line-height:1.1">${head}</div>
+        <div class="sub">${line}</div>
         <div class="pbar"><i class="x" style="width:${(mlP.a*100).toFixed(1)}%"></i><i class="y" style="width:${(mlP.b*100).toFixed(1)}%"></i></div>
-        <div class="prow"><span>${g.a.ab} <b>${(mlP.a*100).toFixed(1)}%</b></span><span>${g.h.ab} <b>${(mlP.b*100).toFixed(1)}%</b></span></div>`
+        <div class="prow"><span>${g.a.ab} <b>${(mlP.a*100).toFixed(1)}%</b></span><span>${g.h.ab} <b>${(mlP.b*100).toFixed(1)}%</b></span></div>`})()
        :`<div class="big">—</div><div class="sub">The moneyline isn't posted for this game right now.</div>`}
     </div>
     <div class="ac" id="acForm"><div class="k">Recent form</div>
@@ -1510,9 +1559,25 @@ function marketRead(){
     const fc=document.getElementById('acForm');
     if(fc){
       if(fa&&fh){
+        /* W-L says a team is losing. Scoring and conceding say WHY, and they
+           are an argument about the total rather than only the moneyline.
+           The home/road split is the one season-long number that belongs
+           here — five games is a small sample and it gives it context. */
+        const unit=g.league==='MLB'?'runs':'pts';
+        const row=(t,f,where)=>{
+          const bits=[];
+          if(f.pf!=null&&f.pa!=null) bits.push(`${f.pf.toFixed(1)} ${unit} for, ${f.pa.toFixed(1)} against`);
+          if(where) bits.push(where);
+          return `<div class="fmr">
+            <span class="fmr-t">${t.ab}</span>
+            <span class="fmr-w">${f.w}-${f.n-f.w}</span>
+            ${f.streak?`<span class="fmr-s ${f.streak[0]==='W'?'w':'l'}">${f.streak}</span>`:''}
+            <span class="fmr-d">${bits.join(' · ')}</span></div>`;
+        };
         fc.innerHTML=`<div class="k">Recent form</div>
-          <div class="big" style="font-size:22px;line-height:1.15">${g.a.ab} ${fa.w}-${fa.n-fa.w} <span style="color:var(--muted)">/</span> ${g.h.ab} ${fh.w}-${fh.n-fh.w}</div>
-          <div class="sub">Last ${fa.n} games each.</div>`;
+          ${row(g.a,fa,g.a.split?`${g.a.split} away`:'')}
+          ${row(g.h,fh,g.h.split?`${g.h.split} home`:'')}
+          <div class="sub" style="margin-top:7px">Last ${fa.n} games each, with the season split alongside.</div>`;
       } else fc.remove();
     }
 
