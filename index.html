@@ -1753,6 +1753,13 @@
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
   const n=o=>{const v=Number(o);return Number.isFinite(v)&&o!=null&&o!==''?v:null};
   const f=o=>{const v=n(o);return v==null?null:(v>0?`+${v}`:`${v}`)};
+  /* Movement must be measured in implied-probability points, never as a raw
+     American difference. American odds are discontinuous across ±100: a drift
+     from +110 to -175 subtracts to 285 but is really a 16-point move, while
+     -400 to -700 subtracts to 300 and is barely 4 points. Ranking on the raw
+     difference therefore crowned the wrong game as "biggest move" and printed
+     a meaningless number next to it. */
+  const impl=o=>{const v=n(o);if(v==null)return null;return v>0?100/(v+100):Math.abs(v)/(Math.abs(v)+100)};
 
   (async()=>{
     let best=null;
@@ -1766,7 +1773,10 @@
           const o=c.odds?.[0]; if(!o||!a||!h)return;
           const op=n(o.moneyline?.away?.open?.odds), cl=n(o.moneyline?.away?.close?.odds);
           if(op==null||cl==null)return;
-          const delta=cl-op; if(delta===0)return;
+          const pO=impl(op), pC=impl(cl);
+          if(pO==null||pC==null)return;
+          const delta=(pC-pO)*100;              // probability points, away side
+          if(Math.abs(delta)<0.5)return;        // below this is noise, not a move
           if(!best||Math.abs(delta)>Math.abs(best.delta))
             best={delta,op,cl,league:lab,away:a.team.abbreviation,home:h.team.abbreviation,
                   awayName:a.team.shortDisplayName,homeName:h.team.shortDisplayName,
@@ -1776,11 +1786,12 @@
     }));
     const el=document.getElementById('hpMove');
     if(!best){el.querySelector('.hp-load').textContent='No line has moved yet today.';return}
-    const toward = best.delta>0 ? best.homeName : best.awayName;
+    // delta is the AWAY side's probability change: positive means money on away
+    const toward = best.delta>0 ? best.awayName : best.homeName;
     el.href=`games.html?sport=${best.league}&game=${best.id}`;
     const lg=(u,alt)=>u?`<img class="hp-logo" src="${u}" alt="${alt}" loading="lazy"/>`:'';
     el.innerHTML=`<div class="hp-k">Biggest move on the board</div>
-      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${best.delta>0?'+':''}${best.delta}</span>
+      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${Math.abs(best.delta).toFixed(1)} pts</span>
         <span class="who">${lg(best.awayLogo,best.away)}${best.away}
           <span class="at">@</span>${lg(best.homeLogo,best.home)}${best.home}</span></div>
       <div class="det"><b>${best.away}</b> opened ${f(best.op)} and sits ${f(best.cl)} — money has come in on
