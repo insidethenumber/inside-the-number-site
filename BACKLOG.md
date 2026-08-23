@@ -139,12 +139,50 @@ feed that carries both.
 
 ---
 
+## 3b. Beehiiv items needing Chuck's sign-off (found Aug 22 audit)
+
+- **Publication tagline is stale.** The archive header still reads "documented
+  picks and sharp analysis" — "documented picks" was the public-record promise,
+  which was retired. Changing it is a publication setting, so it needs Chuck to
+  approve or do it.
+- **All six published posts carry the old thumbnail artwork**, which still says
+  "Every result logged the day it settles". The local files were regenerated but
+  Beehiiv keeps whatever image was attached at publish time. Fixing means editing
+  six posts by hand, or leaving them and having new posts use the new art.
+- **Thumbnails crop badly.** The 1200x630 OG image is squeezed into a squarer
+  card, slicing the ITN mark off the left edge of every post. Needs a
+  purpose-built thumbnail rather than reusing the OG image.
+
+---
+
 ## 4. MLB model — next refinements (built Aug 22, 2026)
 
 The predicted-score model is live: team runs scored and allowed, weighted for
 the probable starters, run over a joint Poisson distribution so the moneyline,
 runline and total all come off one projection. Runs on ESPN's free team
 statistics endpoint. Two known limitations, in priority order:
+
+**Two bugs found and fixed in the Aug 22 evening audit — recorded so the
+reasoning isn't lost:**
+
+*Unearned runs.* ESPN's pitching block reports EARNED runs allowed; the batting
+block reports ALL runs scored. In a closed league those totals must match — every
+run scored is a run allowed. Measured live: 4.473 scored per game against 4.099
+earned allowed, an 8.4% gap. Every team therefore looked 8% better at preventing
+runs than it was, and every projection came in under the market. Across a full
+slate that produced total edges up to 22 points, nearly all unders — a systematic
+bias reading as a systematic edge. Now corrected by a factor derived from the
+data on each load, so it tracks the real unearned rate as the season moves.
+
+*Anchoring the wrong quantity.* The market anchor was blending the model's RUN
+SHARE against the market's implied WIN PROBABILITY. Different scales — a 55/45
+run split produces roughly a 60/40 win rate — so the moneyline was never actually
+anchored. Its edge sat at ~16 points whether the market weight was 62% or 85%.
+Now the model's own win probability is read off the distribution, blended with
+the market, and the run split solved back by bisection.
+
+Market weight is currently **75%** (`MKT_W`). It is deliberately high because the
+model has never been graded. Lower it only against a back-tested sample.
 
 **Park factors.** The raw model assumes a league-average run environment. At
 Coors it projected 9.67 runs into a posted total of 11 and called that a
