@@ -490,14 +490,23 @@ const leaderOf=(j,ab,cat)=>{
 /* Who's banged up. ESPN carries this for every sport. Out and doubtful are
    the ones that move a number; questionable is noise most weeks, so it's
    counted but not named. */
+/* Status strings vary by sport and the first version of this test missed
+   nearly all of them. Baseball reports "10-Day-IL" / "15-Day-IL" /
+   "60-Day-IL"; football uses "Injured Reserve" and "Out". The original regex
+   matched none of the IL variants, so ten players on the injured list —
+   including two front-line starting pitchers — were reported on the page as
+   "no one ruled out". Match the IL forms explicitly and keep the actual
+   label, because 60-day and day-to-day are not the same news. */
 const injOf=(j,ab)=>{
   const t=(j?.injuries||[]).find(x=>x.team?.abbreviation===ab);
   const all=(t?.injuries||[]);
   if(!all.length) return null;
   const nm=x=>`${x.athlete?.shortName||'?'}${x.athlete?.position?.abbreviation?` (${x.athlete.position.abbreviation})`:''}`;
-  const isOut=x=>/out|injured reserve|doubtful|suspend|day-to-day/i.test(x.status||'');
+  const lbl=s=>String(s||'').replace(/-/g,' ').replace(/injured reserve/i,'IR').trim();
+  const isOut=x=>/\bout\b|injured reserve|(^|[^a-z])il([^a-z]|$)|\bir\b|doubtful|suspen|physically unable/i.test(x.status||'');
   const out=all.filter(isOut), q=all.filter(x=>!isOut(x));
-  return {out:out.map(nm), q:q.map(nm), n:all.length};
+  return {out:out.map(x=>({n:nm(x),s:lbl(x.status)})), q:q.map(nm), n:all.length,
+          il:out.every(x=>/il\b/i.test(x.status||''))};
 };
 
 /* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
@@ -1718,11 +1727,15 @@ function marketRead(){
     const ia=injOf(j,g.a.ab), ih=injOf(j,g.h.ab);
     if(ia||ih){
       const cell=t=>{ if(!t) return ['Nothing reported',''];
-        if(t.out.length) return [t.out.slice(0,3).join(', ')+(t.out.length>3?` +${t.out.length-3}`:''), 'out'];
+        if(t.out.length){
+          const names=t.out.slice(0,2).map(x=>`${x.n} <span style="color:var(--muted)">${x.s}</span>`).join(', ');
+          return [names+(t.out.length>2?` <span style="color:var(--muted)">+${t.out.length-2} more</span>`:''),
+                  `${t.out.length} ${t.il?'on the IL':'out'}`];
+        }
         return ['No one ruled out', t.q.length?`${t.q.length} questionable`:'']; };
       const ca=cell(ia), ch=cell(ih);
       html+=two('Injury report', [[g.a.ab,ca[0],ca[1]],[g.h.ab,ch[0],ch[1]]],
-        'Only players actually ruled out are named.');
+        'Unavailable players only. Pitchers on the list are the ones that move a number.');
     }
 
     if(ven?.fullName) html+=chip(venLabel, ven.fullName,
