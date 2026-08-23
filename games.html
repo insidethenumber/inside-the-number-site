@@ -203,6 +203,18 @@
   .fm.w{background:rgba(0,208,132,.16);color:var(--green)}
   .fm.l{background:rgba(255,92,92,.14);color:var(--red)}
   .fmt{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.05em;margin-left:2px}
+  /* Two-sided rows. Both teams must read with EQUAL weight — the old layout
+     reused the title/value/sub chip, which rendered the away side bright
+     white and the home side in muted grey, making it look like we were
+     flagging the away pitcher for some reason. */
+  .mx-two{display:grid;grid-template-columns:34px 1fr auto;gap:7px 11px;align-items:center;margin-top:2px}
+  .mx-ab{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--mid);letter-spacing:.04em}
+  .mx-main{font-size:14.5px;color:var(--white);font-weight:500;line-height:1.4}
+  .mx-meta{font-size:12px;color:var(--mid);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  @media(max-width:560px){
+    .mx-two{grid-template-columns:30px 1fr;gap:5px 9px}
+    .mx-meta{grid-column:2;text-align:left;margin-top:-4px}
+  }
   .bynum{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
   .bn-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
   .bn-row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:9px 0;border-bottom:1px solid rgba(28,33,41,.7)}
@@ -394,12 +406,21 @@ async function loadSummary(id,league){
   }catch(e){ SUM[id]=null; }
   return SUM[id];
 }
+/* ESPN returns lastFiveGames OLDEST FIRST. That is not obvious and it bit
+   this page once already — slicing games[0..2] and calling them "last 3"
+   showed the three OLDEST games under a "recent form" heading. Sort on the
+   date explicitly rather than trusting the feed's order, and hand back both
+   directions so callers can't get it wrong again:
+     games  → oldest → newest (for the W/L chip strip, which reads left to right)
+     recent → newest first    (for "their last three") */
 const formOf=(j,ab)=>{
   const t=(j?.lastFiveGames||[]).find(x=>x.team?.abbreviation===ab);
   if(!t) return null;
-  const ev=(t.events||[]);
+  const ev=(t.events||[]).slice().sort((a,b)=>new Date(a.gameDate)-new Date(b.gameDate));
+  const map=e=>({r:e.gameResult,s:e.score,opp:e.opponent?.abbreviation,at:e.atVs,d:e.gameDate});
+  const games=ev.map(map);
   return {seq:ev.map(e=>e.gameResult).join(''), w:ev.filter(e=>e.gameResult==='W').length, n:ev.length,
-          games:ev.map(e=>({r:e.gameResult,s:e.score,opp:e.opponent?.abbreviation,at:e.atVs}))};
+          games, recent:games.slice().reverse()};
 };
 const weatherOf=j=>{
   const w=j?.gameInfo?.weather; if(!w) return null;
@@ -1501,8 +1522,13 @@ function marketRead(){
     const series=(j.seasonseries||[])[0]?.summary||null;
     const bat=ab=>leaderOf(j,ab,'Batting Average'), hr=ab=>leaderOf(j,ab,'Home Runs');
     const chip=(t,v,s2)=>`<div class="mx-row"><div class="mx-l">${t}</div><div class="mx-v">${v}</div>${s2?`<div class="mx-s">${s2}</div>`:''}</div>`;
+    /* Two-sided row: label, then one line per team at equal visual weight. */
+    const two=(t,rows,note)=>`<div class="mx-row"><div class="mx-l">${t}</div><div class="mx-two">${
+        rows.map(r=>`<div class="mx-ab">${r[0]}</div><div class="mx-main">${r[1]}</div><div class="mx-meta">${r[2]||''}</div>`).join('')
+      }</div>${note?`<div class="mx-s">${note}</div>`:''}</div>`;
     const seq=f=>f?f.games.map(x=>`<span class="fm ${x.r==='W'?'w':'l'}">${x.r}</span>`).join(''):'';
-    const last=f=>f?f.games.map(x=>`${x.r} ${x.s} ${x.at} ${x.opp}`).slice(0,3).join(' \u00b7 '):'';
+    /* f.recent is newest first, so this really is their last three. */
+    const last=f=>f?f.recent.slice(0,3).map(x=>`${x.r} ${x.s} ${x.at} ${x.opp}`).join(' \u00b7 '):'';
 
     /* The matchup section is sport-shaped. Baseball leads with the pitching
        matchup because that is the single biggest input into the number;
@@ -1519,11 +1545,16 @@ function marketRead(){
 
     let html=`<div class="callout" style="border-color:var(--border)"><div class="l">The matchup</div><div class="matchup" style="margin-top:4px;padding-top:0;border-top:none">`;
     if(g.a.sp||g.h.sp){
-      const sp=t=>t.sp?`${t.sp.name}${t.sp.w!=null?` (${t.sp.w}-${t.sp.l}, ${t.sp.era} ERA)`:''}`:'TBD';
-      html+=chip('On the mound', `${g.a.ab} \u2014 ${sp(g.a)}`, `${g.h.ab} \u2014 ${sp(g.h)}`);
+      html+=two('Starting pitchers',
+        [g.a,g.h].map(t=>[t.ab, t.sp?t.sp.name:'TBD', t.sp&&t.sp.w!=null?`${t.sp.w}-${t.sp.l} \u00b7 ${t.sp.era} ERA`:'']),
+        'Record and ERA on the season.');
     }
-    if(fa&&fh) html+=chip('Form', `${seq(fa)} <span class="fmt">${g.a.ab}</span> &nbsp; ${seq(fh)} <span class="fmt">${g.h.ab}</span>`,
-        `${g.a.ab}: ${last(fa)}<br/>${g.h.ab}: ${last(fh)}`);
+    /* Chips run left to right, oldest game to most recent \u2014 say so, because
+       a bare strip of W/L boxes gives the reader no way to know which end is
+       which, and reading it backwards inverts the whole story. */
+    if(fa&&fh) html+=two('Last 5 games',
+      [[g.a.ab, seq(fa), `${fa.w}-${fa.n-fa.w}`],[g.h.ab, seq(fh), `${fh.w}-${fh.n-fh.w}`]],
+      `Oldest on the left, most recent on the right.<br/>${g.a.ab} last three: ${last(fa)}<br/>${g.h.ab} last three: ${last(fh)}`);
     if(series) html+=chip('Season series', series, 'How they have split it so far this year');
 
     /* Players to watch: batting average and power in baseball, the yardage
@@ -1531,26 +1562,34 @@ function marketRead(){
        a category swap rather than a different code path. */
     if(isMLB){
       const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
-      if(ba&&bh) html+=chip('Bats to watch', `${ba.name} ${ba.val} \u00b7 ${bh.name} ${bh.val}`,
-          ha&&hh?`Power: ${ha.name} ${ha.val} HR \u00b7 ${hh.name} ${hh.val} HR`:'Leading average for each side');
+      if(ba&&bh) html+=two('Bats to watch',
+        [[g.a.ab, `${ba.name} ${ba.val}`, ha?`${ha.name} ${ha.val} HR`:''],
+         [g.h.ab, `${bh.name} ${bh.val}`, hh?`${hh.name} ${hh.val} HR`:'']],
+        'Leading average, then the power bat.');
     } else {
       const ld=(ab,c)=>leaderOf(j,ab,c);
-      const rows=[['passingYards','Passing'],['rushingYards','Rushing'],['receivingYards','Receiving']]
-        .map(([c,lbl])=>{const A=ld(g.a.ab,c),H=ld(g.h.ab,c);
-          return (A&&H)?`${lbl}: ${A.name} ${A.val} \u00b7 ${H.name} ${H.val}`:null}).filter(Boolean);
-      if(rows.length) html+=chip('Players to watch', rows[0], rows.slice(1).join('<br/>'));
+      const cat=[['passingYards','Passing'],['rushingYards','Rushing'],['receivingYards','Receiving']]
+        .find(([c])=>ld(g.a.ab,c)&&ld(g.h.ab,c));
+      if(cat){
+        const rows=[g.a.ab,g.h.ab].map(ab=>{
+          const bits=[['passingYards','Pass'],['rushingYards','Rush'],['receivingYards','Rec']]
+            .map(([c,l])=>{const x=ld(ab,c);return x?`${l} ${x.name} ${x.val}`:null}).filter(Boolean);
+          return [ab, bits[0]||'\u2014', bits.slice(1).join(' \u00b7 ')];
+        });
+        html+=two('Players to watch', rows, 'Team leaders on the season.');
+      }
     }
 
     /* Injuries. Named only when someone is actually out \u2014 a list of
        questionables every week is noise, so those get a count instead. */
     const ia=injOf(j,g.a.ab), ih=injOf(j,g.h.ab);
     if(ia||ih){
-      const line=(t,ab)=>{ if(!t) return `${ab}: nothing reported`;
-        if(t.out.length) return `${ab}: ${t.out.slice(0,3).join(', ')} out${t.out.length>3?` +${t.out.length-3}`:''}`;
-        return `${ab}: no one ruled out${t.q.length?`, ${t.q.length} questionable`:''}`; };
-      const headline=(ia?.out.length||0)+(ih?.out.length||0);
-      html+=chip('Injury report', headline?`${headline} ruled out`:'Nobody ruled out',
-        `${line(ia,g.a.ab)}<br/>${line(ih,g.h.ab)}`);
+      const cell=t=>{ if(!t) return ['Nothing reported',''];
+        if(t.out.length) return [t.out.slice(0,3).join(', ')+(t.out.length>3?` +${t.out.length-3}`:''), 'out'];
+        return ['No one ruled out', t.q.length?`${t.q.length} questionable`:'']; };
+      const ca=cell(ia), ch=cell(ih);
+      html+=two('Injury report', [[g.a.ab,ca[0],ca[1]],[g.h.ab,ch[0],ch[1]]],
+        'Only players actually ruled out are named.');
     }
 
     if(ven?.fullName) html+=chip(venLabel, ven.fullName,
