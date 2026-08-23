@@ -186,6 +186,13 @@
   .nopick{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;margin-bottom:14px}
   .nopick .l{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
   .nopick p{font-size:13.5px;color:var(--mid);line-height:1.7;font-weight:300}
+  .bynum{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+  .bn-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .bn-row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:9px 0;border-bottom:1px solid rgba(28,33,41,.7)}
+  .bn-row:last-child{border-bottom:none}
+  .bn-l{font-size:13.5px;color:var(--white);font-weight:500}
+  .bn-v{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--green);text-align:right;font-weight:600}
+  .bn-s{grid-column:1/2;font-size:12px;color:var(--muted);line-height:1.5}
   .mk-others{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
   .mk-k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
   .mk-row{margin-bottom:13px}
@@ -499,6 +506,11 @@ function projectRuns(g,mktTotal,mktHomeP){
   let pHome=0,pAway=0,pTie=0;
   const cover={h2:0,a2:0};
   const totalPmf={};
+  /* Margin distribution is accumulated alongside the total. A runline bet is
+     really a bet about the SHAPE of the margin — +1.5 is only worth its price
+     if one-run games are common enough — so those probabilities are the most
+     useful thing we can put in front of a reader on a runline pick. */
+  const margin={one:0, homeBy1:0, awayBy1:0, homeBy2plus:0, awayBy2plus:0};
   for(let i=0;i<=N;i++){
     const pa=POIS(i,ea);
     for(let jj=0;jj<=N;jj++){
@@ -506,6 +518,11 @@ function projectRuns(g,mktTotal,mktHomeP){
       if(jj>i){pHome+=pr; if(jj-i>=2) cover.h2+=pr;}
       else if(i>jj){pAway+=pr; if(i-jj>=2) cover.a2+=pr;}
       else pTie+=pr;
+      const d=jj-i;
+      if(d===1){margin.one+=pr; margin.homeBy1+=pr;}
+      else if(d===-1){margin.one+=pr; margin.awayBy1+=pr;}
+      else if(d>=2) margin.homeBy2plus+=pr;
+      else if(d<=-2) margin.awayBy2plus+=pr;
       totalPmf[i+jj]=(totalPmf[i+jj]||0)+pr;
     }
   }
@@ -525,8 +542,12 @@ function projectRuns(g,mktTotal,mktHomeP){
     return live>0 ? o/live : 0.5;
   };
   const pushProb=T=>{let p=0;for(const k in totalPmf){if(+k===T)p+=totalPmf[k]}return p};
+  // most likely single total, for "the number this game lands on most often"
+  let modeTotal=null, modeP=0;
+  for(const k in totalPmf){ if(totalPmf[k]>modeP){modeP=totalPmf[k]; modeTotal=+k;} }
   return {ea,eh,pHome,pAway,coverH:cover.h2/s,coverA:cover.a2/s,overProb,pushProb,
-          total:ea+eh, supA:supp(H,g.h.sp), supH:supp(A,g.a.sp)};
+          total:ea+eh, supA:supp(H,g.h.sp), supH:supp(A,g.a.sp),
+          margin, modeTotal, modeP, totalPmf};
 }
 
 async function load(){
@@ -1287,24 +1308,76 @@ function marketRead(){
   /* Shown under the pick on every game, including the ones we have a staked
      play on — the published pick is a moneyline call, and a reader still
      wants to know what the runline and total are doing. */
-  const mkList=(items,label)=>items.length?`<div class="mk-others">
-      <div class="mk-k">${label}</div>
-      ${items.map(x=>`<div class="mk-row">
-        <div class="mk-m">${x.m}${x.modelled?' · projected':' · market read'}</div>
-        <div class="mk-s">${x.side} <span>${x.price||''}</span></div>
-        <p>${x.why}</p></div>`).join('')}
-    </div>`:'';
+  /* ── BY THE NUMBERS ────────────────────────────────────────────────
+     Replaced a "the other two markets" block that listed the two markets we
+     did NOT pick, at the same visual weight as the one we did. On a game
+     where the pick was Mariners +1.5 it sat directly beneath a bold "CUBS
+     -118", which reads as two picks on opposite sides of the same game.
+
+     They were not contradictory — the Cubs win more often, they just do not
+     win by two often enough to justify the runline price — but nothing on the
+     page conveyed that, so it looked like a contradiction.
+
+     What replaces it is statistics about the pick that was actually made, and
+     the stats shown depend on which market it is. A runline bet is a bet on
+     the shape of the margin, so it gets one-run-game frequency. A total is a
+     bet on the distribution of runs, so it gets the modal score. */
+  const pct=v=>`${(v*100).toFixed(1)}%`;
+  function statGrid(){
+    if(!R||!best) return '';
+    const rows=[];
+    const fav = R.eh>R.ea ? g.h : g.a, dog = R.eh>R.ea ? g.a : g.h;
+    if(best.m==='Runline'){
+      rows.push(['One-run game', pct(R.margin.one), 'Exactly what the extra run and a half is buying']);
+      rows.push([`${fav.ab} by 2+`, pct(fav===g.h?R.margin.homeBy2plus:R.margin.awayBy2plus), 'What the favourite needs to cover']);
+      rows.push([`${dog.ab} wins outright`, pct(fav===g.h?R.pAway:R.pHome), 'The other way the underdog runline cashes']);
+      // use the tested impl() helper rather than rolling the conversion by hand;
+      // the hand-written version returned the complement of the break-even.
+      const be=impl(best.price);
+      if(be!=null) rows.push(['Break-even at this price', pct(be), `You need it to land that often at ${best.price} just to stand still`]);
+    } else if(best.m==='Total'){
+      rows.push(['Projected total', R.total.toFixed(2), `${g.a.ab} ${R.ea.toFixed(2)} · ${g.h.ab} ${R.eh.toFixed(2)}`]);
+      rows.push(['Most likely total', String(R.modeTotal), `Lands exactly there ${pct(R.modeP)} of the time`]);
+      const T=lineNum(o.total?.over?.close?.line);
+      if(T!=null){
+        rows.push(['Over the posted number', pct(R.overProb(T)), `Posted at ${T}`]);
+        const pu=R.pushProb(T);
+        if(pu>0.02) rows.push(['Pushes exactly', pct(pu), 'Whole number, so a tie refunds']);
+      }
+    } else {
+      rows.push([`${g.a.name}`, pct(R.pAway), 'Our win probability']);
+      rows.push([`${g.h.name}`, pct(R.pHome), 'Our win probability']);
+      rows.push(['One-run game', pct(R.margin.one), 'How often this is decided by a single run']);
+      rows.push(['Projected score', `${R.ea.toFixed(2)} – ${R.eh.toFixed(2)}`, `${R.total.toFixed(2)} total runs`]);
+    }
+    return `<div class="bynum"><div class="bn-k">By the numbers</div>
+      ${rows.map(r=>`<div class="bn-row"><div class="bn-l">${r[0]}</div><div class="bn-v">${r[1]}</div><div class="bn-s">${r[2]}</div></div>`).join('')}
+    </div>`;
+  }
+
+  /* The raw inputs, so the projection is checkable rather than asserted. */
+  function inputRow(){
+    if(!R||!MLBT[g.a.ab]||!MLBT[g.h.ab]) return '';
+    const A=MLBT[g.a.ab],H=MLBT[g.h.ab];
+    const sp=t=>t.sp&&t.sp.era?`${t.sp.name} (${t.sp.era} ERA)`:'not posted';
+    return `<div class="bynum" style="margin-top:12px">
+      <div class="bn-k">What that is built from</div>
+      <div class="bn-row"><div class="bn-l">${g.a.name}</div><div class="bn-v">${A.rsg.toFixed(2)} / ${A.rag.toFixed(2)}</div><div class="bn-s">Runs scored / allowed per game · ${sp(g.a)}</div></div>
+      <div class="bn-row"><div class="bn-l">${g.h.name}</div><div class="bn-v">${H.rsg.toFixed(2)} / ${H.rag.toFixed(2)}</div><div class="bn-s">Runs scored / allowed per game · ${sp(g.h)}</div></div>
+      ${movePts!=null&&Math.abs(movePts)>=0.5?`<div class="bn-row"><div class="bn-l">Line movement</div><div class="bn-v">${Math.abs(movePts).toFixed(1)} pts</div><div class="bn-s">${g.a.ab} ${fmt(mlOpenA)} → ${fmt(mlCloseA)} since it opened</div></div>`:''}
+    </div>`;
+  }
 
   const pickBlock=g.ours
     ? `<div class="callout"><div class="l">★ Our pick on this game</div><div class="v">${g.ours.pick}</div><p>${g.ours.why}</p>
-         ${mkList(MK,'All three markets')}
+         ${statGrid()}${inputRow()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">The pick above is one of today's staked plays — researched and published in the <a href="index.html#signup" style="color:var(--green)">morning email</a> before first pitch. The three reads beneath it are generated from the market and our projection.</p></div>`
     : best
     ? `<div class="callout">
          <div class="l">★ Our pick on this game · ${best.m}</div>
          <div class="v">${best.side} ${best.price||''}</div>
          <p>${best.why}</p>
-         ${mkList(MK.filter(x=>x!==best),'The other two markets')}
+         ${statGrid()}${inputRow()}
          <p style="margin-top:14px;font-size:12px;color:var(--muted)">${R?`All three come off one projection: each side's runs scored and allowed, weighted for the probable starters, then run over a full distribution of scores. That number is anchored to the posted market, because the line already prices the park, the weather and the wind — things we don't model. Genuine disagreements survive; noise gets damped out.`:`The moneyline number comes from each side's home and road form${g.league==='MLB'?', the probable starters':''} and the current price. The ${g.league==='MLB'?'runline':'spread'} and total leans are read off where those numbers opened versus where they sit now.`} None of this is one of the 3-4 staked plays in the <a href="index.html#signup" style="color:var(--green)">morning email</a>.</p>
        </div>`
     : read
