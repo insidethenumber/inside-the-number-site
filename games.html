@@ -587,6 +587,72 @@ function hotCold(ab,name){
   return HOTC[key];
 }
 
+/* ── STARTER FORM: THE LAST THREE STARTS ───────────────────────────────
+   The differentiator, and the one number on the page most likely to change
+   somebody's bet. Every site leads with a season ERA. A season ERA is five
+   months old by August and can be carried entirely by one blow-up in April —
+   it says almost nothing about the man taking the ball tonight.
+
+   Tyler Mahle is the example that made the case: 4.53 on the season, which
+   is what our own projection ran on, but 1.45 across his last three starts.
+   Those are two completely different pitchers, and only one of them is
+   starting this game.
+
+   Two requests per game, cached. The schedule window resolves ESPN's
+   pitcher names to MLB player ids; the game log gives the starts. */
+const MLBSCH={_p:null};
+const isoDay=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+async function mlbSchedule(){
+  if(!MLBSCH._p) MLBSCH._p=(async()=>{
+    try{
+      const y=new Date(Date.now()-864e5), m=new Date(Date.now()+864e5);
+      const u=`https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=${isoDay(y)}&endDate=${isoDay(m)}&hydrate=probablePitcher`;
+      const j=await (await fetch(u)).json();
+      const out=[]; (j.dates||[]).forEach(d=>(d.games||[]).forEach(g=>out.push(g)));
+      return out;
+    }catch(e){ return []; }
+  })();
+  return MLBSCH._p;
+}
+const SPFORM={};
+async function starterForm(pid){
+  if(SPFORM[pid]===undefined) SPFORM[pid]=(async()=>{
+    try{
+      const yr=new Date().getFullYear();
+      const j=await (await fetch(`https://statsapi.mlb.com/api/v1/people/${pid}/stats?stats=gameLog&group=pitching&season=${yr}`)).json();
+      const sp=((j.stats||[])[0]?.splits||[]).filter(x=>Number(x.stat?.gamesStarted||0)>0);
+      if(sp.length<3) return null;
+      const last=sp.slice(-3);                    // game log is oldest first
+      let ip=0, er=0, k=0;
+      last.forEach(x=>{
+        /* Innings pitched are printed as 6.2 meaning six and two thirds, so
+           the fraction has to be converted before it can be summed. */
+        const s=String(x.stat.inningsPitched||'0').split('.');
+        ip += Number(s[0]||0) + (Number(s[1]||0)/3);
+        er += Number(x.stat.earnedRuns||0);
+        k  += Number(x.stat.strikeOuts||0);
+      });
+      if(ip<=0) return null;
+      return {ip, er, k, era:(er*9)/ip, n:last.length};
+    }catch(e){ return null; }
+  })();
+  return SPFORM[pid];
+}
+/* Resolves both probable starters for a matchup and returns their recent
+   form beside the season number our projection actually used. */
+async function startersFor(g){
+  try{
+    const [teams,sched]=await Promise.all([mlbTeams(),mlbSchedule()]);
+    const aid=teams['nm:'+String(g.a.name||'').toLowerCase()], hid=teams['nm:'+String(g.h.name||'').toLowerCase()];
+    if(!aid||!hid) return null;
+    const gm=sched.find(x=>x.teams?.away?.team?.id===aid&&x.teams?.home?.team?.id===hid);
+    if(!gm) return null;
+    const pa=gm.teams?.away?.probablePitcher, ph=gm.teams?.home?.probablePitcher;
+    const [fa,fh]=await Promise.all([pa?.id?starterForm(pa.id):null, ph?.id?starterForm(ph.id):null]);
+    return {a:pa?{name:pa.fullName,form:fa}:null, h:ph?{name:ph.fullName,form:fh}:null};
+  }catch(e){ return null; }
+}
+
 /* ── MLB PREDICTED-SCORE MODEL ─────────────────────────────────────────
    Projects runs for each side, then derives the moneyline, the runline AND
    the total from one distribution. This replaced a win-probability-only
@@ -1675,19 +1741,11 @@ function marketRead(){
         `At <b>${best.price}</b> this has to land <b>${(be*100).toFixed(1)}%</b> of the time just to break even. Our number puts it at <b>${best.mine.toFixed(1)}%</b> — ${cushion>=0?`<b>${cushion.toFixed(1)} points</b> of room`:`<b>${Math.abs(cushion).toFixed(1)} points</b> short, which is why this is a lean and not a strong play`}.`]);
     }
 
-    if(g.league==='MLB'&&g.a.sp&&g.h.sp&&g.a.sp.era&&g.h.sp.era){
-      const ea=parseFloat(g.a.sp.era), eh=parseFloat(g.h.sp.era);
-      let note='';
-      if(Number.isFinite(ea)&&Number.isFinite(eh)){
-        const gap=Math.abs(ea-eh), bt=ea<eh?g.a:g.h;
-        note = gap>=0.75 ? ` <b>${bt.ab}</b> have the better arm by ${gap.toFixed(2)} of earned run average, and the starter is roughly two thirds of the run prevention in any game.`
-             : ` Close to even on the mound — ${gap.toFixed(2)} between them, which is inside the noise.`;
-      }
-      rows.push(['The arms',
-        `<b>${g.a.sp.name}</b> (${g.a.sp.w!=null?`${g.a.sp.w}-${g.a.sp.l}, `:''}${g.a.sp.era}) opposite <b>${g.h.sp.name}</b> (${g.h.sp.w!=null?`${g.h.sp.w}-${g.h.sp.l}, `:''}${g.h.sp.era}).${note}`]);
-    }
-
-    const slots=['<div id="whyBats"></div>','<div id="whyInj"></div>','<div id="whyCond"></div>'].join('');
+    /* Only the last-three-starts row is fetched here. The arms, the bats,
+       the injuries and the conditions were all cut: every one of them was
+       already stated in The Read or the matchup section, and repeating them
+       under the pick made the page longer without making it smarter. */
+    const slots='<div id="whyForm"></div>';
     const risk=best.beats?`<div class="risk"><div class="risk-k">What beats it</div><p>${best.beats}</p></div>`:'';
 
     return `<div class="why"><div class="why-k">Why this pick</div>
@@ -1736,14 +1794,28 @@ function marketRead(){
     if(cold.length) s+=` Gone quiet: ${cold.map(x=>`${poss(x.t)} <b>${x.c.name}</b> at <b>${x.c.avg}</b>`).join(' and ')}.`;
     el.innerHTML=s;
 
-    /* Same data, framed as evidence for the pick rather than colour. */
-    const bs=document.getElementById('whyBats');
-    if(bs){
-      const line=(f,t)=>f?`${t.ab} <b>${f.hot.name}</b> ${f.hot.avg} (${f.hot.ops} OPS), coldest bat <b>${f.cold.name}</b> ${f.cold.avg}`:null;
-      const parts=[line(ha,g.a),line(hh,g.h)].filter(Boolean);
-      if(parts.length) bs.outerHTML=`<div class="why-r"><div class="why-l">The bats</div><div class="why-v">${parts.join('. ')}. Last fifteen games, minimum 25 at-bats.</div></div>`;
-      else bs.remove();
+  })();
+
+  /* Last three starts against the season number. This is the row that earns
+     the subscription, so it says plainly when it disagrees with our own
+     projection rather than quietly sitting next to it. */
+  if(g.league==='MLB') (async()=>{
+    const el=document.getElementById('whyForm'); if(!el) return;
+    const S=await startersFor(g);
+    const seasonEra=t=>{const v=parseFloat(t?.sp?.era); return Number.isFinite(v)?v:null};
+    const parts=[], flags=[];
+    [[S?.a,g.a],[S?.h,g.h]].forEach(([s,t])=>{
+      if(!s?.form) return;
+      const f=s.form, se=seasonEra(t);
+      parts.push(`<b>${shortName(s.name)}</b> ${f.era.toFixed(2)} over his last ${f.n} starts (${f.ip.toFixed(1)} innings, ${f.k} strikeouts)${se!=null?` against a season mark of ${se.toFixed(2)}`:''}`);
+      if(se!=null&&Math.abs(f.era-se)>=1.25) flags.push({t,f,se,better:f.era<se});
+    });
+    if(!parts.length){ el.remove(); return; }
+    let note='';
+    if(flags.length){
+      note=' '+flags.map(x=>`Our projection ran on the season number, so it is ${x.better?'understating':'overstating'} <b>${x.t.ab}</b> here.`).join(' ');
     }
+    el.outerHTML=`<div class="why-r"><div class="why-l">Form on the mound</div><div class="why-v">${parts.join('. ')}.${note}</div></div>`;
   })();
 
   /* Fill the form card and the matchup block once the summary lands. Rendered
@@ -1880,32 +1952,6 @@ function marketRead(){
         'Unavailable players only. Pitchers on the list are the ones that move a number.');
     }
 
-    /* Feed the same injury and conditions facts into the pick reasoning.
-       Pitchers and quarterbacks are called out separately because those are
-       the ones that actually move a number. */
-    const wi=document.getElementById('whyInj');
-    if(wi){
-      const keyPos=/^(SP|RP|P|QB)$/i;
-      const bits=[];
-      [[ia,g.a],[ih,g.h]].forEach(([t,tm])=>{
-        if(!t||!t.out.length) return;
-        const arms=t.out.filter(x=>keyPos.test(x.pos));
-        bits.push(arms.length
-          ? `${tm.ab} are without <b>${arms.slice(0,2).map(x=>x.n.replace(/\s*\([^)]*\)/,'')).join('</b> and <b>')}</b> on the mound${t.out.length>arms.length?`, plus ${t.out.length-arms.length} more`:''}`
-          : `${tm.ab} have <b>${t.out.length}</b> unavailable`);
-      });
-      if(bits.length) wi.outerHTML=`<div class="why-r"><div class="why-l">Who's out</div><div class="why-v">${bits.join('. ')}.</div></div>`;
-      else wi.remove();
-    }
-    const wc=document.getElementById('whyCond');
-    if(wc){
-      const cb=[];
-      if(ven?.fullName) cb.push(`<b>${ven.fullName}</b>${ven.address?.city?`, ${ven.address.city}`:''}`);
-      if(wx) cb.push(wx);
-      if(cb.length) wc.outerHTML=`<div class="why-r"><div class="why-l">Conditions</div><div class="why-v">${cb.join(' · ')}.${wx&&isMLB?' Wind and rain move a total further than any other outside factor.':''}</div></div>`;
-      else wc.remove();
-    }
-
     if(ven?.fullName) html+=chip(venLabel, ven.fullName,
       [ven.address?.city, ven.grass===true?'grass':ven.grass===false?'turf':null].filter(Boolean).join(' \u00b7 '));
     if(wx) html+=chip(wxLabel, wx, wxNote);
@@ -1921,9 +1967,9 @@ function marketRead(){
         ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
       ${side(g.a)}${side(g.h)}
     </div>
+    ${pickBlock}
     ${cards}
     ${takeaway}
-    ${pickBlock}
     <div id="ctxSlot"></div>
     ${market('Moneyline',mlRows,mlP?.hold)}
     ${market('Spread',spRows,spP?.hold)}
