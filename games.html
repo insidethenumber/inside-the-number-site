@@ -1568,11 +1568,18 @@ function marketRead(){
            scoring 22 once and 2-7 in the other four averages 8.0, which reads
            like a juggernaut and would talk somebody into an over. Say so when
            a single game is doing most of the work. */
+        /* Share of the total alone is the wrong test. A team scoring 1,4,2,1,1
+           has 44% of its runs in one game, but a 4-run game is not a blowout
+           and calling it a skew is noise. Require the outlier to be big both
+           relative to the other games AND in absolute terms. */
         const skew=f=>{
           const v=f.games.map(x=>x.f).filter(x=>x!=null);
           if(v.length<4) return null;
-          const tot=v.reduce((s,x)=>s+x,0), mx=Math.max(...v);
-          return (tot>0 && mx/tot>=0.38) ? mx : null;
+          const mx=Math.max(...v);
+          const rest=v.slice(); rest.splice(rest.indexOf(mx),1);
+          const meanRest=rest.reduce((s,x)=>s+x,0)/rest.length;
+          const gap=mx-meanRest, floor=unit==='runs'?6:17;
+          return (mx>=2.5*meanRest && gap>=floor) ? mx : null;
         };
         const row=(t,f,where)=>{
           const bits=[];
