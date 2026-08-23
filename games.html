@@ -1665,6 +1665,61 @@ function marketRead(){
   MK.sort((a,b)=>b.strength-a.strength);
   const best = MK[0]||null;
 
+  /* ── WHICH PICK IS THE REASONING ABOUT? ────────────────────────────
+     `best` is the model's strongest lean on the game. `g.ours` is what we
+     actually published this morning. They are frequently NOT the same side —
+     tonight the published play is Under 37.5 while the model's lean is the
+     over — and the reasoning block was built from `best` regardless. That
+     put an argument for the over directly beneath a bold UNDER 37.5, which
+     is the same contradiction we removed from the old "other two markets"
+     block. Parse the published pick and describe that instead. */
+  function pickCtx(){
+    if(!g.ours) return best;
+    const txt=String(g.ours.pick||'');
+    const price=(txt.match(/([+-]\d{3,4})(?!\d)/)||[])[1]||null;
+    const rest=(price?txt.replace(price,''):txt);
+    const isTot=/\b(over|under)\b|\b[ou]\s?\d/i.test(rest);
+    const over=/\bover\b|\bo\s?\d/i.test(rest);
+    const lnM=rest.match(/([+-]\d{1,2}(?:\.\d+)?)(?!\d)/);
+    const m = isTot ? 'Total' : lnM ? (g.league==='MLB'?'Runline':'Spread') : 'Moneyline';
+    const numM=rest.match(/(\d+(?:\.\d+)?)/);
+    const T=numM?parseFloat(numM[1]):null;
+
+    /* Borrow the model's probability only when it is genuinely the same bet,
+       otherwise the cushion figure would describe the opposite side. */
+    let mine=null;
+    if(best&&best.m===m&&best.mine!=null){
+      const bs=String(best.side||'').toLowerCase();
+      const same = m==='Total'
+        ? (over ? bs.startsWith('over') : bs.startsWith('under'))
+        : rest.toLowerCase().split(/[^a-z]+/).some(w=>w.length>3&&bs.includes(w));
+      if(same) mine=best.mine;
+    }
+
+    const burst = g.league==='MLB' ? 'One big inning'
+                : (g.league==='NFL'||g.league==='CFB') ? 'One long touchdown drive and a quick answer'
+                : (g.league==='NHL') ? 'One two-goal period'
+                : 'One quick scoring run';
+    const unitW = g.league==='MLB' ? 'run' : 'point';
+    let beats;
+    if(m==='Total'){
+      beats = over
+        ? `A quiet game from both sides. Overs die slowly — you need scoring all the way through, and one cold stretch is usually enough to bury it.`
+        : `${burst}. Unders rarely lose gradually; a single burst puts the number out of reach with time still on the clock.`;
+      if(T!=null&&Number.isInteger(T)) beats+=` Exactly ${T} is a push and you get the stake back.`;
+    } else if(m==='Moneyline'){
+      beats = `The other side winning outright. A moneyline buys you no cushion at all — this one has to win the game, not just keep it close.`;
+    } else {
+      const ln=lnM?parseFloat(lnM[1]):null;
+      beats = (ln!=null&&ln>0)
+        ? `Losing by more than ${Math.abs(ln)} ${unitW}${Math.abs(ln)===1?'':'s'}. The cushion only covers a defeat inside that number — a blowout loses this the same as a close one.`
+        : `Winning by less than ${ln!=null?Math.abs(ln):'the number'} ${unitW}s, or not winning at all. You're laying here, so a narrow win still loses the bet.`;
+      if(ln!=null&&Number.isInteger(ln)) beats+=` Landing exactly on ${Math.abs(ln)} is a push.`;
+    }
+    return {m, side:g.ours.pick, price, mine, beats};
+  }
+  const PICK = pickCtx();
+
   const cards = `<div class="acards">
     <div class="ac"><div class="k">Market says</div>
       ${mlP?(()=>{const [head,line]=marketMood(favPc);
@@ -1756,6 +1811,7 @@ function marketRead(){
      its own slot so two writers never race, and any slot with nothing to say
      removes itself. */
   function whyBlock(){
+    const best=PICK;          // describe the published pick, not the model's lean
     if(!best) return '';
     const rows=[];
 
