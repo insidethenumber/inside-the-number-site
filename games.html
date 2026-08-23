@@ -1784,7 +1784,9 @@ function marketRead(){
        a category swap rather than a different code path. */
     if(isMLB){
       const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
-      if(ba&&bh) html+=two('Bats to watch',
+      /* Labelled "season" to distinguish it from the last-15 hot/cold line in
+         The Read — two different windows on the same lineup. */
+      if(ba&&bh) html+=two('Season leaders',
         [[g.a.ab, `${ba.name} ${ba.val}`, ha?`${ha.name} ${ha.val} HR`:''],
          [g.h.ab, `${bh.name} ${bh.val}`, hh?`${hh.name} ${hh.val} HR`:'']],
         'Leading average, then the power bat.');
