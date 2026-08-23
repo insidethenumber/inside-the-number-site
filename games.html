@@ -517,7 +517,15 @@ const injOf=(j,ab)=>{
   const lbl=s=>String(s||'').replace(/-/g,' ').replace(/injured reserve/i,'IR').trim();
   const isOut=x=>/\bout\b|injured reserve|(^|[^a-z])il([^a-z]|$)|\bir\b|doubtful|suspen|physically unable/i.test(x.status||'');
   const out=all.filter(isOut), q=all.filter(x=>!isOut(x));
-  return {out:out.map(x=>({n:nm(x),s:lbl(x.status)})), q:q.map(nm), n:all.length,
+  /* Order by how much the absence moves a number. A missing starting pitcher
+     or quarterback is the story; a fifth reliever is not. Without this the
+     list came out in feed order and buried Atlanta losing both Strider and
+     Schwellenbach behind two relievers. */
+  const posOf=x=>String(x.athlete?.position?.abbreviation||'').toUpperCase();
+  const rank=p=>({SP:0,QB:0,P:1,RP:2,C:3,CL:2}[p] ?? 4);
+  const mapped=out.map(x=>({n:nm(x),s:lbl(x.status),pos:posOf(x)}))
+                  .sort((a,b)=>rank(a.pos)-rank(b.pos));
+  return {out:mapped, q:q.map(nm), n:all.length,
           il:out.every(x=>/il\b/i.test(x.status||''))};
 };
 
@@ -1881,7 +1889,7 @@ function marketRead(){
       const bits=[];
       [[ia,g.a],[ih,g.h]].forEach(([t,tm])=>{
         if(!t||!t.out.length) return;
-        const arms=t.out.filter(x=>keyPos.test((x.n.match(/\(([^)]+)\)/)||[])[1]||''));
+        const arms=t.out.filter(x=>keyPos.test(x.pos));
         bits.push(arms.length
           ? `${tm.ab} are without <b>${arms.slice(0,2).map(x=>x.n.replace(/\s*\([^)]*\)/,'')).join('</b> and <b>')}</b> on the mound${t.out.length>arms.length?`, plus ${t.out.length-arms.length} more`:''}`
           : `${tm.ab} have <b>${t.out.length}</b> unavailable`);
