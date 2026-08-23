@@ -660,8 +660,8 @@ async function listView(sport){
     ticker(sport,null);
     view.innerHTML=`
       <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
-      <h1>${sport} — Today's Board</h1>
-      <p class="lead">Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the true price on each and the move since the number opened.</p>
+      <h1>${sport} — ${sport==='UFC'?"Tonight's Card":sport==='PGA'?'This Week':"Today's Board"}</h1>
+      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Our odds feed doesn't carry MMA prices, so the fights we like go out in the morning email instead.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the true price on each and the move since the number opened.`}</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
     ticker(sport,null);
@@ -748,6 +748,66 @@ function gameView(sport,id){
         the whole field here.</p></div>
       <p class="expl" style="border:none"><a href="?sport=${g.league}" style="color:var(--green);text-decoration:none">← Back to ${g.league}</a></p>`;
     document.title=`${g.title} | Inside the Number`; return;
+  }
+
+  /* ── MMA ───────────────────────────────────────────────────────────
+     Fights were falling through the team-sport path, which produced a
+     spread, a total, a home/away "@" and in-play pricing that "moves on
+     every at-bat". None of that exists in MMA.
+
+     ESPN's mma scoreboard carries no odds block at all — verified against
+     a live card — so there is no price to strip, no true number and no
+     edge to compute. Records are the only signal in the feed, and MMA
+     records are a famously poor predictor on their own: padded regional
+     records and strength of schedule aren't in the data. So this page
+     states the matchup honestly and does not pretend to price it.
+     Getting real MMA markets means a paid odds feed — see BACKLOG.md. */
+  if(g.kind==='mma'){
+    const done=g.state==='post', live=g.state==='in';
+    const wl=s=>{const m=/^(\d+)-(\d+)/.exec(String(s||''));return m?{w:+m[1],l:+m[2]}:null};
+    const ra=wl(g.a.rec), rh=wl(g.h.rec);
+    let readTxt='';
+    if(ra&&rh){
+      const pa=ra.w+ra.l?ra.w/(ra.w+ra.l):0, ph=rh.w+rh.l?rh.w/(rh.w+rh.l):0;
+      const gap=Math.abs(pa-ph)*100;
+      const better=pa>ph?g.a:g.h;
+      readTxt = gap>=15
+        ? `On paper <b>${better.name||better.ab}</b> carries the better record — ${better===g.a?g.a.rec:g.h.rec} against ${better===g.a?g.h.rec:g.a.rec}. Worth knowing, but not worth much on its own: MMA records don't account for who those wins came against, and a padded regional record and a hard UFC schedule look identical here.`
+        : `Their records are close — <b>${g.a.rec}</b> against <b>${g.h.rec}</b> — which tells you very little either way. Strength of schedule is what separates fighters at this level and it isn't in this feed.`;
+    }
+    document.getElementById('view').innerHTML=`
+      <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.a.ab} vs ${g.h.ab}</span></div>
+      <div class="gh">
+        <div class="gh-top"><span class="lg">${g.weight||g.league}</span>
+          <span class="st ${live?'live':''}">${live?'● ':''}${g.detail}</span>
+          ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
+        <div class="gh-row">${g.a.logo?`<img src="${g.a.logo}" alt=""/>`:''}
+          <div><div class="gh-name">${g.a.name||g.a.ab}</div><div class="gh-rec">${g.a.rec||''}</div></div>
+          ${done?`<span class="gh-sc">${g.a.sc||''}</span>`:''}</div>
+        <div class="gh-row">${g.h.logo?`<img src="${g.h.logo}" alt=""/>`:''}
+          <div><div class="gh-name">${g.h.name||g.h.ab}</div><div class="gh-rec">${g.h.rec||''}</div></div>
+          ${done?`<span class="gh-sc">${g.h.sc||''}</span>`:''}</div>
+      </div>
+      <div class="acards">
+        <div class="ac"><div class="k">Bout</div>
+          <div class="big" style="font-size:19px;line-height:1.15">${g.weight||'—'}</div>
+          <div class="sub">${g.card||'UFC'}</div></div>
+        <div class="ac"><div class="k">Records</div>
+          <div class="big" style="font-size:19px;line-height:1.15">${g.a.rec||'—'} / ${g.h.rec||'—'}</div>
+          <div class="sub">${g.a.ab} and ${g.h.ab}, career</div></div>
+        <div class="ac"><div class="k">Market</div>
+          <div class="big" style="font-size:19px;line-height:1.15;color:var(--muted)">Not carried</div>
+          <div class="sub">Our odds feed doesn't publish MMA prices.</div></div>
+        <div class="ac"><div class="k">Status</div>
+          <div class="big" style="font-size:19px;line-height:1.15;color:${live?'var(--red)':'var(--white)'}">${done?'Final':live?'Live':'Scheduled'}</div>
+          <div class="sub">${g.detail||''}</div></div>
+      </div>
+      ${readTxt?`<div class="takeaway"><div class="k">The read</div><p>${readTxt}</p></div>`:''}
+      <div class="nopick"><div class="l">Why there's no price here</div>
+        <p>A fight is a two-way market like any other, but the feed behind this board doesn't carry MMA odds — so there's no opening number, no move and no true price to work back from. Rather than guess, we leave it blank.</p>
+        <p style="margin-top:10px">UFC is covered properly where it can be done by hand: we survey every card and the fights we like go out in the <a href="index.html#signup" style="color:var(--green)">morning email</a>, with the reasoning. Fight markets are among the softest on the board, which is exactly why they're worth writing about rather than automating badly.</p></div>
+      <p class="expl" style="border:none"><a href="?sport=${g.league}" style="color:var(--green);text-decoration:none">← Back to the ${g.league} card</a></p>`;
+    document.title=`${g.a.ab} vs ${g.h.ab} — ${g.league} | Inside the Number`; return;
   }
   const o=g.o;
   const mlP=pair(o.moneyline?.away?.close?.odds,o.moneyline?.home?.close?.odds);
@@ -885,8 +945,8 @@ function marketRead(){
           headline: done?`Pregame market closed before first pitch.`
                         :`${g.detail} · pregame market has come down.`,
           detail: done
-            ? `This one is in the books at <b>${sc}</b>. Books pull the pregame number once a game ends, so there's no line left here to work from — the open, the move and the closing price are gone from the feed with it.`
-            : `<b>${sc}</b>, ${g.detail}. The pregame market has come down, which is standard — books replace it with in-play pricing that moves on every at-bat and carries far more margin than the number you could have taken this morning. Scores on this page keep updating.`
+            ? `This one is done at <b>${sc}</b>. Books pull the pregame number once a game ends, so there's no line left here to work from — the open, the move and the closing price are gone from the feed with it.`
+            : `<b>${sc}</b>, ${g.detail}. The pregame market has come down, which is standard — books replace it with in-play pricing that moves on every play and costs far more than the number you could have taken this morning. Scores on this page keep updating.`
         };
       }
       return null;
