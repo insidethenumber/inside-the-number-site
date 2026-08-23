@@ -811,26 +811,18 @@
   const todaysGames = [
     /* UFC entries key on fighter LAST NAMES — games.html matches them that way
        and tries both orders, since a fight has no home or away side. */
-    { league:'UFC', away:{code:'hernandez', name:'Hernandez'}, home:{code:'rodrigues', name:'Rodrigues'},
-      time:'Main event · Sacramento', pick:'Rodrigues +180 (bet365)', conf:2, free:false,
-      hook:'Shop it — the books are 37 cents apart',
-      why:'Hernandez is priced anywhere from ‑185 at Hard Rock to ‑222 at bet365, which is an enormous spread for a main event. Blend the books and the true number is Hernandez 63.9%, Rodrigues 36.1% — fair on the dog is about +177. bet365 is posting +180. It is a small edge, a point or so, and it exists only because you shopped rather than took the first number you saw.' },
-    { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'nyy', name:'Yankees'},
-      time:'12:35 PM ET', pick:'Toronto ML (+101)', conf:3, free:true,
-      hook:'The better arm at plus money',
-      why:'Dylan Cease (7-5, 2.42 ERA) is the sharper starter here and Toronto is still priced as a near coin flip. Ryan Weathers (5-7, 3.56) is a full run worse. New York\u2019s five-game win streak is doing the work in this number, not the pitching matchup.' },
-    { league:'MLB', away:{code:'atl', name:'Braves'},    home:{code:'mil', name:'Brewers'},
-      time:'1:10 PM ET', pick:'Milwaukee ML (-165)', conf:4, free:false,
-      hook:'Milwaukee\u2019s home form is underpriced',
-      why:'The Brewers have been the better side at home all season and draw an Atlanta team that has struggled on the road against right-handed pitching. \u2011165 is short, but the gap between these two rotations is wider than the price implies.' },
-    { league:'MLB', away:{code:'tb',  name:'Rays'},      home:{code:'bal', name:'Orioles'},
-      time:'6:05 PM ET', pick:'Baltimore ML (+110)', conf:3, free:false,
-      hook:'Live dog at home',
-      why:'Baltimore getting plus money at home is the value on this board. Tampa Bay has been the better team overall, but this is a bullpen game for the Rays and the Orioles have hit right-handed relief well over the last month.' },
-    { league:'MLB', away:{code:'pit', name:'Pirates'},   home:{code:'lad', name:'Dodgers'},
-      time:'6:15 PM ET', pick:'Los Angeles ML (-267)', conf:4, free:false,
-      hook:'Heavy chalk, but the gap is real',
-      why:'\u2011267 is a steep price and not one to stack. The Dodgers are simply a far better team than Pittsburgh at home, and the true price suggests the market would go higher still if the public were not already loaded on the favorite.' },
+    { league:'NFL', away:{code:'sea', name:'Seahawks'}, home:{code:'ten', name:'Titans'},
+      time:'8:00 PM ET', pick:'Under 37.5 (-108)', conf:3, free:true,
+      hook:'Week three, and nobody plays',
+      why:'This total opened at 38.5 and sits at 37.5, but the under is still the cheaper side at -108 while the over costs -112. Preseason week three is the last look before cuts — starters get a series or two at most and the rest of the night is third-string quarterbacks against third-string defenses. The number came down a full point and the price never followed it up, which is the market moving without making you pay for the move.' },
+    { league:'MLB', away:{code:'stl', name:'Cardinals'}, home:{code:'phi', name:'Phillies'},
+      time:'1:35 PM ET', pick:'Phillies -1.5 (-103)', conf:3, free:false,
+      hook:'Take the runline, not the -217',
+      why:'Cristopher Sánchez is 16-4 with a 2.51 ERA and Philadelphia has been bet from -194 up to -217 on the moneyline. Laying -217 to win a single unit is the worst of the three ways to bet this game, and the runline is sitting at -103 for the same read. Kyle Leahy has been steady at 3.24, but the Phillies score in bunches at home, and a run of margin at even money is a far better number than no margin at a heavy price.' },
+    { league:'MLB', away:{code:'tb', name:'Rays'}, home:{code:'bal', name:'Orioles'},
+      time:'1:35 PM ET', pick:'Under 9 (-117)', conf:2, free:false,
+      hook:'The book raised it and still likes under',
+      why:'The total opened at 8.5 and the book pushed it up to 9, yet the under is the expensive side at -117 while the over sits at -103. That gap is the tell — the number went up to draw over money, not because the market believes nine runs is the honest count. Nathan Martinez has been Tampa Bay’s steadiest arm at 3.05, and Shane Baz has been better than a 4-13 record reads at a 4.02 ERA.' },
   ];
 
   // NOTE: the site deliberately does not display a win/loss record or a
@@ -1023,11 +1015,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Sat, Aug 22</div>
-        <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Blue Jays @ Yankees</div>
-        <div class="potd-line">THE PICK: Toronto Blue Jays ML (+101) · 12:35 PM ET</div>
-        <p class="potd-reasoning">Dylan Cease (7-5, 2.42 ERA) is having his best season in pinstripes-adjacent form against the team wearing them, and the market still has this at a near coin flip. Ryan Weathers (5-7, 3.56) is a full run worse, yet New York's five-game win streak has the Yankees sitting at just -108. Getting the better arm at plus money is the number doing the talking today.</p>
+        <div class="potd-date">Sun, Aug 23</div>
+        <div class="potd-sport">NFL Preseason</div>
+        <div class="potd-matchup" id="potd-matchup">Seahawks @ Titans</div>
+        <div class="potd-line">THE PICK: Under 37.5 (-108) · 8:00 PM ET</div>
+        <p class="potd-reasoning">The total opened at 38.5 and has been bet down to 37.5, but the under is still the cheaper side at -108 while the over costs -112. That is the part worth noticing: the number moved a full point and the price never moved with it, so you are getting the same side the market already took, without paying extra for it. Preseason week three is the last look before roster cuts — starters play a series or two, and the rest of the night belongs to quarterbacks who will not be on either roster in September.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
