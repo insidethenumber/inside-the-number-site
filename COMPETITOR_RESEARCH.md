@@ -1,112 +1,102 @@
-# Competitor Research — Aug 20, 2026
+# Competitive Benchmark — the five sites in our business
 
-Deep dive across Action Network, Covers/Odds Shark, Pickswise, Wunderdog,
-Vegas Insider, Pregame, OddsJam, Dimers, DraftKings and Hard Rock Bet.
-What each does well, and what we took (or deliberately didn't).
+Researched Aug 22, 2026. Internal doc, not served publicly.
 
----
-
-## What we implemented
-
-### Dimers → no-vig win probability *(the biggest win)*
-Dimers puts a win-probability percentage beside the odds on every game card.
-It's the clearest possible expression of "model vs market."
-
-We can't run a proprietary model, but we can do the honest version: American
-odds imply a probability, and the two sides always sum to **more than 100%** —
-that surplus is the sportsbook's hold. Normalizing both sides back to 100%
-strips the margin out and leaves what the market actually thinks.
-
-Verified against real data (Aug 21 slate):
-
-| Game | Odds | Raw sum | No-vig | Hold |
-|---|---|---|---|---|
-| ATL @ MIL | +123 / -149 | 104.7% | 42.8% / 57.2% | 4.68% |
-| SF @ BOS | +149 / -181 | 104.6% | 38.4% / 61.6% | 4.57% |
-
-Those are textbook MLB numbers. Every matchup card now shows both sides'
-no-vig probability, a split bar, and the book's hold — **labeled "market
-win prob · vig removed," not presented as our own model.** That distinction
-matters and should never be blurred.
-
-### Covers → rich matchup cards
-Best card design of the group: league tag, both teams with logos, lines,
-expert pick, analysis thumbnail, CTA. Our slate cards are modelled on this.
-
-### OddsJam → trust bar
-Their hero sits above a four-item proof bar (7-day trial, 1:1 coaching, 150+
-books, fastest data). We built the same pattern with claims that are actually
-true and checkable: every pick free, losses stay up, live odds not retyped,
-reasoning shown. **No invented testimonials or "trusted by 100k bettors."**
-
-Note their positioning — *"Make $500-$1000+ weekly. Use math, not luck."* —
-is nearly identical in spirit to *"The number doesn't lie."* Same lane.
-
-### ESPN → live scoreboard, team records, date strip
-ESPN's public feed powers our live scoreboard, team records, brand colors
-and live line movement. Their date-strip navigation (MON AUG 17 → SUN AUG 23)
-is a pattern worth adding to the record page later.
+The question this answers: what do the best sites in this category actually
+ship, where does ITN already match them, and what would it take to be as good.
 
 ---
 
-## What we found but deliberately did NOT build
+## The five
 
-### Vegas Insider → multi-book odds grid with best-price highlighting
-Their best feature: ten sportsbook columns per game with the **best available
-number highlighted in gold.** Genuinely useful — it tells you where to bet.
+**1. Action Network** — the category leader
+Owned by Better Collective, who paid **$240M** for it in 2021. Commercial data
+partnerships with BetMGM, DraftKings, FanDuel and PointsBet, which is where its
+betting-percentage data comes from — not a public feed.
+Pricing: **$19.99/mo, $99.99/yr** (the same monthly price we're proposing, at
+half our annual).
+Ships: public betting % **split into bets vs money** (the valuable version),
+odds from real books, projections on moneyline/spread/total, PRO Report signals,
+bet tracking via BetSync, QuickSlip bet placement, custom betting systems.
 
-**We can't build it honestly.** ESPN exposes exactly one book (DraftKings).
-A real multi-book grid needs a paid odds feed (The Odds API, OpticOdds and
-similar start around $50-100/month). Faking it with one book dressed up as
-several would be exactly the kind of thing we spent this project removing.
-Revisit if there's ever budget.
+**2. Dimers** — the model-first play
+Pricing: **$29.99/mo, $199.99/yr**.
+Ships: Monte Carlo simulations per game, **22,000+ games a year**, Best Bets,
+Best Props, "Dimebot" AI assistant, iOS and Android apps. Breadth is the whole
+product — every game in every league, every day.
 
-### OddsJam / Dimers → third-party verified records
-OddsJam cites **Pikkit**, an independent bet tracker, to verify user profits.
-Our record is self-reported. Our disclaimer already says so plainly, which is
-the right call — but third-party verification is the single strongest trust
-upgrade available if this ever grows.
+**3. SportsLine (CBS)** — distribution as the moat
+Proprietary model, **10,000 simulations per game**, across MLB, NFL and PGA.
+The model is ordinary; being embedded in CBS Sports is not. Traffic comes free.
 
-### Pregame → handicapper marketplace + forums
-Sell picks from multiple named handicappers, plus contests and forums. Dated
-visually (2010s), but it's the mature form of this business model. Only works
-with real handicappers and real volume.
+**4. Wunderdog** — the closest analogue to what we're building
+**410,000+ subscribers.** Gives computer picks away free — predicted score and
+win probability on every game, across eight sports — plus free public consensus.
+Sells human handicapping with a money-back guarantee. Publishes **85,000+ picks
+with wins and losses**, searchable, as its central trust claim.
+Their own page says it plainly: computer picks are the starting point, finding
+real edges takes a human. Worth internalising — the model is the lead magnet,
+not the product.
 
-### Wunderdog → personality-led trust
-One named person, big verifiable claim, press logos ("Featured in ESPN, WSJ"),
-"Pick Performance" in the primary nav. Closest business model to ours. The
-lesson: **make the record the hero**, not one nav item among six. Also has a
-nicely designed custom 404 — worth copying as a polish detail.
+**5. Pickswise** — the free/affiliate model
+**No paid tier at all.** Every pick, every sport, plus parlays, entirely free.
+Monetised through sportsbook affiliate commissions. Proof that the whole picks
+product can be a traffic funnel rather than a subscription business.
 
-### DraftKings / Hard Rock Bet
-Blocked — live sportsbooks. Their UI is bet-slip driven, which isn't our
-model, so little was lost.
-
----
-
-## Ideas worth building next
-
-1. **Closing line value (CLV).** Capture the no-vig probability at the moment
-   we post a pick, then compare to the closing number. "We beat the close on
-   68% of picks" is the most credible metric in this industry — far harder to
-   fake than win rate, and nobody at our scale publishes it.
-2. **Date-strip navigation** on the record page (ESPN/Vegas Insider pattern).
-3. **Per-sport landing pages.** Vegas Insider runs MLB Odds / MLB Free Picks /
-   MLB Consensus / MLB Expert Records as separate SEO doorways.
-4. **Probable pitchers on cards** — ESPN's feed already carries them, with
-   handedness. Directly relevant since our reasoning is usually pitcher-led.
-5. **Custom 404.**
+**Adjacent, and increasingly the real competition:** OddsJam (+EV line
+shopping), Oddspedia (line movement context), ProfitDuel (odds screener feeding
+calculators), Oddschecker (best free comparison). These matter because the
+clearest edge we found by hand tonight — a UFC main event priced −185 at one
+book and −222 at another — is *their* core feature, not ours.
 
 ---
 
-## Technical note: the odds window
+## Where ITN stands
 
-**ESPN drops the odds object the moment a game starts.** Confirmed Aug 20:
-every game showed `hasOdds: false` once it went in-progress or final.
+| | ITN today | Best in class |
+|---|---|---|
+| Free board, every game | **yes** | Pickswise, Wunderdog |
+| True price per market, shown plainly | **yes** | rare — genuine differentiator |
+| Predicted score model | **MLB only** | Wunderdog (8 sports), Dimers, SportsLine |
+| All three markets graded per game | **yes** | Dimers |
+| Line movement | single book | Oddspedia, Action |
+| Multi-book / best available price | **no** | OddsJam, ProfitDuel, Action |
+| Public betting % (bets vs money) | **no** | Action, Wunderdog |
+| Player props | **no** | Dimers, Action |
+| Bet tracker | **no** | Action (BetSync) |
+| Mobile app | **no** | all four paid competitors |
+| Betting calculators | **10, all verified correct** | ProfitDuel, SportyTrader |
+| Documented pick record | **retired** | Wunderdog (85k, searchable) |
+| Daily newsletter | **yes** | Wunderdog (410k subscribers) |
+| UFC / PGA depth | partial | almost nobody does this well |
 
-Consequences:
-- No-vig probability and line movement only render for *upcoming* games.
-  That's the correct behaviour — they're pre-game concepts — but it means the
-  homepage looks quieter late at night than it does in the morning.
-- **The daily routine must capture odds in the morning while they exist.**
-  Anything not recorded before first pitch is gone from the feed.
+---
+
+## Honest read
+
+**Three things we already do as well as anyone.** The true price on every
+market, stated plainly rather than buried. Reasoning attached to every call.
+Ten calculators that are actually correct — all ten were verified against
+hand-computed values on Aug 22.
+
+**Three real gaps, in order of leverage.**
+
+1. **Multi-book odds — $99/mo, The Odds API.** The highest-return spend
+   available. It gets Pinnacle (which sharpens every true price we compute),
+   enables a best-available-price feature on every game, and that feature
+   points straight at affiliate links. Improves the product and earns at the
+   same time. Nothing else on this list has that profile.
+2. **Model breadth.** Wunderdog runs computer picks in eight sports; we run one.
+   The Poisson approach doesn't transfer to football or basketball — those need
+   a margin-distribution model — so this is real work, not a config change.
+3. **Audience.** Wunderdog has 410,000 subscribers. Action Network had $240M
+   spent on it. We have a six-issue newsletter. This is the actual gap, and no
+   feature closes it.
+
+**One strategic conclusion.** Every serious competitor treats model output as
+free. Action, Wunderdog and Pickswise all give picks or projections away and
+monetise elsewhere — subscriptions on top, affiliate underneath, or both. If
+ITN Pro is sold on projections alone it is selling the thing the category gives
+away. The defensible paid product is the hand-written work: the staked daily
+picks, UFC card-by-card, the PGA Tuesday preview and post-cut re-price. Those
+are the things a model can't produce and the big sites mostly don't bother with.
