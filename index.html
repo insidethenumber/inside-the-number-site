@@ -954,7 +954,7 @@
   <div class="panel hp">
     <!-- 1 · biggest move on the board — the number that traveled furthest -->
     <a class="hp-move" id="hpMove" href="games.html">
-      <div class="hp-k">Biggest move on the board</div>
+      <div class="hp-k">Biggest line move today</div>
       <div class="hp-load">Reading today's numbers…</div>
     </a>
     <!-- 2 · today's free pick -->
@@ -1786,12 +1786,18 @@
     const toward = best.delta>0 ? best.awayName : best.homeName;
     el.href=`games.html?sport=${best.league}&game=${best.id}`;
     const lg=(u,alt)=>u?`<img class="hp-logo" src="${u}" alt="${alt}" loading="lazy"/>`:'';
-    el.innerHTML=`<div class="hp-k">Biggest move on the board</div>
-      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${Math.abs(best.delta).toFixed(1)} pts</span>
+    /* Show the price itself, not the size of the move. This used to headline
+       a figure like "5.3 pts" — implied-probability points, which is the
+       correct way to MEASURE a move but a terrible way to display one. Next
+       to a team name it reads as a spread or a line movement in points, and
+       it means neither. The opening and current price says the same thing in
+       the only units a bettor already thinks in. */
+    el.innerHTML=`<div class="hp-k">Biggest line move today</div>
+      <div class="mv"><span class="amt ${best.delta>0?'up':'dn'}">${f(best.op)} → ${f(best.cl)}</span>
         <span class="who">${lg(best.awayLogo,best.away)}${best.away}
           <span class="at">@</span>${lg(best.homeLogo,best.home)}${best.home}</span></div>
-      <div class="det"><b>${best.away}</b> opened ${f(best.op)} and sits ${f(best.cl)} — money has come in on
-        <b>${toward}</b>. See the full market →</div>`;
+      <div class="det">That's the moneyline on <b>${best.away}</b>, and it's the furthest any price has
+        traveled on today's board. Money is coming in on <b>${toward}</b>. See the full market →</div>`;
   })();
 
   /* free pick, read from the homepage's own array so there is no second copy */
