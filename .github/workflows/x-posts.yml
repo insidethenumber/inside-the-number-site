@@ -1,0 +1,69 @@
+name: X posts
+
+# Posts to @thenumberdesk four times a day, on GitHub's servers.
+#
+# This does NOT run on Chuck's laptop and does not touch Claude in Chrome.
+# Both of those have failed repeatedly: Chrome froze twice on Aug 24 alone,
+# and the local automation missed or ran late four days out of five. A GitHub
+# runner has real outbound network, so it can reach api.x.com directly — which
+# neither the Claude sandbox nor a browser can do.
+
+on:
+  schedule:
+    # UTC. Central is UTC-5 in summer, UTC-6 in winter, so these drift an hour
+    # seasonally — acceptable for social posting.
+    - cron: "0 14 * * *"   #  9:00am CDT — the day's free pick
+    - cron: "0 17 * * *"   # 12:00pm CDT — method post
+    - cron: "0 21 * * *"   #  4:00pm CDT — line move / one number
+    - cron: "0 1 * * *"    #  8:00pm CDT — build-in-public
+  workflow_dispatch:
+
+concurrency:
+  # Two runs posting at once would double-post and corrupt the queue state.
+  group: x-posts
+  cancel-in-progress: false
+
+permissions:
+  contents: write          # to commit posts/.sent.json back
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Post the next item in the queue
+        env:
+          X_API_KEY:       ${{ secrets.X_API_KEY }}
+          X_API_SECRET:    ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN:  ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: python3 scripts/post_queue.py
+
+      - name: Record what went out
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          git add posts/.sent.json
+          if git diff --cached --quiet; then
+            echo "queue unchanged — nothing was sent"
+          else
+            git commit -m "X: posted queue item [skip ci]"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Warn when the queue runs low
+        run: python3 scripts/post_queue.py --status
+
+      - name: Report failure loudly
+        if: failure()
+        run: |
+          echo "::error title=X post failed::Check credits at console.x.com and \
+          the run log. Auth, billing and rate limits each report differently."
