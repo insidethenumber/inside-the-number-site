@@ -13,3 +13,6 @@ DFS_AND_MONETIZATION_PLAN.md
 BACKLOG.md
 # Social launch art — kept in the repo, not served from the site.
 social/
+# Ops scripts and marketing notes — versioned, never served.
+post_to_x.py
+MARKETING_X.md
