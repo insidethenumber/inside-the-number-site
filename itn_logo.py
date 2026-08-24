@@ -36,33 +36,44 @@ def _grad_at(t):
     return STOPS[-1][1]
 
 
+# Optical centring. The glyphs were drawn from x=24 to x=114.5 and y=26 to
+# y=84 inside a 120-unit badge, leaving a 24-unit gap on the left against 5.5
+# on the right, and sitting 5 units high. Nudge the whole group rather than
+# rewriting every coordinate; the site's SVG applies the identical transform.
+DX, DY = -9.25, 5.0
+
+
 def render_badge(px, supersample=4):
     """Return an RGB image of the badge, px by px, rendered with antialiasing."""
     S = px * supersample
     K = S / 120.0
+    def X(v): return (v + DX) * K
+    def Y(v): return (v + DY) * K
+
     img = Image.new("RGB", (S, S), BLACK)
     d = ImageDraw.Draw(img)
 
+    # Badge frame is NOT offset — only the glyphs move inside it.
     d.rounded_rectangle([1 * K, 1 * K, 119 * K, 119 * K], radius=18 * K,
                         fill=BLACK, outline=BORDER_LIT, width=max(1, int(2 * K)))
 
     # I, T, and the N's left stroke and diagonal — solid white
-    d.rectangle([24 * K, 38 * K, 34 * K, 84 * K], fill=WHITE)
-    d.rectangle([42 * K, 38 * K, 72 * K, 48 * K], fill=WHITE)
-    d.rectangle([52 * K, 38 * K, 62 * K, 84 * K], fill=WHITE)
-    d.rectangle([80 * K, 38 * K, 90 * K, 84 * K], fill=WHITE)
-    d.polygon([(80 * K, 38 * K), (90 * K, 38 * K),
-               (111.5 * K, 84 * K), (101.5 * K, 84 * K)], fill=WHITE)
+    d.rectangle([X(24), Y(38), X(34), Y(84)], fill=WHITE)
+    d.rectangle([X(42), Y(38), X(72), Y(48)], fill=WHITE)
+    d.rectangle([X(52), Y(38), X(62), Y(84)], fill=WHITE)
+    d.rectangle([X(80), Y(38), X(90), Y(84)], fill=WHITE)
+    d.polygon([(X(80), Y(38)), (X(90), Y(38)),
+               (X(111.5), Y(84)), (X(101.5), Y(84))], fill=WHITE)
 
     # Upstroke + arrowhead share one continuous gradient, as in the SVG
     mask = Image.new("L", (S, S), 0)
     md = ImageDraw.Draw(mask)
-    md.rectangle([101.5 * K, 34 * K, 111.5 * K, 84 * K], fill=255)
-    md.polygon([(106.5 * K, 26 * K), (114.5 * K, 34 * K), (98.5 * K, 34 * K)], fill=255)
+    md.rectangle([X(101.5), Y(34), X(111.5), Y(84)], fill=255)
+    md.polygon([(X(106.5), Y(26)), (X(114.5), Y(34)), (X(98.5), Y(34))], fill=255)
 
     grad = Image.new("RGB", (S, S))
     gd = ImageDraw.Draw(grad)
-    y0, y1 = 84 * K, 26 * K
+    y0, y1 = Y(84), Y(26)
     for py in range(S):
         gd.line([(0, py), (S, py)], fill=_grad_at((y0 - py) / (y0 - y1)))
     img.paste(grad, (0, 0), mask)
