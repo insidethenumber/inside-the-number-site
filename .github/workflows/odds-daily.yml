@@ -3,8 +3,9 @@ name: Odds — scoped daily pull
 # Buys only what ESPN cannot give us: UFC prices, and the best number across
 # ~50 books on the games we actually published a pick on.
 #
-# Measured cost, not estimated: 4 credits in the morning (2 MLB markets +
-# 1 WNBA + 1 UFC) and 3 in the afternoon, so about 7 a day and 210 a month
+# Measured cost, not estimated: roughly 4 credits in the morning (one per
+# market per sport we picked, plus 1 for UFC) and 3 in the afternoon, so about
+# 7 a day and 210 a month
 # against a 500-credit free tier. A naive full-board pull is 16 a go, which
 # is 960 a month twice daily -- see .github/workflows/odds-check.yml, which
 # measured that rather than assuming it.

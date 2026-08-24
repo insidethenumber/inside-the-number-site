@@ -383,12 +383,28 @@ at the toughest water available. A publication whose whole pitch is "the
 number doesn't lie" cannot only ever bet the most efficient number on the
 board.
 
+**Covered leagues — the hard list.**
+
+The site covers exactly these: **MLB, NFL, CFB, NBA, CBB, NHL, UFC, PGA.**
+
+Nothing outside that list may be surveyed, picked, referenced, or added to a
+scoreboard feed. **The WNBA is explicitly excluded** — Chuck's call, Aug 24
+2026, and it is not a close one. On Aug 24 the routine not only picked a WNBA
+game, it made it the free Pick of the Day and added WNBA feeds to index.html
+and games.html that had not existed before. All of that was reversed the same
+day. Do not reintroduce it, and do not treat "it was the only non-MLB card
+today" as a reason to — see rule 3 below, which yields rather than reaching
+for an excluded league.
+
 **The rules.**
 
-1. Survey every in-season sport before selecting. MLB is not the default.
+1. Survey every in-season **covered** sport before selecting. MLB is not the
+   default, but neither is "any sport with a game on".
 2. Maximum 2 picks from any single sport per day.
-3. If any non-MLB sport has a card that day, at least one pick must come
-   from it.
+3. If any non-MLB **covered** sport has a card that day, at least one pick
+   must come from it. If the only alternative to MLB is an excluded league,
+   this rule does not apply — publish the MLB card and say so in the run
+   summary. Rule 5 covers this; an excluded league is never the escape hatch.
 4. Maximum 50% of a day's picks may be moneylines. Spreads, totals and
    props make up the rest.
 5. If a constraint genuinely can't be satisfied, state that plainly in the

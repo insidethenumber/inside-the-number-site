@@ -43,3 +43,34 @@ causes were actually diagnosed and fixed rather than worked around, so treat
   a miss for the main routine and is worth investigating.
 - If two consecutive days show recovery runs, something systemic is wrong;
   don't wait for the two-week review.
+
+---
+
+## Correction — Aug 24, 2026 (evening)
+
+The Aug 24 card above is **superseded**. The free Pick of the Day was a WNBA
+spread; Chuck's instruction that evening was that the site does not cover the
+WNBA at all and never should have. The entry above is left intact because this
+log is a record of what actually happened, and rewriting it would defeat its
+purpose — but it is not the published card.
+
+**What changed:**
+  - Free Pick of the Day moved to **Phillies/Mariners Under 6.5 (+102)**
+    (was conf 4, previously the non-free second pick).
+  - The WNBA entry was removed from `todaysGames`, from the Pick of the Day
+    block, and from the sport-chip CSS.
+  - The queued X post `A1-free-pick-today.txt` was rewritten for the new pick.
+    It had not been sent, so nothing needs retracting there.
+  - WNBA was removed from the Odds API sport map in `scripts/odds_scoped.py`.
+  - `DAILY_MORNING_PROMPT.md` now carries a hard covered-leagues list so the
+    routine cannot select it again, and rule 3 no longer treats an excluded
+    league as a way to satisfy the non-MLB requirement.
+
+**What could not be changed:** the newsletter published at 2:39 PM CDT on
+Aug 24 went out with the WNBA game as the free pick. Sent email cannot be
+recalled. That issue is the one remaining place the pick exists.
+
+**Root cause worth noting:** the diversification mandate (rule 3) rewarded
+picking *any* non-MLB sport with a card, and there was no list of which
+leagues the site actually covers. The routine did what it was told. The fix is
+the covered-leagues list, not more judgement at selection time.

@@ -166,7 +166,6 @@
   .s-cfb { background: var(--gold); } .s-nba { background: #ff8a5c; }
   .s-cbb { background: #3ee7c0; } .s-nhl { background: #c9cfd8; }
   .s-ufc { background: var(--red); } .s-pga { background: var(--white); }
-  .s-wnba { background: #c77dff; }
 
   /* ── NAV ── */
   nav {
@@ -812,12 +811,8 @@
   const todaysGames = [
     /* UFC entries key on fighter LAST NAMES — games.html matches them that way
        and tries both orders, since a fight has no home or away side. */
-    { league:'WNBA', away:{code:'gs', name:'Valkyries'}, home:{code:'min', name:'Lynx'},
-      time:'8:00 PM ET', pick:'Valkyries +4.5 (+100)', conf:4, free:true,
-      hook:'Fewest possessions, biggest cushion',
-      why:'The 161.5 total here sits twenty full points below the other WNBA game on tonight’s board, and that matters more than the records do — fewer possessions means fewer chances for Minnesota to turn a small edge into a four-point one. Strip the margin out of the moneyline and the market gives Golden State a 34 percent chance to win outright, yet it prices a +4.5 cover at close to 48 percent. The book is telling you it expects this decided inside one possession, so take the points at even money instead of the +180.' },
     { league:'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'sea', name:'Mariners'},
-      time:'9:40 PM ET', pick:'Under 6.5 (+102)', conf:4, free:false,
+      time:'9:40 PM ET', pick:'Under 6.5 (+102)', conf:4, free:true,
       hook:'Two aces in the quietest park',
       why:'Zack Wheeler at a 2.92 ERA against Logan Gilbert at 3.35 is the best pitching matchup on tonight’s board, and it is being played in T-Mobile Park, which has taken more runs off the scoreboard than any park in baseball for years running. Six and a half is already the lowest total on a ten-game MLB slate, and the under is still the cheaper side at +102 while the over costs -122. When a number is that low and the price is still leaning your way, the market has run out of room to move it.' },
     { league:'MLB', away:{code:'cin', name:'Reds'}, home:{code:'sf', name:'Giants'},
@@ -1014,10 +1009,10 @@
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
         <div class="potd-date">Mon, Aug 24</div>
-        <div class="potd-sport">WNBA</div>
-        <div class="potd-matchup" id="potd-matchup">Valkyries @ Lynx</div>
-        <div class="potd-line">THE PICK: Valkyries +4.5 (+100) · 8:00 PM ET</div>
-        <p class="potd-reasoning">Minnesota is 31-7 and Golden State is 25-11, and the market has this at four and a half points. The number that actually decides it is the other one: a 161.5 total, twenty full points below the other WNBA game on tonight's board. Fewer possessions means fewer chances for the better team to stretch a two-point game into a six-point one, which is how a small favorite becomes a live underdog. Strip the book's margin out of the moneyline and the market gives Golden State a 34 percent chance to win the game outright — but it prices a +4.5 cover at close to 48 percent. That gap is the market saying it expects this decided inside a single possession. If that's the read, the points at even money are the better way to hold it than the +180.</p>
+        <div class="potd-sport">MLB</div>
+        <div class="potd-matchup" id="potd-matchup">Phillies @ Mariners</div>
+        <div class="potd-line">THE PICK: Under 6.5 (+102) · 9:40 PM ET</div>
+        <p class="potd-reasoning">Zack Wheeler at a 2.92 ERA against Logan Gilbert at 3.35 is the best pitching matchup on tonight's board, and it is being played in T-Mobile Park, which has taken more runs off the scoreboard than any park in baseball for years running. Six and a half is already the lowest total on a ten-game MLB slate — the market has priced the arms and the ballpark before you got here. What it has not done is make you pay for the privilege. Across nine books tonight the over costs -117 while the under still returns plus money, which means the cheaper side and the side the conditions favor are the same side. That is unusual. A total this low normally carries a premium on the under, because everyone can see the same two pitchers; when the discount is still sitting on the under instead, the number has run out of room to move. You need this to hit 49.5 percent of the time to break even at +102.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>

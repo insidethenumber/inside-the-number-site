@@ -60,7 +60,10 @@ SPORT_KEY = {
     "NBA":  "basketball_nba",
     "NHL":  "icehockey_nhl",
     "UFC":  "mma_mixed_martial_arts",
-    "WNBA": "basketball_wnba",
+    # This map is the covered-leagues list, not a catalogue of what the API
+    # offers. A league the site does not cover does not get a key here -- adding
+    # one "just in case" is how a dropped league quietly comes back. See the
+    # coverage rules in DAILY_MORNING_PROMPT.md.
 }
 
 

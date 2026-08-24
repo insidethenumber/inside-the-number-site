@@ -59,33 +59,6 @@
    }
   },
   {
-   "kind": "pick_shop",
-   "league": "WNBA",
-   "pick": "Valkyries +4.5 (+100)",
-   "free": true,
-   "market": "spreads",
-   "away": "Golden State Valkyries",
-   "home": "Minnesota Lynx",
-   "commence": "2026-08-25T00:10:00Z",
-   "books": 9,
-   "best": {
-    "Golden State Valkyries +4.5": {
-     "price": 100,
-     "book": "BetMGM",
-     "point": 4.5,
-     "true": 48.1,
-     "hold": 3.92
-    },
-    "Minnesota Lynx -4.5": {
-     "price": -117,
-     "book": "BetRivers",
-     "point": -4.5,
-     "true": 51.9,
-     "hold": 3.92
-    }
-   }
-  },
-  {
    "kind": "ufc_board",
    "sport": "mma_mixed_martial_arts",
    "events": [
