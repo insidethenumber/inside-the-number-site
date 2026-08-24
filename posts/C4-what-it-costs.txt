@@ -1,0 +1,7 @@
+Running this, monthly:
+
+Domain + hosting: ~$0 (Cloudflare Pages)
+X API: ~$18 at three posts a day
+Email: free tier until it isn't
+
+The expensive part isn't infrastructure. It's checking every number before it goes out.
