@@ -18,3 +18,9 @@
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Images are public assets anyway; allowing cross-origin reads lets us pull
+# them into third-party admin uploaders (beehiiv) programmatically instead of
+# hand-uploading branding on every rebrand.
+/*.png
+  Access-Control-Allow-Origin: *
