@@ -1,7 +1,310 @@
 {
- "generated_utc": "2026-08-24T20:52:11.050244+00:00",
+ "generated_utc": "2026-08-24T20:54:17.874949+00:00",
  "slate_date": "2026-08-24",
  "slate_label": "Mon, Aug 24",
- "non_mlb_available": [],
- "games": []
+ "non_mlb_available": [
+  "WNBA"
+ ],
+ "games": [
+  {
+   "league": "MLB",
+   "id": "401816655",
+   "short": "BOS @ MIA",
+   "start": "2026-08-24T22:40Z",
+   "detail": "8/24 - 6:40 PM EDT",
+   "venue": "loanDepot park",
+   "away": {
+    "abbr": "BOS",
+    "name": "Red Sox",
+    "record": "71-59"
+   },
+   "home": {
+    "abbr": "MIA",
+    "name": "Marlins",
+    "record": "67-64"
+   },
+   "total": 7.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816657",
+   "short": "TB @ DET",
+   "start": "2026-08-24T22:40Z",
+   "detail": "8/24 - 6:40 PM EDT",
+   "venue": "Comerica Park",
+   "away": {
+    "abbr": "TB",
+    "name": "Rays",
+    "record": "77-53"
+   },
+   "home": {
+    "abbr": "DET",
+    "name": "Tigers",
+    "record": "61-69"
+   },
+   "total": 7.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816656",
+   "short": "COL @ WSH",
+   "start": "2026-08-24T22:45Z",
+   "detail": "8/24 - 6:45 PM EDT",
+   "venue": "Nationals Park",
+   "away": {
+    "abbr": "COL",
+    "name": "Rockies",
+    "record": "50-80"
+   },
+   "home": {
+    "abbr": "WSH",
+    "name": "Nationals",
+    "record": "61-71"
+   },
+   "total": 8.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": -1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816658",
+   "short": "TEX @ CHW",
+   "start": "2026-08-24T23:40Z",
+   "detail": "8/24 - 7:40 PM EDT",
+   "venue": "Rate Field",
+   "away": {
+    "abbr": "TEX",
+    "name": "Rangers",
+    "record": "65-66"
+   },
+   "home": {
+    "abbr": "CHW",
+    "name": "White Sox",
+    "record": "68-62"
+   },
+   "total": 8.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": -1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816661",
+   "short": "CLE @ LAA",
+   "start": "2026-08-25T01:38Z",
+   "detail": "8/24 - 9:38 PM EDT",
+   "venue": "Angel Stadium",
+   "away": {
+    "abbr": "CLE",
+    "name": "Guardians",
+    "record": "65-66"
+   },
+   "home": {
+    "abbr": "LAA",
+    "name": "Angels",
+    "record": "52-79"
+   },
+   "total": 7.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816659",
+   "short": "CHC @ ARI",
+   "start": "2026-08-25T01:40Z",
+   "detail": "8/24 - 9:40 PM EDT",
+   "venue": "Chase Field",
+   "away": {
+    "abbr": "CHC",
+    "name": "Cubs",
+    "record": "75-56"
+   },
+   "home": {
+    "abbr": "ARI",
+    "name": "Diamondbacks",
+    "record": "69-62"
+   },
+   "total": 9.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816662",
+   "short": "MIN @ ATH",
+   "start": "2026-08-25T01:40Z",
+   "detail": "8/24 - 9:40 PM EDT",
+   "venue": "Sutter Health Park",
+   "away": {
+    "abbr": "MIN",
+    "name": "Twins",
+    "record": "63-68"
+   },
+   "home": {
+    "abbr": "ATH",
+    "name": "Athletics",
+    "record": "51-80"
+   },
+   "total": 11.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816663",
+   "short": "PHI @ SEA",
+   "start": "2026-08-25T01:40Z",
+   "detail": "8/24 - 9:40 PM EDT",
+   "venue": "T-Mobile Park",
+   "away": {
+    "abbr": "PHI",
+    "name": "Phillies",
+    "record": "73-58"
+   },
+   "home": {
+    "abbr": "SEA",
+    "name": "Mariners",
+    "record": "62-69"
+   },
+   "total": 6.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816664",
+   "short": "PIT @ SD",
+   "start": "2026-08-25T01:40Z",
+   "detail": "8/24 - 9:40 PM EDT",
+   "venue": "Petco Park",
+   "away": {
+    "abbr": "PIT",
+    "name": "Pirates",
+    "record": "63-69"
+   },
+   "home": {
+    "abbr": "SD",
+    "name": "Padres",
+    "record": "71-60"
+   },
+   "total": 7.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "MLB",
+   "id": "401816660",
+   "short": "CIN @ SF",
+   "start": "2026-08-25T01:45Z",
+   "detail": "8/24 - 9:45 PM EDT",
+   "venue": "Oracle Park",
+   "away": {
+    "abbr": "CIN",
+    "name": "Reds",
+    "record": "62-69"
+   },
+   "home": {
+    "abbr": "SF",
+    "name": "Giants",
+    "record": "52-78"
+   },
+   "total": 7.0,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 1.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "WNBA",
+   "id": "401857171",
+   "short": "GS @ MIN",
+   "start": "2026-08-25T00:00Z",
+   "detail": "8/24 - 8:00 PM EDT",
+   "venue": "Target Center",
+   "away": {
+    "abbr": "GS",
+    "name": "Valkyries",
+    "record": "25-11"
+   },
+   "home": {
+    "abbr": "MIN",
+    "name": "Lynx",
+    "record": "31-7"
+   },
+   "total": 161.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": -5.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  },
+  {
+   "league": "WNBA",
+   "id": "401857172",
+   "short": "ATL @ LA",
+   "start": "2026-08-25T02:00Z",
+   "detail": "8/24 - 10:00 PM EDT",
+   "venue": "crypto.com Arena",
+   "away": {
+    "abbr": "ATL",
+    "name": "Dream",
+    "record": "24-13"
+   },
+   "home": {
+    "abbr": "LA",
+    "name": "Sparks",
+    "record": "13-24"
+   },
+   "total": 181.5,
+   "over_odds": null,
+   "under_odds": null,
+   "spread": 10.5,
+   "ml_away": null,
+   "ml_home": null,
+   "provider": "DraftKings"
+  }
+ ]
 }
