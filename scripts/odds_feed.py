@@ -81,8 +81,17 @@ def call(path, **params):
             if left is not None:
                 print(f"  [credits used {used}, remaining {left}]", file=sys.stderr)
             return data
-    except urllib.error.HTTPError as e:
-        body = e.read().decode()[:300]
+    except urllib.error.URLError as e:
+        # No network is a different problem from a bad key, and the traceback
+        # for it is useless noise. The Claude sandbox cannot reach this host at
+        # all; GitHub runners can. Say so rather than dumping a stack.
+        if not isinstance(e, urllib.error.HTTPError):
+            sys.exit(f"ERROR: could not reach {BASE} ({e.reason}).\n"
+                     "  If this is the local sandbox, that is expected -- outbound\n"
+                     "  access to this host is blocked. Run it in GitHub Actions.")
+        e_ = e
+        body = e_.read().decode()[:300]
+        e = e_
         if e.code == 401:
             sys.exit("ERROR: key rejected (401). Check ODDS_API_KEY.")
         if e.code == 422:

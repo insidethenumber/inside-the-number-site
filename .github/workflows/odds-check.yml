@@ -1,0 +1,127 @@
+name: Odds API check
+
+# On-demand verification of the Odds API key, plus an honest read on what our
+# usage actually costs.
+#
+# This is not part of the daily pipeline. It exists because the credit budget
+# was, until now, my estimate rather than a measurement -- and the free tier is
+# 500 credits a month, so being wrong about it is expensive. Every step below
+# reports x-requests-used / x-requests-remaining straight from the response
+# headers, which is the only number that counts.
+#
+# It runs here rather than locally because the Claude sandbox cannot reach
+# api.the-odds-api.com at all (tunnel 403). A GitHub runner can.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Is the key even set
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          if [ -z "$ODDS_API_KEY" ]; then
+            echo "::error title=No key::ODDS_API_KEY is not set in repo secrets."
+            exit 1
+          fi
+          echo "key present (${#ODDS_API_KEY} chars)"
+
+      - name: What is in season right now (free endpoint)
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -o pipefail
+          python3 scripts/odds_feed.py --list 2>&1 | tee /tmp/sports.log
+          {
+            echo "## Sports currently active"
+            echo '```'
+            cat /tmp/sports.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Price the UFC card — the thing ESPN cannot do at all
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -o pipefail
+          python3 scripts/odds_feed.py \
+            --sport mma_mixed_martial_arts --markets h2h 2>&1 | tee /tmp/ufc.log
+          {
+            echo ""
+            echo "## UFC — best price across books"
+            echo '```'
+            cat /tmp/ufc.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Measure the real cost of one full-board pull
+        # The point of this step is the credit accounting, not the odds. It
+        # charges the quota deliberately so we learn the true per-sport cost
+        # instead of trusting a table I wrote from the docs.
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          python3 - <<'PY' | tee /tmp/cost.log
+          import json, os, urllib.request, urllib.error, urllib.parse
+
+          KEY  = os.environ["ODDS_API_KEY"]
+          BASE = "https://api.the-odds-api.com/v4"
+
+          # h2h only for MMA: spreads and totals are not offered, and asking for
+          # a market you cannot get still costs a credit per the docs.
+          PLAN = [
+              ("baseball_mlb",              "h2h,spreads,totals"),
+              ("americanfootball_nfl",      "h2h,spreads,totals"),
+              ("americanfootball_ncaaf",    "h2h,spreads,totals"),
+              ("basketball_nba",            "h2h,spreads,totals"),
+              ("icehockey_nhl",             "h2h,spreads,totals"),
+              ("mma_mixed_martial_arts",    "h2h"),
+          ]
+
+          rows, total = [], 0
+          for sport, markets in PLAN:
+              q = urllib.parse.urlencode(
+                  {"apiKey": KEY, "regions": "us",
+                   "markets": markets, "oddsFormat": "american"})
+              try:
+                  with urllib.request.urlopen(f"{BASE}/sports/{sport}/odds?{q}", timeout=25) as r:
+                      events = json.loads(r.read().decode())
+                      last = int(r.headers.get("x-requests-last") or 0)
+                      left = r.headers.get("x-requests-remaining")
+              except urllib.error.HTTPError as e:
+                  rows.append((sport, "HTTP %s" % e.code, "-", "-"))
+                  continue
+              total += last
+              # "If no events are returned, the request will not count against
+              # the usage quota" -- so an out-of-season sport should show 0.
+              rows.append((sport, f"{len(events)} events", str(last), str(left)))
+
+          print(f"{'sport':<28}{'returned':<14}{'cost':<7}{'remaining'}")
+          for s, e, c, l in rows:
+              print(f"{s:<28}{e:<14}{c:<7}{l}")
+          print()
+          print(f"ONE full-board pull costs {total} credits.")
+          print(f"  once a day  -> {total*30} / month")
+          print(f"  twice a day -> {total*60} / month   (free tier is 500)")
+          PY
+          {
+            echo ""
+            echo "## What a full-board pull actually costs"
+            echo '```'
+            cat /tmp/cost.log
+            echo '```'
+            echo ""
+            echo "Free tier resets at 500 credits/month. If twice-daily exceeds it,"
+            echo "narrow the second pull to only the sports we published a pick in."
+          } >> "$GITHUB_STEP_SUMMARY"
