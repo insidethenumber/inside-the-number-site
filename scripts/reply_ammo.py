@@ -124,8 +124,10 @@ def starters(ymd):
     A 5.4 IP season average tells you nothing about how often he actually gets
     the 17th out; the hit rate and the median do.
     """
+    # hydrate=team as well: without it the schedule's team object carries only
+    # id/name/link and abbreviation comes back None.
     d = get("https://statsapi.mlb.com/api/v1/schedule?sportId=1&date="
-            f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:]}&hydrate=probablePitcher")
+            f"{ymd[:4]}-{ymd[4:6]}-{ymd[6:]}&hydrate=probablePitcher,team")
     out = []
     for day in (d or {}).get("dates", []):
         for gm in day.get("games", []):
@@ -143,7 +145,9 @@ def starters(ymd):
                 srt = sorted(outs)
                 out.append({
                     "name": p.get("fullName"),
-                    "team": (gm.get("teams", {}).get(side, {}).get("team") or {}).get("abbreviation"),
+                    "team": (lambda t: t.get("abbreviation") or t.get("teamName")
+                             or t.get("name") or "?")(
+                                 gm.get("teams", {}).get(side, {}).get("team") or {}),
                     "starts": len(outs),
                     "median": srt[len(srt) // 2],
                     "last8": outs[-8:],
