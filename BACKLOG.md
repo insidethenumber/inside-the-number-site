@@ -3,9 +3,35 @@
 Parked decisions and future work. Newest items at the top of each section.
 This file is internal — excluded from the deployed site via `.assetsignore`.
 
+
+## PGA — PAUSED (decided Aug 24, 2026)
+
+Chuck's call: put PGA on hold and show a "coming soon" state rather than half-build
+it at the tail end of the season.
+
+Reasoning: the 2026 PGA season ends with the TOUR Championship (Aug 27-30). Building
+outright coverage now buys one tournament before the season closes, while CFB Week 1
+and a UFC card both land Aug 29 with far more betting volume behind them.
+
+Also learned while scoping it:
+  - ESPN's golf odds endpoint returns EMPTY. There are no outright prices in the free
+    feed. Confirmed, not assumed.
+  - So outrights need either a paid feed (~$29/mo) or hand entry. For a majors-only
+    cadence — four or five events a year — hand entry is the better answer. Do not buy
+    a subscription that gets used five times.
+  - The TOUR Championship has NO CUT (30-man field). The "post-cut Friday update" idea
+    in the original plan does not apply to this event. Any future golf automation must
+    check whether an event has a cut before publishing a post-cut anything.
+
+What the coming-soon page now promises for 2027 majors:
+  - Full field, every outright converted to a true price
+  - Total margin across the field stated at the top — the differentiator, since golf
+    outright books run 130%+ against about 102% on a baseball moneyline
+  - Majors only, not every week
+
 ---
 
-## 1. PGA coverage model (raised Aug 22, 2026)
+## 1. PGA coverage model (SUPERSEDED by the above) (raised Aug 22, 2026)
 
 Golf doesn't fit the daily-game rhythm, so it gets its own cadence — two
 publishing moments per tournament week rather than a pick every day.

@@ -1157,11 +1157,15 @@ function gameView(sport,id){
         ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
         <div class="gh-row"><div><div class="gh-name" style="font-size:22px">${g.title}</div>
           ${g.leader?`<div class="gh-rec">Leader — ${g.leader.name} ${g.leader.score??''}</div>`:''}</div></div></div>
-      <div class="nopick"><div class="l">Golf is priced differently</div>
-        <p>A tournament isn't a two-way market, so there's no two-sided price to work back from. Outrights and matchups
-        for golf carry far more margin than a sides market — often 30% or more across the field — which is worth
-        knowing before backing a name. We cover PGA in the newsletter when a number stands out rather than pricing
-        the whole field here.</p></div>
+      <div class="nopick"><div class="l">Golf pricing — coming for the 2027 majors</div>
+        <p>We're not pricing golf yet, and we'd rather say so than put up a number we can't stand behind.</p>
+        <p style="margin-top:10px">Here's the problem worth knowing anyway. A tournament isn't a two-way market. Add up
+        what the book implies for every player in the field and it comes to far more than 100% — often 130% or more.
+        That surplus is what the house keeps, and it is an order of magnitude bigger than the 2% it takes on a
+        baseball moneyline. Before you back a name at +2500, that's the number working against you.</p>
+        <p style="margin-top:10px">What we're building for next season: the full field with every outright price
+        converted to a true price, the total margin across the field stated plainly at the top, and coverage focused
+        on the majors rather than every week. Leaderboards and tee times stay live here in the meantime.</p></div>
       <p class="expl" style="border:none"><a href="?sport=${g.league}" style="color:var(--green);text-decoration:none">← Back to ${g.league}</a></p>`;
     document.title=`${g.title} | Inside the Number`; return;
   }
