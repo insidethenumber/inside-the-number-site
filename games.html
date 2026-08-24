@@ -504,21 +504,64 @@ const formOf=(j,ab)=>{
    Keying on venue.indoor rather than a hardcoded park list means this holds for
    every sport and every new venue automatically, which is the point: it has to
    be right for every contest, not just tonight's. */
+/* Roofs come in two kinds and the difference decides whether the forecast
+   means anything.
+
+   SEALED \u2014 a dome, or a retractable that is shut and climate controlled for
+   essentially every game in season. The outside forecast is irrelevant. Chase
+   Field in August is the clearest case: the roof is down and the air
+   conditioning is on, so "107\u00b0F, 43% rain" describes the car park.
+
+   COVERED \u2014 the roof keeps rain off but the building still breathes, or it is
+   opened often enough that we cannot assume it is shut. Wind and temperature
+   still play, so the conditions are shown with a line explaining the roof
+   rather than suppressed. Claiming "weather is not a factor" at an open Rogers
+   Centre would be the same error as the Chase bug, pointed the other way.
+
+   We cannot know the roof's actual state for a given night from any free feed,
+   so the split is by how the venue behaves in practice. Names must match
+   ESPN's fullName exactly. */
 const OPEN_ROOF = {
-  'T-Mobile Park': 'The roof covers the seats but doesn\u2019t seal the park, so conditions still play',
+  'T-Mobile Park':         'The roof covers the seats but doesn\u2019t seal the park, so conditions still play',
+  'Rogers Centre':         'Retractable roof \u2014 often open in summer, so conditions may still play',
+  'American Family Field': 'Retractable roof \u2014 conditions still play when it\u2019s open',
+  'SoFi Stadium':          'The canopy keeps rain off but the sides are open, so wind still plays',
 };
+
+/* Backstop for the flag going missing.
+
+   venue.indoor is the primary check, but ESPN sets it on the SCOREBOARD payload
+   and omits it entirely from the SUMMARY payload for the same game \u2014 verified
+   Aug 24 2026. Trusting one field is how the Chase Field bug shipped. If both
+   flags are absent, a park with a roof still has a roof. */
+const ROOFED_PARKS = new Set([
+  // MLB \u2014 sealed in practice
+  'Chase Field','loanDepot park','Globe Life Field','Daikin Park','Minute Maid Park',
+  'Tropicana Field',
+  // MLB \u2014 roofed but breathing; OPEN_ROOF above governs what we say
+  'T-Mobile Park','Rogers Centre','American Family Field',
+  // NFL / CFB
+  'Ford Field','Lucas Oil Stadium','Caesars Superdome','U.S. Bank Stadium',
+  'NRG Stadium','AT&T Stadium','Mercedes-Benz Stadium','Allegiant Stadium',
+  'State Farm Stadium','SoFi Stadium','Alamodome','Carrier Dome','JMA Wireless Dome',
+  'Fargodome','UNI-Dome','Walkup Skydome',
+]);
 
 /* Sports played indoors by definition. A roof note on a basketball game is
    noise -- nobody wondered about the weather at an NBA arena. */
 const OUTDOOR_SPORT = new Set(['MLB','NFL','CFB']);
 
-const conditionsOf=(j,league,fallbackNote)=>{
+const conditionsOf=(j,league,fallbackNote,g)=>{
   const v=j?.gameInfo?.venue, w=j?.gameInfo?.weather;
   if(!OUTDOOR_SPORT.has(league)) return null;
-  const name=v?.fullName||'';
+  const name=v?.fullName||g?.venue||'';
   const openRoof=OPEN_ROOF[name];
+  /* Three independent signals, because ESPN has already been caught reporting
+     this inconsistently between two of its own endpoints. The name list is the
+     backstop: if both flags go missing, a park with a roof still has a roof. */
+  const roofed = v?.indoor===true || g?.indoor===true || ROOFED_PARKS.has(name);
 
-  if(v?.indoor===true && !openRoof)
+  if(roofed && !openRoof)
     return {roofed:true, value:'Indoors \u2014 weather is not a factor',
             note:`${name||'This venue'} has a roof, so the forecast outside doesn\u2019t reach the field.`};
 
@@ -971,7 +1014,14 @@ async function load(){
           split:recOf(x,x===h?['home','homerecord']:['road','awayrecord']),
           sp:prob(x)});
         return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
-          venue:c.venue?.fullName||'',provider:o.provider?.name||'',
+          /* venue.indoor exists on the SCOREBOARD payload and NOT on the
+             summary one -- summary's gameInfo.venue carries only id, fullName,
+             shortName, address, grass and images. Verified against ESPN on
+             Aug 24 2026. So the flag has to be captured here and carried
+             through; reading it off the summary object silently yields
+             undefined and every roofed park reports the outdoor forecast. */
+          venue:c.venue?.fullName||'',indoor:c.venue?.indoor===true,
+          provider:o.provider?.name||'',
           a:side(a),h:side(h),o,ours:OURS[key]||null};
       }).filter(Boolean);
     }catch(e){D[label]=[]}
@@ -2060,7 +2110,7 @@ function marketRead(){
     const wxNote=isMLB?'Wind and rain move totals more than any other outside factor'
                 :isFB?'Wind is the one that matters \u2014 it shortens the passing game and the total with it'
                 :'Conditions at kickoff';
-    const wx=conditionsOf(j,g.league,wxNote);
+    const wx=conditionsOf(j,g.league,wxNote,g);
     /* Under a roof the heading is about the roof, not the forecast. */
     const wxLabel=wx?.roofed?(isMLB?'Ballpark roof':'Stadium roof')
                 :isMLB?'First pitch conditions':isFB?'Kickoff conditions':'Conditions';
