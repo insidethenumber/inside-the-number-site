@@ -27,3 +27,4 @@ make_x_header.py
 scripts/
 data/
 posts/.sent.json
+REPLY_PACK_*.md

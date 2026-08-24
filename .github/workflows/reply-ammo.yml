@@ -1,0 +1,60 @@
+name: Reply ammunition
+
+# Pre-computes the numbers that make a good X reply, every afternoon, so
+# writing five of them is fifteen minutes instead of an evening.
+#
+# The account had 0 followers and 3/6/3 views on its first three posts. The
+# scheduled queue works and reaches nobody, because X gives a new account
+# almost no distribution on standalone posts. Replies borrow someone else's
+# audience, and a reply only earns attention if it carries one exact number
+# the original post left out. Finding that number per post by hand is the
+# slow part. This does it for the whole board in advance.
+#
+# Runs here rather than locally because the Claude sandbox cannot reach ESPN
+# or statsapi.mlb.com at all (tunnel 403). A GitHub runner can.
+
+on:
+  schedule:
+    - cron: "0 20 * * *"   # 3:00pm CDT — lines are up, first pitch still hours off
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "YYYY-MM-DD (blank = today)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  ammo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compute tonight's numbers
+        run: |
+          set -o pipefail
+          ARGS=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            ARGS="--date ${{ github.event.inputs.date }}"
+          fi
+          python3 scripts/reply_ammo.py $ARGS 2>&1 | tee /tmp/ammo.txt
+          {
+            echo '```'
+            cat /tmp/ammo.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep it for the day
+        uses: actions/upload-artifact@v4
+        with:
+          name: reply-ammo
+          path: /tmp/ammo.txt
+          retention-days: 7
