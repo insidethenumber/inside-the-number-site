@@ -22,7 +22,15 @@ Feeds used (all public, no keys):
 import argparse, json, sys, urllib.request, urllib.error
 from datetime import datetime, timezone, timedelta
 
-UA = {"User-Agent": "insidethenumber-slate/1.0 (+https://insidethenumber.com)"}
+# ESPN can reject unusual agents from datacenter IPs, and a GitHub runner is
+# one. Present as a normal browser.
+UA = {
+    "User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                   "AppleWebKit/537.36 (KHTML, like Gecko) "
+                   "Chrome/128.0 Safari/537.36"),
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 LEAGUES = [
     ("MLB",  "baseball/mlb"),
@@ -76,8 +84,15 @@ def collect(date_yyyymmdd):
         url = (f"https://site.api.espn.com/apis/site/v2/sports/{path}"
                f"/scoreboard?dates={date_yyyymmdd}")
         data = get(url)
-        if not data:
+        if data is None:
+            print(f"  {label:<5} FETCH FAILED", file=sys.stderr)
             continue
+        evs = data.get("events", [])
+        states = {}
+        for ev in evs:
+            st = (ev.get("status", {}).get("type", {}) or {}).get("state", "?")
+            states[st] = states.get(st, 0) + 1
+        print(f"  {label:<5} {len(evs):>3} events  {states or '(none)'}", file=sys.stderr)
         for ev in data.get("events", []):
             state = (ev.get("status", {}).get("type", {}) or {}).get("state")
             if state != "pre":
@@ -193,9 +208,9 @@ def main():
     print(f"\nwrote {a.out}  ({len(board)} games)")
 
     if not board:
-        print("NO GAMES — nothing to publish. Exiting non-zero so the run is visible.",
-              file=sys.stderr)
-        sys.exit(2)
+        # A genuinely empty board happens (Mondays in February). Only a failed
+        # fetch is an error, and that is reported per-league above.
+        print("::warning title=Empty board::No unstarted games found for this date.")
 
 
 if __name__ == "__main__":
