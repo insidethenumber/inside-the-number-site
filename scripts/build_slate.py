@@ -42,7 +42,6 @@ LEAGUES = [
     ("MLB",  "baseball/mlb"),
     ("NFL",  "football/nfl"),
     ("CFB",  "football/college-football"),
-    ("WNBA", "basketball/wnba"),
     ("NBA",  "basketball/nba"),
     ("NHL",  "hockey/nhl"),
     ("UFC",  "mma/ufc"),
@@ -114,6 +113,26 @@ def collect(date_yyyymmdd):
                                     if r.get("type") == "total"), ""),
                 }
             o = (c.get("odds") or [{}])[0]
+
+            # ESPN's scoreboard exposes odds two different ways and they are
+            # not interchangeable. The flat awayTeamOdds.moneyLine field is
+            # frequently absent; the nested moneyline/pointSpread/total blocks
+            # carry open AND close prices and are what the site itself reads.
+            # Read the nested shape first, fall back to the flat one.
+            def leg(market, side, field="odds"):
+                blk = (o.get(market) or {}).get(side) or {}
+                for when in ("close", "open"):
+                    v = (blk.get(when) or {}).get(field)
+                    if v not in (None, ""):
+                        return v
+                return None
+
+            ml_a = leg("moneyline", "away") or (o.get("awayTeamOdds") or {}).get("moneyLine")
+            ml_h = leg("moneyline", "home") or (o.get("homeTeamOdds") or {}).get("moneyLine")
+            ov_o = leg("total", "over") or o.get("overOdds")
+            un_o = leg("total", "under") or o.get("underOdds")
+            tot  = leg("total", "over", "line") or o.get("overUnder")
+            sp_a = leg("pointSpread", "away", "line") or o.get("spread")
             board.append({
                 "league": label,
                 "id": ev.get("id"),
@@ -123,12 +142,12 @@ def collect(date_yyyymmdd):
                 "venue": (c.get("venue") or {}).get("fullName", ""),
                 "away": teams.get("away", {}),
                 "home": teams.get("home", {}),
-                "total": o.get("overUnder"),
-                "over_odds": o.get("overOdds"),
-                "under_odds": o.get("underOdds"),
-                "spread": o.get("spread"),
-                "ml_away": ((o.get("awayTeamOdds") or {}).get("moneyLine")),
-                "ml_home": ((o.get("homeTeamOdds") or {}).get("moneyLine")),
+                "total": tot,
+                "over_odds": ov_o,
+                "under_odds": un_o,
+                "spread": sp_a,
+                "ml_away": ml_a,
+                "ml_home": ml_h,
                 "provider": (o.get("provider") or {}).get("name", ""),
             })
     return board
