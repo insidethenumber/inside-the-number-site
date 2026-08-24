@@ -1,0 +1,105 @@
+name: Odds — scoped daily pull
+
+# Buys only what ESPN cannot give us: UFC prices, and the best number across
+# ~50 books on the games we actually published a pick on.
+#
+# Measured cost, not estimated: 4 credits in the morning (2 MLB markets +
+# 1 WNBA + 1 UFC) and 3 in the afternoon, so about 7 a day and 210 a month
+# against a 500-credit free tier. A naive full-board pull is 16 a go, which
+# is 960 a month twice daily -- see .github/workflows/odds-check.yml, which
+# measured that rather than assuming it.
+#
+# Timing is load-bearing. The morning pull reads today's picks out of
+# index.html, so it MUST run after the card is published or it has nothing to
+# shop. The card goes up around 8am CT; this runs at 10am CT.
+
+on:
+  schedule:
+    # UTC. Central is UTC-5 in summer, UTC-6 in winter.
+    - cron: "0 15 * * *"   # 10:00am CDT — opening snapshot, after the card is up
+    - cron: "0 21 * * *"   #  4:00pm CDT — re-shop, diff for line movement
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Which pull to run"
+        required: true
+        default: morning
+        type: choice
+        options: [morning, afternoon]
+      dry_run:
+        description: "Plan the calls without spending credits"
+        type: boolean
+        default: false
+
+concurrency:
+  # Two runs writing data/odds-*.json at once would corrupt the morning
+  # snapshot the afternoon diff depends on.
+  group: odds-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Work out which pull this is
+        id: mode
+        run: |
+          # A scheduled run has no inputs, so derive the mode from the cron
+          # that fired. Anything before ~1pm UTC-ish is the morning pull.
+          if [ -n "${{ github.event.inputs.mode }}" ]; then
+            echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 21 * * *" ]; then
+            echo "mode=afternoon" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=morning" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull the scoped odds
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: |
+          set -o pipefail
+          FLAGS=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            FLAGS="--dry-run"
+          fi
+          python3 scripts/odds_scoped.py \
+            --mode "${{ steps.mode.outputs.mode }}" $FLAGS 2>&1 | tee /tmp/odds.log
+          {
+            echo "## Scoped odds — ${{ steps.mode.outputs.mode }}"
+            echo '```'
+            cat /tmp/odds.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the snapshot
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          git add data/odds-*.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "Odds: ${{ steps.mode.outputs.mode }} pull [skip ci]"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Report failure loudly
+        if: failure()
+        run: |
+          echo "::error title=Odds pull failed::A 401 is a bad key, a 429 is \
+          out of credits, and 'could not find todaysGames' means index.html \
+          changed shape. Check the log above."
