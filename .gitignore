@@ -36,3 +36,5 @@
 !posts/
 !posts/*.txt
 !X_LAUNCH_POSTS.md
+!itn_logo.py
+!logo_variants.py

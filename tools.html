@@ -30,7 +30,7 @@
   :root {
     --black:#050608; --dark:#0b0d11; --card:#12141a; --border:#1c2129; --border-lit:#2a2f3a;
     --surface-1:#0e1116; --surface-2:#141821; --surface-3:#1a1f2a;
-    --green:#00d084; --green-dim:rgba(0,208,132,0.12); --blue:#3ba7ff; --red:#ff5c5c; --gold:#f0b429;
+    --green:#00d084;--green-deep:#007a4d; --green-dim:rgba(0,208,132,0.12); --blue:#3ba7ff; --red:#ff5c5c; --gold:#f0b429;
     --purple:#a78bfa;
     --white:#f0f2f5; --muted:#6b7280; --mid:#9ca3af;
     --shadow-sm:0 1px 2px rgba(0,0,0,0.4);
@@ -177,10 +177,7 @@
       <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
-            <stop offset="0%" stop-color="var(--red)"/>
-            <stop offset="15%" stop-color="var(--white)"/>
-            <stop offset="60%" stop-color="var(--white)"/>
-            <stop offset="100%" stop-color="var(--green)"/>
+            <stop offset="0%" stop-color="var(--white)"/><stop offset="35%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--green-deep)"/>
           </linearGradient>
         </defs>
         <rect x="1" y="1" width="118" height="118" rx="18" fill="var(--black)" stroke="var(--border-lit)" stroke-width="2"/>
