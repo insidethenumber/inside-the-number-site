@@ -22,14 +22,20 @@ Feeds used (all public, no keys):
 import argparse, json, sys, urllib.request, urllib.error
 from datetime import datetime, timezone, timedelta
 
-# ESPN can reject unusual agents from datacenter IPs, and a GitHub runner is
-# one. Present as a normal browser.
+# Identify as curl, deliberately.
+#
+# Measured on a GitHub runner, same URL, same second:
+#     curl    -> HTTP 200, 206,607 bytes
+#     urllib  -> HTTP 403 Forbidden
+#
+# So ESPN is not blocking the datacenter IP; it is rejecting the request. A
+# Chrome User-Agent made it WORSE — a request claiming to be Chrome without
+# any of Chrome's other headers looks like impersonation to Akamai, whereas an
+# honest curl signature is a well-known, permitted client. Do not "improve"
+# this into a browser string.
 UA = {
-    "User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                   "Chrome/128.0 Safari/537.36"),
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
+    "User-Agent": "curl/8.5.0",
+    "Accept": "*/*",
 }
 
 LEAGUES = [
