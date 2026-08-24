@@ -21,7 +21,7 @@ at 6am. Auth problems, billing problems, rate limits and duplicate text all
 look different and need different fixes.
 """
 
-import argparse, base64, hashlib, hmac, json, os, sys, time, urllib.parse, urllib.request, urllib.error, secrets as _secrets
+import argparse, re, base64, hashlib, hmac, json, os, sys, time, urllib.parse, urllib.request, urllib.error, secrets as _secrets
 
 def _find_secrets():
     """
@@ -145,10 +145,29 @@ def explain(status, payload):
     return None
 
 
+def reply_id(s):
+    """
+    Accept either a bare tweet id or the URL you copied out of the browser.
+
+    Nobody has the numeric id to hand -- you have the link. Taking both removes
+    the one step where this gets fumbled at 11pm.
+    """
+    s = str(s).strip()
+    m = re.search(r"/status/(\d+)", s)
+    if m:
+        return m.group(1)
+    if s.isdigit():
+        return s
+    sys.exit(f"ERROR: can't read a tweet id out of {s!r}. "
+             "Pass the numeric id or the full https://x.com/.../status/... URL.")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--text", help="post body")
     ap.add_argument("--file", help="read the post body from a text file")
+    ap.add_argument("--reply-to", metavar="TWEET_ID_OR_URL",
+                    help="post this as a reply to that tweet")
     ap.add_argument("--dry-run", action="store_true", help="print, don't send")
     ap.add_argument("--verify", action="store_true", help="check credentials only")
     a = ap.parse_args()
@@ -188,11 +207,18 @@ def main():
     if n > 280:
         sys.exit(f"ERROR: {n} characters — over the 280 limit by {n-280}.")
 
+    if a.reply_to:
+        print(f"as a REPLY to {reply_id(a.reply_to)}")
+
     if a.dry_run:
         print("DRY RUN — nothing was sent.")
         return
 
-    status, payload = call("POST", API_POST, creds, {"text": a.text})
+    body = {"text": a.text}
+    if a.reply_to:
+        body["reply"] = {"in_reply_to_tweet_id": reply_id(a.reply_to)}
+
+    status, payload = call("POST", API_POST, creds, body)
     if status in (200, 201):
         tid = payload.get("data", {}).get("id")
         print(f"POSTED — https://x.com/thenumberdesk/status/{tid}")
