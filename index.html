@@ -166,6 +166,7 @@
   .s-cfb { background: var(--gold); } .s-nba { background: #ff8a5c; }
   .s-cbb { background: #3ee7c0; } .s-nhl { background: #c9cfd8; }
   .s-ufc { background: var(--red); } .s-pga { background: var(--white); }
+  .s-wnba { background: #c77dff; }
 
   /* ── NAV ── */
   nav {
@@ -811,18 +812,18 @@
   const todaysGames = [
     /* UFC entries key on fighter LAST NAMES — games.html matches them that way
        and tries both orders, since a fight has no home or away side. */
-    { league:'NFL', away:{code:'sea', name:'Seahawks'}, home:{code:'ten', name:'Titans'},
-      time:'8:00 PM ET', pick:'Under 37.5 (-108)', conf:3, free:true,
-      hook:'Week three, and nobody plays',
-      why:'This total opened at 38.5 and sits at 37.5, but the under is still the cheaper side at -108 while the over costs -112. Preseason week three is the last look before cuts — starters get a series or two at most and the rest of the night is third-string quarterbacks against third-string defenses. The number came down a full point and the price never followed it up, which is the market moving without making you pay for the move.' },
-    { league:'MLB', away:{code:'stl', name:'Cardinals'}, home:{code:'phi', name:'Phillies'},
-      time:'1:35 PM ET', pick:'Phillies -1.5 (-103)', conf:3, free:false,
-      hook:'Take the runline, not the -217',
-      why:'Cristopher Sánchez is 16-4 with a 2.51 ERA and Philadelphia has been bet from -194 up to -217 on the moneyline. Laying -217 to win a single unit is the worst of the three ways to bet this game, and the runline is sitting at -103 for the same read. Kyle Leahy has been steady at 3.24, but the Phillies score in bunches at home, and a run of margin at even money is a far better number than no margin at a heavy price.' },
-    { league:'MLB', away:{code:'tb', name:'Rays'}, home:{code:'bal', name:'Orioles'},
-      time:'1:35 PM ET', pick:'Under 9 (-117)', conf:2, free:false,
-      hook:'The book raised it and still likes under',
-      why:'The total opened at 8.5 and the book pushed it up to 9, yet the under is the expensive side at -117 while the over sits at -103. That gap is the tell — the number went up to draw over money, not because the market believes nine runs is the honest count. Nathan Martinez has been Tampa Bay’s steadiest arm at 3.05, and Shane Baz has been better than a 4-13 record reads at a 4.02 ERA.' },
+    { league:'WNBA', away:{code:'gs', name:'Valkyries'}, home:{code:'min', name:'Lynx'},
+      time:'8:00 PM ET', pick:'Valkyries +4.5 (+100)', conf:4, free:true,
+      hook:'Fewest possessions, biggest cushion',
+      why:'The 161.5 total here is the lowest number on any board in American sport tonight, and that matters more than the records do — fewer possessions means fewer chances for Minnesota to turn a small edge into a four-point one. Strip the margin out of the moneyline and the market gives Golden State a 34 percent chance to win outright, yet it prices a +4.5 cover at close to 48 percent. The book is telling you it expects this decided inside one possession, so take the points at even money instead of the +180.' },
+    { league:'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'sea', name:'Mariners'},
+      time:'9:40 PM ET', pick:'Under 6.5 (+102)', conf:4, free:false,
+      hook:'Two aces in the quietest park',
+      why:'Zack Wheeler at a 2.92 ERA against Logan Gilbert at 3.35 is the best pitching matchup on tonight’s board, and it is being played in T-Mobile Park, which has taken more runs off the scoreboard than any park in baseball for years running. Six and a half is already the lowest total on a ten-game MLB slate, and the under is still the cheaper side at +102 while the over costs -122. When a number is that low and the price is still leaning your way, the market has run out of room to move it.' },
+    { league:'MLB', away:{code:'cin', name:'Reds'}, home:{code:'sf', name:'Giants'},
+      time:'9:45 PM ET', pick:'Reds -1.5 (+108)', conf:3, free:false,
+      hook:'The runline, not the -158',
+      why:'Chase Burns is 14-2 with a 2.51 ERA and Carson Whisenhunt is carrying a 7.03 — the widest gap between two starters anywhere on tonight’s card. The moneyline at -158 already charges you for that gap, so a run and a half of margin at plus money is the better-shaped version of the same opinion. This is a medium and not a high because Oracle Park cuts runs off both sides of the scoreboard, and a one-run win pays nothing here.' },
   ];
 
   // NOTE: the site deliberately does not display a win/loss record or a
@@ -1012,11 +1013,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Sun, Aug 23</div>
-        <div class="potd-sport">NFL Preseason</div>
-        <div class="potd-matchup" id="potd-matchup">Seahawks @ Titans</div>
-        <div class="potd-line">THE PICK: Under 37.5 (-108) · 8:00 PM ET</div>
-        <p class="potd-reasoning">The total opened at 38.5 and has been bet down to 37.5, but the under is still the cheaper side at -108 while the over costs -112. That is the part worth noticing: the number moved a full point and the price never moved with it, so you are getting the same side the market already took, without paying extra for it. Preseason week three is the last look before roster cuts — starters play a series or two, and the rest of the night belongs to quarterbacks who will not be on either roster in September.</p>
+        <div class="potd-date">Mon, Aug 24</div>
+        <div class="potd-sport">WNBA</div>
+        <div class="potd-matchup" id="potd-matchup">Valkyries @ Lynx</div>
+        <div class="potd-line">THE PICK: Valkyries +4.5 (+100) · 8:00 PM ET</div>
+        <p class="potd-reasoning">Minnesota is 31-7 and Golden State is 25-11, and the market has this at four and a half points. The number that actually decides it is the other one: a 161.5 total, the lowest posted on any board in American sport tonight. Fewer possessions means fewer chances for the better team to stretch a two-point game into a six-point one, which is how a small favorite becomes a live underdog. Strip the book's margin out of the moneyline and the market gives Golden State a 34 percent chance to win the game outright — but it prices a +4.5 cover at close to 48 percent. That gap is the market saying it expects this decided inside a single possession. If that's the read, the points at even money are the better way to hold it than the +180.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
@@ -1298,7 +1299,7 @@
   (async function renderScoreboard(){
     const LEAGUES = [
       ['MLB','baseball/mlb'], ['NFL','football/nfl'], ['CFB','football/college-football'],
-      ['NBA','basketball/nba'], ['NHL','hockey/nhl'],
+      ['NBA','basketball/nba'], ['WNBA','basketball/wnba'], ['NHL','hockey/nhl'],
     ];
     const tabsEl = document.getElementById('sb-tabs');
     const gridEl = document.getElementById('sb-grid');
