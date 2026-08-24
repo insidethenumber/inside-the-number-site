@@ -23,7 +23,28 @@ look different and need different fixes.
 
 import argparse, base64, hashlib, hmac, json, os, sys, time, urllib.parse, urllib.request, urllib.error, secrets as _secrets
 
-SECRETS = os.environ.get("ITN_SECRETS", os.path.expanduser("~/Documents/Claude/Projects/itn-secrets.env"))
+def _find_secrets():
+    """
+    Locate itn-secrets.env.
+
+    Order matters. ITN_SECRETS wins so CI or a one-off run can point elsewhere.
+    Otherwise look next to this file first — the secrets live in the repo folder,
+    excluded by a deny-by-default .gitignore — then the older sibling-of-repo
+    location, which is where an earlier version of this script expected it.
+    """
+    env = os.environ.get("ITN_SECRETS")
+    if env:
+        return env
+    here = os.path.dirname(os.path.abspath(__file__))
+    for cand in (os.path.join(here, "itn-secrets.env"),
+                 os.path.join(os.path.dirname(here), "itn-secrets.env"),
+                 os.path.expanduser("~/Documents/Claude/Projects/itn-secrets.env")):
+        if os.path.exists(cand):
+            return cand
+    return os.path.join(here, "itn-secrets.env")
+
+
+SECRETS = _find_secrets()
 API_POST = "https://api.x.com/2/tweets"
 API_ME   = "https://api.x.com/2/users/me"
 

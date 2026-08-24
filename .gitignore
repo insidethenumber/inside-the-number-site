@@ -47,3 +47,4 @@
 !data/
 !data/*.json
 !posts/.sent.json
+!itn-git-credential.sh
