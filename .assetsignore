@@ -23,3 +23,6 @@ X_LAUNCH_POSTS.md
 itn_logo.py
 logo_variants.py
 make_x_header.py
+.github/
+scripts/
+data/

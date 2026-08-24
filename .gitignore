@@ -39,3 +39,10 @@
 !itn_logo.py
 !logo_variants.py
 !make_x_header.py
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+!scripts/
+!scripts/*.py
+!data/
+!data/*.json
