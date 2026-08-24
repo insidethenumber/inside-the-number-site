@@ -484,13 +484,51 @@ const formOf=(j,ab)=>{
           pf:avg(scored,'f'), pa:avg(allowed,'a'),
           streak:streak?`${sr}${streak}`:null};
 };
-const weatherOf=j=>{
-  const w=j?.gameInfo?.weather; if(!w) return null;
+/* Roofed venues.
+
+   ESPN's gameInfo.venue.indoor is true for anything with a roof, and it keeps
+   serving the OUTSIDE forecast regardless. On Aug 24 2026 the CHC @ ARI page
+   read "107 F, 18 mph wind, 43% rain" for a game at Chase Field, whose roof is
+   shut and air conditioned for essentially every Phoenix summer game. A rain
+   percentage inside a sealed building is not something anyone should be
+   handicapping with, and printing it undermines every other number on the page.
+
+   Default for indoor:true is therefore "the forecast doesn't reach the field".
+
+   The exception list is for roofs that COVER without SEALING. T-Mobile Park's
+   roof is an umbrella parked over the seating bowl -- the sides stay open and
+   there is no climate control, so temperature and wind still play there even
+   when it is shut. Treating it like a dome would be the same mistake in the
+   other direction.
+
+   Keying on venue.indoor rather than a hardcoded park list means this holds for
+   every sport and every new venue automatically, which is the point: it has to
+   be right for every contest, not just tonight's. */
+const OPEN_ROOF = {
+  'T-Mobile Park': 'The roof covers the seats but doesn\u2019t seal the park, so conditions still play',
+};
+
+/* Sports played indoors by definition. A roof note on a basketball game is
+   noise -- nobody wondered about the weather at an NBA arena. */
+const OUTDOOR_SPORT = new Set(['MLB','NFL','CFB']);
+
+const conditionsOf=(j,league,fallbackNote)=>{
+  const v=j?.gameInfo?.venue, w=j?.gameInfo?.weather;
+  if(!OUTDOOR_SPORT.has(league)) return null;
+  const name=v?.fullName||'';
+  const openRoof=OPEN_ROOF[name];
+
+  if(v?.indoor===true && !openRoof)
+    return {roofed:true, value:'Indoors \u2014 weather is not a factor',
+            note:`${name||'This venue'} has a roof, so the forecast outside doesn\u2019t reach the field.`};
+
+  if(!w) return null;
   const bits=[];
   if(w.temperature!=null) bits.push(w.temperature+'\u00b0F');
   if(w.gust!=null) bits.push(w.gust+' mph wind');
   if(w.precipitation!=null) bits.push(w.precipitation+'% rain');
-  return bits.length?bits.join(' \u00b7 '):null;
+  if(!bits.length) return null;
+  return {roofed:false, value:bits.join(' \u00b7 '), note:openRoof||fallbackNote};
 };
 const leaderOf=(j,ab,cat)=>{
   const t=(j?.leaders||[]).find(x=>x.team?.abbreviation===ab);
@@ -1008,7 +1046,15 @@ function card(g){
   const showSc=g.state!=='pre';
   const side=t=>`<div class="row"><img src="${t.logo}" alt="" loading="lazy"/><span class="ab">${t.ab}</span>
     ${showSc?`<span class="sc">${t.sc??''}</span>`:''}<span class="ml">${fmt(t===g.a?mlA:mlH)??'—'}</span></div>`;
-  const foot=p?`<div class="foot"><span>True ${g.a.ab} <b>${(p.a*100).toFixed(1)}%</b> · ${g.h.ab} <b>${(p.b*100).toFixed(1)}%</b></span><span>Book takes ${p.hold.toFixed(1)}%</span></div>`:'';
+  /* Card footer: the market's win probability, in words a first-time visitor
+     reads without a glossary.
+
+     It used to say "True BOS 53.4% · MIA 46.6%" with "Book takes 1.7%" beside
+     it. Both are correct and both are jargon. "True" is undefined unless you
+     already know what vig is, and a reader who has to learn a term to read a
+     scoreboard leaves instead. The hold moved to the market tables further
+     down the page, where there is room for the footnote that explains it. */
+  const foot=p?`<div class="foot"><span>Win chance</span><span>${g.a.ab} <b>${(p.a*100).toFixed(1)}%</b> · ${g.h.ab} <b>${(p.b*100).toFixed(1)}%</b></span></div>`:'';
   /* Probable starters on the card itself. In baseball the pitching matchup is
      the single biggest driver of a game, so making people click through to see
      who is throwing was hiding the most important fact on the board. */
@@ -1077,7 +1123,7 @@ async function listView(sport){
     view.innerHTML=`
       <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
       <h1>${sport} — ${sport==='UFC'?"Tonight's Card":sport==='PGA'?'This Week':"Today's Board"}</h1>
-      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Our odds feed doesn't carry MMA prices, so the fights we like go out in the morning email instead.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with the true price on each and the move since the number opened.`}</p>
+      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Our odds feed doesn't carry MMA prices, so the fights we like go out in the morning email instead.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
     ticker(sport,null);
@@ -1126,8 +1172,8 @@ function market(title,rows,hold){
   const any=rows.some(r=>num(r.close)!=null);
   return `<div class="mkt">
     <div class="mkt-h"><span class="mkt-t">${title}</span>
-      <span class="mkt-hold">${hold!=null?`Book takes ${hold.toFixed(1)}%`:'Not posted'}</span></div>
-    ${any?`<table><thead><tr><th>Side</th><th>Line</th><th>Open</th><th>Current</th><th>Move</th><th>True price</th></tr></thead>
+      <span class="mkt-hold">${hold!=null?`House edge ${hold.toFixed(1)}%`:'Not posted'}</span></div>
+    ${any?`<table><thead><tr><th>Side</th><th>Line</th><th>Open</th><th>Current</th><th>Move</th><th>Chance</th></tr></thead>
       <tbody>${mktRows(rows)}</tbody></table>`
       :`<div style="padding:16px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted)">
          This market isn't posted for this game right now. Books usually pull it once a game is under way.</div>`}
@@ -1249,7 +1295,7 @@ function gameView(sport,id){
         <div class="risk"><div class="risk-k">What beats it</div><p>One exchange. MMA carries more variance than anything else on this board — a three-round fight can turn on a single clean shot regardless of records, camps or styles, and no model prices that. Stake it smaller than you would a side in a team sport.</p></div>
         <p style="margin-top:12px;font-size:12px;color:var(--muted)">Priced by hand from multiple books, before the walkouts. Fight markets aren't in our automated feed, so UFC is covered the way it should be — one card at a time.</p></div>`;})():''}
       <div class="nopick"><div class="l">${g.ours?'Why there\'s no live price on this page':'Why there\'s no price here'}</div>
-        <p>A fight is a two-way market like any other, but the feed behind this board doesn't carry MMA odds — so there's no opening number, no move and no true price to work back from. Rather than guess, we leave it blank.</p>
+        <p>A fight is a two-way market like any other, but the feed behind this board doesn't carry MMA odds — so there's no opening number, no move and no win chance to work back from. Rather than guess, we leave it blank.</p>
         <p style="margin-top:10px">UFC is covered properly where it can be done by hand: we survey every card and the fights we like go out in the <a href="index.html#signup" style="color:var(--green)">morning email</a>, with the reasoning. Fight markets are among the softest on the board, which is exactly why they're worth writing about rather than automating badly.</p></div>
       <p class="expl" style="border:none"><a href="?sport=${g.league}" style="color:var(--green);text-decoration:none">← Back to the ${g.league} card</a></p>`;
     document.title=`${g.a.ab} vs ${g.h.ab} — ${g.league} | Inside the Number`; return;
@@ -1475,7 +1521,7 @@ function marketRead(){
         const cheapAway=mkA<mkH, s=cheapAway?g.a:g.h, other=cheapAway?g.h:g.a;
         S.push({score:14+gap*10,
           head:`${s.ab} is the cheaper side`,
-          sub:`Book takes ${Math.min(mkA,mkH).toFixed(1)} pts over fair on ${s.ab}, ${Math.max(mkA,mkH).toFixed(1)} on ${other.ab}.`,
+          sub:`You pay ${Math.min(mkA,mkH).toFixed(1)} pts over fair on ${s.ab}, ${Math.max(mkA,mkH).toFixed(1)} on ${other.ab}.`,
           text:`The book is charging <b>${s.ab}</b> backers ${Math.min(mkA,mkH).toFixed(1)} points over fair and ${other.ab} backers ${Math.max(mkA,mkH).toFixed(1)}. Books shade the side the public wants — right now that's ${other.ab}.`});
       }
     }
@@ -1485,11 +1531,11 @@ function marketRead(){
        it headlined every game and the page read the same everywhere. */
     if(worst!=null){
       if(worst>=5.5) S.push({score:24+worst,
-        head:`Book takes ${worst.toFixed(1)}%`,
+        head:`House edge ${worst.toFixed(1)}%`,
         sub:`The most any of the three markets costs you. Worth shopping elsewhere.`,
         text:`The most the book keeps across these three markets is <b>${worst.toFixed(1)}%</b>, which is a genuinely expensive price to pay. Shop this one to another book before you bet it.`});
       else if(worst>=4.5) S.push({score:14+worst,
-        head:`Book takes ${worst.toFixed(1)}%`,
+        head:`House edge ${worst.toFixed(1)}%`,
         sub:`More than the three markets should cost you.`,
         text:`The most the book keeps across these three markets is <b>${worst.toFixed(1)}%</b>. Under 4% is a fair price, so there's room to do better elsewhere.`});
       else if(worst<=2) S.push({score:10,
@@ -1501,12 +1547,12 @@ function marketRead(){
     // 4. shape of the price itself
     if(favPct>=70) S.push({score:15+(favPct-70)/2,
       head:`Steep price on ${fav.ab}`,
-      sub:`${fav.ab} is a true ${favPct.toFixed(1)}% and you're laying ${favOdds}.`,
+      sub:`${fav.ab} is a genuine ${favPct.toFixed(1)}% and you're laying ${favOdds}.`,
       text:`<b>${fav.ab}</b> is a genuine <b>${favPct.toFixed(1)}%</b> here, and you're laying <b>${favOdds}</b> to get it. Heavy chalk like this is where books make their money — ${dog.ab} at ${dogOdds} only needs to win ${dogPct.toFixed(1)}% of the time to be worth backing.`});
     else if(Math.abs(mlP.a-mlP.b)<=0.04) S.push({score:16,
       head:`The market can't separate them`,
-      sub:`${(mlP.a*100).toFixed(1)}% / ${(mlP.b*100).toFixed(1)}% at the true price.`,
-      text:`At the true price this is <b>${(mlP.a*100).toFixed(1)}%</b> / <b>${(mlP.b*100).toFixed(1)}%</b> — as close to a coin flip as the board gets. Nobody has an edge from the price alone, so this one comes down to what you think the market is missing.`});
+      sub:`${(mlP.a*100).toFixed(1)}% / ${(mlP.b*100).toFixed(1)}% once the house edge comes out.`,
+      text:`With the house edge stripped out this is <b>${(mlP.a*100).toFixed(1)}%</b> / <b>${(mlP.b*100).toFixed(1)}%</b> — as close to a coin flip as the board gets. Nobody has an edge from the price alone, so this one comes down to what you think the market is missing.`});
 
     if(!S.length) S.push({score:1,
       head:`${fav.ab} favored at ${favPct.toFixed(1)}%`,
@@ -1989,7 +2035,8 @@ function marketRead(){
     }
 
     const slot=document.getElementById('ctxSlot'); if(!slot) return;
-    const wx=weatherOf(j);
+    /* League and the fallback note are passed in: conditionsOf decides whether
+       conditions apply at all before deciding what to say about them. */
     const ven=j.gameInfo?.venue;
     const series=(j.seasonseries||[])[0]?.summary||null;
     const bat=ab=>leaderOf(j,ab,'Batting Average'), hr=ab=>leaderOf(j,ab,'Home Runs');
@@ -2010,10 +2057,13 @@ function marketRead(){
     const isMLB=g.league==='MLB';
     const isFB=g.league==='NFL'||g.league==='CFB';
     const venLabel=isMLB?'Ballpark':isFB?'Stadium':'Venue';
-    const wxLabel=isMLB?'First pitch conditions':isFB?'Kickoff conditions':'Conditions';
     const wxNote=isMLB?'Wind and rain move totals more than any other outside factor'
                 :isFB?'Wind is the one that matters \u2014 it shortens the passing game and the total with it'
                 :'Conditions at kickoff';
+    const wx=conditionsOf(j,g.league,wxNote);
+    /* Under a roof the heading is about the roof, not the forecast. */
+    const wxLabel=wx?.roofed?(isMLB?'Ballpark roof':'Stadium roof')
+                :isMLB?'First pitch conditions':isFB?'Kickoff conditions':'Conditions';
 
     let html=`<div class="callout" style="border-color:var(--border)"><div class="l">The matchup</div><div class="matchup" style="margin-top:4px;padding-top:0;border-top:none">`;
     if(g.a.sp||g.h.sp){
@@ -2072,7 +2122,7 @@ function marketRead(){
 
     if(ven?.fullName) html+=chip(venLabel, ven.fullName,
       [ven.address?.city, ven.grass===true?'grass':ven.grass===false?'turf':null].filter(Boolean).join(' \u00b7 '));
-    if(wx) html+=chip(wxLabel, wx, wxNote);
+    if(wx) html+=chip(wxLabel, wx.value, wx.note);
     html+=`</div></div>`;
     slot.innerHTML=html;
   })();
@@ -2092,9 +2142,11 @@ function marketRead(){
     ${market('Moneyline',mlRows,mlP?.hold)}
     ${market('Spread',spRows,spP?.hold)}
     ${market('Total',toRows,toP?.hold)}
-    <p class="expl">Both sides of any market always add up to more than 100% — that surplus is what the book keeps.
-      Take it out and what's left is the true price: what the market actually thinks, which is the number
-      worth arguing with. Move shows how far the price has traveled since it opened${g.provider?`, per ${g.provider}`:''}.</p>
+    <p class="expl"><b>Chance</b> is what the market gives each side, after the book's cut is taken out.
+      Add up both sides of any market at the posted prices and you get more than 100% — that surplus is
+      the <b>house edge</b>, and it is what you are charged to place the bet. Strip it out and what is left
+      is what the market actually thinks, which is the number worth arguing with.
+      <b>Move</b> shows how far the price has traveled since it opened${g.provider?`, per ${g.provider}`:''}.</p>
     <p class="expl" style="border:none;padding-top:4px"><a href="?sport=${sport}" style="color:var(--green);text-decoration:none">← Back to all ${sport} games</a></p>`;
   document.title=`${g.a.ab} @ ${g.h.ab} — ${g.league} odds & true price | Inside the Number`;
 }
