@@ -153,6 +153,125 @@
   .footer-disclaimer .lnk{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.3)}
   .footer-disclaimer .lnk:hover{border-bottom-color:var(--green)}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What does -110 mean in betting?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A price of -110 means you risk $110 to win $100. It also tells you what the bet has to do to be worth making: at -110 you need to win 52.4% of the time just to break even. The extra 2.4 points above a coin flip is the bookmaker's commission."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do you convert odds to a win probability?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "For a negative price, divide the number by itself plus 100. A -200 favorite is 200 ÷ 300 = 66.7%. For a positive price, divide 100 by the number plus 100. A +150 underdog is 100 ÷ 250 = 40%. That result is the break-even rate — the share of the time the bet must win before it makes you a penny."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the vig, and how much am I paying?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The vig is the bookmaker's built-in margin. You can see it by adding both sides together. Two sides at -110 each imply 52.4% and 52.4%, which sums to 104.8% — and that 4.8% above 100 is what the house keeps. A typical MLB moneyline runs closer to 2%, a bad market can run 6% or more, and the difference is money out of your pocket on every bet."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is a no-vig or \"true\" price?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It's the price with the margin stripped out — what the market actually thinks, rather than what you're charged to bet it. Take both sides' implied probabilities and scale them so they total 100%. If a team is posted at -158 and the other side at +147, the favorite's true win probability is about 60%, not the 61.2% the posted price implies."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is a -200 favorite worth betting?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Only if you think they win more than 66.7% of the time, because that's the break-even. Heavy favorites aren't bad bets because they're boring — they're hard because the price already accounts for how good the team is, and you need an opinion the market hasn't priced. The question is never \"will they win,\" it's \"will they win often enough at this number.\""
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why do parlays pay so much less than they should?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Because the margin compounds on every leg while the payout doesn't. If each leg carries about 1.8% of house edge, a two-leg parlay costs you roughly 3.5%, a six-leg about 10%, and a ten-leg over 16%. The ticket looks like one bet, but you're paying the vig ten separate times."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is closing line value and why does it matter?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Closing line value means you got a better number than the market's final price. Bet a team at +150 and watch it close at +130 and you beat the close. It matters because win rate over a short run is mostly noise — twenty bets tells you nothing — while consistently beating the closing number shows up in far fewer bets and is very hard to fake."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How much should I bet on one game?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Most disciplined bettors use 1–3% of their bankroll per play, sized the same way every time. Flat staking beats chasing, because losing streaks are normal even when the process is sound, and doubling after a loss is the fastest route to a ruined bankroll."
+   }
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "How to Read a Betting Line",
+ "description": "Odds, vig, implied probability, units and closing line value, explained in plain English with the math shown.",
+ "author": {
+  "@type": "Organization",
+  "name": "Inside the Number",
+  "url": "https://insidethenumber.com/"
+ },
+ "publisher": {
+  "@type": "Organization",
+  "name": "Inside the Number",
+  "logo": {
+   "@type": "ImageObject",
+   "url": "https://insidethenumber.com/favicon-512.png"
+  }
+ },
+ "mainEntityOfPage": {
+  "@type": "WebPage",
+  "@id": "https://insidethenumber.com/learn.html"
+ },
+ "image": "https://insidethenumber.com/og-image.png",
+ "inLanguage": "en-US"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "Home",
+   "item": "https://insidethenumber.com/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Learn",
+   "item": "https://insidethenumber.com/learn.html"
+  }
+ ]
+}
+</script>
 </head>
 <body>
 
@@ -219,7 +338,8 @@
     <a href="#clv">Closing line value</a>
     <a href="#units">Units and staking</a>
     <a href="#mistakes">Common mistakes</a>
-    <a href="#glossary">Glossary</a>
+    <a href="#faq">Common questions</a>
+      <a href="#glossary">Glossary</a>
   </aside>
 
   <main class="body">
@@ -327,6 +447,54 @@
       <dl class="term"><dt>Total</dt><dd>The combined score line, bet over or under.</dd></dl>
       <dl class="term"><dt>Unit</dt><dd>One standard bet, sized as a fixed share of bankroll.</dd></dl>
       <dl class="term"><dt>Vig</dt><dd>The bookmaker's built-in commission on a bet.</dd></dl>
+    </div>
+
+    <!-- ── FAQ ──────────────────────────────────────────────────────────
+         These are the questions people actually type into Google, answered
+         plainly. The FAQPage schema at the bottom of this file mirrors this
+         section word for word: Google requires structured data to match
+         content the visitor can see, and inventing Q&A that isn't on the page
+         is a manual-action risk, not a shortcut. Edit both or neither. -->
+    <h2 id="faq">Common questions</h2>
+
+    <div class="box">
+      <h3>What does -110 mean in betting?</h3>
+      <p>A price of <strong>-110</strong> means you risk $110 to win $100. It also tells you what the bet has to do to be worth making: at -110 you need to win <strong>52.4%</strong> of the time just to break even. The extra 2.4 points above a coin flip is the bookmaker's commission.</p>
+    </div>
+
+    <div class="box">
+      <h3>How do you convert odds to a win probability?</h3>
+      <p>For a negative price, divide the number by itself plus 100. A -200 favorite is 200 ÷ 300 = <strong>66.7%</strong>. For a positive price, divide 100 by the number plus 100. A +150 underdog is 100 ÷ 250 = <strong>40%</strong>. That result is the <em>break-even</em> rate — the share of the time the bet must win before it makes you a penny.</p>
+    </div>
+
+    <div class="box">
+      <h3>What is the vig, and how much am I paying?</h3>
+      <p>The vig is the bookmaker's built-in margin. You can see it by adding both sides together. Two sides at -110 each imply 52.4% and 52.4%, which sums to <strong>104.8%</strong> — and that 4.8% above 100 is what the house keeps. A typical MLB moneyline runs closer to 2%, a bad market can run 6% or more, and the difference is money out of your pocket on every bet.</p>
+    </div>
+
+    <div class="box">
+      <h3>What is a no-vig or "true" price?</h3>
+      <p>It's the price with the margin stripped out — what the market actually thinks, rather than what you're charged to bet it. Take both sides' implied probabilities and scale them so they total 100%. If a team is posted at -158 and the other side at +147, the favorite's true win probability is about <strong>60%</strong>, not the 61.2% the posted price implies.</p>
+    </div>
+
+    <div class="box">
+      <h3>Is a -200 favorite worth betting?</h3>
+      <p>Only if you think they win more than <strong>66.7%</strong> of the time, because that's the break-even. Heavy favorites aren't bad bets because they're boring — they're hard because the price already accounts for how good the team is, and you need an opinion the market hasn't priced. The question is never "will they win," it's "will they win often enough at this number."</p>
+    </div>
+
+    <div class="box">
+      <h3>Why do parlays pay so much less than they should?</h3>
+      <p>Because the margin compounds on every leg while the payout doesn't. If each leg carries about 1.8% of house edge, a two-leg parlay costs you roughly <strong>3.5%</strong>, a six-leg about <strong>10%</strong>, and a ten-leg over <strong>16%</strong>. The ticket looks like one bet, but you're paying the vig ten separate times.</p>
+    </div>
+
+    <div class="box">
+      <h3>What is closing line value and why does it matter?</h3>
+      <p>Closing line value means you got a better number than the market's final price. Bet a team at +150 and watch it close at +130 and you beat the close. It matters because win rate over a short run is mostly noise — twenty bets tells you nothing — while consistently beating the closing number shows up in far fewer bets and is very hard to fake.</p>
+    </div>
+
+    <div class="box">
+      <h3>How much should I bet on one game?</h3>
+      <p>Most disciplined bettors use <strong>1–3% of their bankroll</strong> per play, sized the same way every time. Flat staking beats chasing, because losing streaks are normal even when the process is sound, and doubling after a loss is the fastest route to a ruined bankroll.</p>
     </div>
   </main>
 </div>
