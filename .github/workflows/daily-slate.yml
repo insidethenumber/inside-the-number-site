@@ -43,10 +43,38 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Probe the feeds from this runner
+        # ESPN answers a browser fine but may refuse datacenter IPs, which is
+        # what a GitHub runner is. Prove which it is, in the run summary, rather
+        # than inferring from an empty result.
+        run: |
+          {
+            echo "## Feed reachability from this runner"
+            echo ""
+            echo '| feed | HTTP | bytes |'
+            echo '| --- | --- | --- |'
+            for u in \
+              "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=$(date -u +%Y%m%d)" \
+              "https://statsapi.mlb.com/api/v1/teams?sportId=1" ; do
+              code=$(curl -s -o /tmp/probe -w '%{http_code}' -m 20 "$u" || echo "000")
+              size=$(wc -c < /tmp/probe 2>/dev/null || echo 0)
+              name=$(echo "$u" | cut -d/ -f3)
+              echo "| $name | $code | $size |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build today's brief from the public feeds
         id: brief
         run: |
-          python3 scripts/build_slate.py --out brief.json
+          set -o pipefail
+          python3 scripts/build_slate.py --out brief.json 2>&1 | tee /tmp/slate.log
+          {
+            echo ""
+            echo "## Slate builder output"
+            echo '```'
+            cat /tmp/slate.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
           echo "games=$(python3 -c 'import json;print(len(json.load(open("brief.json"))["games"]))')" >> "$GITHUB_OUTPUT"
 
       - name: Show what was found
