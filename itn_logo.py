@@ -36,11 +36,14 @@ def _grad_at(t):
     return STOPS[-1][1]
 
 
-# Optical centring. The glyphs were drawn from x=24 to x=114.5 and y=26 to
-# y=84 inside a 120-unit badge, leaving a 24-unit gap on the left against 5.5
-# on the right, and sitting 5 units high. Nudge the whole group rather than
-# rewriting every coordinate; the site's SVG applies the identical transform.
-DX, DY = -9.25, 5.0
+# Optical centring, on the LETTERFORMS rather than the full ink bounding box.
+#
+# First attempt centred the bbox including the arrowhead. Because the arrow
+# projects up and to the right, that pushed the heavy ITN letters down and to
+# the left — measured on the live X avatar as 4px left and 16px low at 400px.
+# The eye centres on the letter mass, not on a thin accent, so the block
+# x 24..111.5 / y 38..84 is what gets centred and the arrowhead overhangs.
+DX, DY = -7.75, -1.0
 
 
 def render_badge(px, supersample=4):
