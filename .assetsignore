@@ -26,3 +26,4 @@ make_x_header.py
 .github/
 scripts/
 data/
+posts/.sent.json

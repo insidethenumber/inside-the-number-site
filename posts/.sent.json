@@ -1,0 +1,17 @@
+{
+ "sent": [
+  "01-no-record.txt"
+ ],
+ "history": [
+  {
+   "file": "01-no-record.txt",
+   "id": "manual",
+   "url": "https://x.com/thenumberdesk",
+   "at": "2026-08-24T19:50:00+00:00",
+   "chars": 256,
+   "had_link": false,
+   "est_cost": 0.015,
+   "note": "posted by hand through x.com during setup, before the queue existed"
+  }
+ ]
+}

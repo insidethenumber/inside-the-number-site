@@ -46,3 +46,4 @@
 !scripts/*.py
 !data/
 !data/*.json
+!posts/.sent.json
