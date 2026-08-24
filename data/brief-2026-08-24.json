@@ -1,10 +1,8 @@
 {
- "generated_utc": "2026-08-24T20:54:17.874949+00:00",
+ "generated_utc": "2026-08-24T20:56:01.516309+00:00",
  "slate_date": "2026-08-24",
  "slate_label": "Mon, Aug 24",
- "non_mlb_available": [
-  "WNBA"
- ],
+ "non_mlb_available": [],
  "games": [
   {
    "league": "MLB",
@@ -23,13 +21,20 @@
     "name": "Marlins",
     "record": "67-64"
    },
-   "total": 7.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o7",
+   "over_odds": "-120",
+   "under_odds": "+100",
+   "spread": "-1.5",
+   "ml_away": "-119",
+   "ml_home": "+111",
+   "provider": "DraftKings",
+   "true_away": 53.4,
+   "true_home": 46.6,
+   "hold": 1.73,
+   "be_over": 54.5,
+   "be_under": 50.0,
+   "be_ml_away": 54.3,
+   "be_ml_home": 47.4
   },
   {
    "league": "MLB",
@@ -48,13 +53,20 @@
     "name": "Tigers",
     "record": "61-69"
    },
-   "total": 7.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o7.5",
+   "over_odds": "-112",
+   "under_odds": "-108",
+   "spread": "-1.5",
+   "ml_away": "-127",
+   "ml_home": "+116",
+   "provider": "DraftKings",
+   "true_away": 54.7,
+   "true_home": 45.3,
+   "hold": 2.24,
+   "be_over": 52.8,
+   "be_under": 51.9,
+   "be_ml_away": 55.9,
+   "be_ml_home": 46.3
   },
   {
    "league": "MLB",
@@ -73,13 +85,20 @@
     "name": "Nationals",
     "record": "61-71"
    },
-   "total": 8.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": -1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o8",
+   "over_odds": "-118",
+   "under_odds": "-102",
+   "spread": "+1.5",
+   "ml_away": "+180",
+   "ml_home": "-194",
+   "provider": "DraftKings",
+   "true_away": 35.1,
+   "true_home": 64.9,
+   "hold": 1.7,
+   "be_over": 54.1,
+   "be_under": 50.5,
+   "be_ml_away": 35.7,
+   "be_ml_home": 66.0
   },
   {
    "league": "MLB",
@@ -98,13 +117,20 @@
     "name": "White Sox",
     "record": "68-62"
    },
-   "total": 8.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": -1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o8",
+   "over_odds": "-115",
+   "under_odds": "-105",
+   "spread": "+1.5",
+   "ml_away": "+116",
+   "ml_home": "-124",
+   "provider": "DraftKings",
+   "true_away": 45.5,
+   "true_home": 54.5,
+   "hold": 1.65,
+   "be_over": 53.5,
+   "be_under": 51.2,
+   "be_ml_away": 46.3,
+   "be_ml_home": 55.4
   },
   {
    "league": "MLB",
@@ -123,13 +149,20 @@
     "name": "Angels",
     "record": "52-79"
    },
-   "total": 7.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o7.5",
+   "over_odds": "-114",
+   "under_odds": "-106",
+   "spread": "-1.5",
+   "ml_away": "-158",
+   "ml_home": "+147",
+   "provider": "DraftKings",
+   "true_away": 60.2,
+   "true_home": 39.8,
+   "hold": 1.73,
+   "be_over": 53.3,
+   "be_under": 51.5,
+   "be_ml_away": 61.2,
+   "be_ml_home": 40.5
   },
   {
    "league": "MLB",
@@ -148,13 +181,20 @@
     "name": "Diamondbacks",
     "record": "69-62"
    },
-   "total": 9.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o9",
+   "over_odds": "-110",
+   "under_odds": "-110",
+   "spread": "-1.5",
+   "ml_away": "-133",
+   "ml_home": "+124",
+   "provider": "DraftKings",
+   "true_away": 56.1,
+   "true_home": 43.9,
+   "hold": 1.72,
+   "be_over": 52.4,
+   "be_under": 52.4,
+   "be_ml_away": 57.1,
+   "be_ml_home": 44.6
   },
   {
    "league": "MLB",
@@ -173,13 +213,20 @@
     "name": "Athletics",
     "record": "51-80"
    },
-   "total": 11.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o11",
+   "over_odds": "-111",
+   "under_odds": "-108",
+   "spread": "-1.5",
+   "ml_away": "-142",
+   "ml_home": "+132",
+   "provider": "DraftKings",
+   "true_away": 57.7,
+   "true_home": 42.3,
+   "hold": 1.78,
+   "be_over": 52.6,
+   "be_under": 51.9,
+   "be_ml_away": 58.7,
+   "be_ml_home": 43.1
   },
   {
    "league": "MLB",
@@ -198,13 +245,20 @@
     "name": "Mariners",
     "record": "62-69"
    },
-   "total": 6.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o6.5",
+   "over_odds": "-122",
+   "under_odds": "+102",
+   "spread": "-1.5",
+   "ml_away": "-108",
+   "ml_home": "+101",
+   "provider": "DraftKings",
+   "true_away": 51.1,
+   "true_home": 48.9,
+   "hold": 1.67,
+   "be_over": 55.0,
+   "be_under": 49.5,
+   "be_ml_away": 51.9,
+   "be_ml_home": 49.8
   },
   {
    "league": "MLB",
@@ -223,13 +277,20 @@
     "name": "Padres",
     "record": "71-60"
    },
-   "total": 7.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o7.5",
+   "over_odds": "-103",
+   "under_odds": "-117",
+   "spread": "-1.5",
+   "ml_away": "+104",
+   "ml_home": "-112",
+   "provider": "DraftKings",
+   "true_away": 48.1,
+   "true_home": 51.9,
+   "hold": 1.85,
+   "be_over": 50.7,
+   "be_under": 53.9,
+   "be_ml_away": 49.0,
+   "be_ml_home": 52.8
   },
   {
    "league": "MLB",
@@ -248,63 +309,20 @@
     "name": "Giants",
     "record": "52-78"
    },
-   "total": 7.0,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 1.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
-  },
-  {
-   "league": "WNBA",
-   "id": "401857171",
-   "short": "GS @ MIN",
-   "start": "2026-08-25T00:00Z",
-   "detail": "8/24 - 8:00 PM EDT",
-   "venue": "Target Center",
-   "away": {
-    "abbr": "GS",
-    "name": "Valkyries",
-    "record": "25-11"
-   },
-   "home": {
-    "abbr": "MIN",
-    "name": "Lynx",
-    "record": "31-7"
-   },
-   "total": 161.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": -5.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
-  },
-  {
-   "league": "WNBA",
-   "id": "401857172",
-   "short": "ATL @ LA",
-   "start": "2026-08-25T02:00Z",
-   "detail": "8/24 - 10:00 PM EDT",
-   "venue": "crypto.com Arena",
-   "away": {
-    "abbr": "ATL",
-    "name": "Dream",
-    "record": "24-13"
-   },
-   "home": {
-    "abbr": "LA",
-    "name": "Sparks",
-    "record": "13-24"
-   },
-   "total": 181.5,
-   "over_odds": null,
-   "under_odds": null,
-   "spread": 10.5,
-   "ml_away": null,
-   "ml_home": null,
-   "provider": "DraftKings"
+   "total": "o7",
+   "over_odds": "-121",
+   "under_odds": "+101",
+   "spread": "-1.5",
+   "ml_away": "-158",
+   "ml_home": "+147",
+   "provider": "DraftKings",
+   "true_away": 60.2,
+   "true_home": 39.8,
+   "hold": 1.73,
+   "be_over": 54.8,
+   "be_under": 49.8,
+   "be_ml_away": 61.2,
+   "be_ml_home": 40.5
   }
  ]
 }
