@@ -16,3 +16,7 @@ social/
 # Ops scripts and marketing notes — versioned, never served.
 post_to_x.py
 MARKETING_X.md
+make_cards.py
+posts/
+social/cards/
+X_LAUNCH_POSTS.md

@@ -127,6 +127,7 @@ def explain(status, payload):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--text", help="post body")
+    ap.add_argument("--file", help="read the post body from a text file")
     ap.add_argument("--dry-run", action="store_true", help="print, don't send")
     ap.add_argument("--verify", action="store_true", help="check credentials only")
     a = ap.parse_args()
@@ -145,8 +146,16 @@ def main():
         print(msg or json.dumps(payload)[:400])
         sys.exit(1)
 
-    if not a.text:
-        sys.exit("ERROR: --text is required (or use --verify)")
+    """Reading from a file avoids shell quoting entirely — several posts contain
+       apostrophes, which break single-quoted shell strings."""
+    text = a.text
+    if a.file:
+        if not os.path.exists(a.file):
+            sys.exit(f"ERROR: no such file: {a.file}")
+        text = open(a.file).read().strip()
+    if not text:
+        sys.exit("ERROR: --text or --file is required (or use --verify)")
+    a.text = text
 
     n = len(a.text)
     has_link = "http://" in a.text or "https://" in a.text
