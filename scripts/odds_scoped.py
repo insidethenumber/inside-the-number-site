@@ -383,6 +383,18 @@ def main():
     month = sum(r["spent"] for r in led["runs"]
                 if r["at"][:7] == stamp[:7])
     print(f"spent so far in {stamp[:7]}: {month}")
+
+    # The upgrade trigger, enforced rather than remembered.
+    #
+    # Chuck's decision on Aug 24 was to stay on the free tier until there is
+    # traffic, and to be REMINDED rather than left to notice. A note in
+    # BACKLOG.md is not a reminder -- nobody reads a backlog on the day it
+    # matters. So the run itself raises it, in the place he will actually be
+    # looking when something breaks.
+    if month > 400:
+        print(f"::warning title=Odds upgrade trigger::{month} credits used this "
+              "month, over the 400 threshold on a 500 cap. Time to revisit the "
+              "$30/mo plan -- see BACKLOG.md 'Odds API'.")
     if remaining is not None and remaining < RESERVE * 2:
         print(f"::warning title=Odds credits low::{remaining} credits left. "
               "Free tier resets monthly; consider the $30 plan if traffic justifies it.")

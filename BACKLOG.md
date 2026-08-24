@@ -4,6 +4,37 @@ Parked decisions and future work. Newest items at the top of each section.
 This file is internal — excluded from the deployed site via `.assetsignore`.
 
 
+## Odds API — STAY ON FREE, revisit at a trigger (decided Aug 24, 2026)
+
+Chuck's call: stay on the free tier now, move to the $30/mo 20K-credit plan once
+there is traffic. He asked to be reminded rather than left to notice.
+
+**The trigger — raise this with Chuck when ANY of these is true:**
+
+1. `data/odds-usage.json` shows a month closing above **400 credits** (80% of the
+   500 cap). At that point we are one slate change away from running dry.
+2. A run logs `::warning title=Odds credits low` twice in the same month.
+3. Paying subscribers reach roughly **20 at $19.99**, i.e. ~$400/mo — at which
+   point $30 is under 8% of revenue and the constraint stops being worth managing.
+4. We want a market the free tier cannot cover: player props, alternate lines, or
+   historical odds for backtesting. Historical is EXCLUDED from free entirely,
+   so any real backtest work forces the upgrade.
+
+**What the free tier actually buys us** (measured Aug 24, not estimated):
+  - 500 credits/month; cost is `markets x regions` per call
+  - Our scoped daily pull: 4 credits morning + 3 afternoon = **~210/month**
+  - Leaves ~290/month of headroom for UFC card weeks and one-off checks
+  - "Most bookmakers" not all, and NO historical odds
+
+**Correction worth remembering.** The budget originally assumed out-of-season
+sports were free, because the docs say an empty response is not charged. Measured
+on a runner in August: NBA returned 41 events and NHL 32, because books post
+next-season lines months ahead. NFL returned 272. **Nothing comes back empty, so
+there is no seasonal discount.** A full-board pull is 16 credits year round —
+which is why the daily pull is scoped to UFC plus published picks instead.
+
+---
+
 ## PGA — PAUSED (decided Aug 24, 2026)
 
 Chuck's call: put PGA on hold and show a "coming soon" state rather than half-build
