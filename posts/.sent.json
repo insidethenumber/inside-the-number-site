@@ -2,7 +2,8 @@
  "sent": [
   "01-no-record.txt",
   "02-break-even.txt",
-  "03-season-era.txt"
+  "03-season-era.txt",
+  "00a-ufc-card-live.txt"
  ],
  "history": [
   {
@@ -30,6 +31,15 @@
    "url": "https://x.com/thenumberdesk/status/2092008496422113661",
    "at": "2026-08-24T21:57:47.987444+00:00",
    "chars": 240,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00a-ufc-card-live.txt",
+   "id": "2092093729272393871",
+   "url": "https://x.com/thenumberdesk/status/2092093729272393871",
+   "at": "2026-08-25T03:36:29.135842+00:00",
+   "chars": 241,
    "had_link": false,
    "est_cost": 0.015
   }
