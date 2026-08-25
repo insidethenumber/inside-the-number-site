@@ -278,31 +278,48 @@ wire services use. It implies a working desk without inventing a named person,
 which is the line we hold: group attribution is fine, a fabricated individual
 is not.
 
-## Repo health — clear locks before editing (added Aug 21, 2026)
+## Repo health — ALWAYS work from a fresh clone (rewritten Aug 25, 2026)
 
-Stale git lock files have now broken two runs. Before touching any file:
-
-```
-cd "/Users/chuckwhite/Documents/Claude/Projects/Inside the Number"
-find .git -name "*.lock" -delete 2>/dev/null
-git fetch origin main -q && git reset --hard origin/main
-```
-
-Look for `.git/index.lock`, `HEAD.lock`, `refs/heads/main.lock` and
-`objects/maintenance.lock`. The hard reset matters too — on Aug 21 the local
-repo ended up *behind* remote because the recovery pushed from a separate
-clone.
-
-**If git still errors on a lock, don't fight it.** Clone fresh and work there:
+**Never run git in the shared project folder. Clone, work, push, discard.**
 
 ```
 rm -rf /tmp/itn
 git clone -q https://github.com/insidethenumber/inside-the-number-site.git /tmp/itn
+cd /tmp/itn
+# edit, commit, push from here — never from the Documents folder
 ```
 
-Edit, commit and push from `/tmp/itn`, then copy the changed files back. That
-is how the Aug 21 recovery actually succeeded. Ninety seconds on a clone beats
-losing the send.
+### Why — the actual cause, finally diagnosed Aug 25
+
+For five days this was blamed on stale lock files, and the "fix" each time was
+to delete `.git/*.lock` and retry. On Aug 23 git's own background maintenance
+was disabled (`gc.auto=0`, `maintenance.auto=false`) on the theory that it was
+spawning the concurrent process. It recurred the next day anyway.
+
+The real cause is simpler: **two different git clients were writing the same
+working copy at the same time.** The scheduled task runs git on Chuck's Mac;
+a Cowork session runs git on the same folder through a mount. When both are
+active, one takes `index.lock` or `HEAD.lock` and the other dies on it — and
+`rm -f` fails because the *other* process legitimately holds it.
+
+Aug 25 is the clearest example. The task started at 10:06:43 and began its git
+work. Between 10:13 and 10:40 a session pushed six commits to the same folder.
+The task ended up wedged mid-rebase and the 1:17pm safety net had to log around
+it. Nothing was corrupt and no lock was "stale" — the two writers simply
+collided, and the run that lost was the unattended one.
+
+That also means the old advice made it worse: deleting a lock another process
+is actively holding is how you get a half-finished rebase instead of a clean
+failure.
+
+A fresh clone has no other writer. It cannot collide, so there is nothing to
+clear. Ninety seconds on a clone beats losing the send — and unlike the lock
+dance, it works every time.
+
+**Corollary for whoever is at the keyboard:** if a scheduled run is in flight,
+don't push to the shared folder. Check `lastRunAt` before assuming a task
+hasn't started. On Aug 25 the task *had* started, looked idle for ninety
+seconds, and got overwritten by someone who concluded it had failed.
 
 ## Site consistency rules (added Aug 20, 2026)
 
