@@ -2,31 +2,69 @@
 """
 Inside the Number — UFC card page generator.
 
-Produces ufc.html: a STATIC page with every fight on the upcoming UFC card,
-the best available price on each corner across ~50 books, the true win
-probability once the vig is stripped, and what the house keeps.
+Produces ufc.html: a STATIC page with every fight on the upcoming card, the
+best available price on each corner across ~50 books, each fighter's win
+chance in plain English, their record and weight class from ESPN, and a
+human-written note on the fights people actually care about.
 
-Why static generation instead of the client-side rendering the games board
-uses: a crawler fetching games.html receives "Loading today's board..." and
-nothing else, which is why that page cannot rank. This page is the opposite
-bet — the fights are in the HTML itself, so Google can index the one piece of
-content ITN owns that no free competitor publishes at all. ESPN carries zero
-MMA prices; The Odds API includes MMA on the free tier. That asymmetry is the
-entire reason this page exists.
+Two data sources, merged by name:
+  The Odds API  — prices (ESPN carries zero MMA odds; this is the scarce part)
+  ESPN          — records and weight classes (free, no odds, but good bios)
 
-Runs in GitHub Actions (the local sandbox cannot reach api.the-odds-api.com).
-One credit per run.
+Language rules, learned the hard way on Aug 24 (Chuck: "no one knows what
+house edge and true are"): no "hold", no "house edge", no "true probability"
+on the page. Odds, win chance, and sentences a person would say. The math
+underneath is unchanged — only the words changed.
+
+Hand-written fight notes live in NOTES below. They are editorial and survive
+regeneration untouched; everything else is derived from the data so a refresh
+cannot invent opinions. Notes must only contain facts that do not go stale
+(who a fighter is, how they fight) — records and prices stay machine-side.
+
+Runs in GitHub Actions (the local sandbox cannot reach either API).
+One Odds API credit per run.
 
     python3 scripts/build_ufc_page.py --start 2026-08-29 --end 2026-08-30 \
         --title "UFC Fight Night Shanghai" --venue "Shanghai, China"
 """
 
-import argparse, html, json, os, sys, urllib.parse, urllib.request, urllib.error
-from datetime import datetime, timezone
+import argparse, html, json, os, re, sys, urllib.parse, urllib.request, urllib.error
+from datetime import datetime, timezone, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 BASE = "https://api.the-odds-api.com/v4"
+# ESPN answers curl and refuses urllib's default UA — see build_slate.py.
+UA = {"User-Agent": "curl/8.5.0", "Accept": "*/*"}
+
+# ── hand-written fight notes ───────────────────────────────────────────────
+# Keyed by frozenset of the two LAST names, lowercased. Time-safe facts only:
+# who a fighter is and how they fight. No records, no prices — those are
+# derived fresh each run and would go stale here.
+NOTES = {
+    frozenset({"yadong", "nurmagomedov"}):
+        "Umar is the latest product of the famous Dagestani wrestling pipeline — "
+        "Khabib's cousin — and fights like it: forward pressure, chain wrestling, "
+        "nothing wasted. Song Yadong is the kind of one-punch bantamweight who can "
+        "end a round he's losing. The whole fight is one question: does it stay "
+        "standing long enough for that power to matter? The books say almost "
+        "certainly not.",
+    frozenset({"xiaonan", "gomes"}):
+        "Yan Xiaonan has shared the cage with the very best at strawweight — she's "
+        "challenged for the title — and this card is built around Chinese stars, so "
+        "the moment won't rattle her. Denise Gomes is younger and walks forward for "
+        "fifteen minutes straight. The books making the veteran only a modest "
+        "favorite tells you how much they respect that pace.",
+    frozenset({"asakura", "qileng"}):
+        "Kai Asakura came over from Japan's RIZIN as a genuine star and has already "
+        "fought for a UFC flyweight title. Aori Qileng is durable and will happily "
+        "make it ugly, but the books see a class gap here — and it's hard to argue.",
+    frozenset({"perez", "mudaerji"}):
+        "Alex Perez has fought for a UFC flyweight title, and that experience is "
+        "most of the case for him. Su Mudaerji is the faster, flashier striker with "
+        "the home crowd behind him — the books lean his way and the atmosphere will "
+        "too.",
+}
 
 
 def api_key():
@@ -48,7 +86,7 @@ def implied(american):
     return 100.0 / (v + 100.0) if v > 0 else abs(v) / (abs(v) + 100.0)
 
 
-def fetch(start, end):
+def fetch_odds(start, end):
     q = urllib.parse.urlencode({
         "apiKey": api_key(), "regions": "us", "markets": "h2h",
         "oddsFormat": "american",
@@ -58,18 +96,70 @@ def fetch(start, end):
     url = f"{BASE}/sports/mma_mixed_martial_arts/odds?{q}"
     try:
         with urllib.request.urlopen(url, timeout=25) as r:
-            left = r.headers.get("x-requests-remaining")
-            print(f"credits remaining: {left}", file=sys.stderr)
+            print(f"odds credits remaining: {r.headers.get('x-requests-remaining')}",
+                  file=sys.stderr)
             return json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
-        sys.exit(f"ERROR: HTTP {e.code} {e.read().decode()[:200]}")
+        sys.exit(f"ERROR: odds HTTP {e.code} {e.read().decode()[:200]}")
     except urllib.error.URLError as e:
-        sys.exit(f"ERROR: cannot reach the Odds API ({e.reason}). "
-                 "Expected locally; run in GitHub Actions.")
+        sys.exit(f"ERROR: cannot reach the Odds API ({e.reason}). Run in CI.")
+
+
+def fetch_espn(ymd):
+    """Records and weight classes. Best-effort: the page works without them."""
+    url = ("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard"
+           f"?dates={ymd}")
+    try:
+        with urllib.request.urlopen(
+                urllib.request.Request(url, headers=UA), timeout=25) as r:
+            data = json.loads(r.read().decode())
+    except Exception as e:
+        print(f"WARN: ESPN enrichment unavailable ({e}) — records omitted",
+              file=sys.stderr)
+        return []
+    bouts = []
+    for ev in data.get("events", []):
+        for c in ev.get("competitions", []):
+            names, recs = [], []
+            for comp in c.get("competitors", []):
+                a = comp.get("athlete") or {}
+                names.append(a.get("displayName") or a.get("shortName") or "")
+                rec = ""
+                for rblock in (comp.get("records") or []):
+                    if rblock.get("summary"):
+                        rec = rblock["summary"]
+                        break
+                recs.append(rec)
+            weight = ((c.get("type") or {}).get("text")
+                      or (c.get("type") or {}).get("abbreviation") or "")
+            weight = re.sub(r"\s*-?\s*(Main|Co-Main).*$", "", weight).strip()
+            if len(names) == 2:
+                bouts.append({"names": names, "recs": recs, "weight": weight})
+    print(f"ESPN: {len(bouts)} bouts with bios", file=sys.stderr)
+    return bouts
+
+
+def last(n):
+    return re.sub(r"[^a-z]", "", (n or "").split()[-1].lower()) if n else ""
+
+
+def enrich(fight, bouts):
+    """Attach record + weight class where ESPN has this bout."""
+    la, lb = last(fight["a"]["name"]), last(fight["b"]["name"])
+    for b in bouts:
+        e0, e1 = last(b["names"][0]), last(b["names"][1])
+        if {la, lb} == {e0, e1}:
+            fight["weight"] = b["weight"]
+            for side in ("a", "b"):
+                ln = last(fight[side]["name"])
+                idx = 0 if ln == e0 else 1
+                fight[side]["record"] = b["recs"][idx]
+            return
+    fight["weight"] = ""
+    fight["a"]["record"] = fight["b"]["record"] = ""
 
 
 def best_both(ev):
-    """Best price per corner across every book quoting the fight."""
     best = {}
     for bk in ev.get("bookmakers", []):
         for mk in bk.get("markets", []):
@@ -86,45 +176,115 @@ def best_both(ev):
     (a, da), (b, db) = best.items()
     ia, ib = implied(da["price"]), implied(db["price"])
     tot = ia + ib
-    da["true"], db["true"] = ia / tot * 100, ib / tot * 100
-    hold = (tot - 1) * 100
+    da["chance"], db["chance"] = ia / tot * 100, ib / tot * 100
     return {"a": {"name": a, **da}, "b": {"name": b, **db},
-            "hold": hold, "books": len(ev.get("bookmakers", []))}
+            "sum": tot, "books": len(ev.get("bookmakers", []))}
 
 
-def read_for(f, all_holds):
-    """
-    One line per fight, derived from the numbers rather than written fresh —
-    a generator must not invent opinions it can't verify on regeneration.
-    """
-    fav = f["a"] if f["a"]["true"] >= f["b"]["true"] else f["b"]
+def read_for(f):
+    """One human sentence per fight, price-derived. NOTES override these."""
+    note = NOTES.get(frozenset({last(f["a"]["name"]), last(f["b"]["name"])}))
+    if note:
+        return note
+    fav = f["a"] if f["a"]["chance"] >= f["b"]["chance"] else f["b"]
     dog = f["b"] if fav is f["a"] else f["a"]
-    gap = abs(f["a"]["true"] - f["b"]["true"])
+    gap = abs(f["a"]["chance"] - f["b"]["chance"])
+    if f["sum"] < 1:
+        return ("Worth knowing: the books disagree on this one so much that the "
+                "best price on each corner actually adds up in your favor. That "
+                "almost never happens.")
     if gap < 5:
-        return ("A genuine coin flip — the market can't separate them, and at "
-                f"{f['hold']:.1f}% margin this is among the cheapest bets on the card.")
-    if fav["true"] >= 80:
-        return (f"Heavy chalk. {fav['name']} is a true {fav['true']:.0f}% — "
-                f"{dog['name']} backers are being paid {dog['price']:+d} to disagree.")
-    if f["hold"] < 0:
-        return ("The books disagree on this one enough that shopping both corners "
-                "flips the margin negative — best of both sides beats the market.")
-    if f["hold"] == min(all_holds):
-        return (f"The best-priced fight on the card — shopping both corners "
-                f"leaves just {f['hold']:.1f}% to the house.")
-    return (f"The market makes {fav['name']} {fav['true']:.0f}/{dog['true']:.0f}. "
-            f"Break-even on the dog at {dog['price']:+d} is {implied(dog['price'])*100:.0f}%.")
+        return ("The books can barely split these two — whichever corner you "
+                "like, you're getting close to even money. Fights like this are "
+                "where actually having an opinion pays.")
+    if fav["chance"] >= 80:
+        risk = abs(fav["price"]) if fav["price"] < 0 else 100
+        pay = round(dog["price"] / 100) if dog["price"] > 0 else 1
+        return (f"{fav['name']} is heavy chalk — you're risking ${risk} to win "
+                f"$100. {dog['name']} at {dog['price']:+d} pays about {pay}-to-1 "
+                "for anyone who thinks this fight is closer than the number.")
+    pay = dog["price"] / 100 if dog["price"] > 0 else 1
+    return (f"The books lean {fav['name']}, roughly {fav['chance']:.0f} times "
+            f"out of 100. {dog['name']} at {dog['price']:+d} pays about "
+            f"{pay:.1f}-to-1 on the upset.")
 
 
 def fmt_time(iso):
     dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
-    # US Central, summer (UTC-5). Card-day only, so a fixed offset is fine.
-    from datetime import timedelta
-    ct = dt - timedelta(hours=5)
-    return ct.strftime("%-I:%M %p CT")
+    return (dt - timedelta(hours=5)).strftime("%-I:%M %p CT")   # summer CT
 
 
-def build(events, title, venue, datestr):
+NAV = """<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
+            <stop offset="0%" stop-color="var(--white)"/><stop offset="35%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--green-deep)"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="118" height="118" rx="18" fill="var(--black)" stroke="var(--border-lit)" stroke-width="2"/><g transform="translate(-7.75,-1)">
+        <rect x="24" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="42" y="38" width="30" height="10" fill="var(--white)"/>
+        <rect x="52" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="80" y="38" width="10" height="46" fill="var(--white)"/>
+        <polygon points="80,38 90,38 111.5,84 101.5,84" fill="var(--white)"/>
+        <rect x="101.5" y="34" width="10" height="50" fill="url(#navLine)"/>
+        <polygon points="106.5,26 114.5,34 98.5,34" fill="url(#navLine)"/></g>
+      </svg>
+    </div>
+    <span class="nav-name">Inside <span>the</span> Number</span>
+  </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#analysis">Analysis</a></li>
+      <li><a href="index.html#slate">Picks</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="dfs.html">DFS</a></li>
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="index.html#pricing" class="nav-cta">Get Pro</a></li>
+    </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="index.html#analysis">Analysis</a>
+    <a href="index.html#slate">Picks</a>
+    <a href="games.html">Games</a>
+    <a href="dfs.html">DFS</a>
+    <a href="tools.html">Tools</a>
+    <a href="index.html#pricing" class="nav-cta">Get Pro</a>
+  </div>"""
+
+NAV_JS = """<script>
+  (function(){
+    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
+    if(!b||!m) return;
+    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
+    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
+  })();
+</script>"""
+
+NAV_CSS = """
+  .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .nav-logo-mark svg { width:100%; height:100%; display:block; }
+  .nav-links a.nav-cta { color:var(--green); }
+  .nav-hamburger { display:none; width:40px; height:40px; background:none; border:none; cursor:pointer; flex-direction:column; justify-content:center; align-items:center; gap:5px; z-index:200; padding:0; }
+  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform .25s,opacity .25s; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }
+  .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
+  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  body.menu-open { overflow:hidden; }
+"""
+
+
+def build(events, bouts, title, venue, datestr):
     fights = []
     for ev in sorted(events, key=lambda e: e.get("commence_time", ""), reverse=True):
         f = best_both(ev)
@@ -132,67 +292,59 @@ def build(events, title, venue, datestr):
             continue
         f["time"] = fmt_time(ev["commence_time"])
         f["iso"] = ev["commence_time"]
+        enrich(f, bouts)
+        f["read"] = read_for(f)
         fights.append(f)
     if not fights:
-        sys.exit("ERROR: no priced fights in the window — refusing to write an empty page.")
+        sys.exit("ERROR: no priced fights — refusing to write an empty page.")
 
-    holds = [f["hold"] for f in fights]
-    for f in fights:
-        f["read"] = read_for(f, holds)
-
-    main = fights[0]                    # latest start = main event
-    closest = min(fights, key=lambda f: abs(f["a"]["true"] - f["b"]["true"]))
-    cheapest = min(fights, key=lambda f: f["hold"])
-    heaviest = max(fights, key=lambda f: max(f["a"]["true"], f["b"]["true"]))
-    hfav = heaviest["a"] if heaviest["a"]["true"] > heaviest["b"]["true"] else heaviest["b"]
+    main = fights[0]
+    closest = min(fights, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
+    heaviest = max(fights, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
+    hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
+    first_t, main_t = fights[-1]["time"], main["time"]
 
     stamp = datetime.now(timezone.utc).strftime("%b %-d, %Y %H:%M UTC")
     e = html.escape
 
+    def corner(x):
+        rec = f'<div class="f-rec">{e(x["record"])}</div>' if x.get("record") else ""
+        return f"""<div class="corner"><div class="f-name">{e(x['name'])}</div>{rec}
+            <div class="f-price">{x['price']:+d}</div>
+            <div class="f-book">best price: {e(x['book'])}</div>
+            <div class="f-true">win chance {x['chance']:.0f}%</div></div>"""
+
     def frow(f, feature=False):
-        a, b = f["a"], f["b"]
         cls = "fight feature" if feature else "fight"
+        wt = f' · {e(f["weight"])}' if f.get("weight") else ""
         return f"""
       <div class="{cls}">
-        <div class="f-top"><span class="f-time">{e(f['time'])}</span>
-          <span class="f-hold">house edge {f['hold']:.1f}% · {f['books']} books</span></div>
-        <div class="f-grid">
-          <div class="corner"><div class="f-name">{e(a['name'])}</div>
-            <div class="f-price">{a['price']:+d}</div>
-            <div class="f-book">best: {e(a['book'])}</div>
-            <div class="f-true">{a['true']:.1f}% true</div></div>
-          <div class="vs">vs</div>
-          <div class="corner"><div class="f-name">{e(b['name'])}</div>
-            <div class="f-price">{b['price']:+d}</div>
-            <div class="f-book">best: {e(b['book'])}</div>
-            <div class="f-true">{b['true']:.1f}% true</div></div>
-        </div>
+        <div class="f-top"><span class="f-time">{e(f['time'])}{wt}</span>
+          <span class="f-hold">{f['books']} books quoted</span></div>
+        <div class="f-grid">{corner(f['a'])}<div class="vs">vs</div>{corner(f['b'])}</div>
         <div class="f-read">{e(f['read'])}</div>
       </div>"""
 
     rows = frow(main, True) + "".join(frow(f) for f in fights[1:])
 
-    ld = {
-        "@context": "https://schema.org", "@type": "SportsEvent",
-        "name": title, "sport": "Mixed Martial Arts",
-        "startDate": min(f["iso"] for f in fights),
-        "location": {"@type": "Place", "name": venue},
-        "description": f"Every fight on the {title} card with the best available "
-                       "moneyline across major sportsbooks and each fighter's true "
-                       "win probability once the bookmaker's margin is removed.",
-        "organizer": {"@type": "Organization", "name": "UFC"},
-    }
-    crumbs = {
-        "@context": "https://schema.org", "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home",
-             "item": "https://insidethenumber.com/"},
-            {"@type": "ListItem", "position": 2, "name": "UFC",
-             "item": "https://insidethenumber.com/ufc.html"}]}
+    ld = {"@context": "https://schema.org", "@type": "SportsEvent",
+          "name": title, "sport": "Mixed Martial Arts",
+          "startDate": min(f["iso"] for f in fights),
+          "location": {"@type": "Place", "name": venue},
+          "description": f"Every fight on the {title} card: records, weight "
+                         "classes, the best moneyline across major sportsbooks "
+                         "and each fighter's win chance in plain English.",
+          "organizer": {"@type": "Organization", "name": "UFC"}}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+              "itemListElement": [
+                  {"@type": "ListItem", "position": 1, "name": "Home",
+                   "item": "https://insidethenumber.com/"},
+                  {"@type": "ListItem", "position": 2, "name": "UFC",
+                   "item": "https://insidethenumber.com/ufc.html"}]}
 
-    desc = (f"{title} odds — every fight priced across major sportsbooks. Best "
-            "moneyline on both corners, true win probability with the vig removed, "
-            "and what the house keeps on each fight.")
+    desc = (f"{title} card — every fight with records, the best price across "
+            "major sportsbooks on both corners, and each fighter's win chance "
+            "in plain English.")
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -209,7 +361,7 @@ def build(events, title, venue, datestr):
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/ufc.html"/>
-<meta property="og:title" content="{e(title)} — every fight at its true price"/>
+<meta property="og:title" content="{e(title)} — every fight, every price"/>
 <meta property="og:description" content="{e(desc)}"/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -240,10 +392,11 @@ def build(events, title, venue, datestr):
   .nav-name {{ font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px;
     letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }}
   .nav-name span {{ color:var(--green); }}
-  .nav-links {{ display:flex; gap:26px; list-style:none; }}
+  .nav-links {{ display:flex; align-items:center; gap:26px; list-style:none; }}
   .nav-links a {{ color:#b6bdc8; text-decoration:none; font-size:13px; font-weight:500;
     letter-spacing:0.06em; text-transform:uppercase; }}
   .nav-links a:hover {{ color:var(--green); }}
+{NAV_CSS}
   .wrap {{ max-width:860px; margin:0 auto; padding:44px 24px 60px; }}
   .eyebrow {{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--green);
     letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }}
@@ -251,8 +404,9 @@ def build(events, title, venue, datestr):
     text-transform:uppercase; line-height:0.98; }}
   h1 span {{ background:linear-gradient(100deg,var(--green),var(--blue));
     -webkit-background-clip:text; background-clip:text; color:transparent; }}
-  .sub {{ color:var(--mid); font-weight:300; margin:14px 0 6px; max-width:640px; }}
-  .stamp {{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-bottom:26px; }}
+  .sub {{ color:var(--mid); font-weight:300; margin:14px 0 6px; max-width:660px; }}
+  .stamp {{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-bottom:6px; }}
+  .early {{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--gold); margin-bottom:24px; }}
   .strip {{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0 30px; }}
   .chip {{ background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:13px 15px; }}
   .chip .l {{ font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted);
@@ -270,13 +424,14 @@ def build(events, title, venue, datestr):
   .corner {{ text-align:center; }}
   .f-name {{ font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:800;
     text-transform:uppercase; letter-spacing:0.02em; }}
+  .f-rec {{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); }}
   .f-price {{ font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600;
     color:var(--green); margin:2px 0; }}
   .f-book {{ font-size:11px; color:var(--muted); }}
   .f-true {{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--mid); margin-top:3px; }}
   .vs {{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }}
   .f-read {{ border-top:1px solid var(--border); margin-top:13px; padding-top:11px;
-    font-size:13px; color:var(--mid); font-weight:300; }}
+    font-size:13.5px; color:var(--mid); font-weight:300; }}
   .expl {{ border-top:1px solid var(--border); margin-top:26px; padding-top:18px;
     font-size:13px; color:var(--mid); font-weight:300; }}
   .cta {{ background:var(--green-dim); border:1px solid var(--green); border-radius:14px;
@@ -286,49 +441,40 @@ def build(events, title, venue, datestr):
   .foot-d {{ font-size:11px; color:var(--muted); max-width:640px; margin:0 auto 8px; }}
   .foot-c {{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }}
   @media (max-width:640px) {{
-    nav {{ padding:0 18px; }} .nav-links {{ display:none; }}
+    nav {{ padding:0 18px; }} .nav-links {{ display:none; }} .nav-hamburger {{ display:flex; }}
     .strip {{ grid-template-columns:1fr; }}
     .f-grid {{ gap:8px; }} .f-name {{ font-size:16px; }} .f-price {{ font-size:18px; }}
   }}
 </style>
 </head>
 <body>
-<nav>
-  <a class="nav-brand" href="index.html"><span class="nav-name">Inside <span>the</span> Number</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="games.html">Games</a></li>
-    <li><a href="dfs.html">DFS</a></li>
-    <li><a href="tools.html">Tools</a></li>
-    <li><a href="learn.html">Learn</a></li>
-  </ul>
-</nav>
+{NAV}
 <div class="wrap">
   <div class="eyebrow">// UFC · {e(datestr)} · {e(venue)}</div>
-  <h1>{e(title)}<br/><span>every fight at its true price.</span></h1>
-  <p class="sub">The best available moneyline on both corners across major sportsbooks,
-    and what each fighter's price really says once the bookmaker's margin comes out.
-    ESPN doesn't carry MMA odds. We do.</p>
+  <h1>{e(title)}<br/><span>every fight, every price.</span></h1>
+  <p class="sub">The best moneyline on both corners across major sportsbooks, records,
+    and each fighter's win chance in plain English. ESPN doesn't carry MMA odds. We do.</p>
   <div class="stamp">Prices updated {stamp} · best of {max(f['books'] for f in fights)} books</div>
+  <div class="early">Yes, those start times are right — it's a Shanghai card. First fight
+    ~{e(first_t)}, main event ~{e(main_t)} Saturday. Coffee, not beer.</div>
 
   <div class="strip">
+    <div class="chip"><div class="l">Main event</div>
+      <div class="v">{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}</div>
+      <div class="s">{e(main.get('weight') or 'headliner')} · {e(main_t)}</div></div>
     <div class="chip"><div class="l">Closest fight</div>
       <div class="v">{e(closest['a']['name'].split()[-1])} / {e(closest['b']['name'].split()[-1])}</div>
-      <div class="s">{closest['a']['true']:.0f} / {closest['b']['true']:.0f} — a real coin flip</div></div>
-    <div class="chip"><div class="l">Cheapest to bet</div>
-      <div class="v">{cheapest['hold']:.1f}% house edge</div>
-      <div class="s">{e(cheapest['a']['name'].split()[-1])} vs {e(cheapest['b']['name'].split()[-1])} after shopping</div></div>
-    <div class="chip"><div class="l">Heaviest favorite</div>
+      <div class="s">near even money both ways — pick a side</div></div>
+    <div class="chip"><div class="l">Biggest favorite</div>
       <div class="v">{e(hfav['name'])}</div>
-      <div class="s">a true {hfav['true']:.0f}% — priced {hfav['price']:+d}</div></div>
+      <div class="s">the books give him {hfav['chance']:.0f} in 100 — priced {hfav['price']:+d}</div></div>
   </div>
 {rows}
-  <p class="expl"><b>How to read this.</b> Both corners of any fight add up to more than
-    100% at the posted prices — the surplus is the bookmaker's margin, and it's what you're
-    charged to bet. Strip it out and what's left is the true probability: what the market
-    actually thinks. "Best" is the strongest price any major book is offering on that corner
-    right now; taking the best number on your side is the single highest-return habit in
-    betting.</p>
+  <p class="expl"><b>How to read this.</b> The price shown is the best any major book is
+    offering on that corner right now — always take the best number on your side; over a
+    season it's the difference between winning and breaking even. Win chance is what the
+    market honestly gives each fighter once the bookmaker's cut is stripped out — both
+    corners add up to 100.</p>
   <div class="cta"><b>One free pick every morning, with the reasoning shown.</b><br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
     Get it in your inbox →</a></div>
@@ -339,6 +485,7 @@ def build(events, title, venue, datestr):
     Please gamble responsibly.</div>
   <div class="foot-c">© 2026 ITN · Nashville, TN</div>
 </footer>
+{NAV_JS}
 </body>
 </html>
 """
@@ -354,9 +501,10 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "ufc.html"))
     a = ap.parse_args()
 
-    events = fetch(a.start, a.end)
-    print(f"{len(events)} events in window", file=sys.stderr)
-    page = build(events, a.title, a.venue, a.datestr)
+    events = fetch_odds(a.start, a.end)
+    print(f"{len(events)} priced events in window", file=sys.stderr)
+    bouts = fetch_espn(a.start.replace("-", ""))
+    page = build(events, bouts, a.title, a.venue, a.datestr)
     with open(a.out, "w") as fh:
         fh.write(page)
     print(f"wrote {a.out} ({len(page):,} bytes)")

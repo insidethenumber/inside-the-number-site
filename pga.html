@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>2026 TOUR Championship Odds — Every Price at Its True Probability | Inside the Number</title>
-<meta name="description" content="2026 TOUR Championship odds for all 30 players at East Lake, with each price converted to a true win probability. The book keeps 32.5% of this market — we show you exactly where. Plus our pick, with the reasoning."/>
+<title>2026 TOUR Championship Odds, Win Chances & Our Pick | Inside the Number</title>
+<meta name="description" content="2026 TOUR Championship odds for all 30 players at East Lake, with each price converted to a plain win chance — plus our pick, with the reasoning shown."/>
 <link rel="canonical" href="https://insidethenumber.com/pga.html"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -13,8 +13,8 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/pga.html"/>
-<meta property="og:title" content="2026 TOUR Championship — every price at its true probability"/>
-<meta property="og:description" content="All 30 players priced, the 32.5% the book keeps made visible, and our pick with the reasoning shown."/>
+<meta property="og:title" content="2026 TOUR Championship — odds, win chances and our pick"/>
+<meta property="og:description" content="All 30 players priced with plain win chances, and our pick with the reasoning shown."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
@@ -103,43 +103,87 @@
   .foot-d { font-size:11px; color:var(--muted); max-width:640px; margin:0 auto 8px; }
   .foot-c { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
   @media (max-width:640px) {
-    nav { padding:0 18px; } .nav-links { display:none; }
+    nav { padding:0 18px; } .nav-links { display:none; } .nav-hamburger { display:flex; }
     .strip { grid-template-columns:1fr; }
     td, thead th { padding:8px 10px; font-size:12.5px; }
   }
+
+  /* shared nav pieces (kept identical to the rest of the site) */
+  .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .nav-logo-mark svg { width:100%; height:100%; display:block; }
+  .nav-links a.nav-cta { color:var(--green); }
+  .nav-hamburger { display:none; width:40px; height:40px; background:none; border:none; cursor:pointer; flex-direction:column; justify-content:center; align-items:center; gap:5px; z-index:200; padding:0; }
+  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform .25s,opacity .25s; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }
+  .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
+  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  body.menu-open { overflow:hidden; }
 </style>
 </head>
 <body>
 <nav>
-  <a class="nav-brand" href="index.html"><span class="nav-name">Inside <span>the</span> Number</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="games.html">Games</a></li>
-    <li><a href="ufc.html">UFC</a></li>
-    <li><a href="tools.html">Tools</a></li>
-    <li><a href="learn.html">Learn</a></li>
-  </ul>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
+            <stop offset="0%" stop-color="var(--white)"/><stop offset="35%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--green-deep)"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="118" height="118" rx="18" fill="var(--black)" stroke="var(--border-lit)" stroke-width="2"/><g transform="translate(-7.75,-1)">
+        <rect x="24" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="42" y="38" width="30" height="10" fill="var(--white)"/>
+        <rect x="52" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="80" y="38" width="10" height="46" fill="var(--white)"/>
+        <polygon points="80,38 90,38 111.5,84 101.5,84" fill="var(--white)"/>
+        <rect x="101.5" y="34" width="10" height="50" fill="url(#navLine)"/>
+        <polygon points="106.5,26 114.5,34 98.5,34" fill="url(#navLine)"/></g>
+      </svg>
+    </div>
+    <span class="nav-name">Inside <span>the</span> Number</span>
+  </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#analysis">Analysis</a></li>
+      <li><a href="index.html#slate">Picks</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="dfs.html">DFS</a></li>
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="index.html#pricing" class="nav-cta">Get Pro</a></li>
+    </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="index.html#analysis">Analysis</a>
+    <a href="index.html#slate">Picks</a>
+    <a href="games.html">Games</a>
+    <a href="dfs.html">DFS</a>
+    <a href="tools.html">Tools</a>
+    <a href="index.html#pricing" class="nav-cta">Get Pro</a>
+  </div>
 <div class="wrap">
   <div class="eyebrow">// PGA · Thu–Sun, Aug 27–30 · East Lake, Atlanta</div>
-  <h1>2026 Tour Championship<br/><span>every price at its true probability.</span></h1>
+  <h1>2026 Tour Championship<br/><span>the odds, the win chances, our pick.</span></h1>
   <p class="sub">Thirty players, no cut, everyone starts level — lowest 72-hole score takes the
-    FedEx Cup and the $10 million. Below is the full board with the bookmaker's margin stripped
-    out, so you can see what each price actually claims. It's a bigger margin than you think.</p>
+    FedEx Cup and the $10 million. Below is the full board with every price
+    turned into a plain win chance, and our pick with the reasoning shown.</p>
   <div class="stamp">Odds via DraftKings, as listed by
     <a href="https://golf.com/news/2026-tour-championship-odds-scottie-scheffler-favorite/" rel="noopener" target="_blank">golf.com</a>,
     Mon Aug 24 · true probabilities computed by ITN</div>
 
-  <div class="strip">
-    <div class="chip"><div class="l">The book keeps</div>
-      <div class="v">32.5% of this market</div>
-      <div class="s">all 30 prices sum to 132.5% — an MLB moneyline runs ~102%</div></div>
+  <div class="strip" style="grid-template-columns:repeat(2,1fr)">
     <div class="chip"><div class="l">The favorite</div>
-      <div class="v">Scheffler +320</div>
-      <div class="s">charged as 23.8%, a true 18.0% — and he's not healthy</div></div>
-    <div class="chip"><div class="l">Even-field baseline</div>
-      <div class="v">3.3% per player</div>
-      <div class="s">what a 30-man coin flip would give everyone</div></div>
+      <div class="v">Scottie Scheffler +320</div>
+      <div class="s">and he spent last week sick — see below</div></div>
+    <div class="chip"><div class="l">★ Our pick</div>
+      <div class="v">Rory McIlroy +850</div>
+      <div class="s">healthy, in form, and the clear second choice</div></div>
   </div>
 
   <div class="pick">
@@ -158,9 +202,9 @@
       that probability flows uphill — and the market's own board says McIlroy is where most
       of it lands.</b> He's the clear second choice at nearly triple Scheffler's price, healthy,
       and by every account swinging well.</p>
-    <p>At +850 the bet needs 10.5% to break even against a field where the average player is
-      3.3%. We think the honest gap between a compromised Scheffler and a healthy McIlroy is
-      narrower than +320 against +850 says it is.</p>
+    <p>At +850, Rory needs to win about one time in nine for the bet to pay for itself. We think
+      the honest gap between a compromised Scheffler and a healthy McIlroy is narrower than
+      +320 against +850 says it is.</p>
     <div class="beats">
       <div class="bl">What beats it</div>
       <p style="margin-bottom:0">Scheffler recovering — he says he's improving, and even sick he
@@ -171,47 +215,45 @@
   </div>
 
   <table>
-    <thead><tr><th>Player</th><th>Odds (DK)</th><th>Charged as</th><th>True</th></tr></thead>
+    <thead><tr><th>Player</th><th>Odds (DK)</th><th>Win chance</th></tr></thead>
     <tbody>
-      <tr class="fade"><td>Scottie Scheffler</td><td class="od">+320</td><td class="im">23.8%</td><td class="tr">18.0%</td></tr>
-      <tr class="hl"><td>Rory McIlroy ★</td><td class="od">+850</td><td class="im">10.5%</td><td class="tr">7.9%</td></tr>
-      <tr><td>Ludvig Aberg</td><td class="od">+1400</td><td class="im">6.7%</td><td class="tr">5.0%</td></tr>
-      <tr><td>Xander Schauffele</td><td class="od">+1475</td><td class="im">6.3%</td><td class="tr">4.8%</td></tr>
-      <tr><td>Wyndham Clark</td><td class="od">+1475</td><td class="im">6.3%</td><td class="tr">4.8%</td></tr>
-      <tr><td>Sam Burns</td><td class="od">+1475</td><td class="im">6.3%</td><td class="tr">4.8%</td></tr>
-      <tr><td>Cameron Young</td><td class="od">+1600</td><td class="im">5.9%</td><td class="tr">4.4%</td></tr>
-      <tr><td>Matt Fitzpatrick</td><td class="od">+1650</td><td class="im">5.7%</td><td class="tr">4.3%</td></tr>
-      <tr><td>Patrick Cantlay</td><td class="od">+1750</td><td class="im">5.4%</td><td class="tr">4.1%</td></tr>
-      <tr><td>Tommy Fleetwood</td><td class="od">+1850</td><td class="im">5.1%</td><td class="tr">3.9%</td></tr>
-      <tr><td>Chris Gotterup</td><td class="od">+1950</td><td class="im">4.9%</td><td class="tr">3.7%</td></tr>
-      <tr><td>Collin Morikawa</td><td class="od">+2150</td><td class="im">4.4%</td><td class="tr">3.4%</td></tr>
-      <tr><td>Si Woo Kim</td><td class="od">+2300</td><td class="im">4.2%</td><td class="tr">3.1%</td></tr>
-      <tr><td>Russell Henley</td><td class="od">+2500</td><td class="im">3.8%</td><td class="tr">2.9%</td></tr>
-      <tr><td>Viktor Hovland</td><td class="od">+2700</td><td class="im">3.6%</td><td class="tr">2.7%</td></tr>
-      <tr><td>Hideki Matsuyama</td><td class="od">+3100</td><td class="im">3.1%</td><td class="tr">2.4%</td></tr>
-      <tr><td>J.J. Spaun</td><td class="od">+3800</td><td class="im">2.6%</td><td class="tr">1.9%</td></tr>
-      <tr><td>Ryan Gerard</td><td class="od">+4200</td><td class="im">2.3%</td><td class="tr">1.8%</td></tr>
-      <tr><td>Jacob Bridgeman</td><td class="od">+4300</td><td class="im">2.3%</td><td class="tr">1.7%</td></tr>
-      <tr><td>Robert MacIntyre</td><td class="od">+4300</td><td class="im">2.3%</td><td class="tr">1.7%</td></tr>
-      <tr><td>Min Woo Lee</td><td class="od">+4600</td><td class="im">2.1%</td><td class="tr">1.6%</td></tr>
-      <tr><td>Justin Rose</td><td class="od">+4600</td><td class="im">2.1%</td><td class="tr">1.6%</td></tr>
-      <tr><td>Tom Kim</td><td class="od">+5000</td><td class="im">2.0%</td><td class="tr">1.5%</td></tr>
-      <tr><td>Adam Scott</td><td class="od">+5000</td><td class="im">2.0%</td><td class="tr">1.5%</td></tr>
-      <tr><td>Alex Smalley</td><td class="od">+5700</td><td class="im">1.7%</td><td class="tr">1.3%</td></tr>
-      <tr><td>Kristoffer Reitan</td><td class="od">+6000</td><td class="im">1.6%</td><td class="tr">1.2%</td></tr>
-      <tr><td>Gary Woodland</td><td class="od">+6000</td><td class="im">1.6%</td><td class="tr">1.2%</td></tr>
-      <tr><td>Alex Fitzpatrick</td><td class="od">+7600</td><td class="im">1.3%</td><td class="tr">1.0%</td></tr>
-      <tr><td>Ryan Fox</td><td class="od">+8200</td><td class="im">1.2%</td><td class="tr">0.9%</td></tr>
-      <tr><td>Akshay Bhatia</td><td class="od">+8400</td><td class="im">1.2%</td><td class="tr">0.9%</td></tr>
+      <tr class="fade"><td>Scottie Scheffler</td><td class="od">+320</td><td class="tr">18.0%</td></tr>
+      <tr class="hl"><td>Rory McIlroy ★</td><td class="od">+850</td><td class="tr">7.9%</td></tr>
+      <tr><td>Ludvig Aberg</td><td class="od">+1400</td><td class="tr">5.0%</td></tr>
+      <tr><td>Xander Schauffele</td><td class="od">+1475</td><td class="tr">4.8%</td></tr>
+      <tr><td>Wyndham Clark</td><td class="od">+1475</td><td class="tr">4.8%</td></tr>
+      <tr><td>Sam Burns</td><td class="od">+1475</td><td class="tr">4.8%</td></tr>
+      <tr><td>Cameron Young</td><td class="od">+1600</td><td class="tr">4.4%</td></tr>
+      <tr><td>Matt Fitzpatrick</td><td class="od">+1650</td><td class="tr">4.3%</td></tr>
+      <tr><td>Patrick Cantlay</td><td class="od">+1750</td><td class="tr">4.1%</td></tr>
+      <tr><td>Tommy Fleetwood</td><td class="od">+1850</td><td class="tr">3.9%</td></tr>
+      <tr><td>Chris Gotterup</td><td class="od">+1950</td><td class="tr">3.7%</td></tr>
+      <tr><td>Collin Morikawa</td><td class="od">+2150</td><td class="tr">3.4%</td></tr>
+      <tr><td>Si Woo Kim</td><td class="od">+2300</td><td class="tr">3.1%</td></tr>
+      <tr><td>Russell Henley</td><td class="od">+2500</td><td class="tr">2.9%</td></tr>
+      <tr><td>Viktor Hovland</td><td class="od">+2700</td><td class="tr">2.7%</td></tr>
+      <tr><td>Hideki Matsuyama</td><td class="od">+3100</td><td class="tr">2.4%</td></tr>
+      <tr><td>J.J. Spaun</td><td class="od">+3800</td><td class="tr">1.9%</td></tr>
+      <tr><td>Ryan Gerard</td><td class="od">+4200</td><td class="tr">1.8%</td></tr>
+      <tr><td>Jacob Bridgeman</td><td class="od">+4300</td><td class="tr">1.7%</td></tr>
+      <tr><td>Robert MacIntyre</td><td class="od">+4300</td><td class="tr">1.7%</td></tr>
+      <tr><td>Min Woo Lee</td><td class="od">+4600</td><td class="tr">1.6%</td></tr>
+      <tr><td>Justin Rose</td><td class="od">+4600</td><td class="tr">1.6%</td></tr>
+      <tr><td>Tom Kim</td><td class="od">+5000</td><td class="tr">1.5%</td></tr>
+      <tr><td>Adam Scott</td><td class="od">+5000</td><td class="tr">1.5%</td></tr>
+      <tr><td>Alex Smalley</td><td class="od">+5700</td><td class="tr">1.3%</td></tr>
+      <tr><td>Kristoffer Reitan</td><td class="od">+6000</td><td class="tr">1.2%</td></tr>
+      <tr><td>Gary Woodland</td><td class="od">+6000</td><td class="tr">1.2%</td></tr>
+      <tr><td>Alex Fitzpatrick</td><td class="od">+7600</td><td class="tr">1.0%</td></tr>
+      <tr><td>Ryan Fox</td><td class="od">+8200</td><td class="tr">0.9%</td></tr>
+      <tr><td>Akshay Bhatia</td><td class="od">+8400</td><td class="tr">0.9%</td></tr>
     </tbody>
   </table>
 
-  <p class="expl"><b>How to read this.</b> "Charged as" is what the posted price implies you're
-    paying for. Add all thirty up and you get 132.5% — the extra 32.5 points is the bookmaker's
-    margin, spread across the field. "True" rescales everyone so the field sums to 100%: the
-    market's honest opinion of each player's chance. Golf outrights carry the fattest margin of
-    any mainstream market — this is a fun-sized-stakes board, and anyone telling you otherwise
-    is selling something.</p>
+  <p class="expl"><b>How to read this.</b> Win chance is the market's honest opinion of each
+    player once the bookmaker's cut is taken out — all thirty add up to 100%. Betting a golfer
+    to win outright is the longest of long games: even the favorite misses four times out of
+    five. Fun-sized stakes only.</p>
 
   <div class="cta"><b>One free pick every morning, with the reasoning shown.</b><br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
@@ -222,5 +264,13 @@
     gambling. Odds are as published on the date shown and will move. Please gamble responsibly.</div>
   <div class="foot-c">© 2026 ITN · Nashville, TN</div>
 </footer>
+<script>
+  (function(){
+    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
+    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
+    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
+  })();
+</script>
 </body>
 </html>
