@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Odds Converter — American, Decimal & Implied Probability | Inside the Number</title>
+<meta name="description" content="Free odds converter: turn American odds into decimal odds and implied win probability, or work backwards from any format. Instant, no signup."/>
+<link rel="canonical" href="https://insidethenumber.com/odds-converter.html"/>
+<meta property="og:title" content="Odds Converter — American, Decimal & Implied Probability"/>
+<meta property="og:description" content="Free odds converter: turn American odds into decimal odds and implied win probability, or work backwards from any format. Instant, no signup."/>
+<meta property="og:url" content="https://insidethenumber.com/odds-converter.html"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do you convert American odds to decimal?", "acceptedAnswer": {"@type": "Answer", "text": "For positive odds: decimal = 1 + odds/100, so +150 becomes 2.50. For negative odds: decimal = 1 + 100/|odds|, so -110 becomes 1.909."}}, {"@type": "Question", "name": "What is implied probability?", "acceptedAnswer": {"@type": "Answer", "text": "The win rate at which the bet breaks even: 1 divided by decimal odds. -110 implies 52.4%; +200 implies 33.3%."}}, {"@type": "Question", "name": "Why do both sides of a game add to more than 100%?", "acceptedAnswer": {"@type": "Answer", "text": "The gap above 100% is the sportsbook's margin \u2014 often called vig or hold. It is the built-in cost of the bet."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://insidethenumber.com/tools.html"}, {"@type": "ListItem", "position": 3, "name": "Odds <span>Converter</span>", "item": "https://insidethenumber.com/odds-converter.html"}]}</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--white);line-height:1.6}
+nav{border-bottom:1px solid var(--bd);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+nav a{color:var(--white);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+nav a span{color:var(--green)}
+nav .r a{font-size:12px;color:#b6bdc8;font-weight:500;margin-left:18px;letter-spacing:.08em}
+.wrap{max-width:680px;margin:0 auto;padding:36px 20px 56px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,44px);font-weight:900;text-transform:uppercase;line-height:1.02;margin-bottom:8px}
+h1 span{color:var(--green)}
+.sub{color:var(--mid);font-weight:300;margin-bottom:24px;max-width:58ch}
+.tool{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:26px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:12px 0 5px}
+input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:16px;padding:10px 12px}
+input:focus{outline:none;border-color:var(--green)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.out{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.out .n{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--green);font-weight:600}
+.out .l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+button{background:none;border:1px dashed var(--bd);border-radius:8px;color:var(--mid);font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 12px;margin-top:12px;cursor:pointer}
+h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin:26px 0 8px}
+p.x{font-size:14px;color:var(--mid);font-weight:300;margin:10px 0;max-width:60ch}
+p.x b{color:var(--white)}
+.foot{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--green);text-decoration:none}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><a href="/">Inside <span>the</span> Number</a>
+  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+<div class="wrap">
+  <div class="eyebrow">// Tools · Converter</div>
+  <h1>Odds <span>Converter</span></h1>
+  <p class="sub">American to decimal to implied probability — type in any box and the other two follow.</p>
+  <div class="tool">
+    <div class="row">
+      <div><label>American</label><input type="number" id="am" value="-110" step="1"/></div>
+      <div><label>Decimal</label><input type="number" id="dc" value="1.909" step="0.001"/></div>
+    </div>
+    <label>Implied probability (%)</label>
+    <input type="number" id="ip" value="52.4" step="0.1"/>
+    <div class="out">
+      <div><div class="n" id="o-am">-110</div><div class="l">American</div></div>
+      <div><div class="n" id="o-dc">1.909</div><div class="l">Decimal</div></div>
+      <div><div class="n" id="o-ip">52.4%</div><div class="l">Implied chance</div></div>
+      <div><div class="n" id="o-be">52.4%</div><div class="l">Break-even rate</div></div>
+    </div>
+  </div>
+  <h2>What implied probability means</h2>
+  <p class="x">Every price is a probability wearing a costume. -110 means the
+  book is charging you as if the outcome happens <b>52.4%</b> of the time; +250
+  implies about 28.6%. Converting odds into a percentage is the fastest way to
+  ask the only question that matters: <i>does this happen more often than the
+  price says?</i></p>
+  <p class="x">One catch — implied probabilities on both sides of a game add up
+  to more than 100%. The excess is the book's margin. To see prices with that
+  margin stripped out, every game on
+  <a style="color:var(--green)" href="/games.html">today's board</a> shows the
+  no-vig win chance next to the posted price.</p>
+  <div class="foot">Inside the Number · every game priced at what the market really
+  thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
+  call 1-800-GAMBLER.</div>
+</div>
+<script>
+function dec(am){am=+am;return am>0?1+am/100:1+100/(-am)}
+function toAm(d){return d>=2?Math.round((d-1)*100):Math.round(-100/(d-1))}
+function sign(n){return n>0?'+'+n:''+n}
+function pct(p){return (p*100).toFixed(1)+'%'}
+function show(d){
+  document.getElementById('o-am').textContent=sign(toAm(d));
+  document.getElementById('o-dc').textContent=d.toFixed(3);
+  document.getElementById('o-ip').textContent=pct(1/d);
+  document.getElementById('o-be').textContent=pct(1/d);
+}
+document.getElementById('am').addEventListener('input',e=>{const v=+e.target.value;if(!v||(v>-100&&v<100))return;const d=dec(v);document.getElementById('dc').value=d.toFixed(3);document.getElementById('ip').value=(100/d).toFixed(1);show(d);});
+document.getElementById('dc').addEventListener('input',e=>{const d=+e.target.value;if(d<=1)return;document.getElementById('am').value=toAm(d);document.getElementById('ip').value=(100/d).toFixed(1);show(d);});
+document.getElementById('ip').addEventListener('input',e=>{const p=+e.target.value;if(p<=0||p>=100)return;const d=100/p;document.getElementById('am').value=toAm(d);document.getElementById('dc').value=d.toFixed(3);show(d);});
+show(dec(-110));
+</script>
+</body>
+</html>
