@@ -3,7 +3,8 @@
   "01-no-record.txt",
   "02-break-even.txt",
   "03-season-era.txt",
-  "00a-ufc-card-live.txt"
+  "00a-ufc-card-live.txt",
+  "000a-scherzer-price.txt"
  ],
  "history": [
   {
@@ -40,6 +41,15 @@
    "url": "https://x.com/thenumberdesk/status/2092093729272393871",
    "at": "2026-08-25T03:36:29.135842+00:00",
    "chars": 241,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "000a-scherzer-price.txt",
+   "id": "2092275383232287034",
+   "url": "https://x.com/thenumberdesk/status/2092275383232287034",
+   "at": "2026-08-25T15:38:18.754815+00:00",
+   "chars": 165,
    "had_link": false,
    "est_cost": 0.015
   }
