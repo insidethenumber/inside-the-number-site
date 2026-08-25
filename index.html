@@ -811,6 +811,18 @@
   .tg-sep{display:none}
 
   @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
+
+  /* On a phone the league strip was a horizontal scroller, which meant UFC,
+     PGA and "Full board" all sat off the right edge — invisible unless you
+     happened to swipe a nav bar. "Full board" is the main way into the board,
+     so hiding it costs real navigation. Below 640px we let the chips wrap onto
+     a second line instead: everything is reachable without a gesture nobody
+     knows to make. overflow-x must go back to visible or wrapping is ignored. */
+  @media(max-width:640px){
+    .tb-leagues{flex-wrap:wrap;overflow-x:visible;padding:0 10px 5px}
+    .tb-leagues a{padding-left:9px;padding-right:9px}
+    .tb-all{margin-left:auto}
+  }
 </style>
 
 <div id="wrapTop">
@@ -1721,7 +1733,14 @@
         return;
       }
       if(kind==='mma'){
-        D[label]=(d.events||[]).flatMap(ev=>(ev.competitions||[]).map(c=>{
+        /* ESPN's UFC endpoint also returns Dana White's Contender Series —
+           a developmental show, not a UFC card. On Aug 25 that made the nav
+           read "UFC 5" and put five Contender Series bouts in the ticker,
+           while tapping UFC landed on Saturday's Fight Night. Books don't
+           price DWCS either, so we have nothing to say about it. Drop it. */
+        const NOT_UFC=/contender series|dana white/i;
+        D[label]=(d.events||[]).filter(ev=>!NOT_UFC.test(ev.name||ev.shortName||''))
+          .flatMap(ev=>(ev.competitions||[]).map(c=>{
           const cs=c.competitors||[]; if(cs.length<2)return null;
           const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';
           return{id:c.id,league:label,kind:'mma',state:ev.status?.type?.state,

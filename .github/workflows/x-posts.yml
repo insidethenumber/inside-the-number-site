@@ -15,7 +15,14 @@ on:
     - cron: "0 14 * * *"   #  9:00am CDT — the day's free pick
     - cron: "0 17 * * *"   # 12:00pm CDT — method post
     - cron: "0 21 * * *"   #  4:00pm CDT — line move / one number
-    - cron: "0 1 * * *"    #  8:00pm CDT — build-in-public
+    #
+    # Cut from four posts a day to three on Aug 25, 2026 — Chuck's call.
+    # The dropped slot was 8:00pm CDT ("build-in-public"). It was the weakest
+    # of the four: it talked about us rather than about a number, and nothing
+    # in the first week's engagement came from that format. Every like and
+    # reply we've earned came from a specific, checkable observation about a
+    # player or a price. Three of those beat three of those plus one about
+    # ourselves.
   workflow_dispatch:
 
 concurrency:

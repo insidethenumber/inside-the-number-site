@@ -1007,8 +1007,13 @@ async function load(){
         return;
       }
       if(kind==='mma'){
-        /* One ESPN "event" is a card; each competition is a single fight. */
-        D[label]=(d.events||[]).flatMap(ev=>(ev.competitions||[]).map(c=>{
+        /* One ESPN "event" is a card; each competition is a single fight.
+           The same endpoint also returns Dana White's Contender Series, which
+           is a developmental show rather than a UFC card and carries no book
+           prices. Filtered here to match index.html and ufc.html. */
+        const NOT_UFC=/contender series|dana white/i;
+        D[label]=(d.events||[]).filter(ev=>!NOT_UFC.test(ev.name||ev.shortName||''))
+          .flatMap(ev=>(ev.competitions||[]).map(c=>{
           const cs=c.competitors||[]; if(cs.length<2) return null;
           const [x,y]=cs;
           const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';

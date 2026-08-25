@@ -59,6 +59,11 @@
   .stamp { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-bottom:26px; }
   .stamp a { color:var(--muted); }
   .strip { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0 26px; }
+  /* Two-up variant. This used to be an inline style, which outranks the
+     media query below — so the pair stayed side by side on a phone and
+     squeezed "Scottie Scheffler +320" onto two lines. As a class it can
+     be overridden at 640px like everything else. */
+  .strip-2 { grid-template-columns:repeat(2,1fr); }
   .chip { background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:13px 15px; }
   .chip .l { font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted);
     letter-spacing:0.13em; text-transform:uppercase; margin-bottom:5px; }
@@ -104,7 +109,7 @@
   .foot-c { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
   @media (max-width:640px) {
     nav { padding:0 18px; } .nav-links { display:none; } .nav-hamburger { display:flex; }
-    .strip { grid-template-columns:1fr; }
+    .strip, .strip-2 { grid-template-columns:1fr; }
     td, thead th { padding:8px 10px; font-size:12.5px; }
   }
 
@@ -177,7 +182,7 @@
     <a href="https://golf.com/news/2026-tour-championship-odds-scottie-scheffler-favorite/" rel="noopener" target="_blank">golf.com</a>,
     Mon Aug 24 · win chances computed by ITN</div>
 
-  <div class="strip" style="grid-template-columns:repeat(2,1fr)">
+  <div class="strip strip-2">
     <div class="chip"><div class="l">The favorite</div>
       <div class="v">Scottie Scheffler +320</div>
       <div class="s">and he spent last week sick — see below</div></div>

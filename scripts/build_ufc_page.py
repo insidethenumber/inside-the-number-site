@@ -143,18 +143,89 @@ def last(n):
     return re.sub(r"[^a-z]", "", (n or "").split()[-1].lower()) if n else ""
 
 
+def toks(n):
+    """Every word of a name, lowercased and stripped of punctuation."""
+    return frozenset(re.sub(r"[^a-z ]", " ", (n or "").lower()).split())
+
+
+def squash(n):
+    """A name with every space and mark removed: 'Su Mudaerji' -> 'sumudaerji'."""
+    return re.sub(r"[^a-z]", "", (n or "").lower())
+
+
+def same_person(x, y):
+    """Is this the same fighter, spelled two ways by two feeds?
+
+    Three real disagreements observed on the Shanghai card alone:
+      order      ESPN "Ding Meng"    vs odds "Meng Ding"
+      suffix     ESPN "Levi Rodrigues Jr." vs odds "Levi Rodrigues"
+      spacing    ESPN "Sumudaerji"   vs odds "Su Mudaerji"
+    A shared word handles the first two; comparing the space-stripped form
+    handles the third.
+    """
+    if toks(x) & toks(y):
+        return True
+    sx, sy = squash(x), squash(y)
+    return bool(sx) and sx == sy
+
+
+# Divisions as we want them rendered. ESPN is inconsistent about case —
+# it returned "flyweight" on some bouts and "Flyweight" on others in the
+# same payload, which showed up on the live page as mismatched cards.
+_DIVISIONS = ("Strawweight", "Flyweight", "Bantamweight", "Featherweight",
+              "Lightweight", "Welterweight", "Middleweight", "Light Heavyweight",
+              "Heavyweight", "Catchweight")
+
+
+def tidy_weight(w):
+    """Normalise ESPN's division string. It arrives as type.abbreviation and
+    is inconsistently cased; women's bouts come through as "W Strawweight"."""
+    if not w:
+        return ""
+    low = w.lower()
+    womens = low.startswith("w ") or "women" in low
+    for d in _DIVISIONS:
+        if d.lower() in low:
+            return ("Women's " + d) if womens else d
+    return w.strip()
+
+
 def enrich(fight, bouts):
-    """Attach record + weight class where ESPN has this bout."""
-    la, lb = last(fight["a"]["name"]), last(fight["b"]["name"])
+    """Attach record + weight class where ESPN has this bout.
+
+    Matching used to compare last names only. That silently failed on every
+    Chinese and Mongolian fighter on the Shanghai card — Su Mudaerji, Aori
+    Qileng, Meng Ding, Long Xiao, Liu Ce — because the two feeds disagree on
+    which token is the family name, so "Ding Meng" and "Meng Ding" looked
+    like different people. Five of thirteen fights shipped with no records
+    and no weight class as a result.
+
+    Now we compare whole-name token sets in both orders. A corner matches if
+    it shares any word with an ESPN corner, which is plenty to identify one
+    person inside a single card. If two bouts both match we take neither —
+    a wrong record is worse than a missing one.
+    """
+    na, nb = fight["a"]["name"], fight["b"]["name"]
+    hits = []
     for b in bouts:
-        e0, e1 = last(b["names"][0]), last(b["names"][1])
-        if {la, lb} == {e0, e1}:
-            fight["weight"] = b["weight"]
-            for side in ("a", "b"):
-                ln = last(fight[side]["name"])
-                idx = 0 if ln == e0 else 1
-                fight[side]["record"] = b["recs"][idx]
-            return
+        e0, e1 = b["names"][0], b["names"][1]
+        if same_person(na, e0) and same_person(nb, e1):
+            hits.append((b, False))
+        elif same_person(na, e1) and same_person(nb, e0):
+            hits.append((b, True))
+
+    if len(hits) == 1:
+        b, swapped = hits[0]
+        fight["weight"] = tidy_weight(b["weight"])
+        order = ("b", "a") if swapped else ("a", "b")
+        for idx, side in enumerate(order):
+            fight[side]["record"] = b["recs"][idx] if idx < len(b["recs"]) else ""
+        return
+
+    if len(hits) > 1:
+        print(f"WARN: {fight['a']['name']} vs {fight['b']['name']} matched "
+              f"{len(hits)} ESPN bouts — leaving blank rather than guessing",
+              file=sys.stderr)
     fight["weight"] = ""
     fight["a"]["record"] = fight["b"]["record"] = ""
 
