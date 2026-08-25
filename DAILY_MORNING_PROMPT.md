@@ -321,6 +321,35 @@ don't push to the shared folder. Check `lastRunAt` before assuming a task
 hasn't started. On Aug 25 the task *had* started, looked idle for ninety
 seconds, and got overwritten by someone who concluded it had failed.
 
+## Event pages carry their own pick — update them (added Aug 25, 2026)
+
+`cfb.html`, `ufc.html` and `pga.html` are standalone pages built to rank in
+Google, and each one shows a pick. **They are separate from the daily card on
+index.html and nothing updates them automatically.** Every pick on those pages
+to date was placed by hand.
+
+**On any Saturday during college football season**, after the day's card is set:
+if one of the picks is a CFB game, write it into `cfb.html` as well. The block
+is marked so this is a mechanical replacement — swap everything between:
+
+```
+<!-- PICK:START — replaced by the Saturday routine. Keep these markers. -->
+<!-- PICK:END -->
+```
+
+Keep the markers. Match the existing voice: the pick and price in bold, two or
+three sentences of reasoning, and the honest case against it. Same standard as
+the newsletter — every number verified before it goes in.
+
+**If no CFB pick made the card, say so in that block rather than leaving the
+"not posted yet" placeholder up.** The page currently promises a pick on
+Saturday morning; a promise with nothing behind it is worse than no promise.
+That is exactly how a stale claim ends up live — three queued X posts were
+deleted on Aug 25 for saying things that had quietly stopped being true.
+
+Also update `<div class="stamp">` on the page with the date the lines were
+re-checked, so the freshness claim stays honest.
+
 ## Site consistency rules (added Aug 20, 2026)
 
 These apply to every run — automated or manual. They exist because the site
