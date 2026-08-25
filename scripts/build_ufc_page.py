@@ -570,7 +570,35 @@ def main():
     ap.add_argument("--venue", default="Shanghai, China")
     ap.add_argument("--datestr", default="Sat, Aug 29")
     ap.add_argument("--out", default=os.path.join(ROOT, "ufc.html"))
+    ap.add_argument("--max-age-hours", type=float, default=None,
+                    help="Skip the rebuild if the existing page's price stamp "
+                         "is younger than this. Lets the workflow poll often "
+                         "without burning an Odds API credit every time.")
     a = ap.parse_args()
+
+    # Same problem as the X queue: GitHub's scheduled trigger for this job had
+    # never once fired on time. The answer there was to poll every 20 minutes
+    # instead of trusting one cron. Here a poll costs an Odds API credit, and
+    # the free tier is 500 a month — so the age of the stamp already on the
+    # page decides whether this run does any work. Dropped triggers get covered
+    # by the next poll; credits stay at roughly one refresh per max-age window.
+    if a.max_age_hours is not None and os.path.exists(a.out):
+        m = re.search(r"Prices updated ([A-Z][a-z]{2} \d{1,2}, \d{4} \d{2}:\d{2}) UTC",
+                      open(a.out).read())
+        if m:
+            import datetime as _dt
+            try:
+                stamped = _dt.datetime.strptime(m.group(1), "%b %d, %Y %H:%M").replace(
+                    tzinfo=_dt.timezone.utc)
+                age = (_dt.datetime.now(_dt.timezone.utc) - stamped).total_seconds() / 3600
+                if age < a.max_age_hours:
+                    print(f"page is {age:.1f}h old (< {a.max_age_hours}h) — "
+                          f"skipping, no credit spent.")
+                    return
+                print(f"page is {age:.1f}h old — refreshing.", file=sys.stderr)
+            except ValueError as e:
+                print(f"WARN: could not read price stamp ({e}) — rebuilding.",
+                      file=sys.stderr)
 
     events = fetch_odds(a.start, a.end)
     print(f"{len(events)} priced events in window", file=sys.stderr)

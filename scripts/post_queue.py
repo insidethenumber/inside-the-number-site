@@ -60,14 +60,67 @@ def queue(st):
     return [f for f in everything if f not in st["sent"]]
 
 
+# Target posting times, Central. These are intentions, not triggers — see
+# --if-due below.
+SLOTS_CT = [(9, 15), (12, 15), (16, 40)]
+
+
+def central_now():
+    from zoneinfo import ZoneInfo
+    return datetime.datetime.now(ZoneInfo("America/Chicago"))
+
+
+def slots_passed(now_ct):
+    """How many of today's posting windows have opened."""
+    return sum(1 for h, m in SLOTS_CT if (now_ct.hour, now_ct.minute) >= (h, m))
+
+
+def sent_today(st, now_ct):
+    from zoneinfo import ZoneInfo
+    ct = ZoneInfo("America/Chicago")
+    n = 0
+    for h in st.get("history", []):
+        at = h.get("at")
+        if not at:
+            continue
+        try:
+            dt = datetime.datetime.fromisoformat(at)
+        except ValueError:
+            continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=datetime.timezone.utc)
+        if dt.astimezone(ct).date() == now_ct.date():
+            n += 1
+    return n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--if-due", action="store_true",
+                    help="Post only if fewer posts have gone out today than "
+                         "windows have opened. Safe to call every few minutes.")
     a = ap.parse_args()
 
     st = load_state()
     pending = queue(st)
+
+    # GitHub's scheduled triggers are best-effort: on Aug 24-25 the 9am slot
+    # never fired, the 4pm slot ran 57 minutes late and the 8pm slot 2h36m
+    # late. Rather than trust one cron to land, the workflow now wakes up
+    # every 20 minutes and asks this question instead: have fewer posts gone
+    # out today than windows have opened? If a trigger is dropped, the next
+    # one covers for it. Posting stays capped at len(SLOTS_CT) a day because
+    # the count, not the clock, is what gates it.
+    if a.if_due:
+        now_ct = central_now()
+        due, already = slots_passed(now_ct), sent_today(st, now_ct)
+        stamp = now_ct.strftime("%H:%M %Z")
+        if already >= due:
+            print(f"{stamp}: not due — {already} sent today, {due} window(s) open.")
+            return
+        print(f"{stamp}: due — {already} sent today, {due} window(s) open. Posting one.")
 
     if a.status:
         print(f"sent: {len(st['sent'])}   pending: {len(pending)}")

@@ -15,9 +15,11 @@ name: UFC card page
 
 on:
   schedule:
-    - cron: "37 13 * * *"   # 8:37am CT daily — off the hour deliberately. This
-                            # job's scheduled trigger had never once fired: three
-                            # runs in its lifetime, all manual. See x-posts.yml.
+    # Poll every two hours rather than trusting one daily trigger — this job's
+    # schedule had never once fired on its own (three runs in its lifetime, all
+    # manual). --max-age-hours 20 means only the first poll after the page goes
+    # stale actually calls the Odds API, so this still costs ~1 credit a day.
+    - cron: "13 */2 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -44,7 +46,11 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: |
           set -o pipefail
-          python3 scripts/build_ufc_page.py \
+          # A human clicking Run always gets a fresh pull; the poll respects
+          # the age guard so it doesn't spend a credit every two hours.
+          AGE_GUARD="--max-age-hours 20"
+          [ "${{ github.event_name }}" = "workflow_dispatch" ] && AGE_GUARD=""
+          python3 scripts/build_ufc_page.py $AGE_GUARD \
             --start 2026-08-29 --end 2026-08-30 \
             --title "UFC Fight Night Shanghai" \
             --venue "Shanghai, China" \

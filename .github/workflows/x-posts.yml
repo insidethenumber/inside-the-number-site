@@ -13,16 +13,23 @@ on:
     # UTC. Central is UTC-5 in summer, UTC-6 in winter, so these drift an hour
     # seasonally — acceptable for social posting.
     #
-    # MINUTES ARE DELIBERATELY ODD (changed Aug 25, 2026). These used to sit on
-    # the hour and the schedule was badly unreliable: the 4pm slot fired at
-    # 4:57pm, the 8pm slot at 10:36pm, and the 9am slot on Aug 25 never fired at
-    # all. GitHub runs scheduled workflows on a best-effort queue, and the top of
-    # the hour is when every cron on the platform fires at once — so ":00" jobs
-    # get delayed the most and dropped first. Moving off the hour is GitHub's own
-    # documented advice. Do not "tidy" these back to round numbers.
-    - cron: "23 14 * * *"   #  9:23am CDT — the day's free pick
-    - cron: "17 17 * * *"   # 12:17pm CDT — method post
-    - cron: "41 21 * * *"   #  4:41pm CDT — line move / one number
+    # POLL, DON'T SCHEDULE (changed Aug 25, 2026 — second attempt).
+    #
+    # First attempt was to move the three crons off the top of the hour, on the
+    # theory that ":00" is the most congested minute on GitHub's scheduler.
+    # That theory is probably right — daily-slate at ":30" fires reliably while
+    # every ":00" job here was late or missing — but it did not fix this
+    # workflow. The 12:17 slot didn't fire either.
+    #
+    # So stop depending on any single trigger landing. This now wakes up every
+    # 20 minutes and asks post_queue.py --if-due whether a post is owed:
+    # "have fewer posts gone out today than windows have opened?" A dropped
+    # trigger is covered by the next one twenty minutes later. Volume is still
+    # capped at three a day because the SENT COUNT gates it, not the clock.
+    #
+    # Costs nothing: Actions minutes are free on a public repo, and a run that
+    # isn't due exits in seconds without touching the X API.
+    - cron: "*/20 14-23 * * *"   # every 20 min, 9am-6pm CDT (covers CST too)
     #
     # Cut from four posts a day to three on Aug 25, 2026 — Chuck's call.
     # The dropped slot was 8:00pm CDT ("build-in-public"). It was the weakest
@@ -59,7 +66,14 @@ jobs:
           X_API_SECRET:    ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN:  ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-        run: python3 scripts/post_queue.py
+        run: |
+          # workflow_dispatch (a human clicking Run) posts immediately.
+          # The 20-minute poll only posts when one is actually owed.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python3 scripts/post_queue.py
+          else
+            python3 scripts/post_queue.py --if-due
+          fi
 
       - name: Record what went out
         run: |
