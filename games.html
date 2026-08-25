@@ -1240,7 +1240,12 @@ async function listView(sport){
     const w=document.getElementById('offWhen'), o=document.getElementById('offOut');
     if(!w) return;
     const b=u.length?backOn(u[0].date):null;
-    w.textContent=b?`Back ${b.when}`:`Nothing scheduled in the next 30 days — ${sport} is out of season.`;
+    /* ESPN's schedule lookup barely covers MMA, so for UFC it routinely finds
+       nothing and printed "out of season" directly beneath the promo card for
+       a fight five days out. When the promo is present it carries the date;
+       an empty ESPN answer should say nothing rather than contradict it. */
+    if(sport==='UFC'&&!b){ w.remove(); o?.remove(); }
+    else w.textContent=b?`Back ${b.when}`:`Nothing scheduled in the next 30 days — ${sport} is out of season.`;
     if(o&&b) o.textContent=b.out;
     if(u.length){
       const host=document.createElement('div');
