@@ -62,7 +62,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "no price movement — page unchanged"
           else
-            git commit -m "UFC card: refresh prices [skip ci]"
+            git commit -m "UFC card: refresh prices"
             git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
