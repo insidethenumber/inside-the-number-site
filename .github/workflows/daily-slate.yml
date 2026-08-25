@@ -93,7 +93,10 @@ jobs:
           mkdir -p data
           mv brief.json "data/brief-$(date -u +%Y-%m-%d).json"
           cp "data/brief-$(date -u +%Y-%m-%d).json" data/brief-latest.json
-          git add data/
+          # One static, indexable page per game (g/), straight from the brief.
+          # Pure transform — if the brief built, this cannot add a failure mode.
+          python3 scripts/build_game_pages.py --brief data/brief-latest.json
+          git add data/ g/
           if git diff --cached --quiet; then
             echo "nothing changed"
           else

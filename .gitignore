@@ -6,6 +6,9 @@
 !learn.html
 !pga.html
 !cfb.html
+!g/
+!g/*.html
+!g/sitemap-games.xml
 !ufc.html
 !games.html
 !wrangler.jsonc

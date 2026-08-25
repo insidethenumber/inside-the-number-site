@@ -4,3 +4,4 @@ Allow: /
 Disallow: /404.html
 
 Sitemap: https://insidethenumber.com/sitemap.xml
+Sitemap: https://insidethenumber.com/g/sitemap-games.xml
