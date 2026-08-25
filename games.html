@@ -1200,6 +1200,13 @@ function backOn(iso){
 }
 
 async function listView(sport){
+  /* PGA: the tab IS the tournament page. ESPN's golf feed carries no odds at
+     all (verified — the odds endpoint returns empty), so the board could only
+     ever show a bare event graphic. On Aug 24 that meant a stale BMW
+     Championship card, which Chuck flagged; pga.html carries the current
+     event with the full field priced and our pick. Unconditional, unlike the
+     UFC redirect, because golf never has two-way prices for a live board. */
+  if(sport==='PGA'){ location.replace('pga.html'); return; }
   rail(sport);
   const g=D[sport]||[];
   const view=document.getElementById('view');
