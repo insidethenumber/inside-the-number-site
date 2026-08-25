@@ -1211,25 +1211,19 @@ async function listView(sport){
       <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Full Shanghai card with best prices across the books is <a href="ufc.html" style="color:var(--green)">right here</a>.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
+    /* UFC: the tab IS the card page. When ESPN has no live fights today, send
+       the visitor straight to ufc.html — the static page with every upcoming
+       fight priced across the books. The old empty state said "No UFC games
+       on the board" and "out of season", both false with a fully priced card
+       five days out; Chuck's call (Aug 24) was to stop apologizing and show
+       the page. On fight day ESPN has events, this branch never runs, and the
+       live board renders as before. */
+    if(sport==='UFC'){ location.replace('ufc.html'); return; }
     ticker(sport,null);
-    /* UFC has a dedicated static card page (ufc.html) with every fight priced
-       across the books — the one thing a UFC visitor is actually here for.
-       The empty state must lead with it, not with a schedule apology: Chuck
-       clicked UFC on Aug 24 and found "nothing listing", while the Shanghai
-       card sat fully priced one URL away.
-       HAND-EDITED per event: fight names and date below go stale after Aug 29.
-       Update alongside the ufc-page.yml retarget — same weekly cadence. */
-    const ufcPromo = sport==='UFC' ? `
-      <a href="ufc.html" style="display:block;background:var(--green-dim);border:1px solid var(--green);border-radius:14px;padding:18px 20px;margin:18px 0;text-decoration:none;color:inherit">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:6px">Sat, Aug 29 · Shanghai</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;text-transform:uppercase">UFC Fight Night: Song Yadong vs Umar Nurmagomedov</div>
-        <div style="font-size:13px;color:var(--mid);margin-top:4px">All 13 fights priced — best book on every corner, true win probability, refreshed daily. →</div>
-      </a>` : '';
     view.innerHTML=`
       <div class="off-hero">
         <div class="off-tag">${sport} · off today</div>
         <div class="off-h">No ${sport} games on the board</div>
-        ${ufcPromo}
         <div class="off-when" id="offWhen">Checking the ${sport} schedule…</div>
         <div class="off-out" id="offOut"></div>
         ${liveChips(sport)}
@@ -1240,12 +1234,7 @@ async function listView(sport){
     const w=document.getElementById('offWhen'), o=document.getElementById('offOut');
     if(!w) return;
     const b=u.length?backOn(u[0].date):null;
-    /* ESPN's schedule lookup barely covers MMA, so for UFC it routinely finds
-       nothing and printed "out of season" directly beneath the promo card for
-       a fight five days out. When the promo is present it carries the date;
-       an empty ESPN answer should say nothing rather than contradict it. */
-    if(sport==='UFC'&&!b){ w.remove(); o?.remove(); }
-    else w.textContent=b?`Back ${b.when}`:`Nothing scheduled in the next 30 days — ${sport} is out of season.`;
+    w.textContent=b?`Back ${b.when}`:`Nothing scheduled in the next 30 days — ${sport} is out of season.`;
     if(o&&b) o.textContent=b.out;
     if(u.length){
       const host=document.createElement('div');
