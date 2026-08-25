@@ -15,7 +15,7 @@ name: Reply ammunition
 
 on:
   schedule:
-    - cron: "0 20 * * *"   # 3:00pm CDT — lines are up, first pitch still hours off
+    - cron: "29 20 * * *"   # 3:29pm CDT — lines are up, first pitch still hours off
   workflow_dispatch:
     inputs:
       date:

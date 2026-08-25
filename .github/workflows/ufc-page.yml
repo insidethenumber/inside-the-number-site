@@ -15,7 +15,9 @@ name: UFC card page
 
 on:
   schedule:
-    - cron: "0 13 * * *"   # 8:00am CT daily
+    - cron: "37 13 * * *"   # 8:37am CT daily — off the hour deliberately. This
+                            # job's scheduled trigger had never once fired: three
+                            # runs in its lifetime, all manual. See x-posts.yml.
   workflow_dispatch:
 
 concurrency:

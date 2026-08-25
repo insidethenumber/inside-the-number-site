@@ -17,8 +17,8 @@ name: Odds — scoped daily pull
 on:
   schedule:
     # UTC. Central is UTC-5 in summer, UTC-6 in winter.
-    - cron: "0 15 * * *"   # 10:00am CDT — opening snapshot, after the card is up
-    - cron: "0 21 * * *"   #  4:00pm CDT — re-shop, diff for line movement
+    - cron: "19 15 * * *"   # 10:19am CDT — opening snapshot, after the card is up
+    - cron: "49 21 * * *"   #  4:49pm CDT — re-shop, diff for line movement
   workflow_dispatch:
     inputs:
       mode:

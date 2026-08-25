@@ -12,9 +12,17 @@ on:
   schedule:
     # UTC. Central is UTC-5 in summer, UTC-6 in winter, so these drift an hour
     # seasonally — acceptable for social posting.
-    - cron: "0 14 * * *"   #  9:00am CDT — the day's free pick
-    - cron: "0 17 * * *"   # 12:00pm CDT — method post
-    - cron: "0 21 * * *"   #  4:00pm CDT — line move / one number
+    #
+    # MINUTES ARE DELIBERATELY ODD (changed Aug 25, 2026). These used to sit on
+    # the hour and the schedule was badly unreliable: the 4pm slot fired at
+    # 4:57pm, the 8pm slot at 10:36pm, and the 9am slot on Aug 25 never fired at
+    # all. GitHub runs scheduled workflows on a best-effort queue, and the top of
+    # the hour is when every cron on the platform fires at once — so ":00" jobs
+    # get delayed the most and dropped first. Moving off the hour is GitHub's own
+    # documented advice. Do not "tidy" these back to round numbers.
+    - cron: "23 14 * * *"   #  9:23am CDT — the day's free pick
+    - cron: "17 17 * * *"   # 12:17pm CDT — method post
+    - cron: "41 21 * * *"   #  4:41pm CDT — line move / one number
     #
     # Cut from four posts a day to three on Aug 25, 2026 — Chuck's call.
     # The dropped slot was 8:00pm CDT ("build-in-public"). It was the weakest
