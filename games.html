@@ -1212,10 +1212,24 @@ async function listView(sport){
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
     ticker(sport,null);
+    /* UFC has a dedicated static card page (ufc.html) with every fight priced
+       across the books — the one thing a UFC visitor is actually here for.
+       The empty state must lead with it, not with a schedule apology: Chuck
+       clicked UFC on Aug 24 and found "nothing listing", while the Shanghai
+       card sat fully priced one URL away.
+       HAND-EDITED per event: fight names and date below go stale after Aug 29.
+       Update alongside the ufc-page.yml retarget — same weekly cadence. */
+    const ufcPromo = sport==='UFC' ? `
+      <a href="ufc.html" style="display:block;background:var(--green-dim);border:1px solid var(--green);border-radius:14px;padding:18px 20px;margin:18px 0;text-decoration:none;color:inherit">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:6px">Sat, Aug 29 · Shanghai</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;text-transform:uppercase">UFC Fight Night: Song Yadong vs Umar Nurmagomedov</div>
+        <div style="font-size:13px;color:var(--mid);margin-top:4px">All 13 fights priced — best book on every corner, true win probability, refreshed daily. →</div>
+      </a>` : '';
     view.innerHTML=`
       <div class="off-hero">
         <div class="off-tag">${sport} · off today</div>
         <div class="off-h">No ${sport} games on the board</div>
+        ${ufcPromo}
         <div class="off-when" id="offWhen">Checking the ${sport} schedule…</div>
         <div class="off-out" id="offOut"></div>
         ${liveChips(sport)}
