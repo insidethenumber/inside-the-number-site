@@ -1,5 +1,3 @@
-Our MLB model projects a score for every game, then derives the moneyline, runline and total from one distribution.
+Our MLB model projects a score, then derives the moneyline, runline and total from it.
 
-It has never been back-tested.
-
-We say so on the site, right next to the number. A model presented as fact before it's been checked is how people lose money.
+It has never been back-tested. We say so on the site, next to the number 👀

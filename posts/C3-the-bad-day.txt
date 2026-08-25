@@ -1,7 +1,0 @@
-The newsletter is supposed to publish itself every morning.
-
-Today it didn't. A stale lock file — fourth time in five days.
-
-Fixed: every run now works from a fresh copy instead of a shared folder.
-
-Building in public means posting the days it breaks too.
