@@ -1,0 +1,3 @@
+A pitcher's win-loss record tells you about the nine guys hitting behind him.
+
+It's the last number we look at ⚾
