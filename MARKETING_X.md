@@ -60,6 +60,20 @@ post that takes ten seconds to read and links back to a live page:
 | Injury report (IL, ranked by impact) | "Atlanta is starting this game without both aces." |
 | Predicted score from the run model | "We make it 3.81–4.14." |
 
+**Reply cadence — 4-5 rounds a day (Chuck, Aug 25 2026).** Replies are doing
+far more for us than original posts. Followers went 3 → 6 in the twelve hours
+after the first reply round. Voice: one or two lines, playful, an emoji, and
+one real number. Fun, not a lecture. "Si Woo's +2300 this week. Scheffler
++320. Diaper money is recoverable 🍼" is the target — a joke that happens to
+contain two verified prices.
+
+Two failure modes. First, running the same move every time: three break-even
+calculations in one round starts reading like a bot with a calculator. Vary
+the shape — a price, a coincidence, a joke, an observation about a player.
+Second, forcing the count. Four good replies beat five with a misfire; skip
+lawsuit stories, fan accounts, and anything where the only available reply is
+generic.
+
 **Length rule — keep them short (Chuck, Aug 25 2026).** Target roughly 150
 characters, hard ceiling 200. The 280 limit is not a target. Three short lines
 beat one paragraph: people read the first two lines in a timeline and scroll.
