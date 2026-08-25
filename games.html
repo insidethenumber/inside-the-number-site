@@ -1212,6 +1212,7 @@ async function listView(sport){
      event with the full field priced and our pick. Unconditional, unlike the
      UFC redirect, because golf never has two-way prices for a live board. */
   if(sport==='PGA'){ location.replace('pga.html'); return; }
+  if(sport==='CFB'){ location.replace('cfb.html'); return; }
   rail(sport);
   const g=D[sport]||[];
   const view=document.getElementById('view');
