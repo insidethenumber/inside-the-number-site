@@ -4,6 +4,7 @@ wrangler.jsonc
 .assetsignore
 .DS_Store
 # Internal ops docs — versioned in git, but never served publicly.
+ACCOUNTS.md
 DAILY_MORNING_PROMPT.md
 SEND_LOG.md
 MAC_ALWAYS_ON_SETUP.md

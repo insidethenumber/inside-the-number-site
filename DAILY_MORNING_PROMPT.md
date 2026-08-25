@@ -1,4 +1,8 @@
-# Daily Morning Prompt — Inside the Number
+# Inside the Number — daily morning routine
+
+> **ACCOUNTS: every Google surface uses `insidethenumber.itn@gmail.com`. Never
+> another account. Check the avatar top-right before any signed-in action.
+> See ACCOUNTS.md.**
 
 Send this to Claude each morning (Cowork, same project folder) to kick off the day's picks and Beehiiv draft. Copy the block below as-is, or the shorthand version once we've got a rhythm going.
 
