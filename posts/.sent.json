@@ -4,7 +4,8 @@
   "02-break-even.txt",
   "03-season-era.txt",
   "00a-ufc-card-live.txt",
-  "000a-scherzer-price.txt"
+  "000a-scherzer-price.txt",
+  "000b-urena-wins-lie.txt"
  ],
  "history": [
   {
@@ -50,6 +51,15 @@
    "url": "https://x.com/thenumberdesk/status/2092275383232287034",
    "at": "2026-08-25T15:38:18.754815+00:00",
    "chars": 165,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "000b-urena-wins-lie.txt",
+   "id": "2092322910308286590",
+   "url": "https://x.com/thenumberdesk/status/2092322910308286590",
+   "at": "2026-08-25T18:47:10.142208+00:00",
+   "chars": 151,
    "had_link": false,
    "est_cost": 0.015
   }
