@@ -1208,7 +1208,7 @@ async function listView(sport){
     view.innerHTML=`
       <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
       <h1>${sport} — ${sport==='UFC'?"Tonight's Card":sport==='PGA'?'This Week':"Today's Board"}</h1>
-      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Our odds feed doesn't carry MMA prices, so the fights we like go out in the morning email instead.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
+      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Full Shanghai card with best prices across the books is <a href="ufc.html" style="color:var(--green)">right here</a>.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
     ticker(sport,null);
