@@ -60,6 +60,12 @@ post that takes ten seconds to read and links back to a live page:
 | Injury report (IL, ranked by impact) | "Atlanta is starting this game without both aces." |
 | Predicted score from the run model | "We make it 3.81–4.14." |
 
+**Length rule — keep them short (Chuck, Aug 25 2026).** Target roughly 150
+characters, hard ceiling 200. The 280 limit is not a target. Three short lines
+beat one paragraph: people read the first two lines in a timeline and scroll.
+When a post runs long it is almost always because we explained the reasoning
+instead of stating the number and stopping. State the number. Stop.
+
 **The rule: every post contains a real number.** No hype, no "LOCK OF THE
 DAY", no unit talk. The differentiator is that we sound like an analyst and
 everyone else sounds like a tout.
