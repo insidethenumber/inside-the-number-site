@@ -60,7 +60,13 @@ post that takes ten seconds to read and links back to a live page:
 | Injury report (IL, ranked by impact) | "Atlanta is starting this game without both aces." |
 | Predicted score from the run model | "We make it 3.81–4.14." |
 
-**Reply cadence — 4-5 rounds a day (Chuck, Aug 25 2026).** Replies are doing
+**Reply cadence — HOURLY, 9am-11pm (Chuck, Aug 25 2026, evening).** Upgraded
+from 4-5 rounds a day after the first full day produced 3 -> 12 followers and
+the site's first-ever X referrals. Now automated: the scheduled task
+`itn-x-engagement-hourly` runs a round at :07 past each hour, 9am-11pm, on
+Chuck's Mac. Quality gates volume — a round with no good target does nothing.
+
+**Reply cadence — original note (Chuck, Aug 25 2026, morning).** Replies are doing
 far more for us than original posts. Followers went 3 → 6 in the twelve hours
 after the first reply round. Voice: one or two lines, playful, an emoji, and
 one real number. Fun, not a lecture. "Si Woo's +2300 this week. Scheffler
