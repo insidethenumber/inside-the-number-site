@@ -60,6 +60,11 @@ post that takes ten seconds to read and links back to a live page:
 | Injury report (IL, ranked by impact) | "Atlanta is starting this game without both aces." |
 | Predicted score from the run model | "We make it 3.81–4.14." |
 
+**Voice add-on (Chuck, Aug 25 2026, night): positive and human.** A sharp
+friend at the bar, not a brand. Punch up at prices and touts, never down at
+fans or players. Celebrate wild finishes; self-deprecate on our Ls. Warmth
+wins followers.
+
 **Reply cadence — HOURLY, 9am-11pm (Chuck, Aug 25 2026, evening).** Upgraded
 from 4-5 rounds a day after the first full day produced 3 -> 12 followers and
 the site's first-ever X referrals. Now automated: the scheduled task
