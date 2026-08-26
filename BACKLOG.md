@@ -4,6 +4,33 @@ Parked decisions and future work. Newest items at the top of each section.
 This file is internal — excluded from the deployed site via `.assetsignore`.
 
 
+## Calculator pages — ON PROBATION, review Sept 8 (decided Aug 25, 2026)
+
+Chuck's call, and his reasoning deserves recording: he has gambled for years
+and never once used a betting calculator, and most casual bettors don't —
+the sportsbook bet slip does the math. The counter-evidence is that Action
+Network, Covers, VSiN, RotoWire and SportsLine all maintain standalone
+calculator pages as SEO acquisition, so the pages stay up as an experiment,
+not a conviction.
+
+**Review on or after Sept 8, 2026** (two weeks of indexing). In Search
+Console — signed in as insidethenumber.itn@gmail.com, never another account —
+check impressions and clicks for:
+
+  /parlay-calculator.html
+  /odds-converter.html
+  /no-vig-calculator.html
+
+**The bar:** these pages exist only for search traffic, so search traffic is
+the whole grade. If they are indexed but showing ~zero impressions, or
+impressions with ~zero clicks, cut them: delete the three files, remove the
+three sitemap entries and the .gitignore allowlist lines, and strip the three
+"standalone page" links from tools.html. tools.html itself stays either way —
+it predates this experiment and costs nothing.
+
+If they ARE pulling impressions, leave them alone and revisit whether the
+spread-to-moneyline converter (the one gap vs Action's suite) earns a page.
+
 ## Odds API — STAY ON FREE, revisit at a trigger (decided Aug 24, 2026)
 
 Chuck's call: stay on the free tier now, move to the $30/mo 20K-credit plan once
