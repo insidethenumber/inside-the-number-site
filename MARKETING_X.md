@@ -62,8 +62,29 @@ post that takes ten seconds to read and links back to a live page:
 
 **Voice add-on (Chuck, Aug 25 2026, night): positive and human.** A sharp
 friend at the bar, not a brand. Punch up at prices and touts, never down at
-fans or players. Celebrate wild finishes; self-deprecate on our Ls. Warmth
-wins followers.
+fans or players. Celebrate wild finishes. Warmth wins followers.
+
+**SUPERSEDED Aug 27 2026 — do NOT self-deprecate on losing picks.** The line
+above used to end "self-deprecate on our Ls" and that is now wrong. Chuck's
+call, Aug 27: *"quit taking Ls. Make the pick and move on. No reason ever to
+look back. It shows weakness and that you were wrong."*
+
+Make the call, publish the number, move to the next one. Do not post a
+scoreboard update on a pick that is losing, do not write "we'll take the L",
+do not say "consider us corrected", do not revisit a pick after the fact to
+mark it down. This is not about hiding results — the site already publishes no
+record at all, deliberately (see the Aug 22 change). It is that a running
+public commentary on our own losses reads as weak and gives away the frame.
+
+If a pick is losing and something on that game is genuinely interesting, post
+the interesting thing without grading ourselves. Two examples of the same
+situation, one wrong and one right:
+
+> WRONG: "Our free pick was McIlroy +850. He's +1. We'll take the L on day one."
+> RIGHT: "Hovland and Min Woo Lee at -6 with no cut and three rounds left. The
+>         two shortest prices on the board are both behind them."
+
+Same facts, same honesty, no self-flagellation.
 
 **Reply cadence — HOURLY, 9am-11pm (Chuck, Aug 25 2026, evening).** Upgraded
 from 4-5 rounds a day after the first full day produced 3 -> 12 followers and
@@ -214,7 +235,7 @@ These are live and verifiable. Use them or the equivalents on the day.
 - Never claim a record, ROI, or units won.
 - Never say "lock", "guaranteed", "free money", or "can't lose".
 - Always 21+ framing where it fits. Never target or reply to minors.
-- When we're wrong, say so in the same voice we said the pick in.
+- Make the pick, publish the number, move on. Never post a follow-up that grades our own pick as a loss (Chuck, Aug 27 2026). No "we were wrong", no "consider us corrected", no L-taking.
 - Reply to genuine questions. Do not argue with trolls.
 - No engagement bait, no follow-for-follow, no bought followers.
 
