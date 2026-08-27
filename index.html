@@ -835,7 +835,27 @@
   </div>
 </div>
 <script>
-  const todaysGames = [];
+  /* Today's card. Two shapes are supported:
+       team games  — away/home objects with {name, code}, used for logos
+       solo:true   — one competitor (golf outright, UFC fight winner, etc),
+                     which has no "away @ home" and must not be rendered
+                     through the team-logo path. Added Aug 27, 2026, when a
+                     PGA outright was the free pick and the array had to be
+                     left empty because every renderer assumed two teams —
+                     which left the hero panel and the slate visibly blank. */
+  const todaysGames = [
+    {
+      league: 'PGA',
+      solo: true,
+      event: 'TOUR Championship — East Lake',
+      time: 'Thu–Sun, Aug 27–30',
+      free: true,
+      pick: 'McIlroy +850 to win outright',
+      conf: 3,
+      hook: 'The favorite spent last week sick. The price hasn\'t moved much.',
+      why: 'Scottie Scheffler is the favorite at +320, but he played last week\'s BMW Championship fighting hand, foot and mouth disease — painful to grip the club by his own account, and withdrawal was on the table. McIlroy, healthy and in form, is the clear second choice at +850, nearly triple the price. With no cut and all thirty players starting level over four rounds, a compromised favorite has nowhere to hide. What beats it: Scheffler says he\'s improving, and even sick he played the final 54 holes at Bellerive nine under. Odds via DraftKings, pre-Round 1 — the board may have moved since.'
+    }
+  ];
   // Empty as of Thu Aug 27, ~11am CT: the daily automation did not
   // complete today (no commit, no draft, no SEND_LOG entry). Rather
   // than leave yesterday's Red Sox/Marlins pick live under today's
@@ -965,8 +985,8 @@
     </a>
   </div>
   <!-- Real line movement: opening number vs current, pulled live from ESPN's
-       public scoreboard feed (odds provided by DraftKings). Populated by
-       renderLineMovement() below — no hand-maintained numbers. -->
+       public scoreboard feed (odds provided by DraftKings). Populated by the
+       #hpMove block near the bottom of this file — no hand-maintained numbers. -->
   <div class="panel hp">
     <!-- 1 · biggest move on the board — the number that traveled furthest -->
     <a class="hp-move" id="hpMove" href="games.html">
@@ -1072,7 +1092,16 @@
     <!-- Rendered from the todaysGames array at the top of this file.
          Live scores, team records and current moneylines are layered in
          from ESPN's public feed at load time. -->
-    <div class="slate-cards" id="slate-list"></div>
+  <style>
+  /* Solo pick card (golf outright / UFC bout): one competitor, so it gets a
+     single centred event line instead of the away-@-home logo row. */
+  .mc-solo-body{display:block;padding:14px 16px 2px}
+  .mc-solo-name{font-size:17px;font-weight:700;line-height:1.3}
+  .panel-empty{padding:18px 20px;border:1px solid rgba(255,255,255,.10);
+    border-radius:12px;color:#9aa3b2;font-size:15px;line-height:1.5}
+  .panel-empty a{color:inherit;text-decoration:underline}
+</style>
+  <div class="slate-cards" id="slate-list"></div>
   </div>
 </section>
 
@@ -1097,7 +1126,48 @@
   // First paint from our own data so the section is never empty, even if
   // the live feed is slow or blocked.
   const paintSlate = (live = {}) => {
+    if (!todaysGames.length) {
+      // An honest empty state beats a heading with nothing under it. This is
+      // what shows if a day's card genuinely isn't set yet.
+      slateEl.innerHTML = `<div class="panel-empty">Today's card isn't posted yet.
+        The full board with live prices is on the
+        <a href="games.html">games page</a> in the meantime.</div>`;
+      return;
+    }
     slateEl.innerHTML = todaysGames.map((g, i) => {
+      // Solo pick — one competitor, no "away @ home", no team logos and no
+      // two-way market bar. Golf outrights and UFC bouts come through here.
+      if (g.solo) {
+        return `
+      <div class="mc mc-solo ${g.free ? 'is-free' : ''} ${confClass(g.conf)}" data-game="${i}">
+        <div class="mc-head">
+          <span class="mc-league s-${g.league.toLowerCase()}">${g.league}</span>
+          ${g.free ? '<span class="mc-free">★ FREE PICK</span>' : ''}
+          <span class="mc-time">${g.time || ''}</span>
+        </div>
+        <div class="mc-body mc-solo-body">
+          <div class="mc-name mc-solo-name">${g.event || ''}</div>
+        </div>
+        ${g.pick ? `
+        <div class="mc-pick">
+          <div class="mc-pick-l">Our Pick</div>
+          <div class="mc-pick-v">
+            <span class="mc-pick-t">${g.pick}</span>
+            <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
+          </div>
+        </div>` : ''}
+        ${(g.hook || g.why) ? `
+        <div class="mc-why">
+          ${g.hook ? `<div class="mc-hook">${g.hook}</div>` : ''}
+          ${g.why ? `
+          <details>
+            <summary><span class="chev">\u203A</span> Why this pick</summary>
+            <div class="mc-why-body">${g.why}</div>
+          </details>` : ''}
+        </div>` : ''}
+        <div class="mc-status"><span>${g.time || ''}</span></div>
+      </div>`;
+      }
       const L = live[`${g.away.code}|${g.home.code}`] || {};
       const wash = L.awayColor && L.homeColor
         ? `<div class="mc-wash" style="background:linear-gradient(100deg,#${L.awayColor},#${L.homeColor})"></div>` : '';
@@ -1182,7 +1252,7 @@
 
   // Enrich with live scores, records and current moneylines.
   (async function enrichSlate(){
-    const leagues = [...new Set(todaysGames.map(g => g.league))];
+    const leagues = [...new Set(todaysGames.filter(g => !g.solo).map(g => g.league))];
     const pathFor = l => ({MLB:'baseball/mlb', NFL:'football/nfl', CFB:'football/college-football',
                            NBA:'basketball/nba', NHL:'hockey/nhl', CBB:'basketball/mens-college-basketball'})[l];
     const live = {};
@@ -1213,97 +1283,12 @@
     if (Object.keys(live).length) paintSlate(live);
   })();
 
-  /* ═══════════════════════════════════════════════════════════
-     LIVE LINE MOVEMENT — real data, no maintenance required.
-
-     ESPN's public scoreboard feed is CORS-accessible and returns each
-     game's OPENING moneyline alongside the CURRENT one. The difference
-     between those two numbers is genuine line movement — which is the
-     thing this whole site claims to track. Previously this panel showed
-     invented numbers (KC -6.5, BAMA -7) for games that did not exist.
-
-     If the feed is unreachable we show an honest empty state rather than
-     falling back to fabricated lines.
-     ═══════════════════════════════════════════════════════════ */
-  (async function renderLineMovement(){
-    const LEAGUES = [
-      ['MLB', 'baseball/mlb'],
-      ['NFL', 'football/nfl'],
-      ['CFB', 'football/college-football'],
-      ['NBA', 'basketball/nba'],
-      ['NHL', 'hockey/nhl'],
-    ];
-    const box = document.getElementById('line-movement');
-    const src = document.getElementById('line-src');
-    const rows = [];
-    let provider = '';
-
-    const toNum = v => {
-      const n = parseInt(String(v).replace('+',''), 10);
-      return Number.isFinite(n) ? n : null;
-    };
-
-    await Promise.all(LEAGUES.map(async ([label, path]) => {
-      try {
-        const r = await fetch(sbUrl(path));
-        if (!r.ok) return;
-        const data = await r.json();
-        (data.events || []).forEach(ev => {
-          const comp = ev.competitions?.[0];
-          const o = comp?.odds?.[0];
-          if (!o?.moneyline) return;
-          provider = provider || o.provider?.displayName || '';
-          ['home','away'].forEach(side => {
-            const open = toNum(o.moneyline[side]?.open?.odds);
-            const close = toNum(o.moneyline[side]?.close?.odds);
-            if (open === null || close === null || open === close) return;
-            const team = (side === 'home' ? o.homeTeamOdds : o.awayTeamOdds)?.team;
-            if (!team) return;
-            // Ignore lopsided blowout lines. A CFB game at -50000 "moving"
-            // 41000 points is real but meaningless — nobody prices or bets
-            // that, and it buries the genuinely interesting movement.
-            if (Math.abs(open) > 450 || Math.abs(close) > 450) return;
-            rows.push({
-              label,
-              team: team.abbreviation,
-              close,
-              delta: close - open,
-              // Bigger move on a bettable number = more interesting.
-              weight: Math.abs(close - open)
-            });
-          });
-        });
-      } catch (_) { /* league unavailable — skip it, never fabricate */ }
-    }));
-
-    if (!rows.length) {
-      box.innerHTML = `<div class="panel-empty">No line movement to report right now —
-        we'll show it here the moment books start moving off their opening numbers.</div>`;
-      return;
-    }
-
-    // Sort by size of move, then cap each league to keep the panel varied
-    // rather than six rows of the same sport.
-    rows.sort((a,b) => b.weight - a.weight);
-    const perLeague = {};
-    const picked = rows.filter(r => {
-      perLeague[r.label] = (perLeague[r.label] || 0) + 1;
-      return perLeague[r.label] <= 2;
-    });
-
-    box.innerHTML = (picked.length ? picked : rows).slice(0, 6).map(r => {
-      const dir = r.delta > 0 ? 'up' : 'down';
-      const arrow = r.delta > 0 ? '▲' : '▼';
-      const fmt = n => (n > 0 ? '+' : '') + n;
-      return `<div class="panel-row">
-        <span class="p-sport">${r.label}</span>
-        <span class="p-line">${r.team} ${fmt(r.close)}</span>
-        <span class="p-move ${dir}">${arrow} ${Math.abs(r.delta)}</span>
-      </div>`;
-    }).join('');
-
-    src.textContent = `Open → current${provider ? ' · odds ' + provider : ''} · updates on load`;
-  })();
+  /* The old renderLineMovement() block lived here and was deleted Aug 27, 2026.
+     It targeted #line-movement and #line-src — neither element has existed in
+     this file for some time — so it threw "Cannot set properties of null" on
+     every single page load and fired five ESPN scoreboard requests whose
+     results were discarded. The biggest-move panel that users actually see is
+     rendered by the #hpMove block further down; this was a second, dead copy. */
 
   /* ═══════════════════════════════════════════════════════════
      LIVE SCOREBOARD — every game in season, straight from ESPN.
@@ -1321,7 +1306,8 @@
     ];
     const tabsEl = document.getElementById('sb-tabs');
     const gridEl = document.getElementById('sb-grid');
-    const tracked = new Set(todaysGames.map(g => `${g.away.code}|${g.home.code}`));
+    const tracked = new Set(todaysGames.filter(g => !g.solo)
+      .map(g => `${g.away.code}|${g.home.code}`));
     const byLeague = {};
 
     await Promise.all(LEAGUES.map(async ([label, path]) => {
@@ -1401,6 +1387,9 @@
     const g = todaysGames.find(x => x.free);
     const el = document.getElementById('potd-matchup');
     if (!g || !el) return;
+    // Solo picks (golf outright, UFC bout) have no two-team logo treatment;
+    // the static text already in the card is correct, so leave it alone.
+    if (g.solo) return;
     el.innerHTML =
       `<img src="${logo(g.league, g.away.code)}" alt="${g.away.name}"/>` +
       `<span>${g.away.name}</span>` +
@@ -1649,7 +1638,8 @@
                  ["NHL","hockey/nhl"],
                  ["UFC","mma/ufc"],["PGA","golf/pga"]];
   const KIND=l=>l==='UFC'?'mma':l==='PGA'?'golf':'team';
-  const ours=new Set(((typeof todaysGames!=='undefined')?todaysGames:[]).map(g=>`${g.away.code}|${g.home.code}`));
+  const ours=new Set(((typeof todaysGames!=='undefined')?todaysGames:[])
+    .filter(g=>!g.solo).map(g=>`${g.away.code}|${g.home.code}`));
   const eDate=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'})
     .formatToParts(new Date()).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.year}${p.month}${p.day}`};
   const fmt=o=>{const n=Number(o);return Number.isFinite(n)&&o!=null&&o!==''?(n>0?`+${n}`:`${n}`):null};
@@ -1829,11 +1819,19 @@
   const TG = (typeof todaysGames !== 'undefined') ? todaysGames : [];
   const g = TG.find(x=>x.free) || TG[0];
   const pk=document.getElementById('hpPick');
-  if(g) pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+  if(g && g.solo){
+    // Solo pick: no two-team logo line. Name the event, then the bet.
+    pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+      <div class="game">${g.event||''}</div>
+      <div class="side">${g.pick||''}</div>
+      ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
+  } else if(g){
+    pk.innerHTML=`<div class="hp-k">Today's free pick</div>
     <div class="game"><img class="hp-logo" src="${logo(g.league,g.away.code)}" alt="${g.away.name}" loading="lazy"/>${g.away.name}
       <span class="at">@</span><img class="hp-logo" src="${logo(g.league,g.home.code)}" alt="${g.home.name}" loading="lazy"/>${g.home.name}</div>
     <div class="side">${g.pick||''}</div>
     ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
+  }
 })();
 </script>
 
