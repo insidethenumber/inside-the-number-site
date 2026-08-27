@@ -835,22 +835,14 @@
   </div>
 </div>
 <script>
-  const todaysGames = [
-    /* UFC entries key on fighter LAST NAMES — games.html matches them that way
-       and tries both orders, since a fight has no home or away side. */
-    { league:'MLB', away:{code:'bos', name:'Red Sox'}, home:{code:'mia', name:'Marlins'},
-      time:'6:40 PM ET', pick:'Red Sox -1.5 (+123)', conf:4, free:true,
-      hook:'The best arm on the board is barely favored',
-      why:'Sonny Gray is 16-3 with a 2.79 ERA — the best record of any starter on tonight’s fifteen-game card. Miami answers with Ryan Gusto at 0-3 and 4.37. That is about as wide a starting-pitching gap as this board offers, and Boston’s moneyline is only -129. Strip out what the book keeps and the market has the Red Sox winning 55.4% of the time, but winning by two or more only 42.9%. The runline at +123 needs 44.8% to break even. So the whole bet is one question: with that big an edge on the mound, is a comfortable Boston win really less likely than a coin flip minus seven points? We think it is not. The honest case against: Gusto has been better than his record, Boston’s bullpen has blown late leads all month, and a one-run win pays nothing here.' },
-    { league:'MLB', away:{code:'hou', name:'Astros'}, home:{code:'nyy', name:'Yankees'},
-      time:'7:05 PM ET', pick:'Astros +107', conf:3, free:false,
-      hook:'The better starter is the underdog',
-      why:'Peter Lambert is 8-7 with a 3.68 ERA. Elmer Rodriguez, going for New York, is 0-2 with a 4.76. The Yankees are the better team on the season and they are at home, which is why they are laying the price — but tonight the better pitcher is the visitor and you are still getting plus money. At +107 you need 48.3% to break even, and the market’s own true price on Houston is 47.5%. That is a thin gap, and it is why this is medium and not high: you are being paid roughly what the game is worth, with the pitching edge as the tiebreaker.' },
-    { league:'MLB', away:{code:'min', name:'Twins'}, home:{code:'ath', name:'Athletics'},
-      time:'9:05 PM ET', pick:'Under 10.5 (-116)', conf:3, free:false,
-      hook:'Two runs higher than anything else tonight',
-      why:'Ten and a half is the highest total on the board by a mile — the next-highest game sits at nine. That number is priced off the ballpark, not the pitching: Sacramento has played small all season and the market has learned it. But J.T. Ginn is 8-8 with a 3.60, one of the better ERAs among tonight’s home starters, and eleven runs is a lot to ask of two lineups that rank in the bottom third in scoring. Break-even at -116 is 53.7% and the true price on the under is 51.4%, so you need to believe the real number is a couple of points better than the market thinks. Medium: Connor Prielipp at 5.57 is the obvious way this goes wrong.' },
-  ];
+  const todaysGames = [];
+  // Empty as of Thu Aug 27, ~11am CT: the daily automation did not
+  // complete today (no commit, no draft, no SEND_LOG entry). Rather
+  // than leave yesterday's Red Sox/Marlins pick live under today's
+  // date, this was pulled by hand. The featured Pick of the Day below
+  // (McIlroy, TOUR Championship) is real and verified; a full MLB
+  // slate entry was not ready with genuine same-day odds in time and
+  // was deliberately left out rather than guessed at.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1039,11 +1031,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Wed, Aug 26</div>
-        <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Red Sox @ Marlins</div>
-        <div class="potd-line">THE PICK: Red Sox -1.5 (+123) · 6:40 PM ET</div>
-        <p class="potd-reasoning">Sonny Gray takes the ball in Miami at 16-3 with a 2.79 ERA — the best record of any starter listed on tonight's fifteen-game board. The Marlins counter with Ryan Gusto, who is 0-3 with a 4.37. That is about as wide a starting-pitching gap as this card offers, and yet Boston's moneyline is only -129. Strip out what the book keeps and the market has the Red Sox winning this game 55.4% of the time — but winning it by two or more runs just 42.9%. The runline at +123 needs 44.8% to break even. So the entire bet reduces to one question: with an edge that big on the mound, is a comfortable Boston win really less likely than a coin flip minus seven points? Our read is that it is not, and that the gap between those two numbers is where the value sits tonight. The honest case against: Gusto has pitched better than an 0-3 record suggests, Boston's bullpen has given back late leads repeatedly this month, and a one-run Red Sox win — the single most common outcome in baseball — pays you nothing here. This is a bet on margin, not just on the better team, and that is a real distinction.</p>
+        <div class="potd-date">Thu, Aug 27</div>
+        <div class="potd-sport">PGA</div>
+        <div class="potd-matchup" id="potd-matchup">TOUR Championship &mdash; East Lake</div>
+        <div class="potd-line">THE PICK: McIlroy +850 to win outright</div>
+        <p class="potd-reasoning">Scottie Scheffler is the favorite at +320, but he played last week’s BMW Championship fighting hand, foot and mouth disease — his own words afterward: painful to grip the club, couldn’t practice or warm up properly, and withdrawal was on the table. McIlroy, healthy and in form, is the clear second choice at +850 — nearly triple the price. With no cut and all thirty players starting level over four rounds, a compromised favorite has nowhere to hide. We think the real gap between a sick Scheffler and a healthy McIlroy is narrower than +320 against +850 suggests. The case against: Scheffler says he’s improving, and even sick he played the final 54 holes at Bellerive nine under — that version of him at East Lake beats this bet easily. Medium confidence: golf outrights are a small-stakes market by design. Odds via DraftKings as of Monday, pre-Round 1 — the board may have moved since.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
