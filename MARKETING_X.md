@@ -86,6 +86,33 @@ situation, one wrong and one right:
 
 Same facts, same honesty, no self-flagellation.
 
+**And never apologize for a pick that missed.** Chuck, Aug 27 2026: *"Never
+apologize for a missed or wrong pick. If someone wants to fact check you
+everything is there, posted already. Saying you are wrong in a post makes it
+look like we don't know what we are doing."*
+
+The receipts already exist. Every pick goes out with a stated side, a real
+number and the reasoning, timestamped, before the game starts — anyone who
+wants to grade us can, and we have never hidden a single one. An apology adds
+no information a reader could not already get. What it does add is doubt about
+whether we knew what we were doing when we made the call, which is the one
+thing the whole brand rests on.
+
+**The line to hold, because it is easy to get backwards:**
+
+- BEFORE the result — full honesty, always. State the confidence level, state
+  what beats the bet, say when a number is thin or when we could not meet our
+  own selection rules. The "what beats it" paragraph on every pick is a
+  feature and it stays. That is confidence, not hedging: it shows we already
+  considered the other side.
+- AFTER the result — nothing. No grade, no apology, no correction, no "as we
+  said". The pick stands where it was published and speaks for itself.
+
+Correcting a factual ERROR is different from apologizing for a losing PICK.
+If we publish a wrong number, a wrong pitcher or a wrong date, fix it fast and
+plainly — accuracy is the product. A pick that lost is not an error; it is a
+priced opinion that did not come in, and those are not the same thing.
+
 **Reply cadence — HOURLY, 9am-11pm (Chuck, Aug 25 2026, evening).** Upgraded
 from 4-5 rounds a day after the first full day produced 3 -> 12 followers and
 the site's first-ever X referrals. Now automated: the scheduled task
