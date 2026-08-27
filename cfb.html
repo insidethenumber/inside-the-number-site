@@ -13,7 +13,7 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/cfb.html"/>
-<meta property="og:title" content="College Football Week 1 — every game, every number"/>
+<meta property="og:title" content="College Football Odds — every game, every number"/>
 <meta property="og:description" content="Every FBS game this Saturday with the spread, the total and where the line opened — ordered by which numbers are worth an opinion."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -221,7 +221,7 @@
   </div>
 <div class="wrap">
   <div class="eyebrow" id="eyebrow">// CFB · this Saturday</div>
-  <h1>College Football Week 1<br/><span>every game, every number.</span></h1>
+  <h1><span id="wk">College Football</span><br/><span>every game, every number.</span></h1>
 
   <p class="lede" id="lede">The whole board — spread, total, where the line opened and kickoff — with no pretence that anyone knows anything yet.</p>
 
@@ -429,7 +429,16 @@
       });
       var dOpts={weekday:'short',month:'short',day:'numeric'};
       var label=d.toLocaleDateString('en-US',dOpts);
-      document.getElementById('eyebrow').textContent='// CFB · '+label;
+      /* Week number, derived rather than typed. Week 0 is the opening
+         Saturday, Aug 29 2026; every Saturday after that is one higher.
+         Hardcoding "Week 0" would have been wrong by Sept 5, which is the
+         same trap that put stale lines on this page to begin with. */
+      var WEEK0=new Date(2026,7,29);
+      var wk=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK0)/6048e5);
+      var wkTxt=(wk>=0&&wk<=16)?('College Football Week '+wk):'College Football';
+      document.getElementById('wk').textContent=wkTxt;
+      document.title=wkTxt+' Odds — Every Game, Every Number | Inside the Number';
+      document.getElementById('eyebrow').textContent='// CFB · Week '+(wk>=0?wk:'')+' · '+label;
       var misN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)>=30;}).length;
       var clsN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)<7;}).length;
       document.getElementById('lede').textContent=
