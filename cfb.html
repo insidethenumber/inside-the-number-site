@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>College Football Week 1 Odds — Every Game, Every Number | Inside the Number</title>
+<title>College Football Odds — Every Game, Every Number | Inside the Number</title>
 <meta name="description" content="Every FBS college football game this Saturday with the spread, the total, where the line opened and kickoff time — ordered by which numbers are actually worth an opinion, not by kickoff."/>
 <link rel="canonical" href="https://insidethenumber.com/cfb.html"/>
 <meta name="theme-color" content="#050608"/>
@@ -299,8 +299,11 @@
   // The Pac-12 (id 9) exists again in 2026 but as a rebuilt six-team
   // league, so it is deliberately NOT in this set.
   var P4 = {'1':'ACC','4':'Big 12','5':'Big Ten','8':'SEC'};
-  var CONF = {'1':'ACC','4':'Big 12','5':'Big Ten','8':'SEC','9':'Pac-12',
-              '12':'C-USA','15':'MAC','17':'Mtn West','18':'Ind','37':'Sun Belt','151':'American'};
+  // Deliberately NOT a full id->name map. ESPN's conferenceId is unreliable
+  // for non-FBS opponents on this endpoint (it called North Dakota State
+  // "Mountain West" and Sacramento State "MAC"), so anything outside the four
+  // verified power leagues gets no tag at all. A missing label is fine; a
+  // wrong one is the thing this whole page was rebuilt to stop doing.
 
   // Editorial notes, keyed by "AWAY@HOME". No spreads quoted on purpose.
   var NOTES = {
@@ -415,7 +418,7 @@
           key:A.team.abbreviation+'@'+H.team.abbreviation,
           away:A.team.location, home:H.team.location,
           awayRk:rk(A), homeRk:rk(H),
-          conf:P4[H.team.conferenceId]||CONF[H.team.conferenceId]||'',
+          conf:P4[H.team.conferenceId]||'',
           p4:!!(P4[H.team.conferenceId]||P4[A.team.conferenceId]),
           line:o.details||null, spread:sp, openLine:(openSp!=null?fmtNum(openSp):''),
           total:(o.overUnder!=null?o.overUnder:null), move:move,
