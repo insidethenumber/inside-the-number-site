@@ -845,24 +845,24 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'PGA',
-      solo: true,
-      event: 'TOUR Championship — East Lake',
-      time: 'Thu–Sun, Aug 27–30',
-      free: true,
-      pick: 'McIlroy +850 to win outright',
-      conf: 3,
-      hook: 'The favorite spent last week sick. The price hasn\'t moved much.',
-      why: 'Scottie Scheffler is the favorite at +320, but he played last week\'s BMW Championship fighting hand, foot and mouth disease — painful to grip the club by his own account, and withdrawal was on the table. McIlroy, healthy and in form, is the clear second choice at +850, nearly triple the price. With no cut and all thirty players starting level over four rounds, a compromised favorite has nowhere to hide. What beats it: Scheffler says he\'s improving, and even sick he played the final 54 holes at Bellerive nine under. Odds via DraftKings, pre-Round 1 — the board may have moved since.'
+      league: 'MLB', away:{code:'lad', name:'Dodgers'}, home:{code:'det', name:'Tigers'},
+      time: '6:40 PM ET', pick: 'Dodgers -1.5 (-107)', conf: 3, free: true,
+      hook: 'Same game, three prices \u2014 one is much better',
+      why: 'The moneyline asks -181. The runline asks -107 for the same side, and Detroit is answering Tarik Skubal (8-7, 2.91) with a reliever, Drew Anderson (4-5, 4.09), rather than a starter. A gap of only about thirteen points of implied probability between a straight win and a two-run win is unusually narrow for baseball \u2014 the market is already telling you it expects this to be a multi-run night, and charging almost nothing extra to say so. What beats it: bullpen games can bunch pitchers effectively, and a 1-0 Dodgers win pays the moneyline and loses this.'
+    },
+    {
+      league: 'MLB', away:{code:'sd', name:'Padres'}, home:{code:'tb', name:'Rays'},
+      time: '7:10 PM ET', pick: 'Under 7.5 (-118)', conf: 3, free: false,
+      hook: 'Half a run apart from two identical games',
+      why: 'Shane McClanahan (3.10) against Casey Mize (3.44), indoors at Tropicana Field, is priced at 7.5. Two other games tonight with comparable arms \u2014 Dylan Cease at 2.37 and Cam Schlittler at 2.16 \u2014 are both priced at 7. Half a run of separation for pitching that is not half a run apart. What beats it: San Diego and Tampa both hit better on the road than the ERA lines suggest, and one crooked inning ends this early.'
     }
   ];
-  // Empty as of Thu Aug 27, ~11am CT: the daily automation did not
-  // complete today (no commit, no draft, no SEND_LOG entry). Rather
-  // than leave yesterday's Red Sox/Marlins pick live under today's
-  // date, this was pulled by hand. The featured Pick of the Day below
-  // (McIlroy, TOUR Championship) is real and verified; a full MLB
-  // slate entry was not ready with genuine same-day odds in time and
-  // was deliberately left out rather than guessed at.
+  // Set Fri Aug 28, 1:40 PM CT by the deadline-check safety net — the main
+  // weekday routine ran at 10:07 AM and produced nothing (no commit, no post,
+  // no log row), leaving Thursday's PGA card live under Thursday's date. Both
+  // games below were read off ESPN's live odds block this afternoon and had
+  // not started. MLB-only card: CFB Week 1 does not open until Saturday and
+  // the TOUR Championship's second round was already in play.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1051,11 +1051,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Thu, Aug 27</div>
-        <div class="potd-sport">PGA</div>
-        <div class="potd-matchup" id="potd-matchup">TOUR Championship &mdash; East Lake</div>
-        <div class="potd-line">THE PICK: McIlroy +850 to win outright</div>
-        <p class="potd-reasoning">Scottie Scheffler is the favorite at +320, but he played last week’s BMW Championship fighting hand, foot and mouth disease — his own words afterward: painful to grip the club, couldn’t practice or warm up properly, and withdrawal was on the table. McIlroy, healthy and in form, is the clear second choice at +850 — nearly triple the price. With no cut and all thirty players starting level over four rounds, a compromised favorite has nowhere to hide. We think the real gap between a sick Scheffler and a healthy McIlroy is narrower than +320 against +850 suggests. The case against: Scheffler says he’s improving, and even sick he played the final 54 holes at Bellerive nine under — that version of him at East Lake beats this bet easily. Medium confidence: golf outrights are a small-stakes market by design. Odds via DraftKings as of Monday, pre-Round 1 — the board may have moved since.</p>
+        <div class="potd-date">Fri, Aug 28</div>
+        <div class="potd-sport">MLB</div>
+        <div class="potd-matchup" id="potd-matchup">Dodgers @ Tigers</div>
+        <div class="potd-line">THE PICK: Dodgers -1.5 (-107) &middot; 6:40 PM ET</div>
+        <p class="potd-reasoning">Tarik Skubal is back at Comerica Park, this time in a Dodgers uniform, and the market wants -181 for Los Angeles to win the game. That is the worst of the three prices posted on it. The runline — the same side, but needing a two-run margin — is -107. The distance between those two numbers is roughly thirteen points of implied probability, and a run and a half in baseball is normally worth a good deal more than that. The reason the gap is so thin is on Detroit’s side of the card: the Tigers are not starting a starter. Drew Anderson (4-5, 4.09) is a reliever, which means Detroit works through the back half of its bullpen against an 80-54 team that will see each arm exactly once. The market has already priced the blowout risk into the runline and is still charging a premium for the safer version. Take the cheaper one. The case against: bullpen games win more often than their reputation, and any 1-0 or 2-1 Dodgers night cashes the moneyline and buries this. Medium confidence. Odds via DraftKings, read at 1:40 PM CT today — check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
