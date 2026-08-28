@@ -10,7 +10,8 @@
   "00b-umar-chalk.txt",
   "00c-coinflip.txt",
   "00d-scheffler.txt",
-  "00e-rory-pick.txt"
+  "00e-rory-pick.txt",
+  "00f-golf-outrights.txt"
  ],
  "history": [
   {
@@ -110,6 +111,15 @@
    "url": "https://x.com/thenumberdesk/status/2093459886386401737",
    "at": "2026-08-28T22:05:06.340304+00:00",
    "chars": 163,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00f-golf-outrights.txt",
+   "id": "2093464144485953605",
+   "url": "https://x.com/thenumberdesk/status/2093464144485953605",
+   "at": "2026-08-28T22:22:01.508631+00:00",
+   "chars": 106,
    "had_link": false,
    "est_cost": 0.015
   }
