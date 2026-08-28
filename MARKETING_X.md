@@ -277,3 +277,76 @@ These are live and verifiable. Use them or the equivalents on the day.
   later. An empty server hurts more than it helps.
 - **Reddit** — r/sportsbook is the right audience and brutal on self-promo.
   Human participation only; nothing automated.
+
+---
+
+## Reach playbook — researched Aug 27, 2026
+
+Chuck asked for the actual mechanics of getting seen on X without tripping
+spam filters. Sources: SocialPilot, Sprout Social, SocialBee and Teract
+algorithm write-ups (Aug 2026), plus X shadowban/spam-policy guides from
+NodeMaven, Multilogin and YourReputationSolution. Findings below, ranked by
+how much they matter for an account our size.
+
+### 1. Links in the post body cost 30–50% of reach — put them in the first reply
+
+This is the single biggest lever and we have been doing it the expensive way.
+X suppresses posts that send people off-platform. The standard workaround,
+still effective: **post the hook with no link, then immediately reply to
+yourself with the link.** The reply carries the click and the parent post
+keeps full distribution.
+
+From now on, link posts are a two-step: post → self-reply with the URL.
+The one exception is when the link card itself is the point (a branded card
+that looks good in the timeline), and even then, expect to trade reach for
+the visual.
+
+### 2. A reply is worth roughly 150x a like
+
+Conversation is the ranking signal that matters most now. Fifty real replies
+beats five hundred passive likes. This validates the hourly engagement
+routine — replying to other people's posts is not a consolation prize for not
+having followers, it IS the growth strategy at this stage. Keep the ratio
+tilted heavily toward replies over broadcasts.
+
+Corollary: posts that invite a response outperform posts that close the loop.
+A number nobody can argue with gets read; a number that makes people want to
+tell you why you're wrong gets distribution.
+
+### 3. Hashtags — one or two, always relevant, never stacked
+
+The algorithm classifies topics by semantic embedding now, not by keyword
+matching, so hashtags matter far less than they did. They still help at the
+margins for discovery inside an event conversation (#TOURChampionship during
+the tournament, #GolfTwitter for the community).
+
+The safe and effective range is **one to two per post.** Three or more, or
+tags loosely related to the content, is one of the more reliably flagged spam
+signals — and X flags accounts that put multiple hashtags on *every* post,
+even relevant ones. So: occasional, not habitual. A hashtag on every single
+post is itself the pattern that gets noticed.
+
+### 4. Native video is worth ~10x text, under 2:20
+
+Strongest format boost available, and we do not use it at all. Keep it native
+— do not link out to YouTube. Worth considering for Saturday CFB boards or a
+30-second "here's what moved this week" clip. Filed as an opportunity, not
+yet actioned.
+
+### 5. Shadowbans come from patterns, not single posts
+
+No magic number triggers a limit. What gets accounts flagged is the aggregate:
+repetitive phrasing, identical posts, bursts of activity, hashtag stuffing,
+aggressive following/unfollowing, and engagement that reads as inauthentic.
+
+Our existing guardrails already cover most of this — max 3 actions per
+engagement round, vary the shape of every post, skip the hour if nothing is
+worth saying. Keep them. The quality gate is also a safety gate.
+
+### What this changes, concretely
+
+- Link posts become post-then-self-reply, not link-in-body.
+- One or two relevant hashtags, on some posts, not all.
+- Keep replies as the primary growth engine; they are worth more than posts.
+- Native video is the biggest unexploited format.
+- Never post the same text twice, never stack tags, never burst.
