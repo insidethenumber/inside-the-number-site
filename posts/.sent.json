@@ -9,7 +9,8 @@
   "000c-record-vs-era.txt",
   "00b-umar-chalk.txt",
   "00c-coinflip.txt",
-  "00d-scheffler.txt"
+  "00d-scheffler.txt",
+  "00e-rory-pick.txt"
  ],
  "history": [
   {
@@ -100,6 +101,15 @@
    "url": "https://x.com/thenumberdesk/status/2093458172291788813",
    "at": "2026-08-28T21:58:17.647092+00:00",
    "chars": 126,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00e-rory-pick.txt",
+   "id": "2093459886386401737",
+   "url": "https://x.com/thenumberdesk/status/2093459886386401737",
+   "at": "2026-08-28T22:05:06.340304+00:00",
+   "chars": 163,
    "had_link": false,
    "est_cost": 0.015
   }
