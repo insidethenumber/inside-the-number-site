@@ -7,7 +7,8 @@
   "000a-scherzer-price.txt",
   "000b-urena-wins-lie.txt",
   "000c-record-vs-era.txt",
-  "00b-umar-chalk.txt"
+  "00b-umar-chalk.txt",
+  "00c-coinflip.txt"
  ],
  "history": [
   {
@@ -80,6 +81,15 @@
    "url": "https://x.com/thenumberdesk/status/2092653091061477448",
    "at": "2026-08-26T16:39:11.330758+00:00",
    "chars": 132,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00c-coinflip.txt",
+   "id": "2093148835182977130",
+   "url": "https://x.com/thenumberdesk/status/2093148835182977130",
+   "at": "2026-08-28T01:29:05.918410+00:00",
+   "chars": 125,
    "had_link": false,
    "est_cost": 0.015
   }
