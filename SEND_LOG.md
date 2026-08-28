@@ -78,3 +78,41 @@ recalled. That issue is the one remaining place the pick exists.
 picking *any* non-MLB sport with a card, and there was no list of which
 leagues the site actually covers. The routine did what it was told. The fix is
 the covered-leagues list, not more judgement at selection time.
+
+---
+
+## Thu Aug 27, 2026 — TOUR Championship page, post-Round-1 honesty pass
+
+**What changed on `pga.html`:**
+  - The odds stamp now says plainly that the DraftKings prices are a
+    **snapshot read at 8:26 PM CT on Aug 27, not a live feed**, and tells the
+    reader to check their own book before acting on any number on the page.
+  - The Round 1 summary line was factually wrong. It read "all 30 through 18"
+    and called Spaun "+4, the only man over par," which implied he finished.
+    He did not — **J.J. Spaun withdrew after five holes with a shoulder
+    injury**, so 29 players completed the round. The line now says that.
+  - The removed claim "entire field inside 12 shots" was dropped rather than
+    recalculated, because the tail of the leaderboard could not be verified
+    this run and a made-up spread is worse than no spread.
+  - Spaun's table row is now labeled "(withdrew, R1)" so the em dash in the
+    odds column reads as a reason, not a gap.
+  - No odds figures were added or altered. No pick language was touched.
+
+**On live outright odds — still unavailable to automation here.** This was
+re-checked. ESPN's golf odds endpoint for event 401811964 could not be
+retrieved at all this run (the host is unreachable from the sandbox, and the
+in-app browser refuses espn.com), and it returned an empty set when it was
+last reachable — ESPN does not carry golf outrights. VegasInsider's futures
+page is pre-tournament only. Updated in-tournament prices live inside
+sportsbook apps, which we do not scrape and will not log into. The prices
+currently on the page were **hand-entered by Chuck off the DraftKings board**,
+and the page now says so with a timestamp attached.
+
+**A second data note worth keeping.** ESPN's public scoreboard feed still
+reported the TOUR Championship as `STATUS_SCHEDULED` with all 30 players at
+"E" at 10 PM ET Thursday, hours after Round 1 finished. Round 1 results were
+confirmed instead from Golfweek, CBS Sports and USA TODAY reporting. Do not
+trust that ESPN endpoint as the sole round-status check for golf.
+
+**Not done, deliberately:** no pick added or changed, no other page touched,
+nothing posted to X or Reddit.
