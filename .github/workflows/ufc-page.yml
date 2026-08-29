@@ -14,12 +14,17 @@ name: UFC card page
 # instead of publishing junk.
 
 on:
-  schedule:
-    # Poll every two hours rather than trusting one daily trigger — this job's
-    # schedule had never once fired on its own (three runs in its lifetime, all
-    # manual). --max-age-hours 20 means only the first poll after the page goes
-    # stale actually calls the Odds API, so this still costs ~1 credit a day.
-    - cron: "13 */2 * * *"
+  # CRON DISABLED Aug 29 2026 after a live incident. Two independent bugs shipped
+  # wrong data to the public page every two hours:
+  #   1) fetch_odds() pulls EVERY mma_mixed_martial_arts event in the --start/--end
+  #      window, not just the target card, so a second promotion's bouts were merged
+  #      into the UFC page (tell: those rows quoted 1-2 books vs 6-7 for real fights).
+  #   2) build() picks the "main event" by reverse-sorting that mixed list on
+  #      commence_time, so a non-UFC fight was repeatedly labelled the headliner.
+  # There is also no guard against the card being OVER — it kept publishing finished
+  # fights as shoppable odds.
+  # Do NOT re-enable until all three are fixed AND the output is checked against
+  # ESPN's card roster for that event. Manual runs only.
   workflow_dispatch:
 
 concurrency:
