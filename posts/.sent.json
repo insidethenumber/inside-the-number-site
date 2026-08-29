@@ -11,7 +11,8 @@
   "00c-coinflip.txt",
   "00d-scheffler.txt",
   "00e-rory-pick.txt",
-  "00f-golf-outrights.txt"
+  "00f-golf-outrights.txt",
+  "00g-cfb-open.txt"
  ],
  "history": [
   {
@@ -120,6 +121,15 @@
    "url": "https://x.com/thenumberdesk/status/2093464144485953605",
    "at": "2026-08-28T22:22:01.508631+00:00",
    "chars": 106,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00g-cfb-open.txt",
+   "id": "2093705712274731278",
+   "url": "https://x.com/thenumberdesk/status/2093705712274731278",
+   "at": "2026-08-29T14:21:55.761819+00:00",
+   "chars": 124,
    "had_link": false,
    "est_cost": 0.015
   }
