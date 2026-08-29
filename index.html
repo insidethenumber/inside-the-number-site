@@ -846,31 +846,48 @@
   const todaysGames = [
     {
       league: 'MLB', away:{code:'lad', name:'Dodgers'}, home:{code:'det', name:'Tigers'},
-      time: '6:40 PM ET', pick: 'Dodgers -1.5 (-107)', conf: 3, free: true,
-      hook: 'Same game, three prices \u2014 one is much better',
-      why: 'The moneyline asks -181. The runline asks -107 for the same side, and Detroit is answering Tarik Skubal (8-7, 2.91) with a reliever, Drew Anderson (4-5, 4.09), rather than a starter. A gap of only about thirteen points of implied probability between a straight win and a two-run win is unusually narrow for baseball \u2014 the market is already telling you it expects this to be a multi-run night, and charging almost nothing extra to say so. What beats it: bullpen games can bunch pitchers effectively, and a 1-0 Dodgers win pays the moneyline and loses this.'
+      time: '1:10 PM ET', pick: 'Under 7 (+101)', conf: 4, free: true,
+      hook: 'The number came down, the price didn\u2019t',
+      why: 'Blake Snell (2.57 ERA) faces Keider Montero (3.30) at Comerica Park, and the total has already been marked down from 7.5 to 7. Even after that move the under is the plus-money side at +101 while the over is laid at -122 \u2014 the market shaved the number and still left the cheaper price on the side it moved toward. You rarely get the direction and the better price in the same bet. What beats it: Los Angeles is 81-54 and scores in bunches, and one four-run inning off Montero ends this by the sixth.'
     },
     {
       league: 'MLB', away:{code:'sd', name:'Padres'}, home:{code:'tb', name:'Rays'},
-      time: '7:10 PM ET', pick: 'Under 7.5 (-118)', conf: 3, free: false,
-      hook: 'Half a run apart from two identical games',
-      why: 'Shane McClanahan (3.10) against Casey Mize (3.44), indoors at Tropicana Field, is priced at 7.5. Two other games tonight with comparable arms \u2014 Dylan Cease at 2.37 and Cam Schlittler at 2.16 \u2014 are both priced at 7. Half a run of separation for pitching that is not half a run apart. What beats it: San Diego and Tampa both hit better on the road than the ERA lines suggest, and one crooked inning ends this early.'
+      time: '4:10 PM ET', pick: 'Rays -1.5 (+158)', conf: 3, free: false,
+      hook: 'The better arm keeps getting cheaper',
+      why: 'Nick Martinez is 13-4 with a 2.93 ERA. Walker Buehler is 8-6 at 4.63. Tampa Bay opened -136 on the moneyline and has drifted to -127, so the side with the clear pitching edge is cheaper now than it was at open \u2014 money is moving the other way. The runline pays +158 for a two-run margin, which is the version of this game the market is charging least for. What beats it: Tampa wins a lot of one-run games and this bet needs two.'
+    },
+    {
+      league: 'CFB', away:{code:'55', name:'Jax State'}, home:{code:'2449', name:'N Dakota St'},
+      time: '5:30 PM ET', pick: 'Jacksonville State +6.5 (-105)', conf: 3, free: false,
+      hook: 'Three and a half points of respect',
+      why: 'North Dakota State opened -10 in the Fargodome and now sits at -6.5, with the moneyline shortening from -325 to -265. That is a three-and-a-half point move toward Jacksonville State before a snap has been played, and the total came down two points alongside it \u2014 the shape of a game the market now expects to stay close. What beats it: a move this size can be chasing news that turns out to be noise, and a fast NDSU start makes 6.5 academic.'
+    },
+    {
+      league: 'CFB', away:{code:'62', name:'Hawai\u2019i'}, home:{code:'24', name:'Stanford'},
+      time: '7:00 PM ET', pick: 'Under 48.5 (-105)', conf: 3, free: false,
+      hook: 'Bigger favorite, smaller total',
+      why: 'Stanford\u2019s spread moved from -3 to -4 while the total dropped from 50.5 to 48.5. The market got more confident in the favorite and less confident in the scoring at the same time, which is the shape of a game expected to be controlled rather than traded. The under is the side that gets paid for that read. What beats it: Week 1 totals are the least informed numbers of the season, and one special-teams score changes the math in a hurry.'
     }
   ];
-  // Set Fri Aug 28, 1:40 PM CT by the deadline-check safety net — the main
-  // weekday routine ran at 10:07 AM and produced nothing (no commit, no post,
-  // no log row), leaving Thursday's PGA card live under Thursday's date. Both
-  // games below were read off ESPN's live odds block this afternoon and had
-  // not started. MLB-only card: CFB Week 1 does not open until Saturday and
-  // the TOUR Championship's second round was already in play.
+  // Set Sat Aug 29, 8:30 AM CT by the weekend routine. All four numbers were
+  // read off ESPN's live odds block this morning (DraftKings) and every game
+  // was still unstarted at write time. Board surveyed in full: MLB 17 games,
+  // CFB 8, NFL preseason 2, and no NBA/CBB/NHL. The UFC Fight Night card
+  // finished overnight in Abu Dhabi and the TOUR Championship's third round
+  // carries no odds in the feed, so neither could be priced.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
   // size, which is the exact move this brand is positioned against. If
   // headline numbers ever go up, they go up with the denominator attached.
 
+  /* ESPN files college logos under /ncaa/ keyed by numeric team id, not under
+     /cfb/ or /cbb/ by slug — .../teamlogos/cfb/500/2449.png is a 404. Verified
+     Aug 29, 2026, the first day a CFB game made the card. For CFB and CBB rows
+     put the ESPN numeric team id in `code`. */
+  const LOGO_PATH = { CFB:'ncaa', CBB:'ncaa' };
   const logo = (league, code) =>
-    `https://a.espncdn.com/i/teamlogos/${league.toLowerCase()}/500/${code}.png`;
+    `https://a.espncdn.com/i/teamlogos/${LOGO_PATH[league] || league.toLowerCase()}/500/${code}.png`;
 
   /* ESPN's scoreboard endpoint, called with no date, keeps serving YESTERDAY's
      slate well into the following morning — at 8:50am on Aug 21 it was still
@@ -1051,11 +1068,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Fri, Aug 28</div>
+        <div class="potd-date">Sat, Aug 29</div>
         <div class="potd-sport">MLB</div>
         <div class="potd-matchup" id="potd-matchup">Dodgers @ Tigers</div>
-        <div class="potd-line">THE PICK: Dodgers -1.5 (-107) &middot; 6:40 PM ET</div>
-        <p class="potd-reasoning">Tarik Skubal is back at Comerica Park, this time in a Dodgers uniform, and the market wants -181 for Los Angeles to win the game. That is the worst of the three prices posted on it. The runline — the same side, but needing a two-run margin — is -107. The distance between those two numbers is roughly thirteen points of implied probability, and a run and a half in baseball is normally worth a good deal more than that. The reason the gap is so thin is on Detroit’s side of the card: the Tigers are not starting a starter. Drew Anderson (4-5, 4.09) is a reliever, which means Detroit works through the back half of its bullpen against an 80-54 team that will see each arm exactly once. The market has already priced the blowout risk into the runline and is still charging a premium for the safer version. Take the cheaper one. The case against: bullpen games win more often than their reputation, and any 1-0 or 2-1 Dodgers night cashes the moneyline and buries this. Medium confidence. Odds via DraftKings, read at 1:40 PM CT today — check the number before you take it.</p>
+        <div class="potd-line">THE PICK: Under 7 (+101) &middot; 1:10 PM ET</div>
+        <p class="potd-reasoning">Blake Snell takes the ball for Los Angeles at Comerica Park with a 2.57 ERA. Keider Montero answers for Detroit at 3.30. Two arms in that range is the kind of matchup that pulls a total down, and it already has — this opened at 7.5 and now sits at 7. What is unusual is what happened to the price on the way. When a number moves half a run, the side it moved toward normally gets more expensive to back. Here it did the opposite: the over is laid at -122 while the under is still the plus-money side at +101. Strip out what the book keeps and the market is calling this a coin flip that leans slightly over — but it is charging you nothing to take the direction it just moved in itself. Getting the number and the better price in the same bet is rare, and it is the whole reason this is today’s free pick. The case against: the Dodgers are 81-54 and score in bunches, Comerica plays fair rather than cavernous in late August, and one four-run inning off Montero ends this before the sixth. Medium-to-high confidence. Odds via DraftKings, read at 8:30 AM CT today — check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
