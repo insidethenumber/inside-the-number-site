@@ -445,16 +445,20 @@
       });
       var dOpts={weekday:'short',month:'short',day:'numeric'};
       var label=d.toLocaleDateString('en-US',dOpts);
-      /* Week number, derived rather than typed. Week 0 is the opening
-         Saturday, Aug 29 2026; every Saturday after that is one higher.
-         Hardcoding "Week 0" would have been wrong by Sept 5, which is the
-         same trap that put stale lines on this page to begin with. */
-      var WEEK0=new Date(2026,7,29);
-      var wk=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK0)/6048e5);
-      var wkTxt=(wk>=0&&wk<=16)?('College Football Week '+wk):'College Football';
+      /* Week number, derived rather than typed. Corrected Aug 29, 2026: the
+         anchor said Aug 29 was Week 0, so the page shipped a headline and a
+         <title> reading "Week 0" on a day ESPN's own scoreboard returns
+         week.number = 1, seasonType "Regular Season". Aug 29 2026 IS Week 1;
+         every Saturday after that is one higher. Verified against the feed
+         before changing. Hardcoding the number would be wrong by Sept 5,
+         which is the same trap that put stale lines on this page to begin
+         with — so the anchor moves, the derivation stays. */
+      var WEEK1=new Date(2026,7,29);
+      var wk=1+Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK1)/6048e5);
+      var wkTxt=(wk>=1&&wk<=16)?('College Football Week '+wk):'College Football';
       document.getElementById('wk').textContent=wkTxt;
       document.title=wkTxt+' Odds — Every Game, Every Number | Inside the Number';
-      document.getElementById('eyebrow').textContent='// CFB · Week '+(wk>=0?wk:'')+' · '+label;
+      document.getElementById('eyebrow').textContent='// CFB · Week '+(wk>=1?wk:'')+' · '+label;
       var misN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)>=30;}).length;
       var clsN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)<7;}).length;
       document.getElementById('lede').textContent=
