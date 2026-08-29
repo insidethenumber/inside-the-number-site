@@ -12,7 +12,8 @@
   "00d-scheffler.txt",
   "00e-rory-pick.txt",
   "00f-golf-outrights.txt",
-  "00g-cfb-open.txt"
+  "00g-cfb-open.txt",
+  "00h-shopping.txt"
  ],
  "history": [
   {
@@ -130,6 +131,15 @@
    "url": "https://x.com/thenumberdesk/status/2093705712274731278",
    "at": "2026-08-29T14:21:55.761819+00:00",
    "chars": 124,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00h-shopping.txt",
+   "id": "2093751037706309655",
+   "url": "https://x.com/thenumberdesk/status/2093751037706309655",
+   "at": "2026-08-29T17:22:02.249944+00:00",
+   "chars": 147,
    "had_link": false,
    "est_cost": 0.015
   }
