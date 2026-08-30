@@ -16,7 +16,8 @@
   "00h-shopping.txt",
   "05-injuries.txt",
   "06-what-beats-it.txt",
-  "07-true-price.txt"
+  "07-true-price.txt",
+  "08-conditions.txt"
  ],
  "history": [
   {
@@ -170,6 +171,15 @@
    "url": "https://x.com/thenumberdesk/status/2094113399047368863",
    "at": "2026-08-30T17:21:55.878741+00:00",
    "chars": 146,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "08-conditions.txt",
+   "id": "2094178795033116770",
+   "url": "https://x.com/thenumberdesk/status/2094178795033116770",
+   "at": "2026-08-30T21:41:47.491620+00:00",
+   "chars": 143,
    "had_link": false,
    "est_cost": 0.015
   }
