@@ -14,7 +14,8 @@
   "00f-golf-outrights.txt",
   "00g-cfb-open.txt",
   "00h-shopping.txt",
-  "05-injuries.txt"
+  "05-injuries.txt",
+  "06-what-beats-it.txt"
  ],
  "history": [
   {
@@ -150,6 +151,15 @@
    "url": "https://x.com/thenumberdesk/status/2093816396593721484",
    "at": "2026-08-29T21:41:44.967503+00:00",
    "chars": 144,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "06-what-beats-it.txt",
+   "id": "2094068146504188056",
+   "url": "https://x.com/thenumberdesk/status/2094068146504188056",
+   "at": "2026-08-30T14:22:06.824304+00:00",
+   "chars": 127,
    "had_link": false,
    "est_cost": 0.015
   }
