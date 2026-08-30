@@ -803,12 +803,14 @@
      inside a cross-origin frame, so the height is fixed here. Beehiiv renders
      its own "Inside The Number" heading at the top of the form, which duplicates
      the panel label right above it -- so the iframe is made taller than the
-     window and pulled up to crop that heading off, leaving the email input.
-     The -120px offset with a 140px window keeps the input fully visible whether
-     Beehiiv's description wraps to two lines (wide) or three (narrow), so the
-     crop does not need retuning per breakpoint. */
-  .hp-mail-embed{width:100%;height:140px;overflow:hidden;border-radius:8px;position:relative}
-  .hp-mail-embed iframe{position:absolute;top:-120px;left:0;width:100%;height:320px;border:0}
+     window and pulled up just enough to crop that heading off. The window is
+     then made tall enough (215px) to contain the description and the input at
+     EVERY wrap width -- the description runs 2 lines on a wide viewport and 4 on
+     a narrow one, and a tight crop clipped the input in the 4-line case. Sizing
+     for the worst case costs a little whitespace when the text is short, which
+     is much cheaper than an invisible submit button. */
+  .hp-mail-embed{width:100%;height:215px;overflow:hidden;border-radius:8px;position:relative}
+  .hp-mail-embed iframe{position:absolute;top:-45px;left:0;width:100%;height:300px;border:0}
   .hp-mail-row{display:flex;gap:7px}
   .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
     padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
