@@ -118,3 +118,78 @@ trust that ESPN endpoint as the sole round-status check for golf.
 
 **Not done, deliberately:** no pick added or changed, no other page touched,
 nothing posted to X or Reddit.
+
+---
+
+## Sun Aug 30, 2026 — sent 8:16 AM CDT (target 9:30 AM) — ON TIME, 74 min early
+
+**Subject:** A Full Run Came Off This Total and the Price Didn't Follow
+**Sent to:** all free subscribers, Email and Web. Byline ITN Desk (single author,
+no personal account attached).
+
+**Audit counts.**
+  - Sports: **MLB 2**. That is the whole card.
+  - Bet types: **total 1 · runline 1**. Moneylines **0 of 2 (0%)**, inside the
+    50% cap.
+  - Lead / free pick: **Phillies at Angels, under 7.5 (-103)**, 4:07 PM ET.
+    Site Pick of the Day and newsletter free pick match.
+  - Support: **Brewers -1.5 (+123)** vs Texas, 2:10 PM ET, confidence 3.
+
+**FOOTBALL FIRST could not be applied, and the exception is why.** There are
+**zero** football games today. ESPN returns 0 events for both
+`football/college-football?dates=20260830` and `football/nfl?dates=20260830`.
+CFB Week 1 opened with eight games on Sat Aug 29 — all final — and does not
+resume until **Thu Sep 3** (11 FBS games, verified). The NFL opener is the
+following week. This is precisely the "day with zero football games" carve-out,
+not a judgement call, and the newsletter says so in the first two paragraphs
+rather than quietly leading with baseball.
+
+**Why only two picks, not three or four.** The only non-MLB event on the board
+was the **TOUR Championship final round**. Event name was verified against the
+feed before use (per the Aug 28 wrong-tournament caution) — it returns
+"TOUR Championship", Round 3 play complete, which is correct for a Sunday.
+But `sports.core.api.espn.com/.../golf/leagues/pga/events/401811964/.../odds`
+returns **count: 0**. No price, so no pick — rule 3e over rule 3c. With golf
+out and max-two-per-sport in force, two MLB picks is the ceiling. The
+TOUR Championship still ran as the trend/story section, and the newsletter
+states plainly that we have no pick on it because we could not read a number.
+
+**The pick itself.** PHI/LAA is the only total on a fourteen-game board that
+moved a **full run** (8.5 → 7.5); everything else that moved, moved half.
+Philadelphia's true price barely budged across that move — 66.6% implied at
+open, 65.2% now — when a falling total should have pulled a favorite in. And
+after the move the under is still the *cheaper* side at -103 against -116 on
+the over. Direction plus the better price.
+
+**Stale-game check:** earliest first pitch on the board is 12:15 PM ET
+(11:15 AM CT). Both picks (1:10 PM CT and 3:07 PM CT) were hours from starting
+at send. Nothing already underway was presented as bettable.
+
+**cfb.html:** no CFB pick made the card, so the PICK:START/PICK:END block was
+rewritten to say there are no college football games today and to point at the
+baseball free pick, rather than leaving Saturday's two plays sitting there as a
+stale promise. Markers kept.
+
+**Correction made after send.** The newsletter's disclaimer says the odds were
+read at "8:35 AM CT". They were actually read between **8:08 and 8:15 AM CT** —
+8:35 was a forward-guess written while drafting and it went out wrong. The
+number itself is right; only the read-time stamp is off by twenty minutes.
+index.html and cfb.html have been corrected to 8:15 AM CT. **Lesson: stamp the
+read time from `date`, never from an estimate of when the send will land.**
+
+**Infrastructure notes.**
+  - `scripts/build_slate.py` produced **nothing** — every ESPN call from the
+    sandbox failed with `Tunnel connection failed: 403 Forbidden`, and the
+    script cheerfully wrote a 0-game brief.json and exited 0. The whole survey
+    had to be re-done by hand through the browser's JS console against the same
+    endpoints, which work fine from there. **The sandbox cannot reach ESPN.**
+    build_slate.py should fail loudly on an all-sports fetch failure instead of
+    reporting an empty board, which is indistinguishable from a real off-day.
+  - Fresh `mktemp -d` clone, as required. No shared working copy touched.
+  - Push needed `git -c credential.helper="$PWD/itn-git-credential.sh"` — a
+    fresh clone carries no local credential.helper config, and `$HOME` in the
+    sandbox is not the Mac home, so the documented
+    `ITN_SECRETS="$HOME/Documents/..."` path does not resolve. Correct sandbox
+    path is `/sessions/<id>/mnt/Projects/Inside the Number/itn-secrets.env`.
+  - Deploy verified live on the first cachebust fetch. No stale-cache retry
+    needed.
