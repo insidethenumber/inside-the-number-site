@@ -799,10 +799,15 @@
   .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
   .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
   .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
-  /* Wrapper for the live Beehiiv iframe. Fixed height because the iframe cannot
-     size itself from inside; 132px fits Beehiiv's compact heading + input row
-     without clipping the button or leaving dead space. */
-  .hp-mail-embed{width:100%;height:132px;overflow:hidden;border-radius:8px}
+  /* Wrapper for the live Beehiiv iframe. The iframe cannot size itself from
+     inside a cross-origin frame, so the height is fixed here. Beehiiv renders
+     its own "Inside The Number" heading at the top of the form, which duplicates
+     the panel label right above it -- so the iframe is made taller than the
+     window and pulled up to crop that heading off, leaving the description line
+     and the email input. Crop is generous enough that a small change in
+     Beehiiv's own spacing will not clip the input. */
+  .hp-mail-embed{width:100%;height:118px;overflow:hidden;border-radius:8px;position:relative}
+  .hp-mail-embed iframe{position:absolute;top:-84px;left:0;width:100%;height:230px;border:0}
   .hp-mail-row{display:flex;gap:7px}
   .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
     padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
@@ -1019,7 +1024,7 @@
     <div class="hp-mail">
       <div class="hp-k">Get it in your inbox</div>
       <div class="hp-mail-embed">
-        <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:100%;border:0;" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
       </div>
       <div class="hp-fine">One pick every morning. No card, no spam.</div>
     </div>
