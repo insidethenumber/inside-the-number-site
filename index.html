@@ -845,36 +845,28 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'MLB', away:{code:'lad', name:'Dodgers'}, home:{code:'det', name:'Tigers'},
-      time: '1:10 PM ET', pick: 'Under 7 (+101)', conf: 4, free: true,
-      hook: 'The number came down, the price didn\u2019t',
-      why: 'Blake Snell (2.57 ERA) faces Keider Montero (3.30) at Comerica Park, and the total has already been marked down from 7.5 to 7. Even after that move the under is the plus-money side at +101 while the over is laid at -122 \u2014 the market shaved the number and still left the cheaper price on the side it moved toward. You rarely get the direction and the better price in the same bet. What beats it: Los Angeles is 81-54 and scores in bunches, and one four-run inning off Montero ends this by the sixth.'
+      league: 'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'laa', name:'Angels'},
+      time: '4:07 PM ET', pick: 'Under 7.5 (-103)', conf: 4, free: true,
+      hook: 'A full run came off, the price didn\u2019t',
+      why: 'This total opened at 8.5 and now sits at 7.5 \u2014 the only full\u2011run move on a fourteen\u2011game board. What did not move is who the market thinks wins: Philadelphia was 66.6% implied at open and is 65.2% now. Cutting a run of expected scoring should pull a favorite\u2019s number in, because fewer runs means fewer chances for the better team to separate. It did not. And after all that movement the under is still the cheaper side at -103 while the over is laid at -116. What beats it: Zack Wheeler is the kind of arm that gets pulled after six with a lead, and the Angels\u2019 bullpen has been the part of this team that gives runs back.'
     },
     {
-      league: 'MLB', away:{code:'sd', name:'Padres'}, home:{code:'tb', name:'Rays'},
-      time: '4:10 PM ET', pick: 'Rays -1.5 (+158)', conf: 3, free: false,
-      hook: 'The better arm keeps getting cheaper',
-      why: 'Nick Martinez is 13-4 with a 2.93 ERA. Walker Buehler is 8-6 at 4.63. Tampa Bay opened -136 on the moneyline and has drifted to -127, so the side with the clear pitching edge is cheaper now than it was at open \u2014 money is moving the other way. The runline pays +158 for a two-run margin, which is the version of this game the market is charging least for. What beats it: Tampa wins a lot of one-run games and this bet needs two.'
-    },
-    {
-      league: 'CFB', away:{code:'55', name:'Jax State'}, home:{code:'2449', name:'N Dakota St'},
-      time: '5:30 PM ET', pick: 'Jacksonville State +6.5 (-105)', conf: 3, free: false,
-      hook: 'Three and a half points of respect',
-      why: 'North Dakota State opened -10 in the Fargodome and now sits at -6.5, with the moneyline shortening from -325 to -265. That is a three-and-a-half point move toward Jacksonville State before a snap has been played, and the total came down two points alongside it \u2014 the shape of a game the market now expects to stay close. What beats it: a move this size can be chasing news that turns out to be noise, and a fast NDSU start makes 6.5 academic.'
-    },
-    {
-      league: 'CFB', away:{code:'62', name:'Hawai\u2019i'}, home:{code:'24', name:'Stanford'},
-      time: '7:00 PM ET', pick: 'Under 48.5 (-105)', conf: 3, free: false,
-      hook: 'Bigger favorite, smaller total',
-      why: 'Stanford\u2019s spread moved from -3 to -4 while the total dropped from 50.5 to 48.5. The market got more confident in the favorite and less confident in the scoring at the same time, which is the shape of a game expected to be controlled rather than traded. The under is the side that gets paid for that read. What beats it: Week 1 totals are the least informed numbers of the season, and one special-teams score changes the math in a hurry.'
+      league: 'MLB', away:{code:'tex', name:'Rangers'}, home:{code:'mil', name:'Brewers'},
+      time: '2:10 PM ET', pick: 'Brewers -1.5 (+123)', conf: 3, free: false,
+      hook: 'The best team on the board got cheaper',
+      why: 'Milwaukee is 85-51, the best record of the twenty\u2011eight clubs playing today, and its moneyline has drifted from -173 at open to -162 \u2014 the market is charging less for the best team on the card than it did this morning. Dustin May starts against Kumar Rocker and a 66-70 Texas side. The runline pays +123 for the two\u2011run version of a game the moneyline says Milwaukee wins six times in ten. What beats it: -1.5 is a real ask against any big\u2011league lineup, and the total sitting still at 8.5 all morning says the market expects traffic, not a blowout.'
     }
   ];
-  // Set Sat Aug 29, 8:15 AM CT by the weekend routine. All four numbers were
-  // read off ESPN's live odds block this morning (DraftKings) and every game
-  // was still unstarted at write time. Board surveyed in full: MLB 17 games,
-  // CFB 8, NFL preseason 2, and no NBA/CBB/NHL. The UFC Fight Night card
-  // finished overnight in Abu Dhabi and the TOUR Championship's third round
-  // carries no odds in the feed, so neither could be priced.
+  // Set Sun Aug 30, 8:35 AM CT by the weekend routine. Both numbers were read
+  // off the DraftKings line in ESPN's odds feed this morning, and both games
+  // were unstarted at write time (first pitch on the board is 12:15 PM ET).
+  // Board surveyed in full: MLB 14 games, and that is the whole card. CFB has
+  // ZERO games today \u2014 Week 1 opened with eight games on Saturday Aug 29 and
+  // does not resume until Thu Sep 3 \u2014 and the NFL, NBA, CBB, NHL and UFC all
+  // have nothing. The only non-MLB event is the TOUR Championship final round,
+  // and ESPN's golf odds endpoint returns zero items for it, so it could not be
+  // priced and gets no pick. Football-first therefore cannot apply today; two
+  // picks is the ceiling under the max-two-per-sport rule.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1068,11 +1060,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Sat, Aug 29</div>
+        <div class="potd-date">Sun, Aug 30</div>
         <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Dodgers @ Tigers</div>
-        <div class="potd-line">THE PICK: Under 7 (+101) &middot; 1:10 PM ET</div>
-        <p class="potd-reasoning">Blake Snell takes the ball for Los Angeles at Comerica Park with a 2.57 ERA. Keider Montero answers for Detroit at 3.30. Two arms in that range is the kind of matchup that pulls a total down, and it already has — this opened at 7.5 and now sits at 7. What is unusual is what happened to the price on the way. When a number moves half a run, the side it moved toward normally gets more expensive to back. Here it did the opposite: the over is laid at -122 while the under is still the plus-money side at +101. Strip out what the book keeps and the market is calling this a coin flip that leans slightly over — but it is charging you nothing to take the direction it just moved in itself. Getting the number and the better price in the same bet is rare, and it is the whole reason this is today’s free pick. The case against: the Dodgers are 81-54 and score in bunches, Comerica plays fair rather than cavernous in late August, and one four-run inning off Montero ends this before the sixth. Medium-to-high confidence. Odds via DraftKings, read at 8:15 AM CT today — check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">Phillies @ Angels</div>
+        <div class="potd-line">THE PICK: Under 7.5 (-103) &middot; 4:07 PM ET</div>
+        <p class="potd-reasoning">Zack Wheeler pitches for Philadelphia in Anaheim against Yusei Kikuchi and a 52-84 Angels team. The interesting number is not the moneyline. This total opened at 8.5 and now sits at 7.5, a full run down &mdash; and on a fourteen-game board it is the only total that moved a full run today. Everything else that moved, moved half. So the market did real work on this game overnight. Here is the part that does not fit. Cutting a run out of a game should help the underdog: fewer runs means fewer innings where the better team can pull away, and a favorite&rsquo;s price normally comes in when a total drops. Philadelphia&rsquo;s did not. Strip out what the book keeps and the Phillies were a 66.6% side at open and are a 65.2% side now &mdash; essentially unchanged, while the run environment underneath them fell by a full run. One of those two numbers is stale. Then the price itself. After a move that big, the side the market moved toward is usually the expensive one. Here the under is the cheaper half of the game at -103 while the over is laid at -116. You are getting the direction the market just moved in, at the better of the two prices, on the lowest total on today&rsquo;s board. The case against: Wheeler rarely goes past six, and the Anaheim bullpen behind him is where this profile breaks &mdash; a four-run seventh inning does not care what the opening number was. Kikuchi is also capable of walking his way into a big inning of his own. High confidence, not certainty. Odds via DraftKings, read at 8:35 AM CT today &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
