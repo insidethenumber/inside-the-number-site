@@ -31,8 +31,7 @@ that's the signal to build the GitHub Actions version instead.
 | 2026-08-26 | Wed | 1:00 PM | 4:01 PM CDT | NO (+3h01m), manual completion | UPDATE to the earlier row: the send DID go out. Chuck restored the Beehiiv session at ~3:50 PM and the waiting draft was published by hand at 4:01 PM — 2.5 hours before the free pick's first pitch (Red Sox -1.5 at Miami, 6:40 PM ET), so the card went out live and legitimate. Root cause of the miss stands: Beehiiv session expired (likely the Max trial lapsing overnight; login page has NO keep-me-signed-in option, so this will recur eventually). Fixes shipped today: both daily tasks now check the session FIRST thing and ping Chuck immediately on logout, keep doing all site work, write the issue to DRAFT_<date>.md, and auto-publish the waiting draft on the first run after the session returns. Also fixed in the weekend task: WNBA was still in its survey list (now under the hard exclusion), the undeletable /tmp/itn clone path (now mktemp -d), and editor mechanics learned publishing today's issue by hand — beehiiv's composer silently eats keystroked text and scrolls to the caret under coordinate clicks; the reliable method, now documented in both task prompts, is a synthetic paste (DataTransfer + ClipboardEvent) into .ProseMirror with a marker-order verification before publishing. DRAFT_2026-08-26.md deleted after publication. |
 | 2026-08-27 | Thu | 1:00 PM | 11:16 AM CDT | YES, manual completion after hang | Main routine (`itn-daily-weekday`) started on time (~10:07 AM CDT, idempotency check passed: "nothing has published today") but hung indefinitely mid-run — confirmed via session transcript: the API call log shows "Your computer went to sleep mid-response" followed by a `browser_batch` call that never returned, even after a fresh wait. **Separately, and caught by Chuck before this was noticed:** the live site's Pick of the Day card was still showing Wed Aug 26's Red Sox/Marlins pick under Thursday's date — a Reddit draft was mistakenly built around it as if it were today's real pick. Chuck flagged it directly ("The Red Sox aren't even playing tonight") and asked for everything to be checked more thoroughly before anything else went out. **Site fix:** `todaysGames` (stale MLB entries, including wrong pitcher names for a different game) cleared and replaced with an honest empty-array comment; the Pick of the Day card rewritten to the real, verified pick — McIlroy +850 to win the TOUR Championship outright, sourced from `pga.html` (Scheffler favored at +320 but playing through hand-foot-mouth disease at the BMW Championship the week before). Pushed as commit `ed75d29`. **Newsletter:** duplicated Aug 26's post in Beehiiv, rewrote it block-by-block around the McIlroy pick, and published to Email and Web, all free subscribers, at 11:16 AM CDT — 1h44m ahead of the 1:00 PM target, and well ahead of both the golf card's live window and tonight's MLB first pitches. **No second (MLB) pick today — and the reason first given for that was WRONG, corrected here the same day.** The morning claim was that ESPN returned no odds for tonight's board. That was false. When the slate workflow was run by hand at 11:43am it pulled a complete set for all seven MLB games: totals (o6.5 to o9.5), over/under prices and runlines on every one. The real cause was that the morning check read ESPN's flat `overUnder`/`awayTeamOdds` fields, which are frequently empty, and concluded the market had no number — instead of reading the nested `odds.total`/`odds.pointSpread` blocks that `scripts/build_slate.py` has read all along, or simply opening `data/brief-latest.json`. So a second, non-moneyline MLB pick WAS available and the card could have carried one. The newsletter's wording ("nothing on that side of the board cleared our bar") is a judgement call and stands, but it was reached from a bad premise. `itn-daily-weekday` STEP 3 now documents the nested-vs-flat odds shape explicitly so this misread does not recur. **Also found and did not publish:** a second, independent error in an already-drafted (unposted) Reddit comment about tonight's Astros/Yankees game, which had Cole's (NYY) and Wesneski's (HOU) ERAs backwards relative to who was favored — caught during the same accuracy pass, flagged to Chuck, not pasted. **Separately, and not yet root-caused:** the GitHub Actions `daily-slate.yml` pipeline (independent of this task, runs on GitHub's own infra) has not produced a fresh `data/brief-latest.json` since Aug 25 — two days stale. This does not affect the newsletter or the Pick of the Day card, which are driven by live client-side ESPN fetches and the manual daily edit respectively, but it does mean the `/g/` static game pages are out of date. Flagged as an open item, not fixed today. **Standing risk, not yet mitigated:** the Mac-sleep-kills-the-browser-connection failure mode that caused today's hang is now confirmed (not just suspected) but has no fix in place — the task has no heartbeat or hard timeout, so a future hang of this kind will again go unnoticed until someone checks by hand. **Verified by the 1:15 PM safety-net run (`itn-deadline-check-weekday`) at 1:18 PM CDT:** Beehiiv's post list shows "Scheffler's +320 Doesn't Know He Was Sick Last Week" published Thu, Aug 27, 2026 11:16 AM CDT — 1h44m ahead of the 1:00 PM target. No recovery action needed. Appended to this row rather than adding a duplicate Aug 27 row (same convention as Aug 25). **Counting note for the reliability decision:** this is a hit on the 1:00 PM deadline but NOT a clean unattended run — the routine hung and a human finished it, so it should be scored as "deadline met, automation failed" rather than a green day. **Local repo is diverged again and needs a manual fix in Terminal before the next routine run:** the working copy sits at `f8b9942` (Aug 26 Pick of the Day), 1 ahead / 13 behind `origin/main`, with `SEND_LOG.md`, `posts/.sent.json` and `ufc.html` left staged; `git fetch` still emits "unable to unlink '.git/objects/**/tmp_obj_*': Operation not permitted" from the sandbox. Suggested fix: `git fetch origin && git reset --hard origin/main`. Origin and the live site are correct and unaffected — this row was pushed from a fresh clone, the seventh consecutive day the clone workaround was required (Aug 20, 21, 23, 24, 25, 26, 27). |
 | 2026-08-28 | Fri | 1:00 PM | 1:37 PM CDT | NO (+37m), recovery run | Main routine (`itn-daily-weekday`) ran at 10:07 AM and produced nothing — no Beehiiv post, no commit, no log row. That is **three consecutive weekdays the main routine has failed to complete unattended** (Aug 26 Beehiiv logout, Aug 27 mid-run hang, Aug 28 silent no-op); the safety net has caught all three, so the deadline record looks better than the automation actually is. At 1:33 PM the top post on `app.beehiiv.com/posts` was still Aug 27 ("Scheffler's +320 Doesn't Know He Was Sick Last Week", 11:16 AM CDT) and `index.html` on origin still read "Thu, Aug 27 · McIlroy +850" as the free pick. **Recovery:** surveyed the full board off ESPN's live odds block. Only one of fifteen MLB games had started (CIN @ CHC, 1:20 PM CDT); the next first pitch was 5:40 PM CDT, so both selections were comfortably forward-looking. Set the card, pushed `index.html` from a fresh clone (commit `685ac21`), then drafted and published the issue — "Detroit Isn't Starting a Starter, and the Runline Knows" — at **1:37 PM CDT**, bylined ITN Desk, 664 words. Free pick's first pitch was 6:40 PM ET, five hours after the send. **Card composition:** Dodgers -1.5 (-107) at Detroit as the free pick (runline — Tarik Skubal, now a Dodger, back at Comerica against a Detroit bullpen game; the moneyline on the same side is -181, only ~13 points of implied probability dearer for a run and a half), plus Padres/Rays Under 7.5 (-118) (total). Bet types: 1 runline, 1 total, **zero moneylines**. Held to two picks to respect the max-two-per-sport limit. **The non-MLB clause could not be met and this is the note the rule asks for:** MLB was the only covered sport with a forward-looking card. CFB Week 1 has no Friday games at all this year — ESPN's board shows zero events on Aug 28 and eight on Aug 29 — and the TOUR Championship's second round was already in play at East Lake. Third day in a row without a non-MLB option; it resolves tomorrow. **Two site problems inherited from Aug 27, both now fixed by the same push:** the homepage was a day stale, and it was still selling McIlroy at **+850** while `pga.html` correctly showed him drifted to **+2200** — the same site quoting one price two ways, roughly 13x apart in implied terms. **No git failure this run** — first clean git day in nine. The fresh-clone method worked on the first attempt; the only wrinkle was that the credential helper cannot be invoked from a path containing spaces, so it and `itn-secrets.env` were copied to `/tmp` first. **Still outstanding for Chuck:** the LOCAL shared-folder repo remains diverged (ahead 1, behind 26) with undeletable `.git/index.lock` and `.git/HEAD.lock` from Aug 26 and this morning's health check; it needs the Terminal fix documented in HEALTH_CHECK_2026-08-28.md. Origin and the live site are correct. The `data/brief-latest.json` slate pipeline is also still stale at `slate_date: 2026-08-27` — flagged Aug 27, not yet root-caused. |
-| 2026-08-29 | Sat | 9:30 AM | 8:20 AM CDT | **YES** | *Back-filled by the Aug 30 safety-net run — no row was written on the day.* Beehiiv's post list read at 9:35 AM CDT on Aug 30 shows "Snell Is at 2.57 and the Under Still Pays Plus Money" published Sat, Aug 29, 2026 8:20 AM CDT, 1h10m ahead of target. The main routine (`itn-daily-weekend`) evidently completed and sent on its own. **But the Aug 29 safety-net run left no SEND_LOG row**, so the on-time record for that day existed nowhere until now. Publish time here is taken from Beehiiv's own timestamp, which is authoritative; card composition and any same-day incidents were not reconstructed and are unknown. Treat this row as "deadline met, logging failed" — the send is verified, the reliability evidence for the day is not. |
-| 2026-08-30 | Sun | 9:30 AM | 8:16 AM CDT | **YES** | Clean unattended run — the first in the weekday/weekend record since Aug 22 with no recovery, no manual completion and no git workaround. Main routine (`itn-daily-weekend`) published "A Full Run Came Off This Total and the Price Didn't Follow" at Sun, Aug 30, 2026 8:16 AM CDT, **1h14m ahead of the 9:30 AM target**. Verified off `app.beehiiv.com/posts` at 9:35 AM CDT; the Beehiiv session was live, so no logout check was needed. Free pick is in Anaheim per the subtitle. No recovery action taken and Chuck was not messaged, per Step 3. Card composition not audited by this task — the safety net reads publish status only, and the selection rules are the main routine's to enforce. |
+| 2026-08-29 | Sat | 9:30 AM | 8:20 AM CDT | **YES** (-1h10m) | Main routine (`itn-daily-weekend`) completed end-to-end with no manual step. STEP 0: Beehiiv session **live** (no login redirect — the Aug 26 outage is resolved), no post dated today, no `DRAFT_*.md` waiting. Published "Snell Is at 2.57 and the Under Still Pays Plus Money" to Email and Web, all free subscribers, bylined ITN Desk. **AUDIT — Sports: MLB 2 · CFB 2. Bet types: total 2 · runline 1 · spread 1 — zero moneylines (0 of 4).** Max-two-per-sport met, the non-MLB clause met twice over, and the moneyline cap met with room to spare. **Card:** free pick Dodgers @ Tigers Under 7 (+101), 1:10 PM ET — total opened 7.5 and came down to 7 with Snell (2.57) against Keider Montero (3.30); we are taking the under against the market's own true price (no-vig over ~52.5%) on the view that the number is wrong by half a run, and the issue says so plainly rather than pretending the market agrees. Also Padres @ Rays, Rays -1.5 (+158), 4:10 PM ET; Jacksonville State +6.5 (-105) at North Dakota State, 5:30 PM ET (opened -10, moneyline in from -325 to -265); Hawai'i @ Stanford Under 48.5 (-105), 7:00 PM ET. First CFB picks ever to make the daily card. **Board surveyed in full:** MLB 17, CFB 8, NFL preseason 2, NBA/CBB/NHL out of season. **Two covered leagues could not be priced and this is the note the rule asks for:** the UFC card (Fight Night: Nurmagomedov vs. Song) was already `STATUS_FINAL` overnight, and the TOUR Championship's round is in progress with no odds in the feed — the same golf-odds gap logged Aug 27. NFL preseason was surveyed and passed on: two games, both with 36.5 totals, and no read worth stating. **Stale-game check:** earliest picked game 12:10 PM CDT, four hours clear of the send. **Two bugs found and fixed while working, both of which would have published something false:** (1) `logo()` in index.html built college logo URLs as `/teamlogos/cfb/500/<slug>.png`, which is a 404 — ESPN files college logos under `/ncaa/500/<numeric id>.png`. Never surfaced before because no CFB pick had ever been on the card. Added a `LOGO_PATH` map; verified all four ncaa ids return 200 and the live page renders 128 logos with zero broken. (2) `cfb.html` derived the week number from an anchor that called Aug 29 "Week 0", so the page headline and `<title>` both read Week 0 on a day ESPN's scoreboard returns `week.number = 1`, `seasonType: Regular Season`. Anchor corrected to WEEK1; derivation left intact so it stays right on Sept 5. **`cfb.html` pick block updated** with the Jacksonville State call plus a pointer to the Hawai'i/Stanford under; the page's date stamp is rendered live from the feed, so nothing there is hand-dated. **Git: clean — first day in seven with no lock or permission failure.** Fresh `mktemp -d` clone as instructed, four commits pushed (card, time correction, week fix, this log). The shared working copy was never touched. **One self-correction pre-publish:** the first commit stamped the odds read time as 8:15 AM CT after the numbers were actually pulled at 8:15 — the initial text said 8:30, which had not happened yet; corrected on the site before the newsletter went out. **Verified by the 9:34 AM safety-net run (`itn-deadline-check-weekend`):** beehiiv's post list at 9:35 AM CDT shows "Snell Is at 2.57 and the Under Still Pays Plus Money" published Sat, Aug 29, 2026 8:20 AM CDT — 1h10m ahead of the 9:30 AM target. No recovery action needed. Appended to this row rather than adding a duplicate Aug 29 row (same convention as Aug 25 and Aug 27). **Counting note for the reliability decision: this is a clean, fully unattended green day** — the first since Aug 24, after three straight weekday failures (Aug 26 logout, Aug 27 hang, Aug 28 silent no-op). **Local shared-folder repo is still broken and still needs the Terminal fix:** it sits at `f8b9942` (Aug 26) with stale `.git/HEAD.lock` and `.git/index.lock` present, so the working copy on disk is three days behind and its `index.html` still reads the Aug 26 card. Origin and the live site are correct (`index.html` on origin shows "Sat, Aug 29"); this row was pushed from a fresh clone, the eighth time that workaround was required. Suggested fix: `rm -f .git/*.lock; git fetch origin && git reset --hard origin/main`. |
 
 ## Baseline before the fixes
 
@@ -119,3 +118,112 @@ trust that ESPN endpoint as the sole round-status check for golf.
 
 **Not done, deliberately:** no pick added or changed, no other page touched,
 nothing posted to X or Reddit.
+
+---
+
+## Sun Aug 30, 2026 — sent 8:16 AM CDT (target 9:30 AM) — ON TIME, 74 min early
+
+**Subject:** A Full Run Came Off This Total and the Price Didn't Follow
+**Sent to:** all free subscribers, Email and Web. Byline ITN Desk (single author,
+no personal account attached).
+
+**Audit counts.**
+  - Sports: **MLB 2**. That is the whole card.
+  - Bet types: **total 1 · runline 1**. Moneylines **0 of 2 (0%)**, inside the
+    50% cap.
+  - Lead / free pick: **Phillies at Angels, under 7.5 (-103)**, 4:07 PM ET.
+    Site Pick of the Day and newsletter free pick match.
+  - Support: **Brewers -1.5 (+123)** vs Texas, 2:10 PM ET, confidence 3.
+
+**FOOTBALL FIRST could not be applied, and the exception is why.** There are
+**zero** football games today. ESPN returns 0 events for both
+`football/college-football?dates=20260830` and `football/nfl?dates=20260830`.
+CFB Week 1 opened with eight games on Sat Aug 29 — all final — and does not
+resume until **Thu Sep 3** (11 FBS games, verified). The NFL opener is the
+following week. This is precisely the "day with zero football games" carve-out,
+not a judgement call, and the newsletter says so in the first two paragraphs
+rather than quietly leading with baseball.
+
+**Why only two picks, not three or four.** The only non-MLB event on the board
+was the **TOUR Championship final round**. Event name was verified against the
+feed before use (per the Aug 28 wrong-tournament caution) — it returns
+"TOUR Championship", Round 3 play complete, which is correct for a Sunday.
+But `sports.core.api.espn.com/.../golf/leagues/pga/events/401811964/.../odds`
+returns **count: 0**. No price, so no pick — rule 3e over rule 3c. With golf
+out and max-two-per-sport in force, two MLB picks is the ceiling. The
+TOUR Championship still ran as the trend/story section, and the newsletter
+states plainly that we have no pick on it because we could not read a number.
+
+**The pick itself.** PHI/LAA is the only total on a fourteen-game board that
+moved a **full run** (8.5 → 7.5); everything else that moved, moved half.
+Philadelphia's true price barely budged across that move — 66.6% implied at
+open, 65.2% now — when a falling total should have pulled a favorite in. And
+after the move the under is still the *cheaper* side at -103 against -116 on
+the over. Direction plus the better price.
+
+**Stale-game check:** earliest first pitch on the board is 12:15 PM ET
+(11:15 AM CT). Both picks (1:10 PM CT and 3:07 PM CT) were hours from starting
+at send. Nothing already underway was presented as bettable.
+
+**cfb.html:** no CFB pick made the card, so the PICK:START/PICK:END block was
+rewritten to say there are no college football games today and to point at the
+baseball free pick, rather than leaving Saturday's two plays sitting there as a
+stale promise. Markers kept.
+
+**Correction made after send.** The newsletter's disclaimer says the odds were
+read at "8:35 AM CT". They were actually read between **8:08 and 8:15 AM CT** —
+8:35 was a forward-guess written while drafting and it went out wrong. The
+number itself is right; only the read-time stamp is off by twenty minutes.
+index.html and cfb.html have been corrected to 8:15 AM CT. **Lesson: stamp the
+read time from `date`, never from an estimate of when the send will land.**
+
+**Infrastructure notes.**
+  - `scripts/build_slate.py` produced **nothing** — every ESPN call from the
+    sandbox failed with `Tunnel connection failed: 403 Forbidden`, and the
+    script cheerfully wrote a 0-game brief.json and exited 0. The whole survey
+    had to be re-done by hand through the browser's JS console against the same
+    endpoints, which work fine from there. **The sandbox cannot reach ESPN.**
+    build_slate.py should fail loudly on an all-sports fetch failure instead of
+    reporting an empty board, which is indistinguishable from a real off-day.
+  - Fresh `mktemp -d` clone, as required. No shared working copy touched.
+  - Push needed `git -c credential.helper="$PWD/itn-git-credential.sh"` — a
+    fresh clone carries no local credential.helper config, and `$HOME` in the
+    sandbox is not the Mac home, so the documented
+    `ITN_SECRETS="$HOME/Documents/..."` path does not resolve. Correct sandbox
+    path is `/sessions/<id>/mnt/Projects/Inside the Number/itn-secrets.env`.
+  - Deploy verified live on the first cachebust fetch. No stale-cache retry
+    needed.
+
+**Verified by the 9:34 AM safety-net run (`itn-deadline-check-weekend`).**
+beehiiv's post list at 9:35 AM CDT shows "A Full Run Came Off This Total and
+the Price Didn't Follow" published Sun, Aug 30, 2026 8:16 AM CDT — **1h14m
+ahead of the 9:30 AM target**. No recovery action needed, and Chuck was not
+messaged, per Step 3. Appended here rather than added as a duplicate Aug 30
+row (same convention as Aug 25, 27 and 29). **Counting note for the Sept 3
+reliability decision: a clean, fully unattended green day, the second in a
+row** after Aug 29 — though see the build_slate.py note above, which means the
+survey inside that run was not itself unattended.
+
+**Git — ninth occurrence of the lock/permission failure (Aug 20, 21, 23, 24,
+25, 26, 27, 29, 30).** This safety-net run hit it too: `.git/HEAD.lock` in the
+shared folder is still undeletable from the sandbox ("Operation not permitted")
+and `git commit` refused to run. Pushed from a fresh `mktemp -d` clone as usual.
+
+**A real mistake by this run, caught and reverted — worth recording because the
+next run can repeat it.** The first push (`11acf67`) copied SEND_LOG.md up from
+the SHARED FOLDER working copy, which is stranded at an Aug 26 commit. That
+overwrote origin's current log with a three-day-old version: it deleted this
+entire Aug 30 section and the full Aug 29 audit row written by the main
+routine, replacing them with two thin rows reconstructed from beehiiv
+timestamps alone — 76 lines lost, including the FOOTBALL-FIRST exception
+reasoning, the golf `count: 0` note and the read-time correction. Restored from
+`6f1e669` in the same session; nothing was lost permanently and the live site
+was never affected. **Root cause: the shared working copy is not a valid source
+of file content while it is diverged.** The fresh-clone workaround was being
+used for the *push* but not for the *read*. Any future run that edits a
+repo-tracked file from the sandbox must edit it inside the fresh clone, on top
+of origin/main — never copy the shared-folder version over origin's. The
+underlying fix is still the one outstanding since Aug 26: the local repo needs
+`rm -f .git/*.lock; git fetch origin && git reset --hard origin/main` run by
+hand in Terminal. It is now four days stale and has caused an actual data loss
+incident rather than just noise.
