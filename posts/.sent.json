@@ -17,7 +17,8 @@
   "05-injuries.txt",
   "06-what-beats-it.txt",
   "07-true-price.txt",
-  "08-conditions.txt"
+  "08-conditions.txt",
+  "09-market-choice.txt"
  ],
  "history": [
   {
@@ -180,6 +181,15 @@
    "url": "https://x.com/thenumberdesk/status/2094178795033116770",
    "at": "2026-08-30T21:41:47.491620+00:00",
    "chars": 143,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "09-market-choice.txt",
+   "id": "2094430615495954434",
+   "url": "https://x.com/thenumberdesk/status/2094430615495954434",
+   "at": "2026-08-31T14:22:26.181849+00:00",
+   "chars": 148,
    "had_link": false,
    "est_cost": 0.015
   }
