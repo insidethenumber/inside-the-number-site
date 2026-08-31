@@ -885,28 +885,28 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'laa', name:'Angels'},
-      time: '4:07 PM ET', pick: 'Under 7.5 (-103)', conf: 4, free: true,
-      hook: 'A full run came off, the price didn\u2019t',
-      why: 'This total opened at 8.5 and now sits at 7.5 \u2014 the only full\u2011run move on a fourteen\u2011game board. What did not move is who the market thinks wins: Philadelphia was 66.6% implied at open and is 65.2% now. Cutting a run of expected scoring should pull a favorite\u2019s number in, because fewer runs means fewer chances for the better team to separate. It did not. And after all that movement the under is still the cheaper side at -103 while the over is laid at -116. What beats it: Zack Wheeler is the kind of arm that gets pulled after six with a lead, and the Angels\u2019 bullpen has been the part of this team that gives runs back.'
+      league: 'MLB', away:{code:'mil', name:'Brewers'}, home:{code:'chc', name:'Cubs'},
+      time: '7:40 PM ET', pick: 'Under 9.5 (-110)', conf: 4, free: true,
+      hook: 'Best two arms, second\u2011highest total',
+      why: 'Kyle Harrison (2.79) and Clay Holmes (2.26) are the lowest\u2011ERA pair of starters on a twelve\u2011game board \u2014 5.05 combined, and the next\u2011best matchup is 6.84. Yet this game carries a 9.5, the highest total on the card outside Coors Field. Every other game priced at 9 or above has a starting pair a run and three quarters worse. The number also never moved: it opened 9.5 and sits at 9.5, while the over went from +100 to -110, so money came in and the line stayed put. What beats it: Wrigley in a warm wind blowing out turns this into a different game entirely, and Milwaukee has the deepest lineup in the league.'
     },
     {
-      league: 'MLB', away:{code:'tex', name:'Rangers'}, home:{code:'mil', name:'Brewers'},
-      time: '2:10 PM ET', pick: 'Brewers -1.5 (+123)', conf: 3, free: false,
-      hook: 'The best team on the board got cheaper',
-      why: 'Milwaukee is 85-51, the best record of the twenty\u2011eight clubs playing today, and its moneyline has drifted from -173 at open to -162 \u2014 the market is charging less for the best team on the card than it did this morning. Dustin May starts against Kumar Rocker and a 66-70 Texas side. The runline pays +123 for the two\u2011run version of a game the moneyline says Milwaukee wins six times in ten. What beats it: -1.5 is a real ask against any big\u2011league lineup, and the total sitting still at 8.5 all morning says the market expects traffic, not a blowout.'
+      league: 'MLB', away:{code:'sf', name:'Giants'}, home:{code:'atl', name:'Braves'},
+      time: '6:05 PM ET', pick: 'Braves -1.5 (+105)', conf: 3, free: false,
+      hook: 'A 51\u2011cent move, and plus money beside it',
+      why: 'Atlanta opened -142 and is now -193 \u2014 the biggest price move on the board, roughly seven points of implied probability. The total moved with it, 8 up to 9. Both point the same way: the market marked San Francisco\u2019s run prevention down after the open, not Atlanta\u2019s offense up. Atlanta is 82-55 at home against a 56-81 team, the widest record gap on the card. Rather than lay -193 for that opinion, the runline sells the same read at +105. What beats it: Bryce Elder at 3.95 is not a starter who shuts a lineup down, and a run and a half is a real ask in a one\u2011run\u2011game league.'
     }
   ];
-  // Set Sun Aug 30, 8:15 AM CT by the weekend routine. Both numbers were read
-  // off the DraftKings line in ESPN's odds feed this morning, and both games
-  // were unstarted at write time (first pitch on the board is 12:15 PM ET).
-  // Board surveyed in full: MLB 14 games, and that is the whole card. CFB has
-  // ZERO games today \u2014 Week 1 opened with eight games on Saturday Aug 29 and
-  // does not resume until Thu Sep 3 \u2014 and the NFL, NBA, CBB, NHL and UFC all
-  // have nothing. The only non-MLB event is the TOUR Championship final round,
-  // and ESPN's golf odds endpoint returns zero items for it, so it could not be
-  // priced and gets no pick. Football-first therefore cannot apply today; two
-  // picks is the ceiling under the max-two-per-sport rule.
+  // Set Mon Aug 31, 2:20 PM CT by the deadline-check recovery run. Both numbers
+  // were read off the DraftKings line in ESPN's odds feed at 2:05 PM CT, and all
+  // twelve games on the board were unstarted at write time (earliest first pitch
+  // 6:05 PM ET). Board surveyed in full: MLB 12 games, and that is the whole
+  // card. CFB and NFL both return ZERO events today \u2014 CFB Week 1 opened Sat
+  // Aug 29 and does not resume until Thu Sep 3 \u2014 and NBA, CBB, NHL and UFC
+  // are all out of season or dark. The only other event on any covered board is
+  // the TOUR Championship, which is STATUS_FINAL with zero odds items, so it
+  // cannot be priced and gets no pick. Football-first therefore cannot apply,
+  // and two picks is the ceiling under the max-two-per-sport rule.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1111,11 +1111,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Sun, Aug 30</div>
+        <div class="potd-date">Mon, Aug 31</div>
         <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Phillies @ Angels</div>
-        <div class="potd-line">THE PICK: Under 7.5 (-103) &middot; 4:07 PM ET</div>
-        <p class="potd-reasoning">Zack Wheeler pitches for Philadelphia in Anaheim against Yusei Kikuchi and a 52-84 Angels team. The interesting number is not the moneyline. This total opened at 8.5 and now sits at 7.5, a full run down &mdash; and on a fourteen-game board it is the only total that moved a full run today. Everything else that moved, moved half. So the market did real work on this game overnight. Here is the part that does not fit. Cutting a run out of a game should help the underdog: fewer runs means fewer innings where the better team can pull away, and a favorite&rsquo;s price normally comes in when a total drops. Philadelphia&rsquo;s did not. Strip out what the book keeps and the Phillies were a 66.6% side at open and are a 65.2% side now &mdash; essentially unchanged, while the run environment underneath them fell by a full run. One of those two numbers is stale. Then the price itself. After a move that big, the side the market moved toward is usually the expensive one. Here the under is the cheaper half of the game at -103 while the over is laid at -116. You are getting the direction the market just moved in, at the better of the two prices, on the lowest total on today&rsquo;s board. The case against: Wheeler rarely goes past six, and the Anaheim bullpen behind him is where this profile breaks &mdash; a four-run seventh inning does not care what the opening number was. Kikuchi is also capable of walking his way into a big inning of his own. High confidence, not certainty. Odds via DraftKings, read at 8:15 AM CT today &mdash; check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">Brewers @ Cubs</div>
+        <div class="potd-line">THE PICK: Under 9.5 (-110) &middot; 7:40 PM ET</div>
+        <p class="potd-reasoning">Kyle Harrison starts for Milwaukee at Wrigley against Clay Holmes. Harrison is at a 2.79 ERA, Holmes at 2.26. Add those together and you get 5.05 &mdash; the lowest combined starting-pitcher ERA on a twelve-game board, and it is not close. The next-best pairing today is 6.84, nearly two full runs worse. Now look at the number this game is priced at: 9.5, the highest total on the entire card except Baltimore at Coors Field, where the altitude does the work. Every other game the market has set at 9 or above features a starting pair at 6.84 or worse. This one is at 5.05 and carries the same number. That is the inversion. The second piece is what the market did with it. The total opened at 9.5 and it is still at 9.5 &mdash; the line has not moved a tick. What moved is the price on the over, from +100 at open to -110 now. Money came in on the over and the book took it without adjusting the number, which means the 9.5 is a number the market is willing to defend rather than one it is unsure about. We think it is defending the wrong one. Strip out what the book keeps and the two sides are a clean coin flip at -110 apiece &mdash; there is no true-price edge baked into either half, so this is a straight disagreement about the run environment, and the pitching says under. The case against, plainly: this is Wrigley, and Wrigley with a warm wind blowing out is the single most reliable way to blow up an under. Milwaukee is 85-52 with the deepest lineup in baseball, Chicago is 77-60, and neither of these starters is going nine &mdash; the bullpens decide a lot of this. Check the forecast before you take it. High confidence, not certainty. Odds via DraftKings, read at 2:05 PM CT today &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
