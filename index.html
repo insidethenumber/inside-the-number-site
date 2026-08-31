@@ -799,13 +799,14 @@
   .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
   .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
   .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
-  /* The Beehiiv frame is cross-origin, so it cannot be restyled from here —
-     only framed well. A fixed window with the iframe pulled up crops their
-     duplicate "Inside The Number" heading; 150px clears the input and button
-     at every width the description wraps to. */
-  .hp-mail-card{width:100%;height:150px;overflow:hidden;border-radius:10px;position:relative;
-    background:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06)}
-  .hp-mail-card iframe{position:absolute;top:-52px;left:0;width:100%;height:250px;border:0}
+  /* The Beehiiv form itself is now themed to match this panel — transparent
+     background, dark field, green button, heading and subtitle switched off in
+     their builder — so the frame needs no cropping or masking. It is just a
+     transparent window the right height for one input row. Restyling happens
+     in Beehiiv (Subscribe forms > Style), NOT here: the iframe is cross-origin
+     and nothing in this stylesheet can reach inside it. */
+  .hp-mail-card{width:100%;height:56px;overflow:hidden;position:relative}
+  .hp-mail-card iframe{position:absolute;top:0;left:0;width:100%;height:56px;border:0}
   .hp-mail-row{display:flex;gap:7px}
   .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
     padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
