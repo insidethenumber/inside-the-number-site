@@ -19,7 +19,8 @@
   "07-true-price.txt",
   "08-conditions.txt",
   "09-market-choice.txt",
-  "10-what-this-is.txt"
+  "10-what-this-is.txt",
+  "11-breakeven-card.txt"
  ],
  "history": [
   {
@@ -200,6 +201,15 @@
    "url": "https://x.com/thenumberdesk/status/2094475834212188233",
    "at": "2026-08-31T17:22:07.188477+00:00",
    "chars": 150,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "11-breakeven-card.txt",
+   "id": "2094541193602359781",
+   "url": "https://x.com/thenumberdesk/status/2094541193602359781",
+   "at": "2026-08-31T21:41:50.044414+00:00",
+   "chars": 127,
    "had_link": false,
    "est_cost": 0.015
   }
