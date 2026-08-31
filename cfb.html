@@ -147,6 +147,7 @@
     display:grid;grid-template-columns:74px 1fr auto;gap:14px;align-items:baseline}
   .gm:first-child{border-top:0}
   .gm-k{font:600 12px/1.35 ui-sans-serif,system-ui;color:#7c8698;white-space:nowrap}
+  .gm-k .gd{display:block;font-weight:700;font-size:11px;color:#aeb7c4;margin-bottom:2px}
   .gm-k .tv{display:block;font-weight:500;font-size:11px;color:#5d6675;margin-top:3px}
   .gm-m{font:600 16px/1.35 ui-sans-serif,system-ui;color:#eef2f7}
   .gm-m .rk{color:#f0b232;font-size:12px;font-weight:700;margin-right:3px}
@@ -362,6 +363,10 @@
     return new Date(iso).toLocaleDateString('en-US',
       {timeZone:'America/Chicago',weekday:'long',month:'short',day:'numeric'});
   }
+  function dayShort(iso){
+    return new Date(iso).toLocaleDateString('en-US',
+      {timeZone:'America/Chicago',weekday:'short',month:'short',day:'numeric'});
+  }
   function fmtNum(n){return (n>0?'+':'')+n;}
   function ct(iso){
     return new Date(iso).toLocaleTimeString('en-US',
@@ -387,7 +392,7 @@
       if(Math.abs(g.move)>=1) tags.push('<span class="tag hot">Moved '+Math.abs(g.move)+'</span>');
       var note=NOTES[g.key];
       html+='<div class="gm">'+
-        '<div class="gm-k">'+g.time+' CT'+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
+        '<div class="gm-k"><span class="gd">'+g.dayS+'</span>'+g.time+' CT'+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
         '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
           (tags.length?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
         '<div class="gm-n">'+(g.line||'&mdash;')+
@@ -472,7 +477,7 @@
           line:o.details||null, spread:sp, openLine:(openSp!=null?fmtNum(openSp):''),
           total:(o.overUnder!=null?o.overUnder:null), move:move,
           time:ct(ev.date), ts:new Date(ev.date).getTime(),
-          day:dayKey(ev.date),
+          day:dayKey(ev.date), dayS:dayShort(ev.date),
           tv:(c.broadcasts&&c.broadcasts[0]&&c.broadcasts[0].names&&c.broadcasts[0].names[0])||''
         });
       });
