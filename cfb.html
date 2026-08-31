@@ -128,6 +128,10 @@
   body.menu-open { overflow:hidden; }
 
   /* ---- live board (added Aug 27 2026) ------------------------------ */
+  .dayhdr{margin:30px 0 4px;padding-bottom:8px;border-bottom:2px solid rgba(255,255,255,.16);
+    font:700 14px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:uppercase;color:#eef2f7}
+  .dayhdr:first-child{margin-top:8px}
+  .dayhdr .n{color:#7c8698;font-weight:600;margin-left:8px;letter-spacing:.04em;text-transform:none}
   .sortbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:22px 0 14px}
   .sortbar-l{font:600 11px/1 ui-sans-serif,system-ui;letter-spacing:.14em;
     text-transform:uppercase;color:#7c8698;margin-right:2px}
@@ -231,10 +235,10 @@
     <div class="chip"><div class="l">First kick</div>
       <div class="v" id="c-first">—</div>
       <div class="s" id="c-first-s">&nbsp;</div></div>
-    <div class="chip"><div class="l">Mismatches</div>
+    <div class="chip"><div class="l">Ranked teams in action</div>
       <div class="v" id="c-mis">—</div>
       <div class="s" id="c-mis-s">&nbsp;</div></div>
-    <div class="chip"><div class="l">Actually close</div>
+    <div class="chip"><div class="l">Biggest line move</div>
       <div class="v" id="c-close">—</div>
       <div class="s" id="c-close-s">&nbsp;</div></div>
   </div>
@@ -262,14 +266,19 @@
     <!-- PICK:END -->
   </div>
 
+  <!-- Filter bar rebuilt Aug 30 2026 on Chuck's direction. The old version
+       had two axes ("Order: worth an opinion / kickoff" and "Show: all /
+       Power 4 / inside a touchdown") which read as jargon and needed
+       explaining. Every major scoreboard — ESPN, CBS, Action — does the same
+       simple thing: games grouped by day, ordered by kickoff, one row of
+       conference tabs. So that is what this is now. -->
   <div class="sortbar">
-    <span class="sortbar-l">Order</span>
-    <button class="sb on" data-sort="interest">Worth an opinion</button>
-    <button class="sb" data-sort="time">Kickoff</button>
-    <span class="sortbar-l sortbar-f">Show</span>
-    <button class="sb on" data-filt="all">All</button>
-    <button class="sb" data-filt="p4">Power 4</button>
-    <button class="sb" data-filt="close">Inside a touchdown</button>
+    <button class="sb on" data-filt="all">All games</button>
+    <button class="sb" data-filt="top25">Top 25</button>
+    <button class="sb" data-filt="SEC">SEC</button>
+    <button class="sb" data-filt="Big Ten">Big Ten</button>
+    <button class="sb" data-filt="Big 12">Big 12</button>
+    <button class="sb" data-filt="ACC">ACC</button>
   </div>
 
   <div id="board"><div class="loading">Reading today's numbers…</div></div>
@@ -317,26 +326,41 @@
 
   // Editorial notes, keyed by "AWAY@HOME". No spreads quoted on purpose.
   var NOTES = {
-    'UNC@TCU':  "The season opens in Ireland at eleven in the morning our time. Neutral field, jet lag on both sides, and the market still backing TCU comfortably.",
-    'SJSU@USC': "The market isn't asking who wins here. It's asking whether USC's starters are still on the field in the fourth.",
-    'NCSU@UVA': "One of the few games on this board where the number is genuinely up for debate.",
-    'JVST@NDSU':"Lowest total on the card, indoors in Fargo. Weather can't be the excuse.",
-    'SAC@EMU':  "Spread and total have drifted the same direction since this opened, which is the tidier version of a line moving.",
-    'HAW@STAN': "Hawai'i travels five time zones east, which is the part the number is quietly pricing.",
-    'NMSU@FSU': "A bet on margin, not on the winner.",
-    'MEM@UNLV': "Last game of the night and probably the best one on the card."
+    'MIA@STAN': "Miami flies across the country as a top-ten team to open against a Stanford side that already has a game under its belt. The market treats this as a formality; Friday night road openers have a way of disagreeing.",
+    'FRES@USC': "USC put up 42 last week and the market has already moved on to asking by how much. Fresno State's whole plan will be to make this ugly early.",
+    'UTEP@OU':  "Oklahoma at home in a season opener is one of the sport's oldest sure things, which is exactly why the number is the only interesting part.",
+    'BALL@OSU': "The defending national champion opens at home against a MAC side. The number is enormous because it should be — the question is backups and clock, not the winner.",
+    'ECU@ALA':  "Alabama openers against Group of Five teams are traditionally where the Tide work out their September anxieties in public.",
+    'TNST@UGA': "Georgia opens at home in Athens. There is nothing to debate here except the total.",
+    'UNT@IU':   "Indiana was a playoff team last year and opens against a North Texas side that can score. The gap between those two sentences is what the number is pricing.",
+    'ORST@HOU': "One of the few games this weekend where both sides can talk themselves into it. Oregon State travels, Houston is rebuilding on the fly.",
+    'UAPB@MIZ': "Thursday's opener in Columbia. Missouri is laying one of the biggest numbers of the young season, and first halves are where those either cash or die.",
+    'IDHO@UTAH':"Utah at home at altitude against an FCS-adjacent opponent. Rice-Eccles in week one is a hostile place to learn anything."
   };
 
   var board=document.getElementById('board'), tail=document.getElementById('board-tail');
-  var sort='interest', filt='all', GAMES=[];
+  var filt='all', GAMES=[];
 
   function ymd(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
-  // Next Saturday (or today if today is Saturday) — so this page rolls
-  // forward on its own instead of pointing at a date somebody typed.
+  // The football week runs Thursday through Monday (Week 1 literally does:
+  // Thu Sep 3 to Labor Day). Anchor on the next Saturday — or today if it is
+  // Saturday — then take two days either side, so Thursday MACtion, Friday
+  // openers and a Monday holiday game all land on one page instead of the
+  // old version's Saturday-only view.
   function targetSaturday(){
     var d=new Date(); var day=d.getDay();
     var add=(6-day+7)%7;
     d.setDate(d.getDate()+add); return d;
+  }
+  function weekWindow(){
+    var sat=targetSaturday();
+    var from=new Date(sat); from.setDate(sat.getDate()-2);
+    var to=new Date(sat);   to.setDate(sat.getDate()+2);
+    return {from:from,to:to,sat:sat};
+  }
+  function dayKey(iso){
+    return new Date(iso).toLocaleDateString('en-US',
+      {timeZone:'America/Chicago',weekday:'long',month:'short',day:'numeric'});
   }
   function fmtNum(n){return (n>0?'+':'')+n;}
   function ct(iso){
@@ -345,67 +369,73 @@
   }
 
   function render(){
-    var list=GAMES.slice();
-    if(filt==='p4')    list=list.filter(function(g){return g.p4;});
-    if(filt==='close') list=list.filter(function(g){return g.spread!=null && Math.abs(g.spread)<7;});
-
-    if(sort==='time') list.sort(function(a,b){return a.ts-b.ts;});
-    else              list.sort(function(a,b){return b.score-a.score;});
+    var list=GAMES.slice().sort(function(a,b){return a.ts-b.ts;});
+    if(filt==='top25')     list=list.filter(function(g){return g.ranked;});
+    else if(filt!=='all')  list=list.filter(function(g){return g.confs.indexOf(filt)>=0;});
 
     if(!list.length){ board.innerHTML='<div class="loading">Nothing on the board matches that filter.</div>'; return; }
 
-    board.innerHTML=list.map(function(g){
+    var html='', lastDay='';
+    list.forEach(function(g){
+      if(g.day!==lastDay){
+        lastDay=g.day;
+        var n=list.filter(function(x){return x.day===g.day;}).length;
+        html+='<div class="dayhdr">'+g.day+'<span class="n">'+n+(n===1?' game':' games')+'</span></div>';
+      }
       var tags=[];
       if(g.conf) tags.push('<span class="tag">'+g.conf+'</span>');
-      if(g.spread!=null&&Math.abs(g.spread)<7) tags.push('<span class="tag tight">Inside a touchdown</span>');
       if(Math.abs(g.move)>=1) tags.push('<span class="tag hot">Moved '+Math.abs(g.move)+'</span>');
       var note=NOTES[g.key];
-      return '<div class="gm">'+
-        '<div class="gm-k">'+g.time+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
+      html+='<div class="gm">'+
+        '<div class="gm-k">'+g.time+' CT'+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
         '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
           (tags.length?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
-        '<div class="gm-n">'+(g.line||'—')+
+        '<div class="gm-n">'+(g.line||'&mdash;')+
           (g.total!=null?'<span class="ou">O/U '+g.total+'</span>':'')+
           (Math.abs(g.move)>=0.5?'<span class="mv '+(g.move>0?'up':'dn')+'">opened '+g.openLine+'</span>':'')+
         '</div>'+
         (note?'<div class="gm-note">'+note+'</div>':'')+
       '</div>';
-    }).join('');
+    });
+    board.innerHTML=html;
 
-    var close=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)<7;});
-    var mis=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)>=30;});
-    var names=close.map(function(g){return g.home;}).slice(0,4).join(', ');
+    var ranked=GAMES.filter(function(g){return g.ranked;});
+    var moved=GAMES.filter(function(g){return Math.abs(g.move)>=0.5;})
+                   .sort(function(a,b){return Math.abs(b.move)-Math.abs(a.move);});
     tail.textContent = GAMES.length
-      ? mis.length+' of these '+GAMES.length+' are decided before kickoff and priced that way. The '
-        +close.length+' inside a touchdown'+(names?' — '+names+' — ':' ')
-        +'are where an opinion is worth having. That ratio is normal for a college Saturday and worth remembering before anyone sells you an eight-leg card.'
+      ? 'Every line above is read live from the feed — where it opened, where it sits now, '
+        +'and kickoff in Central time. When a number has moved a point or more since open, '
+        +'it wears a tag, because that movement is the market talking.'
       : '';
 
     var first=GAMES.slice().sort(function(a,b){return a.ts-b.ts;})[0];
-    if(first){ document.getElementById('c-first').textContent=first.time+' CT';
+    if(first){ document.getElementById('c-first').textContent=first.time+' CT '+first.day.split(',')[0];
                document.getElementById('c-first-s').textContent=first.away+' at '+first.home; }
-    document.getElementById('c-mis').textContent=mis.length+' of '+GAMES.length;
-    document.getElementById('c-mis-s').textContent=mis.map(function(g){return g.line;}).join(' and ')||'none today';
-    document.getElementById('c-close').textContent=close.length+(close.length===1?' game':' games');
-    document.getElementById('c-close-s').textContent='all inside a touchdown';
+    document.getElementById('c-mis').textContent=ranked.length+(ranked.length===1?' game':' games');
+    document.getElementById('c-mis-s').textContent=ranked.slice(0,3).map(function(g){return (g.awayRkN||g.homeRkN);}).length?
+      ranked.slice(0,3).map(function(g){var t=g.awayRkN?g.away:g.home;return t;}).join(', '):'none this week';
+    if(moved.length){
+      document.getElementById('c-close').textContent=moved[0].away+' at '+moved[0].home;
+      document.getElementById('c-close-s').textContent='opened '+moved[0].openLine+', now '+(moved[0].line||'?');
+    } else {
+      document.getElementById('c-close').textContent='none yet';
+      document.getElementById('c-close-s').textContent='lines are where they opened';
+    }
   }
 
   document.querySelectorAll('.sb').forEach(function(b){
     b.addEventListener('click',function(){
-      var grp=b.dataset.sort?'sort':'filt';
-      document.querySelectorAll('.sb').forEach(function(o){
-        if((o.dataset.sort?'sort':'filt')===grp) o.classList.remove('on');
-      });
+      document.querySelectorAll('.sb').forEach(function(o){o.classList.remove('on');});
       b.classList.add('on');
-      if(grp==='sort') sort=b.dataset.sort; else filt=b.dataset.filt;
+      filt=b.dataset.filt;
       render();
     });
   });
 
   (async function(){
-    var d=targetSaturday();
+    var W=weekWindow(), d=W.sat;
     try{
-      var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(d)+'&groups=80&limit=300');
+      var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(W.from)+'-'+ymd(W.to)+'&groups=80&limit=300');
       if(!r.ok) throw new Error(r.status);
       var j=await r.json();
       (j.events||[]).forEach(function(ev){
@@ -418,27 +448,30 @@
         var openSp=(o.pointSpread&&o.pointSpread.home&&o.pointSpread.home.open)
                     ?Number(o.pointSpread.home.open.line):null;
         var move=(sp!=null&&openSp!=null)?+(sp-openSp).toFixed(1):0;
-        var rk=function(x){var n=x.curatedRank&&x.curatedRank.current;
-                           return (n&&n<=25)?'<span class="rk">#'+n+'</span>':'';};
-        var absSp=sp!=null?Math.abs(sp):99;
-        // Interest score: close games score highest, big moves add to it,
-        // blowouts score near zero. This is the whole editorial premise.
-        var score=Math.max(0,20-absSp)+Math.abs(move)*4;
+        var rkN=function(x){var n=x.curatedRank&&x.curatedRank.current;
+                            return (n&&n<=25)?n:0;};
+        var rk=function(x){var n=rkN(x);
+                           return n?'<span class="rk">#'+n+'</span> ':'';};
+        var confs=[];
+        if(P4[H.team.conferenceId]) confs.push(P4[H.team.conferenceId]);
+        if(P4[A.team.conferenceId]&&confs.indexOf(P4[A.team.conferenceId])<0) confs.push(P4[A.team.conferenceId]);
         GAMES.push({
           key:A.team.abbreviation+'@'+H.team.abbreviation,
           away:A.team.location, home:H.team.location,
           awayRk:rk(A), homeRk:rk(H),
+          awayRkN:rkN(A), homeRkN:rkN(H),
+          ranked:!!(rkN(A)||rkN(H)),
           conf:P4[H.team.conferenceId]||'',
-          p4:!!(P4[H.team.conferenceId]||P4[A.team.conferenceId]),
+          confs:confs,
           line:o.details||null, spread:sp, openLine:(openSp!=null?fmtNum(openSp):''),
           total:(o.overUnder!=null?o.overUnder:null), move:move,
           time:ct(ev.date), ts:new Date(ev.date).getTime(),
-          tv:(c.broadcasts&&c.broadcasts[0]&&c.broadcasts[0].names&&c.broadcasts[0].names[0])||'',
-          score:score
+          day:dayKey(ev.date),
+          tv:(c.broadcasts&&c.broadcasts[0]&&c.broadcasts[0].names&&c.broadcasts[0].names[0])||''
         });
       });
-      var dOpts={weekday:'short',month:'short',day:'numeric'};
-      var label=d.toLocaleDateString('en-US',dOpts);
+      var dOpts={month:'short',day:'numeric'};
+      var label=W.from.toLocaleDateString('en-US',dOpts)+'\u2013'+W.to.toLocaleDateString('en-US',dOpts);
       /* Week number, derived rather than typed. Corrected Aug 29, 2026: the
          anchor said Aug 29 was Week 0, so the page shipped a headline and a
          <title> reading "Week 0" on a day ESPN's own scoreboard returns
@@ -453,13 +486,12 @@
       document.getElementById('wk').textContent=wkTxt;
       document.title=wkTxt+' Odds — Every Game, Every Number | Inside the Number';
       document.getElementById('eyebrow').textContent='// CFB · Week '+(wk>=1?wk:'')+' · '+label;
-      var misN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)>=30;}).length;
-      var clsN=GAMES.filter(function(g){return g.spread!=null&&Math.abs(g.spread)<7;}).length;
+      var days={}; GAMES.forEach(function(g){days[g.day]=1;});
+      var rkdN=GAMES.filter(function(g){return g.ranked;}).length;
       document.getElementById('lede').textContent=
-        GAMES.length+' games on '+label+'. '+misN+' of them '+(misN===1?'is a':'are')+
-        ' thirty-point mismatch'+(misN===1?'':'es')+' and '+clsN+' '+(clsN===1?'is':'are')+
-        ' inside a touchdown. Below is the whole board — spread, total, where the line opened '+
-        'and kickoff — ordered by which numbers are actually worth an opinion.';
+        GAMES.length+' games across '+Object.keys(days).length+' days, '+label+'. '+
+        rkdN+' involve a ranked team. Grouped by day, ordered by kickoff — spread, '+
+        'total, where each line opened, and the TV channel, all read live from the feed.';
       document.getElementById('stamp').textContent =
         'Lines via ESPN, read live at '+new Date().toLocaleTimeString('en-US',
           {timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})+' CT · '+GAMES.length+' games';
