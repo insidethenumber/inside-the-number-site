@@ -786,6 +786,24 @@ def render(fights, title, venue, datestr, preview):
     .f-grid {{ gap:8px; }} .f-name {{ font-size:16px; }} .f-price {{ font-size:18px; }}
   }}
 </style>
+<style id="nav-fit">
+/* NAV FIT (Aug 31 2026) - the nav links need ~770px but this page only swapped
+   to the hamburger at 640px, so between ~640px and ~770px they crowded the logo
+   and ran off the right edge. Compact tier + one shared 900px hamburger
+   breakpoint gives ~320px of slack instead of none. Keep this in sync with the
+   identical block in the hand-maintained pages (index.html, games.html, etc). */
+@media (max-width:1150px){{
+  nav{{padding-left:20px !important;padding-right:20px !important}}
+  .nav-links{{gap:16px !important}}
+  .nav-links a{{font-size:11.5px !important;letter-spacing:.04em !important}}
+  .nav-name{{font-size:17px !important}}
+  .nav-logo-mark{{width:34px !important;height:34px !important}}
+}}
+@media (max-width:900px){{
+  .nav-links{{display:none !important}}
+  .nav-hamburger{{display:flex !important}}
+}}
+</style>
 </head>
 <body>
 {NAV}
