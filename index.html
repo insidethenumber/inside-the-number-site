@@ -803,14 +803,14 @@
      background, dark field, green button, heading and subtitle off) in their
      builder — restyling can only happen there, since the iframe is
      cross-origin and nothing in this stylesheet reaches inside it.
-     Their CDN serves the old styling for a while after saving, and the two
-     versions put the email input at different heights: with the heading on it
-     sits ~170px down, with it off it sits at the top. A short crop sized for
-     the themed version therefore shows a blank white strip until the change
-     propagates. This height fits BOTH, so the field is always usable; tighten
-     it once the themed form is confirmed live. */
-  .hp-mail-card{width:100%;height:250px;overflow:hidden;position:relative;border-radius:10px}
-  .hp-mail-card iframe{position:absolute;top:0;left:0;width:100%;height:250px;border:0}
+     Themed version confirmed live, so the window is now sized to the single
+     input row it contains. Note their CDN serves the previous styling for
+     several minutes after a save, and the two versions put the input at
+     different heights — if this ever renders as an empty strip after a change
+     in Beehiiv, raise the height until the new styling propagates rather than
+     re-cropping. */
+  .hp-mail-card{width:100%;height:62px;overflow:hidden;position:relative;border-radius:10px}
+  .hp-mail-card iframe{position:absolute;top:0;left:0;width:100%;height:62px;border:0}
   .hp-mail-row{display:flex;gap:7px}
   .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
     padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
