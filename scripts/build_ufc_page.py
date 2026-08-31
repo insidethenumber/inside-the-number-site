@@ -436,10 +436,16 @@ def build(events, bouts, title, venue, datestr):
        page headlined the wrong fight. The main event is the only bout
        scheduled for five rounds — that is what we key on now.
     """
-    fights, off_card = [], []
+    fights, off_card, unpriced = [], [], []
     for ev in sorted(events, key=lambda e: e.get("commence_time", ""), reverse=True):
         f = best_both(ev)
         if not f:
+            # Event exists in the feed but no book has posted a two-way price
+            # yet. Normal well ahead of a card; worth naming so the operator can
+            # tell "not priced yet" apart from "wrong window".
+            unpriced.append(" vs ".join(
+                str(x) for x in (ev.get("home_team"), ev.get("away_team"))
+                if x) or ev.get("id", "?"))
             continue
         f["time"] = fmt_time(ev["commence_time"])
         f["iso"] = ev["commence_time"]
@@ -454,7 +460,16 @@ def build(events, bouts, title, venue, datestr):
     if off_card:
         print(f"filtered {len(off_card)} priced event(s) not on this ESPN card: "
               + "; ".join(off_card), file=sys.stderr)
+    if unpriced:
+        print(f"{len(unpriced)} event(s) in the feed with no book price yet: "
+              + "; ".join(unpriced), file=sys.stderr)
     if not fights:
+        if unpriced and not off_card:
+            sys.exit(
+                f"ERROR: the card is on ESPN but no book has priced it yet "
+                f"({len(unpriced)} event(s) returned with no odds). This is "
+                f"normal well before fight week — retry closer to the card. "
+                f"Refusing to publish a card page with no real prices on it.")
         sys.exit("ERROR: no priced fights matched this card — refusing to write "
                  "a page. Check --start/--end and that ESPN lists the card.")
 
