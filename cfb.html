@@ -448,6 +448,12 @@
         var openSp=(o.pointSpread&&o.pointSpread.home&&o.pointSpread.home.open)
                     ?Number(o.pointSpread.home.open.line):null;
         var move=(sp!=null&&openSp!=null)?+(sp-openSp).toFixed(1):0;
+        // ESPN sometimes quotes the open line from the other side of the
+        // matchup, which shows up as an absurd 30-40 point "move" (seen live:
+        // Wisconsin-Notre Dame "+20.5 opened, -20.5 now"). No college line
+        // moves double digits without a QB catastrophe, so past 14 points we
+        // trust the current number and discard the open as mislabelled.
+        if(Math.abs(move)>14){move=0;openSp=null;}
         var rkN=function(x){var n=x.curatedRank&&x.curatedRank.current;
                             return (n&&n<=25)?n:0;};
         var rk=function(x){var n=rkN(x);
@@ -480,8 +486,12 @@
          before changing. Hardcoding the number would be wrong by Sept 5,
          which is the same trap that put stale lines on this page to begin
          with — so the anchor moves, the derivation stays. */
+      // The feed states its own week number and ESPN's weeks are not
+      // calendar weeks (Week 1 runs Aug 22-Sep 7). Trust the feed, fall back
+      // to the Saturday count only if it is missing.
       var WEEK1=new Date(2026,7,29);
-      var wk=1+Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK1)/6048e5);
+      var wk=(j.week&&j.week.number)
+        ||1+Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK1)/6048e5);
       var wkTxt=(wk>=1&&wk<=16)?('College Football Week '+wk):'College Football';
       document.getElementById('wk').textContent=wkTxt;
       document.title=wkTxt+' Odds — Every Game, Every Number | Inside the Number';
