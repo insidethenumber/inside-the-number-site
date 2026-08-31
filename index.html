@@ -799,6 +799,13 @@
   .hp-pick .side{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:4px}
   .hp-pick .hook{font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.55}
   .hp-mail{padding:16px 18px;background:rgba(0,208,132,.045)}
+  /* The Beehiiv frame is cross-origin, so it cannot be restyled from here —
+     only framed well. A fixed window with the iframe pulled up crops their
+     duplicate "Inside The Number" heading; 150px clears the input and button
+     at every width the description wraps to. */
+  .hp-mail-card{width:100%;height:150px;overflow:hidden;border-radius:10px;position:relative;
+    background:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+  .hp-mail-card iframe{position:absolute;top:-52px;left:0;width:100%;height:250px;border:0}
   .hp-mail-row{display:flex;gap:7px}
   .hp-mail input{flex:1;min-width:0;background:var(--black);border:1px solid var(--border-lit);border-radius:8px;
     padding:9px 11px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12.5px;outline:none}
@@ -1007,27 +1014,26 @@
       <div class="hp-k">Today's free pick</div>
       <div class="hp-load">—</div>
     </a>
-    <!-- 3 · email. History, because this element keeps going wrong in new ways:
-         v1 was a decoy (a link styled as a form; zero signups ever).
-         v2 embedded Beehiiv's hosted iframe here -- functional, but it renders
-         as a large white serif card that Chuck immediately flagged as looking
-         broken against the dark hero, and a cross-origin iframe can't be
-         restyled from outside.
-         v3 (this): a real form in our own styling. Submitting opens Beehiiv's
-         hosted subscribe page with the email already filled in, so the visitor
-         confirms with one click. Native look, honest mechanics. The full
-         inline embed still lives in the #signup section below, where its white
-         card sits on the bright gradient and looks deliberate. -->
-    <form class="hp-mail" id="hpMail" action="https://insidethenumber.beehiiv.com/subscribe"
-          method="get" target="_blank" rel="noopener">
+    <!-- 3 · email. Three versions, each fixing the last:
+         v1 was a decoy — a link styled to look like a form. Zero signups, ever.
+         v2 embedded Beehiiv's hosted iframe raw: correct mechanics, but a bare
+             white serif card dropped into a dark panel read as a broken page.
+         v3 sent the email to Beehiiv's hosted page. That asked for the address
+             a SECOND time, which is the worst of both.
+         v4 (this): the iframe again — signup completes here, one entry, no
+         redirect — but presented as a deliberate white card with our own
+         heading above it, so it reads as a designed inset rather than a
+         rendering fault. Beehiiv's form background is an inline style set in
+         their dashboard, so this card can be themed dark later and the frame
+         will simply blend into the panel. -->
+    <div class="hp-mail">
       <div class="hp-k">Get it in your inbox</div>
-      <div class="hp-mail-row">
-        <input type="email" name="email" required placeholder="you@email.com"
-               autocomplete="email" aria-label="Email address"/>
-        <button type="submit">Join free</button>
+      <div class="hp-mail-card">
+        <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f"
+                title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
       </div>
       <div class="hp-fine">One pick every morning. No card, no spam.</div>
-    </form>
+    </div>
   </div>
 </div>
 </div>
