@@ -58,4 +58,5 @@
 !data/*.json
 !posts/.sent.json
 !itn-git-credential.sh
+!thanks.html
 !preview-wide.html
