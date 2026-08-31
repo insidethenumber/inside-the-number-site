@@ -105,38 +105,72 @@ def fetch_odds(start, end):
         sys.exit(f"ERROR: cannot reach the Odds API ({e.reason}). Run in CI.")
 
 
-def fetch_espn(ymd):
-    """Records and weight classes. Best-effort: the page works without them."""
-    url = ("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard"
-           f"?dates={ymd}")
-    try:
-        with urllib.request.urlopen(
-                urllib.request.Request(url, headers=UA), timeout=25) as r:
-            data = json.loads(r.read().decode())
-    except Exception as e:
-        print(f"WARN: ESPN enrichment unavailable ({e}) — records omitted",
-              file=sys.stderr)
-        return []
-    bouts = []
-    for ev in data.get("events", []):
-        for c in ev.get("competitions", []):
-            names, recs = [], []
-            for comp in c.get("competitors", []):
-                a = comp.get("athlete") or {}
-                names.append(a.get("displayName") or a.get("shortName") or "")
-                rec = ""
-                for rblock in (comp.get("records") or []):
-                    if rblock.get("summary"):
-                        rec = rblock["summary"]
-                        break
-                recs.append(rec)
-            weight = ((c.get("type") or {}).get("text")
-                      or (c.get("type") or {}).get("abbreviation") or "")
-            weight = re.sub(r"\s*-?\s*(Main|Co-Main).*$", "", weight).strip()
-            if len(names) == 2:
-                bouts.append({"names": names, "recs": recs, "weight": weight})
-    print(f"ESPN: {len(bouts)} bouts with bios", file=sys.stderr)
-    return bouts
+def date_range(start, end):
+    """YYYYMMDD strings from start to end inclusive.
+
+    ESPN's scoreboard is queried per-date. The old code only ever asked for
+    --start, so a card that begins late UTC (every US evening card) had its
+    bouts sitting on the NEXT ESPN date and came back empty.
+    """
+    d0 = datetime.strptime(start, "%Y-%m-%d").date()
+    d1 = datetime.strptime(end, "%Y-%m-%d").date()
+    out, d = [], d0
+    while d <= d1:
+        out.append(d.strftime("%Y%m%d"))
+        d += timedelta(days=1)
+    return out
+
+
+def fetch_espn(ymds):
+    """The card roster: records, weight classes, bout format and card status.
+
+    Returns (bouts, cards). Each bout carries `periods` — 5 for the main
+    event, 3 for everything else — which is how the main event is identified.
+    Each card carries ESPN's status so we can refuse to publish a finished one.
+
+    Best-effort for the bio fields, but the roster itself is now load-bearing:
+    priced fights that do not appear here are discarded (see on-card filter).
+    """
+    bouts, cards = [], []
+    for ymd in ymds:
+        url = ("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard"
+               f"?dates={ymd}")
+        try:
+            with urllib.request.urlopen(
+                    urllib.request.Request(url, headers=UA), timeout=25) as r:
+                data = json.loads(r.read().decode())
+        except Exception as e:
+            print(f"WARN: ESPN unavailable for {ymd} ({e})", file=sys.stderr)
+            continue
+        for ev in data.get("events", []):
+            status = (((ev.get("status") or {}).get("type") or {})
+                      .get("name") or "")
+            cards.append({"name": ev.get("name") or "",
+                          "date": ev.get("date") or "",
+                          "status": status})
+            for c_ in ev.get("competitions", []):
+                names, recs = [], []
+                for comp in c_.get("competitors", []):
+                    a = comp.get("athlete") or {}
+                    names.append(a.get("displayName") or a.get("shortName") or "")
+                    rec = ""
+                    for rblock in (comp.get("records") or []):
+                        if rblock.get("summary"):
+                            rec = rblock["summary"]
+                            break
+                    recs.append(rec)
+                weight = ((c_.get("type") or {}).get("text")
+                          or (c_.get("type") or {}).get("abbreviation") or "")
+                weight = re.sub(r"\s*-?\s*(Main|Co-Main).*$", "", weight).strip()
+                periods = (((c_.get("format") or {}).get("regulation") or {})
+                           .get("periods"))
+                if len(names) == 2:
+                    bouts.append({"names": names, "recs": recs,
+                                  "weight": weight, "periods": periods,
+                                  "card": ev.get("name") or "",
+                                  "status": status})
+    print(f"ESPN: {len(bouts)} bouts across {len(cards)} card(s)", file=sys.stderr)
+    return bouts, cards
 
 
 def last(n):
@@ -204,6 +238,9 @@ def enrich(fight, bouts):
     it shares any word with an ESPN corner, which is plenty to identify one
     person inside a single card. If two bouts both match we take neither —
     a wrong record is worse than a missing one.
+
+    Returns the matched ESPN bout (or None). The caller uses that both to read
+    the bout format and to decide whether the fight belongs on this card at all.
     """
     na, nb = fight["a"]["name"], fight["b"]["name"]
     hits = []
@@ -220,7 +257,7 @@ def enrich(fight, bouts):
         order = ("b", "a") if swapped else ("a", "b")
         for idx, side in enumerate(order):
             fight[side]["record"] = b["recs"][idx] if idx < len(b["recs"]) else ""
-        return
+        return b
 
     if len(hits) > 1:
         print(f"WARN: {fight['a']['name']} vs {fight['b']['name']} matched "
@@ -228,6 +265,7 @@ def enrich(fight, bouts):
               file=sys.stderr)
     fight["weight"] = ""
     fight["a"]["record"] = fight["b"]["record"] = ""
+    return None
 
 
 def best_both(ev):
@@ -355,21 +393,87 @@ NAV_CSS = """
 """
 
 
+def assert_card_is_upcoming(cards, allow_finished=False):
+    """Refuse to publish a card that has already happened.
+
+    On Aug 29 2026 this page sat live promoting odds on a UFC card that had
+    finished eight hours earlier, and an automated X post drove traffic to it.
+    A stale page is worse than no page: it is visibly wrong to anyone who
+    watched the fights, and it is the kind of error that costs the account
+    its credibility permanently.
+
+    ESPN reports STATUS_SCHEDULED until the first bout starts. Anything else
+    (in progress, final) means we must not write a pre-fight odds page.
+    """
+    if not cards:
+        sys.exit("ERROR: ESPN returned no card for this window — refusing to "
+                 "publish. A page with no verifiable card behind it is exactly "
+                 "how the Aug 29 2026 incident happened.")
+    live = [c for c in cards if c["status"] != "STATUS_SCHEDULED"]
+    if live and not allow_finished:
+        detail = "; ".join(f"{c['name']}: {c['status']}" for c in live)
+        sys.exit(f"ERROR: card is not upcoming ({detail}). Refusing to publish "
+                 f"pre-fight odds for a card that has started or finished. "
+                 f"Pass --allow-finished only to build a results page.")
+    if live:
+        print(f"WARN: --allow-finished set; {len(live)} card(s) already under "
+              f"way or complete", file=sys.stderr)
+
+
 def build(events, bouts, title, venue, datestr):
-    fights = []
+    """Assemble the page from priced events, keeping only this card's fights.
+
+    Two failures on Aug 29 2026 that this function is now written against:
+
+    1. The odds feed returns EVERY mma_mixed_martial_arts event inside the
+       --start/--end window, which on a busy weekend means other promotions
+       entirely. Those were merged straight onto the UFC page. Fights are now
+       kept only if they appear on the ESPN roster for this card.
+
+    2. The main event was taken as fights[0] after a reverse sort on
+       commence_time. The odds feed gives every bout on a card the same
+       commence_time (the card's start), so that sort is arbitrary and the
+       page headlined the wrong fight. The main event is the only bout
+       scheduled for five rounds — that is what we key on now.
+    """
+    fights, off_card = [], []
     for ev in sorted(events, key=lambda e: e.get("commence_time", ""), reverse=True):
         f = best_both(ev)
         if not f:
             continue
         f["time"] = fmt_time(ev["commence_time"])
         f["iso"] = ev["commence_time"]
-        enrich(f, bouts)
+        matched = enrich(f, bouts)
+        if matched is None:
+            off_card.append(f"{f['a']['name']} vs {f['b']['name']}")
+            continue
+        f["periods"] = matched.get("periods")
         f["read"] = read_for(f)
         fights.append(f)
-    if not fights:
-        sys.exit("ERROR: no priced fights — refusing to write an empty page.")
 
-    main = fights[0]
+    if off_card:
+        print(f"filtered {len(off_card)} priced event(s) not on this ESPN card: "
+              + "; ".join(off_card), file=sys.stderr)
+    if not fights:
+        sys.exit("ERROR: no priced fights matched this card — refusing to write "
+                 "a page. Check --start/--end and that ESPN lists the card.")
+
+    # The main event is the five-round bout. Fall back to the reverse-sorted
+    # first fight only if ESPN gave us no format at all, and say so loudly —
+    # that fallback is exactly the bug that mislabelled the Shanghai headliner.
+    five = [f for f in fights if f.get("periods") == 5]
+    if len(five) == 1:
+        main = five[0]
+    elif len(five) > 1:
+        print(f"WARN: {len(five)} five-round bouts; taking the latest as main",
+              file=sys.stderr)
+        main = max(five, key=lambda f: f["iso"])
+    else:
+        print("WARN: ESPN reported no five-round bout — falling back to sort "
+              "order for the main event. VERIFY THE HEADLINER BEFORE POSTING.",
+              file=sys.stderr)
+        main = fights[0]
+    fights = [main] + [f for f in fights if f is not main]
     closest = min(fights, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
     heaviest = max(fights, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
     hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
@@ -570,6 +674,10 @@ def main():
     ap.add_argument("--venue", default="Shanghai, China")
     ap.add_argument("--datestr", default="Sat, Aug 29")
     ap.add_argument("--out", default=os.path.join(ROOT, "ufc.html"))
+    ap.add_argument("--allow-finished", action="store_true",
+                    help="Publish even if ESPN says the card has started or "
+                         "finished. Off by default: the Aug 29 2026 incident "
+                         "was a live page promoting odds on a finished card.")
     ap.add_argument("--max-age-hours", type=float, default=None,
                     help="Skip the rebuild if the existing page's price stamp "
                          "is younger than this. Lets the workflow poll often "
@@ -600,9 +708,14 @@ def main():
                 print(f"WARN: could not read price stamp ({e}) — rebuilding.",
                       file=sys.stderr)
 
+    # ESPN first: it is the authority on what is actually ON this card and
+    # whether the card has already happened. If the guard trips we exit before
+    # spending an Odds API credit.
+    bouts, cards = fetch_espn(date_range(a.start, a.end))
+    assert_card_is_upcoming(cards, a.allow_finished)
+
     events = fetch_odds(a.start, a.end)
     print(f"{len(events)} priced events in window", file=sys.stderr)
-    bouts = fetch_espn(a.start.replace("-", ""))
     page = build(events, bouts, a.title, a.venue, a.datestr)
     with open(a.out, "w") as fh:
         fh.write(page)

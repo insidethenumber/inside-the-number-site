@@ -14,17 +14,19 @@ name: UFC card page
 # instead of publishing junk.
 
 on:
-  # CRON DISABLED Aug 29 2026 after a live incident. Two independent bugs shipped
-  # wrong data to the public page every two hours:
-  #   1) fetch_odds() pulls EVERY mma_mixed_martial_arts event in the --start/--end
-  #      window, not just the target card, so a second promotion's bouts were merged
-  #      into the UFC page (tell: those rows quoted 1-2 books vs 6-7 for real fights).
-  #   2) build() picks the "main event" by reverse-sorting that mixed list on
-  #      commence_time, so a non-UFC fight was repeatedly labelled the headliner.
-  # There is also no guard against the card being OVER — it kept publishing finished
-  # fights as shoppable odds.
-  # Do NOT re-enable until all three are fixed AND the output is checked against
-  # ESPN's card roster for that event. Manual runs only.
+  # Re-enabled Aug 30 2026. The three bugs that caused the Aug 29 incident are
+  # fixed and unit-tested in scripts/build_ufc_page.py:
+  #   1) priced events are now discarded unless they appear on ESPN's roster
+  #      for this card, so other promotions can no longer bleed onto the page;
+  #   2) the main event is identified by its five-round format rather than by
+  #      sort order (the odds feed gives every bout the same commence_time,
+  #      which is why the old reverse-sort headlined the wrong fight);
+  #   3) the build refuses to run unless ESPN reports the card as
+  #      STATUS_SCHEDULED, so a finished card can no longer be published as
+  #      shoppable odds. --allow-finished is required to override.
+  # The guard runs BEFORE the odds call, so a stale window costs no credit.
+  schedule:
+    - cron: "0 13 * * *"   # 08:00 CT daily through fight week
   workflow_dispatch:
 
 concurrency:
@@ -56,10 +58,10 @@ jobs:
           AGE_GUARD="--max-age-hours 20"
           [ "${{ github.event_name }}" = "workflow_dispatch" ] && AGE_GUARD=""
           python3 scripts/build_ufc_page.py $AGE_GUARD \
-            --start 2026-08-29 --end 2026-08-30 \
-            --title "UFC Fight Night Shanghai" \
-            --venue "Shanghai, China" \
-            --datestr "Sat, Aug 29" 2>&1 | tee /tmp/ufc.log
+            --start 2026-09-12 --end 2026-09-13 \
+            --title "Noche UFC: Silva vs. Delgado" \
+            --venue "Glendale, Arizona" \
+            --datestr "Sat, Sep 12" 2>&1 | tee /tmp/ufc.log
           {
             echo "## UFC page build"
             echo '```'
@@ -83,5 +85,6 @@ jobs:
       - name: Report failure loudly
         if: failure()
         run: |
-          echo "::error title=UFC page build failed::Empty fight window means the \
-          card date passed -- retarget --start/--end or disable the cron."
+          echo "::error title=UFC page build failed::Either the card has started \
+          or finished (the generator refuses to publish stale odds), or the window \
+          is empty. Retarget --start/--end at the next card."
