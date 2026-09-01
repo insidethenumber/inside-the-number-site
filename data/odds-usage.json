@@ -11,6 +11,54 @@
    "mode": "morning",
    "spent": 3,
    "remaining": 472
+  },
+  {
+   "at": "2026-08-28T21:58:28.784815+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 466
+  },
+  {
+   "at": "2026-08-28T22:01:09.331884+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 463
+  },
+  {
+   "at": "2026-08-29T15:24:14.065547+00:00",
+   "mode": "morning",
+   "spent": 5,
+   "remaining": 458
+  },
+  {
+   "at": "2026-08-29T21:53:55.189156+00:00",
+   "mode": "morning",
+   "spent": 5,
+   "remaining": 452
+  },
+  {
+   "at": "2026-08-30T15:24:08.216067+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 449
+  },
+  {
+   "at": "2026-08-30T21:54:03.461903+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 446
+  },
+  {
+   "at": "2026-08-31T15:24:15.719507+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 440
+  },
+  {
+   "at": "2026-08-31T21:53:47.817801+00:00",
+   "mode": "morning",
+   "spent": 3,
+   "remaining": 437
   }
  ]
 }

@@ -7,7 +7,20 @@
   "000a-scherzer-price.txt",
   "000b-urena-wins-lie.txt",
   "000c-record-vs-era.txt",
-  "00b-umar-chalk.txt"
+  "00b-umar-chalk.txt",
+  "00c-coinflip.txt",
+  "00d-scheffler.txt",
+  "00e-rory-pick.txt",
+  "00f-golf-outrights.txt",
+  "00g-cfb-open.txt",
+  "00h-shopping.txt",
+  "05-injuries.txt",
+  "06-what-beats-it.txt",
+  "07-true-price.txt",
+  "08-conditions.txt",
+  "09-market-choice.txt",
+  "10-what-this-is.txt",
+  "11-breakeven-card.txt"
  ],
  "history": [
   {
@@ -80,6 +93,123 @@
    "url": "https://x.com/thenumberdesk/status/2092653091061477448",
    "at": "2026-08-26T16:39:11.330758+00:00",
    "chars": 132,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00c-coinflip.txt",
+   "id": "2093148835182977130",
+   "url": "https://x.com/thenumberdesk/status/2093148835182977130",
+   "at": "2026-08-28T01:29:05.918410+00:00",
+   "chars": 125,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00d-scheffler.txt",
+   "id": "2093458172291788813",
+   "url": "https://x.com/thenumberdesk/status/2093458172291788813",
+   "at": "2026-08-28T21:58:17.647092+00:00",
+   "chars": 126,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00e-rory-pick.txt",
+   "id": "2093459886386401737",
+   "url": "https://x.com/thenumberdesk/status/2093459886386401737",
+   "at": "2026-08-28T22:05:06.340304+00:00",
+   "chars": 163,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00f-golf-outrights.txt",
+   "id": "2093464144485953605",
+   "url": "https://x.com/thenumberdesk/status/2093464144485953605",
+   "at": "2026-08-28T22:22:01.508631+00:00",
+   "chars": 106,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00g-cfb-open.txt",
+   "id": "2093705712274731278",
+   "url": "https://x.com/thenumberdesk/status/2093705712274731278",
+   "at": "2026-08-29T14:21:55.761819+00:00",
+   "chars": 124,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "00h-shopping.txt",
+   "id": "2093751037706309655",
+   "url": "https://x.com/thenumberdesk/status/2093751037706309655",
+   "at": "2026-08-29T17:22:02.249944+00:00",
+   "chars": 147,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "05-injuries.txt",
+   "id": "2093816396593721484",
+   "url": "https://x.com/thenumberdesk/status/2093816396593721484",
+   "at": "2026-08-29T21:41:44.967503+00:00",
+   "chars": 144,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "06-what-beats-it.txt",
+   "id": "2094068146504188056",
+   "url": "https://x.com/thenumberdesk/status/2094068146504188056",
+   "at": "2026-08-30T14:22:06.824304+00:00",
+   "chars": 127,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "07-true-price.txt",
+   "id": "2094113399047368863",
+   "url": "https://x.com/thenumberdesk/status/2094113399047368863",
+   "at": "2026-08-30T17:21:55.878741+00:00",
+   "chars": 146,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "08-conditions.txt",
+   "id": "2094178795033116770",
+   "url": "https://x.com/thenumberdesk/status/2094178795033116770",
+   "at": "2026-08-30T21:41:47.491620+00:00",
+   "chars": 143,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "09-market-choice.txt",
+   "id": "2094430615495954434",
+   "url": "https://x.com/thenumberdesk/status/2094430615495954434",
+   "at": "2026-08-31T14:22:26.181849+00:00",
+   "chars": 148,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "10-what-this-is.txt",
+   "id": "2094475834212188233",
+   "url": "https://x.com/thenumberdesk/status/2094475834212188233",
+   "at": "2026-08-31T17:22:07.188477+00:00",
+   "chars": 150,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "11-breakeven-card.txt",
+   "id": "2094541193602359781",
+   "url": "https://x.com/thenumberdesk/status/2094541193602359781",
+   "at": "2026-08-31T21:41:50.044414+00:00",
+   "chars": 127,
    "had_link": false,
    "est_cost": 0.015
   }

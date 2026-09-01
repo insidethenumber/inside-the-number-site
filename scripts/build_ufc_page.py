@@ -64,6 +64,29 @@ NOTES = {
         "most of the case for him. Su Mudaerji is the faster, flashier striker with "
         "the home crowd behind him — the books lean his way and the atmosphere will "
         "too.",
+    # ── Noche UFC: Silva vs. Delgado, Sept 12 2026 ──
+    frozenset({"silva", "delgado"}):
+        "Jean Silva arrived with the Fighting Nerds camp and fights like the room "
+        "he trains in — creative, violent, and completely unbothered. Jose Miguel "
+        "Delgado is the Mexican prospect this card was built to showcase, a "
+        "featherweight who hunts finishes. Noche UFC is the Mexican Independence "
+        "Day card, and the main event is the story of the night in one fight.",
+    frozenset({"moreno", "morales"}):
+        "Brandon Moreno was the first Mexican-born champion in UFC history, and on "
+        "this card that matters as much as the matchup. Joseph Morales is unbeaten "
+        "in the UFC's eyes for years off injury layoffs and rebuilds. A former "
+        "champ against a flyweight trying to restart — experience against hunger.",
+    frozenset({"grasso", "fiorot"}):
+        "Quietly the best fight on the card. Alexa Grasso has held the women's "
+        "flyweight title; Manon Fiorot has been the division's most consistent "
+        "contender for years. Neither is in a title fight here, which tells you "
+        "how deep this division runs — and this one could decide who challenges "
+        "next.",
+    frozenset({"blaydes", "acosta"}):
+        "Curtis Blaydes is the most decorated heavyweight name on the card, a "
+        "wrestler who has been one win from a title shot more than once. Waldo "
+        "Cortes Acosta hits like a heavyweight and has been busy while Blaydes "
+        "sat. Classic heavyweight question: timing and takedowns, or the punch?",
 }
 
 
@@ -105,38 +128,72 @@ def fetch_odds(start, end):
         sys.exit(f"ERROR: cannot reach the Odds API ({e.reason}). Run in CI.")
 
 
-def fetch_espn(ymd):
-    """Records and weight classes. Best-effort: the page works without them."""
-    url = ("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard"
-           f"?dates={ymd}")
-    try:
-        with urllib.request.urlopen(
-                urllib.request.Request(url, headers=UA), timeout=25) as r:
-            data = json.loads(r.read().decode())
-    except Exception as e:
-        print(f"WARN: ESPN enrichment unavailable ({e}) — records omitted",
-              file=sys.stderr)
-        return []
-    bouts = []
-    for ev in data.get("events", []):
-        for c in ev.get("competitions", []):
-            names, recs = [], []
-            for comp in c.get("competitors", []):
-                a = comp.get("athlete") or {}
-                names.append(a.get("displayName") or a.get("shortName") or "")
-                rec = ""
-                for rblock in (comp.get("records") or []):
-                    if rblock.get("summary"):
-                        rec = rblock["summary"]
-                        break
-                recs.append(rec)
-            weight = ((c.get("type") or {}).get("text")
-                      or (c.get("type") or {}).get("abbreviation") or "")
-            weight = re.sub(r"\s*-?\s*(Main|Co-Main).*$", "", weight).strip()
-            if len(names) == 2:
-                bouts.append({"names": names, "recs": recs, "weight": weight})
-    print(f"ESPN: {len(bouts)} bouts with bios", file=sys.stderr)
-    return bouts
+def date_range(start, end):
+    """YYYYMMDD strings from start to end inclusive.
+
+    ESPN's scoreboard is queried per-date. The old code only ever asked for
+    --start, so a card that begins late UTC (every US evening card) had its
+    bouts sitting on the NEXT ESPN date and came back empty.
+    """
+    d0 = datetime.strptime(start, "%Y-%m-%d").date()
+    d1 = datetime.strptime(end, "%Y-%m-%d").date()
+    out, d = [], d0
+    while d <= d1:
+        out.append(d.strftime("%Y%m%d"))
+        d += timedelta(days=1)
+    return out
+
+
+def fetch_espn(ymds):
+    """The card roster: records, weight classes, bout format and card status.
+
+    Returns (bouts, cards). Each bout carries `periods` — 5 for the main
+    event, 3 for everything else — which is how the main event is identified.
+    Each card carries ESPN's status so we can refuse to publish a finished one.
+
+    Best-effort for the bio fields, but the roster itself is now load-bearing:
+    priced fights that do not appear here are discarded (see on-card filter).
+    """
+    bouts, cards = [], []
+    for ymd in ymds:
+        url = ("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard"
+               f"?dates={ymd}")
+        try:
+            with urllib.request.urlopen(
+                    urllib.request.Request(url, headers=UA), timeout=25) as r:
+                data = json.loads(r.read().decode())
+        except Exception as e:
+            print(f"WARN: ESPN unavailable for {ymd} ({e})", file=sys.stderr)
+            continue
+        for ev in data.get("events", []):
+            status = (((ev.get("status") or {}).get("type") or {})
+                      .get("name") or "")
+            cards.append({"name": ev.get("name") or "",
+                          "date": ev.get("date") or "",
+                          "status": status})
+            for c_ in ev.get("competitions", []):
+                names, recs = [], []
+                for comp in c_.get("competitors", []):
+                    a = comp.get("athlete") or {}
+                    names.append(a.get("displayName") or a.get("shortName") or "")
+                    rec = ""
+                    for rblock in (comp.get("records") or []):
+                        if rblock.get("summary"):
+                            rec = rblock["summary"]
+                            break
+                    recs.append(rec)
+                weight = ((c_.get("type") or {}).get("text")
+                          or (c_.get("type") or {}).get("abbreviation") or "")
+                weight = re.sub(r"\s*-?\s*(Main|Co-Main).*$", "", weight).strip()
+                periods = (((c_.get("format") or {}).get("regulation") or {})
+                           .get("periods"))
+                if len(names) == 2:
+                    bouts.append({"names": names, "recs": recs,
+                                  "weight": weight, "periods": periods,
+                                  "card": ev.get("name") or "",
+                                  "status": status})
+    print(f"ESPN: {len(bouts)} bouts across {len(cards)} card(s)", file=sys.stderr)
+    return bouts, cards
 
 
 def last(n):
@@ -204,6 +261,9 @@ def enrich(fight, bouts):
     it shares any word with an ESPN corner, which is plenty to identify one
     person inside a single card. If two bouts both match we take neither —
     a wrong record is worse than a missing one.
+
+    Returns the matched ESPN bout (or None). The caller uses that both to read
+    the bout format and to decide whether the fight belongs on this card at all.
     """
     na, nb = fight["a"]["name"], fight["b"]["name"]
     hits = []
@@ -220,7 +280,7 @@ def enrich(fight, bouts):
         order = ("b", "a") if swapped else ("a", "b")
         for idx, side in enumerate(order):
             fight[side]["record"] = b["recs"][idx] if idx < len(b["recs"]) else ""
-        return
+        return b
 
     if len(hits) > 1:
         print(f"WARN: {fight['a']['name']} vs {fight['b']['name']} matched "
@@ -228,6 +288,7 @@ def enrich(fight, bouts):
               file=sys.stderr)
     fight["weight"] = ""
     fight["a"]["record"] = fight["b"]["record"] = ""
+    return None
 
 
 def best_both(ev):
@@ -355,31 +416,164 @@ NAV_CSS = """
 """
 
 
-def build(events, bouts, title, venue, datestr):
+def preview_fights(bouts):
+    """Build the fight list straight from ESPN's roster, no odds.
+
+    Used when the card is confirmed and upcoming but no book has posted lines
+    yet — typically until 7-10 days out. Publishing the verified card early
+    earns search traffic for the event name while it is being searched; the
+    odds bolt on automatically the first run after books price the card,
+    because the priced path takes precedence in main().
+
+    ESPN lists prelims first and the main event last, so display order is the
+    reverse of feed order (headliner first, walk-outs backwards).
+    """
     fights = []
+    for b in reversed(bouts):
+        if len(b.get("names", [])) != 2 or not all(b["names"]):
+            continue
+        recs = b.get("recs") or ["", ""]
+        f = {"a": {"name": b["names"][0], "record": recs[0] if len(recs) > 0 else ""},
+             "b": {"name": b["names"][1], "record": recs[1] if len(recs) > 1 else ""},
+             "weight": tidy_weight(b.get("weight", "")),
+             "periods": b.get("periods"),
+             "read": NOTES.get(frozenset({last(b["names"][0]),
+                                          last(b["names"][1])}), "")}
+        fights.append(f)
+    return fights
+
+
+def order_main_first(fights):
+    """Headliner to the top, identified by the five-round format."""
+    five = [f for f in fights if f.get("periods") == 5]
+    if len(five) == 1:
+        main = five[0]
+    elif len(five) > 1:
+        print(f"WARN: {len(five)} five-round bouts; keeping feed order",
+              file=sys.stderr)
+        main = five[0]
+    else:
+        print("WARN: no five-round bout reported — first fight in feed order "
+              "treated as main. VERIFY THE HEADLINER BEFORE POSTING.",
+              file=sys.stderr)
+        main = fights[0]
+    return [main] + [f for f in fights if f is not main]
+
+
+def assert_card_is_upcoming(cards, allow_finished=False):
+    """Refuse to publish a card that has already happened.
+
+    On Aug 29 2026 this page sat live promoting odds on a UFC card that had
+    finished eight hours earlier, and an automated X post drove traffic to it.
+    A stale page is worse than no page: it is visibly wrong to anyone who
+    watched the fights, and it is the kind of error that costs the account
+    its credibility permanently.
+
+    ESPN reports STATUS_SCHEDULED until the first bout starts. Anything else
+    (in progress, final) means we must not write a pre-fight odds page.
+    """
+    if not cards:
+        sys.exit("ERROR: ESPN returned no card for this window — refusing to "
+                 "publish. A page with no verifiable card behind it is exactly "
+                 "how the Aug 29 2026 incident happened.")
+    live = [c for c in cards if c["status"] != "STATUS_SCHEDULED"]
+    if live and not allow_finished:
+        detail = "; ".join(f"{c['name']}: {c['status']}" for c in live)
+        sys.exit(f"ERROR: card is not upcoming ({detail}). Refusing to publish "
+                 f"pre-fight odds for a card that has started or finished. "
+                 f"Pass --allow-finished only to build a results page.")
+    if live:
+        print(f"WARN: --allow-finished set; {len(live)} card(s) already under "
+              f"way or complete", file=sys.stderr)
+
+
+def build(events, bouts, title, venue, datestr, preview=False):
+    """Assemble the page from priced events, keeping only this card's fights.
+
+    Two failures on Aug 29 2026 that this function is now written against:
+
+    1. The odds feed returns EVERY mma_mixed_martial_arts event inside the
+       --start/--end window, which on a busy weekend means other promotions
+       entirely. Those were merged straight onto the UFC page. Fights are now
+       kept only if they appear on the ESPN roster for this card.
+
+    2. The main event was taken as fights[0] after a reverse sort on
+       commence_time. The odds feed gives every bout on a card the same
+       commence_time (the card's start), so that sort is arbitrary and the
+       page headlined the wrong fight. The main event is the only bout
+       scheduled for five rounds — that is what we key on now.
+
+    With preview=True the odds feed is ignored entirely and the page is built
+    from ESPN's roster: fighters, records, weight classes and the hand-written
+    notes, with an honest "lines not posted yet" in place of prices.
+    """
+    if preview:
+        fights = preview_fights(bouts)
+        if not fights:
+            sys.exit("ERROR: preview requested but ESPN returned no usable "
+                     "bouts — nothing to publish.")
+        for f in fights:
+            f["time"] = ""
+            f["iso"] = ""
+        return render(order_main_first(fights), title, venue, datestr,
+                      preview=True)
+
+    fights, off_card, unpriced = [], [], []
     for ev in sorted(events, key=lambda e: e.get("commence_time", ""), reverse=True):
         f = best_both(ev)
         if not f:
+            # Event exists in the feed but no book has posted a two-way price
+            # yet. Normal well ahead of a card; worth naming so the operator can
+            # tell "not priced yet" apart from "wrong window".
+            unpriced.append(" vs ".join(
+                str(x) for x in (ev.get("home_team"), ev.get("away_team"))
+                if x) or ev.get("id", "?"))
             continue
         f["time"] = fmt_time(ev["commence_time"])
         f["iso"] = ev["commence_time"]
-        enrich(f, bouts)
+        matched = enrich(f, bouts)
+        if matched is None:
+            off_card.append(f"{f['a']['name']} vs {f['b']['name']}")
+            continue
+        f["periods"] = matched.get("periods")
         f["read"] = read_for(f)
         fights.append(f)
+
+    if off_card:
+        print(f"filtered {len(off_card)} priced event(s) not on this ESPN card: "
+              + "; ".join(off_card), file=sys.stderr)
+    if unpriced:
+        print(f"{len(unpriced)} event(s) in the feed with no book price yet: "
+              + "; ".join(unpriced), file=sys.stderr)
     if not fights:
-        sys.exit("ERROR: no priced fights — refusing to write an empty page.")
+        if unpriced and not off_card:
+            sys.exit(
+                f"ERROR: the card is on ESPN but no book has priced it yet "
+                f"({len(unpriced)} event(s) returned with no odds). This is "
+                f"normal well before fight week — retry closer to the card. "
+                f"Refusing to publish a card page with no real prices on it.")
+        sys.exit("ERROR: no priced fights matched this card — refusing to write "
+                 "a page. Check --start/--end and that ESPN lists the card.")
 
+    return render(order_main_first(fights), title, venue, datestr,
+                  preview=False)
+
+
+def render(fights, title, venue, datestr, preview):
     main = fights[0]
-    closest = min(fights, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
-    heaviest = max(fights, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
-    hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
-    first_t, main_t = fights[-1]["time"], main["time"]
-
     stamp = datetime.now(timezone.utc).strftime("%b %-d, %Y %H:%M UTC")
     e = html.escape
 
+    if not preview:
+        closest = min(fights, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
+        heaviest = max(fights, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
+        hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
+        first_t, main_t = fights[-1]["time"], main["time"]
+
     def corner(x):
         rec = f'<div class="f-rec">{e(x["record"])}</div>' if x.get("record") else ""
+        if preview:
+            return f"""<div class="corner"><div class="f-name">{e(x['name'])}</div>{rec}</div>"""
         return f"""<div class="corner"><div class="f-name">{e(x['name'])}</div>{rec}
             <div class="f-price">{x['price']:+d}</div>
             <div class="f-book">best price: {e(x['book'])}</div>
@@ -387,24 +581,35 @@ def build(events, bouts, title, venue, datestr):
 
     def frow(f, feature=False):
         cls = "fight feature" if feature else "fight"
-        wt = f' · {e(f["weight"])}' if f.get("weight") else ""
+        wt = e(f["weight"]) if f.get("weight") else ""
+        label = "Main event · " + wt if feature and wt else (
+                "Main event" if feature else wt)
+        left = e(f['time']) + (f" · {wt}" if f.get('time') and wt else
+                               ("" if f.get('time') else label))
+        hold = ("lines not posted yet" if preview
+                else f"{f['books']} books quoted")
+        read = f'<div class="f-read">{e(f["read"])}</div>' if f.get("read") else ""
         return f"""
       <div class="{cls}">
-        <div class="f-top"><span class="f-time">{e(f['time'])}{wt}</span>
-          <span class="f-hold">{f['books']} books quoted</span></div>
+        <div class="f-top"><span class="f-time">{left}</span>
+          <span class="f-hold">{hold}</span></div>
         <div class="f-grid">{corner(f['a'])}<div class="vs">vs</div>{corner(f['b'])}</div>
-        <div class="f-read">{e(f['read'])}</div>
+        {read}
       </div>"""
 
     rows = frow(main, True) + "".join(frow(f) for f in fights[1:])
 
     ld = {"@context": "https://schema.org", "@type": "SportsEvent",
           "name": title, "sport": "Mixed Martial Arts",
-          "startDate": min(f["iso"] for f in fights),
+          **({"startDate": min(f["iso"] for f in fights)}
+             if not preview and any(f.get("iso") for f in fights) else {}),
           "location": {"@type": "Place", "name": venue},
-          "description": f"Every fight on the {title} card: records, weight "
-                         "classes, the best moneyline across major sportsbooks "
-                         "and each fighter's win chance in plain English.",
+          "description": (f"Every fight on the {title} card: records and "
+                          "weight classes, with odds added as books post them."
+                          if preview else
+                          f"Every fight on the {title} card: records, weight "
+                          "classes, the best moneyline across major sportsbooks "
+                          "and each fighter's win chance in plain English."),
           "organizer": {"@type": "Organization", "name": "UFC"}}
     crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
               "itemListElement": [
@@ -413,16 +618,80 @@ def build(events, bouts, title, venue, datestr):
                   {"@type": "ListItem", "position": 2, "name": "UFC",
                    "item": "https://insidethenumber.com/ufc.html"}]}
 
-    desc = (f"{title} card — every fight with records, the best price across "
-            "major sportsbooks on both corners, and each fighter's win chance "
-            "in plain English.")
+    if preview:
+        desc = (f"{title} card preview — every announced fight with records "
+                "and weight classes, plus what actually matters on this card. "
+                "Odds added automatically as soon as books post them.")
+        page_title = f"{title} — Full Card & Fight Preview | Inside the Number"
+        og_title = f"{title} — the full card, before the lines drop"
+    else:
+        desc = (f"{title} card — every fight with records, the best price across "
+                "major sportsbooks on both corners, and each fighter's win chance "
+                "in plain English.")
+        page_title = f"{title} Odds — Best Price on Every Fight | Inside the Number"
+        og_title = f"{title} — every fight, every price"
+
+    if preview:
+        tagline = "the full card, before the lines drop."
+        sub = ("Every announced fight with records and weight classes, and the "
+               "story on the ones that matter. As soon as sportsbooks post "
+               "lines for this card, the best price on both corners and each "
+               "fighter's win chance appear here automatically.")
+        stamp_line = f"Card checked {stamp} · odds not posted yet"
+        early_html = ('<div class="early">Books usually price a card 7–10 days '
+                      'out. This page rebuilds itself daily and the numbers '
+                      'appear the morning they exist.</div>')
+        co = fights[1] if len(fights) > 1 else None
+        chips = [
+            ('Main event',
+             f"{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}",
+             e(main.get('weight') or 'headliner') + ' · 5 rounds')]
+        if co:
+            chips.append(('Co-main',
+                          f"{e(co['a']['name'].split()[-1])} vs {e(co['b']['name'].split()[-1])}",
+                          e(co.get('weight') or '')))
+        chips.append(('Fights announced', str(len(fights)), e(datestr)))
+        strip_html = "".join(
+            f'    <div class="chip"><div class="l">{l}</div>'
+            f'<div class="v">{v}</div><div class="s">{s}</div></div>\n'
+            for l, v, s in chips)
+        expl_html = ('<p class="expl"><b>Why no odds yet?</b> Sportsbooks '
+                     'don\'t price full UFC cards until fight week gets close. '
+                     'Rather than show you stale or invented numbers, this page '
+                     'shows the verified card now and adds the real prices the '
+                     'day they post.</p>')
+    else:
+        tagline = "every fight, every price."
+        sub = ("The best moneyline on both corners across major sportsbooks, "
+               "records, and each fighter's win chance in plain English. ESPN "
+               "doesn't carry MMA odds. We do.")
+        stamp_line = (f"Prices updated {stamp} · best of "
+                      f"{max(f['books'] for f in fights)} books")
+        early_html = (f'<div class="early">First fight ~{e(first_t)}, main '
+                      f'event ~{e(main_t)}.</div>')
+        strip_html = f"""    <div class="chip"><div class="l">Main event</div>
+      <div class="v">{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}</div>
+      <div class="s">{e(main.get('weight') or 'headliner')} · {e(main_t)}</div></div>
+    <div class="chip"><div class="l">Closest fight</div>
+      <div class="v">{e(closest['a']['name'].split()[-1])} / {e(closest['b']['name'].split()[-1])}</div>
+      <div class="s">near even money both ways — pick a side</div></div>
+    <div class="chip"><div class="l">Biggest favorite</div>
+      <div class="v">{e(hfav['name'])}</div>
+      <div class="s">the books give him {hfav['chance']:.0f} in 100 — priced {hfav['price']:+d}</div></div>"""
+        expl_html = ('<p class="expl"><b>How to read this.</b> The price shown '
+                     'is the best any major book is offering on that corner '
+                     'right now — always take the best number on your side; '
+                     'over a season it\'s the difference between winning and '
+                     'breaking even. Win chance is what the market honestly '
+                     'gives each fighter once the bookmaker\'s cut is stripped '
+                     'out — both corners add up to 100.</p>')
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>{e(title)} Odds — Best Price on Every Fight | Inside the Number</title>
+<title>{e(page_title)}</title>
 <meta name="description" content="{e(desc)}"/>
 <link rel="canonical" href="https://insidethenumber.com/ufc.html"/>
 <meta name="theme-color" content="#050608"/>
@@ -432,7 +701,7 @@ def build(events, bouts, title, venue, datestr):
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/ufc.html"/>
-<meta property="og:title" content="{e(title)} — every fight, every price"/>
+<meta property="og:title" content="{e(og_title)}"/>
 <meta property="og:description" content="{e(desc)}"/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -517,36 +786,39 @@ def build(events, bouts, title, venue, datestr):
     .f-grid {{ gap:8px; }} .f-name {{ font-size:16px; }} .f-price {{ font-size:18px; }}
   }}
 </style>
+<style id="nav-fit">
+/* NAV FIT (Aug 31 2026) - the nav links need ~770px but this page only swapped
+   to the hamburger at 640px, so between ~640px and ~770px they crowded the logo
+   and ran off the right edge. Compact tier + one shared 900px hamburger
+   breakpoint gives ~320px of slack instead of none. Keep this in sync with the
+   identical block in the hand-maintained pages (index.html, games.html, etc). */
+@media (max-width:1150px){{
+  nav{{padding-left:20px !important;padding-right:20px !important}}
+  .nav-links{{gap:16px !important}}
+  .nav-links a{{font-size:11.5px !important;letter-spacing:.04em !important}}
+  .nav-name{{font-size:17px !important}}
+  .nav-logo-mark{{width:34px !important;height:34px !important}}
+}}
+@media (max-width:900px){{
+  .nav-links{{display:none !important}}
+  .nav-hamburger{{display:flex !important}}
+}}
+</style>
 </head>
 <body>
 {NAV}
 <div class="wrap">
   <div class="eyebrow">// UFC · {e(datestr)} · {e(venue)}</div>
-  <h1>{e(title)}<br/><span>every fight, every price.</span></h1>
-  <p class="sub">The best moneyline on both corners across major sportsbooks, records,
-    and each fighter's win chance in plain English. ESPN doesn't carry MMA odds. We do.</p>
-  <div class="stamp">Prices updated {stamp} · best of {max(f['books'] for f in fights)} books</div>
-  <div class="early">Yes, those start times are right — it's a Shanghai card. First fight
-    ~{e(first_t)}, main event ~{e(main_t)} Saturday. Coffee, not beer.</div>
-
+  <h1>{e(title)}<br/><span>{tagline}</span></h1>
+  <p class="sub">{sub}</p>
+  <div class="stamp">{stamp_line}</div>
+  {early_html}
   <div class="strip">
-    <div class="chip"><div class="l">Main event</div>
-      <div class="v">{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}</div>
-      <div class="s">{e(main.get('weight') or 'headliner')} · {e(main_t)}</div></div>
-    <div class="chip"><div class="l">Closest fight</div>
-      <div class="v">{e(closest['a']['name'].split()[-1])} / {e(closest['b']['name'].split()[-1])}</div>
-      <div class="s">near even money both ways — pick a side</div></div>
-    <div class="chip"><div class="l">Biggest favorite</div>
-      <div class="v">{e(hfav['name'])}</div>
-      <div class="s">the books give him {hfav['chance']:.0f} in 100 — priced {hfav['price']:+d}</div></div>
+{strip_html}
   </div>
 {rows}
-  <p class="expl"><b>How to read this.</b> The price shown is the best any major book is
-    offering on that corner right now — always take the best number on your side; over a
-    season it's the difference between winning and breaking even. Win chance is what the
-    market honestly gives each fighter once the bookmaker's cut is stripped out — both
-    corners add up to 100.</p>
-  <div class="cta"><b>One free pick every morning, with the reasoning shown.</b><br/>
+  {expl_html}
+  <div class="cta"><b>One free pick every day, with the reasoning shown.</b><br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
     Get it in your inbox →</a></div>
 </div>
@@ -570,6 +842,10 @@ def main():
     ap.add_argument("--venue", default="Shanghai, China")
     ap.add_argument("--datestr", default="Sat, Aug 29")
     ap.add_argument("--out", default=os.path.join(ROOT, "ufc.html"))
+    ap.add_argument("--allow-finished", action="store_true",
+                    help="Publish even if ESPN says the card has started or "
+                         "finished. Off by default: the Aug 29 2026 incident "
+                         "was a live page promoting odds on a finished card.")
     ap.add_argument("--max-age-hours", type=float, default=None,
                     help="Skip the rebuild if the existing page's price stamp "
                          "is younger than this. Lets the workflow poll often "
@@ -583,8 +859,17 @@ def main():
     # page decides whether this run does any work. Dropped triggers get covered
     # by the next poll; credits stay at roughly one refresh per max-age window.
     if a.max_age_hours is not None and os.path.exists(a.out):
-        m = re.search(r"Prices updated ([A-Z][a-z]{2} \d{1,2}, \d{4} \d{2}:\d{2}) UTC",
-                      open(a.out).read())
+        existing = open(a.out).read()
+        if "Card checked" in existing:
+            # Preview page: always rebuild. The whole point of polling is to
+            # notice the morning the books post lines.
+            m = None
+            print("existing page is a roster preview — rebuilding to check "
+                  "for freshly posted lines.", file=sys.stderr)
+        else:
+            m = re.search(
+                r"Prices updated ([A-Z][a-z]{2} \d{1,2}, \d{4} \d{2}:\d{2}) UTC",
+                existing)
         if m:
             import datetime as _dt
             try:
@@ -600,10 +885,24 @@ def main():
                 print(f"WARN: could not read price stamp ({e}) — rebuilding.",
                       file=sys.stderr)
 
+    # ESPN first: it is the authority on what is actually ON this card and
+    # whether the card has already happened. If the guard trips we exit before
+    # spending an Odds API credit.
+    bouts, cards = fetch_espn(date_range(a.start, a.end))
+    assert_card_is_upcoming(cards, a.allow_finished)
+
     events = fetch_odds(a.start, a.end)
     print(f"{len(events)} priced events in window", file=sys.stderr)
-    bouts = fetch_espn(a.start.replace("-", ""))
-    page = build(events, bouts, a.title, a.venue, a.datestr)
+    # If any event carries a real two-way price we build the priced page;
+    # otherwise fall back to the roster preview. The check mirrors best_both()
+    # so the decision and the build cannot disagree.
+    have_prices = any(best_both(ev) for ev in events)
+    if not have_prices:
+        print("no book has priced this card yet — building the roster "
+              "preview; prices bolt on automatically once they exist.",
+              file=sys.stderr)
+    page = build(events, bouts, a.title, a.venue, a.datestr,
+                 preview=not have_prices)
     with open(a.out, "w") as fh:
         fh.write(page)
     print(f"wrote {a.out} ({len(page):,} bytes)")

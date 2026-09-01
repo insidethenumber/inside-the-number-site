@@ -14,11 +14,19 @@ on:
     # Times are UTC. Central is UTC-5 in daylight saving, UTC-6 in winter.
     # 14:30 UTC = 9:30am CDT — well before the 1pm target, so a failure still
     # leaves hours to react.
-    - cron: "30 14 * * *"
-    # Second pass two hours later. If the first run succeeded this is cheap
-    # and idempotent; if it failed this is the safety net, and unlike the old
-    # one it runs somewhere that cannot be frozen by a browser.
-    - cron: "30 16 * * *"
+    #
+    # MINUTE CHOICE MATTERS. GitHub runs `schedule` on a best-effort basis and
+    # drops runs outright under load — it never reports the drop, and there is
+    # no failed run to find afterwards, just silence. The top of the hour and
+    # :30 are by far the most contended minutes because that is where everyone
+    # puts their crons. On Aug 26-27 2026 both of this workflow's :30 runs were
+    # dropped two days running, brief-latest.json quietly went two days stale,
+    # and the /g/ pages served Aug 25 games the whole time. Moved to odd
+    # minutes, and a third pass added so one dropped run is not the whole day.
+    - cron: "17 14 * * *"    #  9:17am CDT — first pass, well before the 1pm target
+    - cron: "47 16 * * *"    # 11:47am CDT — second pass
+    - cron: "23 19 * * *"    #  2:23pm CDT — late catch-all; idempotent if the
+                             #               earlier passes already committed
   workflow_dispatch:        # lets Chuck trigger a run by hand from the UI
 
 concurrency:

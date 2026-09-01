@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>College Football Week 1 Odds — Every Game, Every Number | Inside the Number</title>
-<meta name="description" content="Every College Football Week 1 game on Aug 29, 2026 with the spread, the total, kickoff time and TV — eight games, two of them 30-point mismatches, and the three worth an opinion."/>
+<title>College Football Odds — Every Game, Every Number | Inside the Number</title>
+<meta name="description" content="Every FBS college football game this Saturday with the spread, the total, where the line opened and kickoff time — ordered by which numbers are actually worth an opinion, not by kickoff."/>
 <link rel="canonical" href="https://insidethenumber.com/cfb.html"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -13,12 +13,12 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/cfb.html"/>
-<meta property="og:title" content="College Football Week 1 — every game, every number"/>
-<meta property="og:description" content="Eight games open the 2026 season. Two are 30-point mismatches. Three are inside a touchdown. Here is the whole board."/>
+<meta property="og:title" content="College Football Odds — every game, every number"/>
+<meta property="og:description" content="Every FBS game this Saturday with the spread, the total and where the line opened — ordered by which numbers are worth an opinion."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsEvent","name":"College Football Week 1 2026","sport":"American Football","startDate":"2026-08-29","endDate":"2026-08-30","description":"The opening Saturday of the 2026 college football season: eight games, beginning in Dublin and ending in Las Vegas.","location":{"@type":"Place","name":"Multiple venues","address":{"@type":"PostalAddress","addressCountry":"US"}},"organizer":{"@type":"Organization","name":"NCAA"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"College Football Odds Board","description":"Every FBS college football game this Saturday with spreads, totals and opening lines, ordered by which numbers are worth an opinion.","publisher":{"@type":"Organization","name":"Inside the Number"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://insidethenumber.com/"},{"@type":"ListItem","position":2,"name":"College Football","item":"https://insidethenumber.com/cfb.html"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -126,6 +126,46 @@
   .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
   .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
   body.menu-open { overflow:hidden; }
+
+  /* ---- live board (added Aug 27 2026) ------------------------------ */
+  .dayhdr{margin:30px 0 4px;padding-bottom:8px;border-bottom:2px solid rgba(255,255,255,.16);
+    font:700 14px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:uppercase;color:#eef2f7}
+  .dayhdr:first-child{margin-top:8px}
+  .dayhdr .n{color:#7c8698;font-weight:600;margin-left:8px;letter-spacing:.04em;text-transform:none}
+  .sortbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:22px 0 14px}
+  .sortbar-l{font:600 11px/1 ui-sans-serif,system-ui;letter-spacing:.14em;
+    text-transform:uppercase;color:#7c8698;margin-right:2px}
+  .sortbar-f{margin-left:14px}
+  .sb{font:600 13px/1 ui-sans-serif,system-ui;color:#c9d1dd;background:transparent;
+    border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 13px;
+    cursor:pointer;transition:.15s}
+  .sb:hover{border-color:rgba(255,255,255,.34);color:#fff}
+  .sb.on{background:#fff;color:#0b0d12;border-color:#fff}
+  .loading{padding:26px 2px;color:#7c8698}
+
+  .gm{border-top:1px solid rgba(255,255,255,.09);padding:15px 2px 14px;
+    display:grid;grid-template-columns:74px 1fr auto;gap:14px;align-items:baseline}
+  .gm:first-child{border-top:0}
+  .gm-k{font:600 12px/1.35 ui-sans-serif,system-ui;color:#7c8698;white-space:nowrap}
+  .gm-k .gd{display:block;font-weight:700;font-size:11px;color:#aeb7c4;margin-bottom:2px}
+  .gm-k .tv{display:block;font-weight:500;font-size:11px;color:#5d6675;margin-top:3px}
+  .gm-m{font:600 16px/1.35 ui-sans-serif,system-ui;color:#eef2f7}
+  .gm-m .rk{color:#f0b232;font-size:12px;font-weight:700;margin-right:3px}
+  .gm-tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font:600 10px/1 ui-sans-serif,system-ui;letter-spacing:.08em;text-transform:uppercase;
+    color:#8b95a6;border:1px solid rgba(255,255,255,.14);border-radius:4px;padding:4px 6px}
+  .tag.hot{color:#f0b232;border-color:rgba(240,178,50,.42)}
+  .tag.tight{color:#5ec8a0;border-color:rgba(94,200,160,.42)}
+  .gm-n{text-align:right;font:700 16px/1.35 ui-sans-serif,system-ui;color:#eef2f7;white-space:nowrap}
+  .gm-n .ou{display:block;font-weight:500;font-size:12px;color:#7c8698;margin-top:4px}
+  .gm-n .mv{display:block;font-weight:600;font-size:11px;margin-top:4px}
+  .mv.up{color:#f0b232}.mv.dn{color:#68b0ff}
+  .gm-note{grid-column:2/-1;margin-top:9px;font:400 13.5px/1.55 ui-sans-serif,system-ui;color:#96a0b0}
+  @media(max-width:620px){
+    .gm{grid-template-columns:60px 1fr;row-gap:6px}
+    .gm-n{grid-column:2;text-align:left}
+    .gm-note{grid-column:1/-1}
+  }
 </style>
 <style>
   .lede { font-size:16px; line-height:1.65; color:var(--mid,#c9cfd8); max-width:62ch; margin:18px 0; }
@@ -138,6 +178,28 @@
     table td.mu .vn { font-size:10px; }
     tr.note td { font-size:12.5px; }
   }
+</style>
+<style id="nav-fit">
+/* ── NAV FIT (added Aug 31 2026) ──────────────────────────────────────────
+   The nav links needed ~770-850px of room but several pages only swapped to
+   the hamburger at 640px, so between roughly 640px and 850px the links
+   crowded the logo and ran off the right edge. Two fixes:
+   1) a compact tier that tightens the nav well before it can ever collide,
+   2) one shared hamburger breakpoint (900px) on every page.
+   Net effect: the nav needs ~580px at its tightest but switches to the menu
+   at 900px, so there is ~320px of slack instead of ~11px. That slack matters
+   because link widths shift with the webfont, browser zoom and OS text size. */
+@media (max-width:1150px){
+  nav{padding-left:20px !important;padding-right:20px !important}
+  .nav-links{gap:16px !important}
+  .nav-links a{font-size:11.5px !important;letter-spacing:.04em !important}
+  .nav-name{font-size:17px !important}
+  .nav-logo-mark{width:34px !important;height:34px !important}
+}
+@media (max-width:900px){
+  .nav-links{display:none !important}
+  .nav-hamburger{display:flex !important}
+}
 </style>
 </head>
 <body>
@@ -185,107 +247,67 @@
     <a href="index.html#pricing" class="nav-cta">Get Pro</a>
   </div>
 <div class="wrap">
-  <div class="eyebrow">// CFB · Sat, Aug 29 · Opening weekend</div>
-  <h1>College Football Week 1<br/><span>every game, every number.</span></h1>
+  <div class="eyebrow" id="eyebrow">// CFB · this Saturday</div>
+  <h1><span id="wk">College Football</span><br/><span>every game, every number.</span></h1>
 
-  <p class="lede">Eight games open the 2026 season on Saturday, August 29. Two of
-  them are thirty-point mismatches. Three are inside a touchdown. Below is the
-  whole board — spread, total, kickoff and channel — with no pretence that anyone
-  knows anything yet.</p>
+  <p class="lede" id="lede">The whole board — spread, total, where the line opened and kickoff — with no pretence that anyone knows anything yet.</p>
 
-  <div class="stamp">Lines via ESPN, checked Tue Aug 25 · every team on this page is 0-0</div>
+  <div class="stamp" id="stamp">Lines via ESPN · loading…</div>
 
   <div class="strip">
     <div class="chip"><div class="l">First kick</div>
-      <div class="v">11:00 AM CT</div>
-      <div class="s">from Dublin, Ireland</div></div>
-    <div class="chip"><div class="l">Mismatches</div>
-      <div class="v">2 of 8</div>
-      <div class="s">USC -38.5 and FSU -30.5</div></div>
-    <div class="chip"><div class="l">Actually close</div>
-      <div class="v">3 games</div>
-      <div class="s">all inside a touchdown</div></div>
+      <div class="v" id="c-first">—</div>
+      <div class="s" id="c-first-s">&nbsp;</div></div>
+    <div class="chip"><div class="l">Ranked teams in action</div>
+      <div class="v" id="c-mis">—</div>
+      <div class="s" id="c-mis-s">&nbsp;</div></div>
+    <div class="chip"><div class="l">Biggest line move</div>
+      <div class="v" id="c-close">—</div>
+      <div class="s" id="c-close-s">&nbsp;</div></div>
   </div>
 
   <div class="pick" id="our-pick">
     <div class="pick-tag">★ Our pick on this card</div>
     <!-- PICK:START — replaced by the Saturday routine. Keep these markers. -->
-    <p><b>Not posted yet.</b> Every team on this page has played zero games this
-    season. There is no form, no current-year splits, and no injury picture that
-    has survived contact with an opponent — so there is nothing here we could
-    defend if you asked us why.</p>
-    <p>The pick goes up <b>Saturday morning</b>, once the lines have settled and
-    the lineups are known. If we have nothing worth saying even then, we will say
-    that instead of inventing something.</p>
+    <div class="pick-conf" style="margin-bottom:14px">No college football pick today, and no
+    college football games either. Read at <b>2:05 PM CT, Monday Aug 31</b>.</div>
+
+    <div class="pick-line">Week 1 opened Saturday. It resumes Thursday.</div>
+    <p>Eight games kicked on Saturday Aug 29 and all eight are final. ESPN returns zero events
+    for today and zero for tomorrow. The next college football game is <b>Thursday, Sep 3</b>,
+    when the schedule reopens and Week 1 finishes out through the Labor Day weekend.</p>
+    <p>Our two Saturday plays &mdash; Jacksonville State +6.5 at North Dakota State, and the
+    under 48.5 in Hawai&rsquo;i at Stanford &mdash; were posted before kickoff and are done.
+    We are not going to invent a card to have something on this page. When there is no game,
+    the honest thing to write is that there is no game.</p>
+    <p>Today&rsquo;s free pick is in baseball instead, and it is on the homepage: the
+    <a href="index.html#pick-of-the-day" style="color:inherit"><b>Brewers at Cubs under 9.5</b></a>
+    &mdash; the two lowest-ERA starters on a twelve-game board, priced at the highest total
+    outside Coors Field.</p>
+
+    <div class="pick-conf" style="margin-top:20px">Every game on today's board is priced at
+    <a href="games.html" style="color:inherit">what the market really thinks</a>.</div>
     <!-- PICK:END -->
   </div>
 
-  <table>
-    <thead><tr><th>Kickoff (CT)</th><th>Matchup</th><th>Spread</th><th>Total</th></tr></thead>
-    <tbody>
-    <tr>
-      <td class="kick">11:00 AM<span class="tv">ESPN</span></td>
-      <td class="mu"><b>North Carolina</b> at <b>TCU</b><span class="vn">Aviva Stadium, Dublin</span></td>
-      <td class="num">TCU -7.5</td>
-      <td class="num">47.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The season opens in Ireland at eleven in the morning. Neutral field, jet lag on both sides, and a number that says TCU by a touchdown anyway.</td></tr>
-    <tr>
-      <td class="kick">2:00 PM<span class="tv">NBC</span></td>
-      <td class="mu"><b>San José State</b> at <b>USC #14</b><span class="vn">LA Memorial Coliseum</span></td>
-      <td class="num">USC -38.5</td>
-      <td class="num">60.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Thirty-eight and a half. The market isn't asking who wins, it's asking whether USC's starters are still on the field in the fourth.</td></tr>
-    <tr>
-      <td class="kick">2:30 PM<span class="tv">ESPN</span></td>
-      <td class="mu"><b>NC State</b> at <b>Virginia</b><span class="vn">Scott Stadium</span></td>
-      <td class="num">UVA -5.5</td>
-      <td class="num">53.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Inside a touchdown, which makes it one of the three games on this board where the number is actually up for debate.</td></tr>
-    <tr>
-      <td class="kick">4:30 PM<span class="tv">CBSSN</span></td>
-      <td class="mu"><b>Jacksonville State</b> at <b>North Dakota State</b><span class="vn">Fargodome</span></td>
-      <td class="num">NDSU -7</td>
-      <td class="num">46.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Lowest total of the day at 46.5, indoors in Fargo. Weather can't be the excuse here.</td></tr>
-    <tr>
-      <td class="kick">5:30 PM<span class="tv">ESPN+</span></td>
-      <td class="mu"><b>Sacramento State</b> at <b>Eastern Michigan</b><span class="vn">Rynearson Stadium</span></td>
-      <td class="num">EMU -10</td>
-      <td class="num">52.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Ten points is the awkward middle — too many to call it close, too few to call it over.</td></tr>
-    <tr>
-      <td class="kick">6:00 PM<span class="tv">ACC Network</span></td>
-      <td class="mu"><b>Hawai'i</b> at <b>Stanford</b><span class="vn">Stanford Stadium</span></td>
-      <td class="num">STAN -4</td>
-      <td class="num">48.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Four points is barely more than a field goal. Hawai'i travels five time zones east, which is the part the number is quietly pricing.</td></tr>
-    <tr>
-      <td class="kick">6:00 PM<span class="tv">CW</span></td>
-      <td class="mu"><b>New Mexico State</b> at <b>Florida State</b><span class="vn">Doak Campbell</span></td>
-      <td class="num">FSU -30.5</td>
-      <td class="num">52.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The other thirty-point game. Same question as USC: it's a bet on margin, not on the winner.</td></tr>
-    <tr>
-      <td class="kick">9:00 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Memphis</b> at <b>UNLV</b><span class="vn">Allegiant Stadium</span></td>
-      <td class="num">UNLV -4.5</td>
-      <td class="num">56.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Highest total on the night bar one, closest line on the night bar one. The last game of opening Saturday and probably the best one.</td></tr>
-    </tbody>
-  </table>
+  <!-- Filter bar rebuilt Aug 30 2026 on Chuck's direction. The old version
+       had two axes ("Order: worth an opinion / kickoff" and "Show: all /
+       Power 4 / inside a touchdown") which read as jargon and needed
+       explaining. Every major scoreboard — ESPN, CBS, Action — does the same
+       simple thing: games grouped by day, ordered by kickoff, one row of
+       conference tabs. So that is what this is now. -->
+  <div class="sortbar">
+    <button class="sb on" data-filt="all">All games</button>
+    <button class="sb" data-filt="top25">Top 25</button>
+    <button class="sb" data-filt="SEC">SEC</button>
+    <button class="sb" data-filt="Big Ten">Big Ten</button>
+    <button class="sb" data-filt="Big 12">Big 12</button>
+    <button class="sb" data-filt="ACC">ACC</button>
+  </div>
 
-  <p class="lede" style="margin-top:26px">Two of these eight are decided before
-  kickoff and priced that way. The three inside a touchdown — Virginia, Stanford and
-  UNLV — are where an opinion is worth having. That ratio is normal for an opening
-  Saturday and worth remembering before anyone sells you an eight-leg card.</p>
+  <div id="board"><div class="loading">Reading today's numbers…</div></div>
+
+  <p class="lede" style="margin-top:26px" id="board-tail"></p>
 
 <footer>
   <div class="foot-d">For entertainment purposes only. Inside the Number does not facilitate
@@ -299,6 +321,226 @@
     b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
     m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
   })();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CFB board — numbers come from ESPN at page load, never typed.
+
+   Built Aug 27 2026 after the hand-maintained version went stale:
+   six of eight games carried a number the live board disagreed with,
+   and one of them (UNLV -6, actually -4.5) had already been quoted
+   publicly on our behalf. A number we publish being wrong is worse
+   than not publishing it, so they are no longer ours to keep in sync.
+
+   Only the per-game notes below are hand-written, and they are
+   deliberately written WITHOUT quoting a spread, so a line moving
+   cannot turn a sentence into a lie.
+   ═══════════════════════════════════════════════════════════════ */
+(function(){
+  // Power 4, confirmed against ESPN's own standings tree on Aug 27 2026.
+  // The Pac-12 (id 9) exists again in 2026 but as a rebuilt six-team
+  // league, so it is deliberately NOT in this set.
+  var P4 = {'1':'ACC','4':'Big 12','5':'Big Ten','8':'SEC'};
+  // Deliberately NOT a full id->name map. ESPN's conferenceId is unreliable
+  // for non-FBS opponents on this endpoint (it called North Dakota State
+  // "Mountain West" and Sacramento State "MAC"), so anything outside the four
+  // verified power leagues gets no tag at all. A missing label is fine; a
+  // wrong one is the thing this whole page was rebuilt to stop doing.
+
+  // Editorial notes, keyed by "AWAY@HOME". No spreads quoted on purpose.
+  var NOTES = {
+    'MIA@STAN': "Miami flies across the country as a top-ten team to open against a Stanford side that already has a game under its belt. The market treats this as a formality; Friday night road openers have a way of disagreeing.",
+    'FRES@USC': "USC put up 42 last week and the market has already moved on to asking by how much. Fresno State's whole plan will be to make this ugly early.",
+    'UTEP@OU':  "Oklahoma at home in a season opener is one of the sport's oldest sure things, which is exactly why the number is the only interesting part.",
+    'BALL@OSU': "The defending national champion opens at home against a MAC side. The number is enormous because it should be — the question is backups and clock, not the winner.",
+    'ECU@ALA':  "Alabama openers against Group of Five teams are traditionally where the Tide work out their September anxieties in public.",
+    'TNST@UGA': "Georgia opens at home in Athens. There is nothing to debate here except the total.",
+    'UNT@IU':   "Indiana was a playoff team last year and opens against a North Texas side that can score. The gap between those two sentences is what the number is pricing.",
+    'ORST@HOU': "One of the few games this weekend where both sides can talk themselves into it. Oregon State travels, Houston is rebuilding on the fly.",
+    'UAPB@MIZ': "Thursday's opener in Columbia. Missouri is laying one of the biggest numbers of the young season, and first halves are where those either cash or die.",
+    'IDHO@UTAH':"Utah at home at altitude against an FCS-adjacent opponent. Rice-Eccles in week one is a hostile place to learn anything."
+  };
+
+  var board=document.getElementById('board'), tail=document.getElementById('board-tail');
+  var filt='all', GAMES=[];
+
+  function ymd(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+  // The football week runs Thursday through Monday (Week 1 literally does:
+  // Thu Sep 3 to Labor Day). Anchor on the next Saturday — or today if it is
+  // Saturday — then take two days either side, so Thursday MACtion, Friday
+  // openers and a Monday holiday game all land on one page instead of the
+  // old version's Saturday-only view.
+  function targetSaturday(){
+    var d=new Date(); var day=d.getDay();
+    var add=(6-day+7)%7;
+    d.setDate(d.getDate()+add); return d;
+  }
+  function weekWindow(){
+    var sat=targetSaturday();
+    var from=new Date(sat); from.setDate(sat.getDate()-2);
+    var to=new Date(sat);   to.setDate(sat.getDate()+2);
+    return {from:from,to:to,sat:sat};
+  }
+  function dayKey(iso){
+    return new Date(iso).toLocaleDateString('en-US',
+      {timeZone:'America/Chicago',weekday:'long',month:'short',day:'numeric'});
+  }
+  function dayShort(iso){
+    return new Date(iso).toLocaleDateString('en-US',
+      {timeZone:'America/Chicago',weekday:'short',month:'short',day:'numeric'});
+  }
+  function fmtNum(n){return (n>0?'+':'')+n;}
+  function ct(iso){
+    return new Date(iso).toLocaleTimeString('en-US',
+      {timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'});
+  }
+
+  function render(){
+    var list=GAMES.slice().sort(function(a,b){return a.ts-b.ts;});
+    if(filt==='top25')     list=list.filter(function(g){return g.ranked;});
+    else if(filt!=='all')  list=list.filter(function(g){return g.confs.indexOf(filt)>=0;});
+
+    if(!list.length){ board.innerHTML='<div class="loading">Nothing on the board matches that filter.</div>'; return; }
+
+    var html='', lastDay='';
+    list.forEach(function(g){
+      if(g.day!==lastDay){
+        lastDay=g.day;
+        var n=list.filter(function(x){return x.day===g.day;}).length;
+        html+='<div class="dayhdr">'+g.day+'<span class="n">'+n+(n===1?' game':' games')+'</span></div>';
+      }
+      var tags=[];
+      if(g.conf) tags.push('<span class="tag">'+g.conf+'</span>');
+      if(Math.abs(g.move)>=1) tags.push('<span class="tag hot">Moved '+Math.abs(g.move)+'</span>');
+      var note=NOTES[g.key];
+      html+='<div class="gm">'+
+        '<div class="gm-k"><span class="gd">'+g.dayS+'</span>'+g.time+' CT'+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
+        '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
+          (tags.length?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
+        '<div class="gm-n">'+(g.line||'&mdash;')+
+          (g.total!=null?'<span class="ou">O/U '+g.total+'</span>':'')+
+          (Math.abs(g.move)>=0.5?'<span class="mv '+(g.move>0?'up':'dn')+'">opened '+g.openLine+'</span>':'')+
+        '</div>'+
+        (note?'<div class="gm-note">'+note+'</div>':'')+
+      '</div>';
+    });
+    board.innerHTML=html;
+
+    var ranked=GAMES.filter(function(g){return g.ranked;});
+    var moved=GAMES.filter(function(g){return Math.abs(g.move)>=0.5;})
+                   .sort(function(a,b){return Math.abs(b.move)-Math.abs(a.move);});
+    tail.textContent = GAMES.length
+      ? 'Every line above is read live from the feed — where it opened, where it sits now, '
+        +'and kickoff in Central time. When a number has moved a point or more since open, '
+        +'it wears a tag, because that movement is the market talking.'
+      : '';
+
+    var first=GAMES.slice().sort(function(a,b){return a.ts-b.ts;})[0];
+    if(first){ document.getElementById('c-first').textContent=first.time+' CT '+first.day.split(',')[0];
+               document.getElementById('c-first-s').textContent=first.away+' at '+first.home; }
+    document.getElementById('c-mis').textContent=ranked.length+(ranked.length===1?' game':' games');
+    document.getElementById('c-mis-s').textContent=ranked.slice(0,3).map(function(g){return (g.awayRkN||g.homeRkN);}).length?
+      ranked.slice(0,3).map(function(g){var t=g.awayRkN?g.away:g.home;return t;}).join(', '):'none this week';
+    if(moved.length){
+      document.getElementById('c-close').textContent=moved[0].away+' at '+moved[0].home;
+      document.getElementById('c-close-s').textContent='opened '+moved[0].openLine+', now '+(moved[0].line||'?');
+    } else {
+      document.getElementById('c-close').textContent='none yet';
+      document.getElementById('c-close-s').textContent='lines are where they opened';
+    }
+  }
+
+  document.querySelectorAll('.sb').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.sb').forEach(function(o){o.classList.remove('on');});
+      b.classList.add('on');
+      filt=b.dataset.filt;
+      render();
+    });
+  });
+
+  (async function(){
+    var W=weekWindow(), d=W.sat;
+    try{
+      var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(W.from)+'-'+ymd(W.to)+'&groups=80&limit=300');
+      if(!r.ok) throw new Error(r.status);
+      var j=await r.json();
+      (j.events||[]).forEach(function(ev){
+        var c=ev.competitions&&ev.competitions[0]; if(!c) return;
+        var A=c.competitors.find(function(x){return x.homeAway==='away';});
+        var H=c.competitors.find(function(x){return x.homeAway==='home';});
+        if(!A||!H) return;
+        var o=(c.odds||[])[0]||{};
+        var sp=(o.spread!=null)?Number(o.spread):null;
+        var openSp=(o.pointSpread&&o.pointSpread.home&&o.pointSpread.home.open)
+                    ?Number(o.pointSpread.home.open.line):null;
+        var move=(sp!=null&&openSp!=null)?+(sp-openSp).toFixed(1):0;
+        // ESPN sometimes quotes the open line from the other side of the
+        // matchup, which shows up as an absurd 30-40 point "move" (seen live:
+        // Wisconsin-Notre Dame "+20.5 opened, -20.5 now"). No college line
+        // moves double digits without a QB catastrophe, so past 14 points we
+        // trust the current number and discard the open as mislabelled.
+        if(Math.abs(move)>14){move=0;openSp=null;}
+        var rkN=function(x){var n=x.curatedRank&&x.curatedRank.current;
+                            return (n&&n<=25)?n:0;};
+        var rk=function(x){var n=rkN(x);
+                           return n?'<span class="rk">#'+n+'</span> ':'';};
+        var confs=[];
+        if(P4[H.team.conferenceId]) confs.push(P4[H.team.conferenceId]);
+        if(P4[A.team.conferenceId]&&confs.indexOf(P4[A.team.conferenceId])<0) confs.push(P4[A.team.conferenceId]);
+        GAMES.push({
+          key:A.team.abbreviation+'@'+H.team.abbreviation,
+          away:A.team.location, home:H.team.location,
+          awayRk:rk(A), homeRk:rk(H),
+          awayRkN:rkN(A), homeRkN:rkN(H),
+          ranked:!!(rkN(A)||rkN(H)),
+          conf:P4[H.team.conferenceId]||'',
+          confs:confs,
+          line:o.details||null, spread:sp, openLine:(openSp!=null?fmtNum(openSp):''),
+          total:(o.overUnder!=null?o.overUnder:null), move:move,
+          time:ct(ev.date), ts:new Date(ev.date).getTime(),
+          day:dayKey(ev.date), dayS:dayShort(ev.date),
+          tv:(c.broadcasts&&c.broadcasts[0]&&c.broadcasts[0].names&&c.broadcasts[0].names[0])||''
+        });
+      });
+      var dOpts={month:'short',day:'numeric'};
+      var label=W.from.toLocaleDateString('en-US',dOpts)+'\u2013'+W.to.toLocaleDateString('en-US',dOpts);
+      /* Week number, derived rather than typed. Corrected Aug 29, 2026: the
+         anchor said Aug 29 was Week 0, so the page shipped a headline and a
+         <title> reading "Week 0" on a day ESPN's own scoreboard returns
+         week.number = 1, seasonType "Regular Season". Aug 29 2026 IS Week 1;
+         every Saturday after that is one higher. Verified against the feed
+         before changing. Hardcoding the number would be wrong by Sept 5,
+         which is the same trap that put stale lines on this page to begin
+         with — so the anchor moves, the derivation stays. */
+      // The feed states its own week number and ESPN's weeks are not
+      // calendar weeks (Week 1 runs Aug 22-Sep 7). Trust the feed, fall back
+      // to the Saturday count only if it is missing.
+      var WEEK1=new Date(2026,7,29);
+      var wk=(j.week&&j.week.number)
+        ||1+Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-WEEK1)/6048e5);
+      var wkTxt=(wk>=1&&wk<=16)?('College Football Week '+wk):'College Football';
+      document.getElementById('wk').textContent=wkTxt;
+      document.title=wkTxt+' Odds — Every Game, Every Number | Inside the Number';
+      document.getElementById('eyebrow').textContent='// CFB · Week '+(wk>=1?wk:'')+' · '+label;
+      var days={}; GAMES.forEach(function(g){days[g.day]=1;});
+      var rkdN=GAMES.filter(function(g){return g.ranked;}).length;
+      document.getElementById('lede').textContent=
+        GAMES.length+' games across '+Object.keys(days).length+' days, '+label+'. '+
+        rkdN+' involve a ranked team. Grouped by day, ordered by kickoff — spread, '+
+        'total, where each line opened, and the TV channel, all read live from the feed.';
+      document.getElementById('stamp').textContent =
+        'Lines via ESPN, read live at '+new Date().toLocaleTimeString('en-US',
+          {timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})+' CT · '+GAMES.length+' games';
+      render();
+    }catch(e){
+      board.innerHTML='<div class="loading">The odds feed didn\'t answer just now. '+
+        'The full board is on the <a href="games.html" style="color:inherit">games page</a>.</div>';
+      document.getElementById('stamp').textContent='Lines via ESPN · feed unavailable';
+    }
+  })();
+})();
 </script>
 </body>
 </html>

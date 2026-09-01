@@ -1,0 +1,104 @@
+{
+ "generated_utc": "2026-08-30T19:30:47.678508+00:00",
+ "slate_date": "2026-08-30",
+ "slate_label": "Sun, Aug 30",
+ "non_mlb_available": [],
+ "games": [
+  {
+   "league": "MLB",
+   "id": "401816745",
+   "short": "BAL @ ATH",
+   "start": "2026-08-30T20:05Z",
+   "detail": "8/30 - 4:05 PM EDT",
+   "venue": "Sutter Health Park",
+   "away": {
+    "abbr": "BAL",
+    "name": "Orioles",
+    "record": "67-69"
+   },
+   "home": {
+    "abbr": "ATH",
+    "name": "Athletics",
+    "record": "53-83"
+   },
+   "total": "o10",
+   "over_odds": "-107",
+   "under_odds": "-112",
+   "spread": "-1.5",
+   "ml_away": "-147",
+   "ml_home": "+137",
+   "provider": "DraftKings",
+   "true_away": 58.5,
+   "true_home": 41.5,
+   "hold": 1.71,
+   "be_over": 51.7,
+   "be_under": 52.8,
+   "be_ml_away": 59.5,
+   "be_ml_home": 42.2
+  },
+  {
+   "league": "MLB",
+   "id": "401816746",
+   "short": "PHI @ LAA",
+   "start": "2026-08-30T20:07Z",
+   "detail": "8/30 - 4:07 PM EDT",
+   "venue": "Angel Stadium",
+   "away": {
+    "abbr": "PHI",
+    "name": "Phillies",
+    "record": "76-60"
+   },
+   "home": {
+    "abbr": "LAA",
+    "name": "Angels",
+    "record": "52-84"
+   },
+   "total": "o7.5",
+   "over_odds": "-117",
+   "under_odds": "-103",
+   "spread": "-1.5",
+   "ml_away": "-161",
+   "ml_home": "+150",
+   "provider": "DraftKings",
+   "true_away": 60.7,
+   "true_home": 39.3,
+   "hold": 1.69,
+   "be_over": 53.9,
+   "be_under": 50.7,
+   "be_ml_away": 61.7,
+   "be_ml_home": 40.0
+  },
+  {
+   "league": "MLB",
+   "id": "401816741",
+   "short": "CIN @ CHC",
+   "start": "2026-08-30T23:20Z",
+   "detail": "8/30 - 7:20 PM EDT",
+   "venue": "Wrigley Field",
+   "away": {
+    "abbr": "CIN",
+    "name": "Reds",
+    "record": "64-72"
+   },
+   "home": {
+    "abbr": "CHC",
+    "name": "Cubs",
+    "record": "77-59"
+   },
+   "total": "o9",
+   "over_odds": "-120",
+   "under_odds": "+100",
+   "spread": "+1.5",
+   "ml_away": "+143",
+   "ml_home": "-154",
+   "provider": "DraftKings",
+   "true_away": 40.4,
+   "true_home": 59.6,
+   "hold": 1.78,
+   "be_over": 54.5,
+   "be_under": 50.0,
+   "be_ml_away": 41.2,
+   "be_ml_home": 60.6
+  }
+ ]
+}
