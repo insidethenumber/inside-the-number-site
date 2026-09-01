@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kelly Criterion Calculator — Optimal Bet Size | Inside the Number</title>
+<meta name="description" content="Free Kelly Criterion calculator for sports betting: enter your bankroll, the odds, and your win probability to see full, half and quarter Kelly stakes. No signup."/>
+<link rel="canonical" href="https://insidethenumber.com/kelly-calculator.html"/>
+<meta property="og:title" content="Kelly Criterion Calculator — Optimal Bet Size"/>
+<meta property="og:description" content="Free Kelly Criterion calculator for sports betting: enter your bankroll, the odds, and your win probability to see full, half and quarter Kelly stakes. No signup."/>
+<meta property="og:url" content="https://insidethenumber.com/kelly-calculator.html"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the Kelly Criterion in sports betting?", "acceptedAnswer": {"@type": "Answer", "text": "A formula for the mathematically optimal fraction of your bankroll to stake on a bet, given the odds offered and your true estimated win probability. It maximizes long-run bankroll growth."}}, {"@type": "Question", "name": "How do you calculate a Kelly stake?", "acceptedAnswer": {"@type": "Answer", "text": "Kelly fraction = (bp - q) / b, where b is the decimal odds minus 1, p is your estimated win probability, and q is 1 - p. Multiply that fraction by your bankroll for the stake."}}, {"@type": "Question", "name": "Should I bet full Kelly or fractional Kelly?", "acceptedAnswer": {"@type": "Answer", "text": "Full Kelly is mathematically optimal but swings hard on a normal losing streak. Most bettors use half or quarter Kelly, which grows the bankroll slower but with far less variance and less exposure to a bad probability estimate."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://insidethenumber.com/tools.html"}, {"@type": "ListItem", "position": 3, "name": "Kelly Calculator", "item": "https://insidethenumber.com/kelly-calculator.html"}]}</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280;--red:#ff5c5c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--white);line-height:1.6}
+nav{border-bottom:1px solid var(--bd);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+nav a{color:var(--white);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+nav a span{color:var(--green)}
+nav .r a{font-size:12px;color:#b6bdc8;font-weight:500;margin-left:18px;letter-spacing:.08em}
+.wrap{max-width:680px;margin:0 auto;padding:36px 20px 56px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,44px);font-weight:900;text-transform:uppercase;line-height:1.02;margin-bottom:8px}
+h1 span{color:var(--green)}
+.sub{color:var(--mid);font-weight:300;margin-bottom:24px;max-width:58ch}
+.tool{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:26px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:12px 0 5px}
+input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:16px;padding:10px 12px}
+input:focus{outline:none;border-color:var(--green)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.out{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.out.full{grid-template-columns:1fr}
+.out .n{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--green);font-weight:600}
+.out .n.neg{color:var(--red)}
+.out .l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.note{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7;margin-top:14px}
+h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin:26px 0 8px}
+p.x{font-size:14px;color:var(--mid);font-weight:300;margin:10px 0;max-width:60ch}
+p.x b{color:var(--white)}
+.foot{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--green);text-decoration:none}
+@media(max-width:560px){.row{grid-template-columns:1fr}.out{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav><a href="/">Inside <span>the</span> Number</a>
+  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+<div class="wrap">
+  <div class="eyebrow">// Tools · Kelly Criterion</div>
+  <h1>Kelly <span>Calculator</span></h1>
+  <p class="sub">Enter your bankroll, the odds, and your honest win probability. Out comes the mathematically optimal stake — full, half and quarter Kelly.</p>
+  <div class="tool">
+    <div class="row">
+      <div><label>Bankroll ($)</label><input type="number" id="bank" value="1000" step="1"/></div>
+      <div><label>American odds</label><input type="number" id="odds" value="150" step="1"/></div>
+    </div>
+    <label>Your estimated win probability (%)</label>
+    <input type="number" id="prob" value="45" step="0.1"/>
+    <div class="out">
+      <div><div class="n" id="full">—</div><div class="l">Full Kelly</div></div>
+      <div><div class="n" id="half">—</div><div class="l">Half Kelly</div></div>
+    </div>
+    <div class="out full">
+      <div><div class="n" id="quarter">—</div><div class="l">Quarter Kelly — most common in practice</div></div>
+    </div>
+    <p class="note" id="sub"></p>
+  </div>
+  <h2>Why nobody actually bets full Kelly</h2>
+  <p class="x">The Kelly Criterion gives you the stake that maximizes long-run
+  bankroll growth <b>if your win probability is exactly right</b>. That's the
+  catch — real handicapping is never that precise, and full Kelly punishes a
+  bad estimate hard. Overstate your edge by a few points and full Kelly can
+  turn a legitimately profitable strategy into a rough ride.</p>
+  <p class="x">Half and quarter Kelly trade some of that theoretical growth
+  for a much smoother bankroll curve, and give you room to be wrong about your
+  own numbers without it wrecking you. Quarter Kelly is what most disciplined
+  bettors actually use.</p>
+  <p class="x">If the calculator returns $0, the math is telling you
+  something useful: at your stated probability, this bet has <b>no edge</b> —
+  sizing doesn't matter if the price isn't right in the first place. Compare
+  your number against the <a style="color:var(--green)"
+  href="/no-vig-calculator.html">no-vig fair price</a> before you ever get to
+  staking.</p>
+  <div class="foot">Inside the Number · every game priced at what the market really
+  thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
+  call 1-800-GAMBLER.</div>
+</div>
+<script>
+function dec(am){am=+am;return am>0?1+am/100:1+100/(-am)}
+function toProb(am){am=+am;return am>0?100/(am+100):Math.abs(am)/(Math.abs(am)+100)}
+function money(n){return (n<0?'-$':'$')+Math.abs(n).toFixed(2)}
+function calc(){
+  const bank=+document.getElementById('bank').value;
+  const odds=+document.getElementById('odds').value;
+  const p=+document.getElementById('prob').value/100;
+  const d=dec(odds);
+  if(!isFinite(d)||!isFinite(bank)||!(p>=0&&p<=1))return;
+  const b=d-1;
+  const f=(b*p-(1-p))/b;
+  const full=bank*f;
+  const set=(id,v)=>{const el=document.getElementById(id);el.textContent=v>0?money(v):'$0.00';el.className='n'+(v>0?'':' neg')};
+  set('full',full);set('half',full/2);set('quarter',full/4);
+  document.getElementById('sub').textContent=f>0
+    ?`Edge of ${(f*100).toFixed(2)}% of bankroll at this price. Quarter Kelly is ${(f*25).toFixed(2)}% of bankroll — ${money(full/4)}.`
+    :`No edge at ${(p*100).toFixed(1)}%. Break-even here needs ${(toProb(odds)*100).toFixed(1)}%. This bet shouldn't be made at all, at any size.`;
+}
+document.addEventListener('input',calc);calc();
+</script>
+</body>
+</html>
