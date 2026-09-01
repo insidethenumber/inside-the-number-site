@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script>
+  /* The subscribe form is a cross-origin Beehiiv iframe. Its "redirect on
+     success" navigates the IFRAME, not the tab — so this page was loading
+     inside a 130px-tall box on the homepage and the reader saw nothing.
+     This page is same-origin with the parent, so from in here we can reach
+     window.top and take over the whole tab. That is the entire fix. */
+  if (window.top !== window.self) {
+    window.top.location.href = 'https://insidethenumber.com/confirm.html';
+  }
+</script>
 <title>One more step — Inside the Number</title>
 <meta name="description" content="Almost there — confirm your email to start getting the free daily pick."/>
 <!-- A confirmation page nobody should find in search: it only makes sense

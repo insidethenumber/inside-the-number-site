@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script>
+  /* Same guard as confirm.html: if a Beehiiv iframe redirects here on
+     success, break out and take the whole tab instead of rendering this
+     page inside a small embedded box. */
+  if (window.top !== window.self) {
+    window.top.location.href = 'https://insidethenumber.com/thanks.html';
+  }
+</script>
 <title>You're in — Inside the Number</title>
 <meta name="description" content="You're subscribed to Inside the Number. One free pick every day, with the reasoning shown."/>
 <!-- A confirmation page nobody should find in search: it only makes sense
