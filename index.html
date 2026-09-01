@@ -395,6 +395,14 @@
   .mc-pick-v { display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .mc-pick-t { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; color:var(--white); text-transform:uppercase; letter-spacing:0.03em; }
   .mc-conf { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--accent, var(--green)); white-space:nowrap; }
+  /* A pick that is in the newsletter but not on the page. Same box, dimmed,
+     with the side replaced by the reason to subscribe. The market data above
+     it stays fully visible -- that is board data and it is free. */
+  .mc-pick.mc-locked { background: rgba(255,255,255,0.03); border-color: var(--border); border-style: dashed; }
+  .mc-pick.mc-locked .mc-pick-t { color: var(--mid); font-weight: 600; letter-spacing: 0.02em; }
+  .mc-unlock { display:inline-block; margin-top:9px; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+    color: var(--green); text-decoration:none; letter-spacing:0.06em; }
+  .mc-unlock:hover { text-decoration: underline; }
   /* True win probability — the market's read with the book's margin taken out */
   .mc-prob { margin-left:auto; text-align:right; }
   .mc-prob .pct { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--white); display:block; line-height:1.15; }
@@ -1061,12 +1069,12 @@
          their dashboard, so this card can be themed dark later and the frame
          will simply blend into the panel. -->
     <div class="hp-mail">
-      <div class="hp-k">Get it in your inbox</div>
+      <div class="hp-k">Every pick, in your inbox</div>
       <div class="hp-mail-card">
         <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f"
                 title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
       </div>
-      <div class="hp-fine">One pick every day. No card, no spam. After you sign up, check your inbox (and spam) to confirm.</div>
+      <div class="hp-fine">The site shows one pick a day. Subscribers get all of them. No card, no spam. After you sign up, check your inbox (and spam) to confirm.</div>
     </div>
   </div>
 </div>
@@ -1209,15 +1217,23 @@
         <div class="mc-body mc-solo-body">
           <div class="mc-name mc-solo-name">${g.event || ''}</div>
         </div>
-        ${g.pick ? `
+        ${g.pick ? (g.free ? `
         <div class="mc-pick">
           <div class="mc-pick-l">Our Pick</div>
           <div class="mc-pick-v">
             <span class="mc-pick-t">${g.pick}</span>
             <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
           </div>
-        </div>` : ''}
-        ${(g.hook || g.why) ? `
+        </div>` : `
+        <div class="mc-pick mc-locked">
+          <div class="mc-pick-l">Our Pick</div>
+          <div class="mc-pick-v">
+            <span class="mc-pick-t">In today's newsletter</span>
+            <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
+          </div>
+          <a class="mc-unlock" href="#signup">Get every pick free \u2192</a>
+        </div>`) : ''}
+        ${g.free && (g.hook || g.why) ? `
         <div class="mc-why">
           ${g.hook ? `<div class="mc-hook">${g.hook}</div>` : ''}
           ${g.why ? `
@@ -1288,15 +1304,23 @@
             <span>Market win prob · true price</span>
             <span>Book takes ${hold.toFixed(1)}%</span>
           </div>` : ''}
-        ${g.pick ? `
+        ${g.pick ? (g.free ? `
         <div class="mc-pick">
           <div class="mc-pick-l">Our Pick</div>
           <div class="mc-pick-v">
             <span class="mc-pick-t">${g.pick}</span>
             <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
           </div>
-        </div>` : ''}
-        ${(g.hook || g.why) ? `
+        </div>` : `
+        <div class="mc-pick mc-locked">
+          <div class="mc-pick-l">Our Pick</div>
+          <div class="mc-pick-v">
+            <span class="mc-pick-t">In today's newsletter</span>
+            <span class="mc-conf">${stars(g.conf)} ${confWord(g.conf)}</span>
+          </div>
+          <a class="mc-unlock" href="#signup">Get every pick free \u2192</a>
+        </div>`) : ''}
+        ${g.free && (g.hook || g.why) ? `
         <div class="mc-why">
           ${g.hook ? `<div class="mc-hook">${g.hook}</div>` : ''}
           ${g.why ? `
@@ -1657,8 +1681,8 @@
 <!-- SIGNUP -->
 <section class="signup" id="signup">
   <div class="signup-inner">
-    <h2>Get Inside the Number</h2>
-    <p>One free pick daily. No credit card. No spam. Just sharp content delivered to your inbox.</p>
+    <h2>Every pick. Every day. Free.</h2>
+    <p>The site shows one pick a day. The newsletter has all of them — every side we take, with the reasoning, before anything starts. No credit card. No spam.</p>
     <!-- Inline Beehiiv subscribe form — signup completes right here, no redirect.
          Replaced the old outbound link Aug 29 2026: analytics showed people clicking
          and dying on the external hop. -->
@@ -1666,7 +1690,7 @@
       <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
     </div>
     <p class="signup-note" style="margin-top:2px"><a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" style="color:rgba(0,0,0,0.55);">Form not loading? Subscribe here instead →</a></p>
-    <p class="signup-note" id="signup-msg">The daily pick and the full board stay free. No card required.</p>
+    <p class="signup-note" id="signup-msg">The board, the tools and one pick a day stay free on the site. The rest of the card is subscribers only.</p>
     <p class="signup-note" style="margin-top:2px;font-weight:600;">After you subscribe, check your inbox (and spam folder) for a confirmation email — you're not signed up until you click the link in it.</p>
 
     <!-- Pro block. The nav CTA and the pricing card's waitlist button both
