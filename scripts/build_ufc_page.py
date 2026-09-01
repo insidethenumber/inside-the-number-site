@@ -665,8 +665,12 @@ def render(fights, title, venue, datestr, preview):
         sub = ("The best moneyline on both corners across major sportsbooks, "
                "records, and each fighter's win chance in plain English. ESPN "
                "doesn't carry MMA odds. We do.")
-        stamp_line = (f"Prices updated {stamp} · best of "
-                      f"{max(f['books'] for f in fights)} books")
+        nbooks = max(f['books'] for f in fights)
+        # "best of 1 books" was both ungrammatical and misleading -- "best of"
+        # implies we shopped several books. Only claim shopping when we did.
+        stamp_line = (f"Prices updated {stamp} · "
+                      + (f"best of {nbooks} books" if nbooks > 1
+                         else "one book, not shopped"))
         early_html = (f'<div class="early">First fight ~{e(first_t)}, main '
                       f'event ~{e(main_t)}.</div>')
         strip_html = f"""    <div class="chip"><div class="l">Main event</div>
