@@ -976,9 +976,9 @@
       <li><a href="#top" class="active">Home</a></li>
       <li><a href="#analysis">Analysis</a></li>
       <li><a href="#slate">Picks</a></li>
-      <li><a href="games.html">Games</a></li>
-      <li><a href="dfs.html">DFS</a></li>
-      <li><a href="tools.html">Tools</a></li>
+      <li><a href="games">Games</a></li>
+      <li><a href="dfs">DFS</a></li>
+      <li><a href="tools">Tools</a></li>
       <li><a href="#pricing" class="nav-cta">Get Pro</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
@@ -991,9 +991,9 @@
     <a href="#top">Home</a>
     <a href="#analysis">Analysis</a>
     <a href="#slate">Picks</a>
-    <a href="games.html">Games</a>
-    <a href="dfs.html">DFS</a>
-    <a href="tools.html">Tools</a>
+    <a href="games">Games</a>
+    <a href="dfs">DFS</a>
+    <a href="tools">Tools</a>
     <a href="#pricing" class="nav-cta">Get Pro</a>
   </div>
 <script>
@@ -1022,7 +1022,7 @@
     <p class="hero-sub">One free pick every day, with the reasoning shown. Live odds, line movement and the true price on every game — what the market actually thinks, not what you're charged to bet it. Across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
     <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
-    <a class="stat-strip" href="games.html" title="See every game on today's board">
+    <a class="stat-strip" href="games" title="See every game on today's board">
       <!-- These cells describe what the operation DOES, not how long it's
            been running. Deliberately no win/loss record or win-rate % here:
            a percentage without its denominator is the exact move this brand
@@ -1038,7 +1038,7 @@
        #hpMove block near the bottom of this file — no hand-maintained numbers. -->
   <div class="panel hp">
     <!-- 1 · biggest move on the board — the number that traveled furthest -->
-    <a class="hp-move" id="hpMove" href="games.html">
+    <a class="hp-move" id="hpMove" href="games">
       <div class="hp-k">Biggest line move today</div>
       <div class="hp-load">Reading today's numbers…</div>
     </a>
@@ -1191,7 +1191,7 @@
       // what shows if a day's card genuinely isn't set yet.
       slateEl.innerHTML = `<div class="panel-empty">Today's card isn't posted yet.
         The full board with live prices is on the
-        <a href="games.html">games page</a> in the meantime.</div>`;
+        <a href="games">games page</a> in the meantime.</div>`;
       return;
     }
     slateEl.innerHTML = todaysGames.map((g, i) => {
@@ -1566,7 +1566,7 @@
         <div class="team-name">Stated Sides &amp; Numbers</div>
         <div class="team-role">The part most sites skip</div>
         <div class="team-desc">Every call names a real side and a real number, published before the game starts. No vague leans, no "value on the under somewhere," no pick you can only interpret after you know the result.</div>
-        <div class="team-record"><a href="games.html" style="color:var(--green);text-decoration:none;">See today's board →</a></div>
+        <div class="team-record"><a href="games" style="color:var(--green);text-decoration:none;">See today's board →</a></div>
       </div>
     </div>
   </div>
@@ -1692,7 +1692,7 @@
 <footer>
   <div class="footer-brand">Inside <span>the</span> Number</div>
   <div class="footer-disclaimer">For entertainment and educational purposes only. Inside the Number does not facilitate gambling and does not accept wagers. You must be 21+ (18+ in some states) to bet. If gambling stops being fun, call <strong>1-800-GAMBLER</strong> or the National Problem Gambling Helpline on <strong>1-800-522-4700</strong>.<br/>
-  <a class="lnk" href="privacy.html">Privacy</a> &middot; <a class="lnk" href="terms.html">Terms</a> &middot; <a class="lnk" href="responsible-gambling.html">Responsible Gambling</a></div>
+  <a class="lnk" href="privacy">Privacy</a> &middot; <a class="lnk" href="terms">Terms</a> &middot; <a class="lnk" href="responsible-gambling">Responsible Gambling</a></div>
   <div class="footer-copy">© 2026 ITN · Nashville, TN</div>
 </footer>
 
@@ -1722,11 +1722,11 @@
     const row=t=>`<div class="tg-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:''}<span class="tg-ab">${t.ab}</span>
       ${g.state==='pre'?`<span class="tg-v">${fmt(t.ml)??''}</span>`:val(t)}</div>`;
     if(g.kind==='golf'){
-      return `<a class="tg" href="games.html?sport=${g.league}&game=${g.id}">
+      return `<a class="tg" href="games?sport=${g.league}&game=${g.id}">
         <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
         <div class="tg-body"><span class="tg-ab">${g.title}</span></div></a>`;
     }
-    return `<a class="tg ${g.ours?'ours':''}" href="games.html?sport=${g.league}&game=${g.id}">
+    return `<a class="tg ${g.ours?'ours':''}" href="games?sport=${g.league}&game=${g.id}">
       <div class="tg-h"><span class="tg-lg">${g.league}</span>${st}</div>
       <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
   }
@@ -1761,8 +1761,8 @@
   function paint(){
     document.getElementById('tbL').innerHTML=
       LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games.html?sport=${l}" data-l="${l}">${l}<span class="n">${n||'—'}</span></a>`;
-      }).join('')+`<a class="tb-all" href="games.html">Full board →</a>`;
+        return `<a href="games?sport=${l}" data-l="${l}">${l}<span class="n">${n||'—'}</span></a>`;
+      }).join('')+`<a class="tb-all" href="games">Full board →</a>`;
     const g=allGames();
     document.getElementById('tbS').innerHTML=g.length
       ? g.map(chip).join('')
@@ -1863,7 +1863,7 @@
     if(!best){el.querySelector('.hp-load').textContent='No line has moved yet today.';return}
     // delta is the AWAY side's probability change: positive means money on away
     const toward = best.delta>0 ? best.awayName : best.homeName;
-    el.href=`games.html?sport=${best.league}&game=${best.id}`;
+    el.href=`games?sport=${best.league}&game=${best.id}`;
     const lg=(u,alt)=>u?`<img class="hp-logo" src="${u}" alt="${alt}" loading="lazy"/>`:'';
     /* Show the price itself, not the size of the move. This used to headline
        a figure like "5.3 pts" — implied-probability points, which is the

@@ -118,9 +118,9 @@ PAGES = [
              "the most reliable edge available."),
             ("Where to go next",
              "Once you know the hold, strip it out with the "
-             "<a href=\"/no-vig-calculator.html\">no-vig calculator</a> to see the market's "
+             "<a href=\"/no-vig-calculator\">no-vig calculator</a> to see the market's "
              "honest price, then check what win rate you actually need with the "
-             "<a href=\"/break-even-calculator.html\">break-even calculator</a>."),
+             "<a href=\"/break-even-calculator\">break-even calculator</a>."),
         ],
         "faq": [
             ("What is vig in sports betting?",
@@ -177,8 +177,8 @@ PAGES = [
              "This calculator also answers the reverse question. If you think a team wins "
              "58% of the time, any price with a break-even below 58% is a bet worth making. "
              "That comparison is exactly what the "
-             "<a href=\"/edge-calculator.html\">edge calculator</a> automates, and what "
-             "<a href=\"/expected-value-calculator.html\">expected value</a> turns into dollars."),
+             "<a href=\"/edge-calculator\">edge calculator</a> automates, and what "
+             "<a href=\"/expected-value-calculator\">expected value</a> turns into dollars."),
         ],
         "faq": [
             ("What win rate do you need to break even at -110?",
@@ -240,9 +240,9 @@ PAGES = [
              "market is a reason to double-check your inputs before it's a reason to bet."),
             ("Edge is only half the decision",
              "Knowing you have an edge doesn't tell you how much to risk. Feed the same "
-             "numbers into the <a href=\"/kelly-calculator.html\">Kelly calculator</a> for "
+             "numbers into the <a href=\"/kelly-calculator\">Kelly calculator</a> for "
              "a stake size scaled to the size of the edge, and see the dollar value with "
-             "<a href=\"/expected-value-calculator.html\">expected value</a>."),
+             "<a href=\"/expected-value-calculator\">expected value</a>."),
         ],
         "faq": [
             ("How do you calculate your edge in sports betting?",
@@ -309,7 +309,7 @@ PAGES = [
              "You don't have to lock the whole thing. Staking half the calculated amount "
              "removes half the variance and keeps half the upside. Run the number here, then "
              "decide how much certainty you actually want to buy — and check the "
-             "<a href=\"/bankroll-drawdown-calculator.html\">drawdown calculator</a> if the "
+             "<a href=\"/bankroll-drawdown-calculator\">drawdown calculator</a> if the "
              "answer depends on what a loss would do to your bankroll."),
         ],
         "faq": [
@@ -377,7 +377,7 @@ PAGES = [
              "One to three percent per bet is the standard range, and there's nothing "
              "clever about it — it's chosen so that a bad month is a dent rather than the "
              "end. If you'd rather size to the edge on each individual bet, the "
-             "<a href=\"/kelly-calculator.html\">Kelly calculator</a> does that, and "
+             "<a href=\"/kelly-calculator\">Kelly calculator</a> does that, and "
              "quarter-Kelly usually lands in this same 1-3% neighbourhood."),
         ],
         "faq": [
@@ -398,7 +398,9 @@ PAGES = [
 
 
 def render(p):
-    url = f"{SITE}/{p['slug']}.html"
+    # Extensionless: Cloudflare serves /slug and 301s /slug.html, so the
+    # .html form can never be indexed. Advertise what returns 200.
+    url = f"{SITE}/{p['slug']}"
 
     faq = {
         "@context": "https://schema.org",
@@ -420,7 +422,7 @@ def render(p):
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE}/"},
-            {"@type": "ListItem", "position": 2, "name": "Tools", "item": f"{SITE}/tools.html"},
+            {"@type": "ListItem", "position": 2, "name": "Tools", "item": f"{SITE}/tools"},
             {"@type": "ListItem", "position": 3, "name": p["breadcrumb"], "item": url},
         ],
     }
@@ -456,7 +458,7 @@ def render(p):
 </head>
 <body>
 <nav><a href="/">Inside <span>the</span> Number</a>
-  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+  <div class="r"><a href="/tools">All tools</a><a href="/games">Today's board</a></div></nav>
 <div class="wrap">
   <div class="eyebrow">// {p['eyebrow']}</div>
   <h1>{p['h1_lead']} <span>{p['h1_tail']}</span></h1>
@@ -465,8 +467,8 @@ def render(p):
   </div>
 {copy}
   <p class="x">We run these numbers on
-  <a href="/games.html">every game on the board</a>, every day — or see
-  <a href="/tools.html">all ten calculators</a> on one page.</p>
+  <a href="/games">every game on the board</a>, every day — or see
+  <a href="/tools">all ten calculators</a> on one page.</p>
   <div class="foot">Inside the Number · every game priced at what the market really
   thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
   call 1-800-GAMBLER.</div>

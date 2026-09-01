@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Today's Games — Odds, True Prices & Line Movement | Inside the Number</title>
 <meta name="description" content="Every game on today's board across MLB, NFL, CFB, NBA, NHL — with the moneyline, spread and total, the true price on each, and how far the number has moved since it opened."/>
-<link rel="canonical" href="https://insidethenumber.com/games.html"/>
+<link rel="canonical" href="https://insidethenumber.com/games"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"/>
@@ -15,7 +15,7 @@
 <link rel="manifest" href="/site.webmanifest"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Inside the Number"/>
-<meta property="og:url" content="https://insidethenumber.com/games.html"/>
+<meta property="og:url" content="https://insidethenumber.com/games"/>
 <meta property="og:title" content="Today's Board — Inside the Number"/>
 <meta property="og:description" content="Every game, every market, at its true price. See what the number actually says."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
@@ -296,7 +296,7 @@
  "@context": "https://schema.org",
  "@type": "CollectionPage",
  "name": "Today's Board — every game, every market",
- "url": "https://insidethenumber.com/games.html",
+ "url": "https://insidethenumber.com/games",
  "description": "Every game on today's board across MLB, NFL, CFB, NBA, NHL and UFC, with the moneyline, spread and total, each side's real win probability once the house edge is removed, and how far the number has moved since it opened.",
  "isPartOf": {
   "@type": "WebSite",
@@ -321,7 +321,7 @@
    "@type": "ListItem",
    "position": 2,
    "name": "Games",
-   "item": "https://insidethenumber.com/games.html"
+   "item": "https://insidethenumber.com/games"
   }
  ]
 }
@@ -352,7 +352,7 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="index.html">
+  <a class="nav-brand" href="">
     <div class="nav-logo-mark">
       <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
@@ -371,12 +371,12 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </a>
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="">Home</a></li>
       <li><a href="index.html#analysis">Analysis</a></li>
       <li><a href="index.html#slate">Picks</a></li>
-      <li><a href="games.html" class="active">Games</a></li>
-      <li><a href="dfs.html">DFS</a></li>
-      <li><a href="tools.html">Tools</a></li>
+      <li><a href="games" class="active">Games</a></li>
+      <li><a href="dfs">DFS</a></li>
+      <li><a href="tools">Tools</a></li>
       <li><a href="index.html#pricing" class="nav-cta">Get Pro</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
@@ -384,12 +384,12 @@
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
+    <a href="">Home</a>
     <a href="index.html#analysis">Analysis</a>
     <a href="index.html#slate">Picks</a>
-    <a href="games.html">Games</a>
-    <a href="dfs.html">DFS</a>
-    <a href="tools.html">Tools</a>
+    <a href="games">Games</a>
+    <a href="dfs">DFS</a>
+    <a href="tools">Tools</a>
     <a href="index.html#pricing" class="nav-cta">Get Pro</a>
   </div>
 <script>
@@ -1253,9 +1253,9 @@ async function listView(sport){
   if(g.length){
     ticker(sport,null);
     view.innerHTML=`
-      <div class="crumb"><a href="index.html">Home</a> › <span>${sport}</span></div>
+      <div class="crumb"><a href="">Home</a> › <span>${sport}</span></div>
       <h1>${sport} — ${sport==='UFC'?"Tonight's Card":sport==='PGA'?'This Week':"Today's Board"}</h1>
-      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Full Shanghai card with best prices across the books is <a href="ufc.html" style="color:var(--green)">right here</a>.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
+      <p class="lead">${sport==='UFC'?`Every fight on tonight's ${sport} card, with records and bout order. Full Shanghai card with best prices across the books is <a href="ufc" style="color:var(--green)">right here</a>.`:sport==='PGA'?`This week's ${sport} field. Golf is priced as outrights rather than a two-way market, so it's covered in the newsletter rather than on this board.`:`Every ${sport} game on the board today. Each one opens the full market — moneyline, spread and total — with each side's real win chance and the move since the number opened.`}</p>
       <div class="list">${g.map(card).join('')}</div>`;
   } else {
     /* UFC: the tab IS the card page. When ESPN has no live fights today, send
@@ -1333,12 +1333,12 @@ function gameView(sport,id){
   ticker(sport,id);
   const g=(D[sport]||[]).find(x=>x.id===id);
   if(!g){document.getElementById('view').innerHTML=
-    `<div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>Game</span></div>
+    `<div class="crumb"><a href="">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>Game</span></div>
      <div class="empty">That game isn't on today's board. <a href="?sport=${sport}" style="color:var(--green)">Back to ${sport} →</a></div>`;return}
 
   if(g.kind==='golf'){
     document.getElementById('view').innerHTML=`
-      <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.title}</span></div>
+      <div class="crumb"><a href="">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.title}</span></div>
       <div class="gh"><div class="gh-top"><span class="lg">${g.league}</span><span class="st">${g.detail}</span>
         ${g.venue?`<span class="mkt-hold">${g.venue}</span>`:''}</div>
         <div class="gh-row"><div><div class="gh-name" style="font-size:22px">${g.title}</div>
@@ -1393,7 +1393,7 @@ function gameView(sport,id){
         : `Their records are close — <b>${g.a.rec}</b> against <b>${g.h.rec}</b> — which tells you very little either way. Strength of schedule is what separates fighters at this level and it isn't in this feed.`;
     }
     document.getElementById('view').innerHTML=`
-      <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.a.ab} vs ${g.h.ab}</span></div>
+      <div class="crumb"><a href="">Home</a> › <a href="?sport=${g.league}">${g.league}</a> › <span>${g.a.ab} vs ${g.h.ab}</span></div>
       <div class="gh">
         <div class="gh-top"><span class="lg">${g.weight||g.league}</span>
           <span class="st ${live?'live':''}">${live?'● ':''}${g.detail}</span>
@@ -2268,7 +2268,7 @@ function marketRead(){
   })();
 
   document.getElementById('view').innerHTML=`
-    <div class="crumb"><a href="index.html">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>${g.a.ab} @ ${g.h.ab}</span></div>
+    <div class="crumb"><a href="">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>${g.a.ab} @ ${g.h.ab}</span></div>
     <div class="gh">
       <div class="gh-top"><span class="lg">${g.league}</span>
         <span class="st ${g.state==='in'?'live':''}">${g.state==='in'?'● ':''}${g.detail}</span>

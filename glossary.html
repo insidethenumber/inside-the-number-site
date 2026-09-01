@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sports Betting Glossary — Vig, CLV, No-Vig Odds, Kelly &amp; More | Inside the Number</title>
 <meta name="description" content="Plain-English definitions for the terms sportsbooks don't explain: vig, juice, hold, no-vig odds, implied probability, break-even win rate, closing line value, Kelly Criterion, EV and more."/>
-<link rel="canonical" href="https://insidethenumber.com/glossary.html"/>
+<link rel="canonical" href="https://insidethenumber.com/glossary"/>
 <meta property="og:title" content="Sports Betting Glossary — Vig, CLV, No-Vig Odds, Kelly &amp; More"/>
 <meta property="og:description" content="Plain-English definitions for the terms sportsbooks don't explain, linked straight into the calculators that use them."/>
-<meta property="og:url" content="https://insidethenumber.com/glossary.html"/>
+<meta property="og:url" content="https://insidethenumber.com/glossary"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "DefinedTermSet", "name": "Sports Betting Glossary", "url": "https://insidethenumber.com/glossary.html", "hasDefinedTerm": [
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "DefinedTermSet", "name": "Sports Betting Glossary", "url": "https://insidethenumber.com/glossary", "hasDefinedTerm": [
 {"@type":"DefinedTerm","name":"Vig / Juice / Hold","description":"The sportsbook's built-in margin: the amount by which the implied probabilities of all sides of a market exceed 100%. At standard -110/-110 pricing the total is about 104.8%, so the vig is roughly 4.8%."},
 {"@type":"DefinedTerm","name":"Implied Probability","description":"The win chance a given price represents. For American odds: positive odds = 100 / (odds + 100); negative odds = |odds| / (|odds| + 100)."},
 {"@type":"DefinedTerm","name":"No-Vig Odds (Fair Odds)","description":"The price after the book's margin is removed: each side's implied probability divided by the sum of both sides' implied probabilities, rescaled to 100%."},
@@ -27,7 +27,7 @@
 {"@type":"DefinedTerm","name":"Hedge","description":"Betting the opposite side of an existing wager, usually after a line move, to lock in a guaranteed profit or cap a loss regardless of the outcome."},
 {"@type":"DefinedTerm","name":"Sharp vs. Square Money","description":"Sharp money refers to bets from bettors books consider skilled, often moving the line sharply on small volume. Square money is public, recreational volume that books price around."}
 ]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://insidethenumber.com/glossary.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://insidethenumber.com/glossary"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280}
@@ -57,7 +57,7 @@ p.x a{color:var(--green);text-decoration:none}
 </head>
 <body>
 <nav><a href="/">Inside <span>the</span> Number</a>
-  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+  <div class="r"><a href="/tools">All tools</a><a href="/games">Today's board</a></div></nav>
 <div class="wrap">
   <div class="eyebrow">// Reference</div>
   <h1>Betting <span>Glossary</span></h1>
@@ -81,25 +81,25 @@ p.x a{color:var(--green);text-decoration:none}
   <div class="term">
     <h2 id="vig">Vig / Juice / Hold</h2>
     <p class="x">Three names for the same thing: the sportsbook's built-in margin. Add up the implied probability of every side of a market and it comes to more than 100% — usually 104-105% on a standard -110/-110 line, more on props and futures. That extra is the fee you pay to bet, win or lose.</p>
-    <p class="x">Strip it out with the <a href="/no-vig-calculator.html">No-Vig Calculator</a>.</p>
+    <p class="x">Strip it out with the <a href="/no-vig-calculator">No-Vig Calculator</a>.</p>
   </div>
 
   <div class="term">
     <h2 id="implied">Implied Probability</h2>
     <p class="x">The win chance a price represents on its own, before removing the vig. Positive American odds: <b>100 / (odds + 100)</b>. Negative odds: <b>|odds| / (|odds| + 100)</b>. A -150 favorite implies a 60% win chance; that number still includes the book's cut.</p>
-    <p class="x">Convert any price with the <a href="/odds-converter.html">Odds Converter</a>.</p>
+    <p class="x">Convert any price with the <a href="/odds-converter">Odds Converter</a>.</p>
   </div>
 
   <div class="term">
     <h2 id="novig">No-Vig Odds (Fair Odds)</h2>
     <p class="x">What's left after the vig is stripped out. Divide each side's implied probability by the sum of both sides' implied probabilities and the result rescales to exactly 100% — the market's honest opinion, not the price you're charged to access it.</p>
-    <p class="x">This is the number every pick on this site is measured against. <a href="/no-vig-calculator.html">Calculate it here.</a></p>
+    <p class="x">This is the number every pick on this site is measured against. <a href="/no-vig-calculator">Calculate it here.</a></p>
   </div>
 
   <div class="term">
     <h2 id="breakeven">Break-Even Win Rate</h2>
     <p class="x">The win percentage you'd need at a given price just to come out flat, long run. It's mathematically the same figure as that price's implied probability — at -110 you need 52.4%, not 50%, just to break even.</p>
-    <p class="x">Full breakdown on <a href="/tools.html">Tools</a>.</p>
+    <p class="x">Full breakdown on <a href="/tools">Tools</a>.</p>
   </div>
 
   <div class="term">
@@ -110,19 +110,19 @@ p.x a{color:var(--green);text-decoration:none}
   <div class="term">
     <h2 id="kelly">Kelly Criterion</h2>
     <p class="x">A formula for how much of a bankroll to risk on a bet with an edge, sized to maximize long-run growth without risking ruin. Full Kelly is aggressive and high-variance; most serious bettors use half or quarter Kelly instead.</p>
-    <p class="x">Size a stake with the <a href="/kelly-calculator.html">Kelly Calculator</a>.</p>
+    <p class="x">Size a stake with the <a href="/kelly-calculator">Kelly Calculator</a>.</p>
   </div>
 
   <div class="term">
     <h2 id="ev">Expected Value (EV)</h2>
     <p class="x">The average result of a bet if it were placed many times, given the true win probability and the price offered. A bet is +EV when the price pays out more than the true risk justifies — the only kind of bet that makes money over a large enough sample.</p>
-    <p class="x">Run the numbers on the <a href="/expected-value-calculator.html">EV Calculator</a>.</p>
+    <p class="x">Run the numbers on the <a href="/expected-value-calculator">EV Calculator</a>.</p>
   </div>
 
   <div class="term">
     <h2 id="parlaytax">Parlay Tax</h2>
     <p class="x">The vig on each leg of a parlay compounds instead of adding. A parlay that looks like a modest markup leg-by-leg can carry an effective hold several times higher than a straight bet once every leg's margin multiplies together — the single most underestimated cost in recreational betting.</p>
-    <p class="x">See it compound on the <a href="/parlay-calculator.html">Parlay Calculator</a>.</p>
+    <p class="x">See it compound on the <a href="/parlay-calculator">Parlay Calculator</a>.</p>
   </div>
 
   <div class="term">
@@ -138,7 +138,7 @@ p.x a{color:var(--green);text-decoration:none}
   <div class="term">
     <h2 id="hedge">Hedge</h2>
     <p class="x">Betting the other side of a wager you already hold — usually after the line has moved in your favor — to lock in profit or cap a loss no matter how the game ends.</p>
-    <p class="x">Model it on <a href="/tools.html">Tools</a>.</p>
+    <p class="x">Model it on <a href="/tools">Tools</a>.</p>
   </div>
 
   <div class="term">
