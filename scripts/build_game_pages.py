@@ -80,6 +80,11 @@ p.x{font-size:14px;color:var(--mid);font-weight:300;margin:14px 0;max-width:64ch
 p.x b{color:var(--white)}
 .foot{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}
 .foot a{color:var(--green);text-decoration:none}
+.cta{margin:28px 0 6px;padding:18px 20px;border:1px solid rgba(0,208,132,.28);border-radius:12px;background:rgba(0,208,132,.05)}
+.cta .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch}
+.cta p b{color:var(--white);font-weight:600}
+.cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
 @media(max-width:640px){td,th{padding:8px 9px;font-size:12.5px}}
 """
 
@@ -92,7 +97,9 @@ def build_page(g, date):
             f"{g.get('total','—')}, and the no-vig win chance on both sides — "
             f"what the market really thinks, before the book's cut.")
     fn = slug(g, date) + ".html"
-    canon = f"https://insidethenumber.com/g/{fn}"
+    # Cloudflare serves /g/slug and 301s /g/slug.html, so the .html form can
+    # never be indexed. Advertise the URL that returns 200.
+    canon = f"https://insidethenumber.com/g/{fn[:-5]}"
 
     ta, th_ = g.get("true_away"), g.get("true_home")
     hold = g.get("hold")
@@ -156,7 +163,7 @@ def build_page(g, date):
 </head>
 <body>
 <nav><a href="/">Inside <span>the</span> Number</a>
-  <div class="r"><a href="/games.html">Today's board</a><a href="/learn.html">Learn</a></div></nav>
+  <div class="r"><a href="/games">Today's board</a><a href="/learn">Learn</a></div></nav>
 <div class="wrap">
   <div class="eyebrow">// {e(g['league'])} · {e(pretty_date(date))}</div>
   <h1>{e(a['name'])} <span>at</span> {e(h['name'])}</h1>
@@ -170,9 +177,16 @@ def build_page(g, date):
     {''.join(rows)}
   </table>
 {true_block}
+  <div class="cta">
+    <div class="k">Every pick, in your inbox</div>
+    <p>We take a side on three or four games a day and send every one to
+    subscribers with the reasoning, before anything starts. <b>One is free on
+    the homepage. The rest only go out by email.</b> No card, no spam.</p>
+    <a class="go" href="/#signup">Get every pick free →</a>
+  </div>
   <p class="x">Prices move all day. The live version of this game — score,
   line movement and the rest of the board — is on
-  <a style="color:var(--green)" href="/games.html">today's board</a>.</p>
+  <a style="color:var(--green)" href="/games">today's board</a>.</p>
 
   <div class="foot">Inside the Number · every game priced at what the market
   really thinks · <a href="/">insidethenumber.com</a> · 21+ only. If gambling
@@ -190,7 +204,7 @@ def rebuild_sitemap():
         fn = os.path.basename(p)
         m = re.match(r"(\d{4}-\d{2}-\d{2})-", fn)
         lastmod = m.group(1) if m else datetime.now(timezone.utc).date().isoformat()
-        urls.append(f"  <url><loc>https://insidethenumber.com/g/{fn}</loc>"
+        urls.append(f"  <url><loc>https://insidethenumber.com/g/{fn[:-5]}</loc>"
                     f"<lastmod>{lastmod}</lastmod></url>")
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
