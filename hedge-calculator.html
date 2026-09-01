@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hedge Calculator — Lock In Profit on a Live Bet | Inside the Number</title>
+<meta name="description" content="Free hedge calculator: enter your original stake and odds plus the current price on the other side to see exactly how much to lay to lock in a result."/>
+<link rel="canonical" href="https://insidethenumber.com/hedge-calculator.html"/>
+<meta property="og:title" content="Hedge Calculator — Lock In Profit on a Live Bet | Inside the Number"/>
+<meta property="og:description" content="Free hedge calculator: enter your original stake and odds plus the current price on the other side to see exactly how much to lay to lock in a result."/>
+<meta property="og:url" content="https://insidethenumber.com/hedge-calculator.html"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do you calculate a hedge bet?", "acceptedAnswer": {"@type": "Answer", "text": "Work out the total return on the original ticket if it wins, then divide that figure by the decimal odds on the opposite side. The result is the stake that returns the same amount whichever way the event goes."}}, {"@type": "Question", "name": "Is hedging a bet always a good idea?", "acceptedAnswer": {"@type": "Answer", "text": "No. Hedging always costs expected value in exchange for certainty. It is worth it when the amount at stake is large relative to your bankroll, and usually not worth it on small tickets where the variance does not matter."}}, {"@type": "Question", "name": "Can you hedge and still lose money?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. If the price on the other side has moved against you, the guaranteed figure can be less than your total risk. The hedge then caps the loss rather than locking in a profit."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://insidethenumber.com/tools.html"}, {"@type": "ListItem", "position": 3, "name": "Hedge Calculator", "item": "https://insidethenumber.com/hedge-calculator.html"}]}</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--red:#ff5c5c;--gold:#f0b429;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--white);line-height:1.6}
+nav{border-bottom:1px solid var(--bd);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+nav a{color:var(--white);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+nav a span{color:var(--green)}
+nav .r a{font-size:12px;color:#b6bdc8;font-weight:500;margin-left:18px;letter-spacing:.08em}
+.wrap{max-width:680px;margin:0 auto;padding:36px 20px 56px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,44px);font-weight:900;text-transform:uppercase;line-height:1.02;margin-bottom:8px}
+h1 span{color:var(--green)}
+.sub{color:var(--mid);font-weight:300;margin-bottom:24px;max-width:58ch}
+.tool{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:26px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:12px 0 5px}
+input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:16px;padding:10px 12px}
+input:focus{outline:none;border-color:var(--green)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.out{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.out.one{grid-template-columns:1fr}
+.out .n{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--green);font-weight:600}
+.out .n.pos{color:var(--green)}
+.out .n.neg{color:var(--red)}
+.out .l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.out .s{grid-column:1/-1;font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.5;margin-top:6px;text-align:left}
+h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin:26px 0 8px}
+p.x{font-size:14px;color:var(--mid);font-weight:300;margin:10px 0;max-width:60ch}
+p.x b{color:var(--white)}
+p.x a{color:var(--green);text-decoration:none}
+.foot{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--green);text-decoration:none}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><a href="/">Inside <span>the</span> Number</a>
+  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+<div class="wrap">
+  <div class="eyebrow">// Tools · Hedge</div>
+  <h1>Hedge <span>Calculator</span></h1>
+  <p class="sub">You're holding a live ticket and want to guarantee the outcome. This is how much to put on the other side, and what you keep either way.</p>
+  <div class="tool">
+    <div class="row">
+      <div><label>Original stake ($)</label><input type="number" id="s" value="100" step="1"/></div>
+      <div><label>Original odds</label><input type="number" id="o" value="400" step="1"/></div>
+    </div>
+    <label>Current odds on the other side</label>
+    <input type="number" id="h" value="-200" step="1"/>
+    <div class="out">
+      <div><div class="n" id="amt">—</div><div class="l">Hedge stake</div></div>
+      <div><div class="n" id="profit">—</div><div class="l">Locked either way</div></div>
+      <div class="s" id="note"></div>
+    </div>
+  </div>
+  <h2>What hedging actually costs you</h2>
+  <p class="x">Hedging converts an uncertain outcome into a certain one, and you pay for that certainty. The guaranteed amount is always less than the expected value of simply letting the original bet ride. That isn't an argument against hedging — it's the price of removing variance, and sometimes that's worth paying.</p>
+  <h2>When it makes sense</h2>
+  <p class="x">Hedge when the outstanding amount is large relative to your bankroll, when the other side has moved far enough that the lock is genuinely good, or when losing the ticket outright would change your behaviour on the next twenty bets. Don't hedge a small futures ticket purely because watching it is uncomfortable.</p>
+  <h2>Partial hedges</h2>
+  <p class="x">You don't have to lock the whole thing. Staking half the calculated amount removes half the variance and keeps half the upside. Run the number here, then decide how much certainty you actually want to buy — and check the <a href="/bankroll-drawdown-calculator.html">drawdown calculator</a> if the answer depends on what a loss would do to your bankroll.</p>
+  <p class="x">We run these numbers on
+  <a href="/games.html">every game on the board</a>, every day — or see
+  <a href="/tools.html">all ten calculators</a> on one page.</p>
+  <div class="foot">Inside the Number · every game priced at what the market really
+  thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
+  call 1-800-GAMBLER.</div>
+</div>
+<script>
+function toDec(am){am=+am;return am>0?1+am/100:1+100/(-am)}
+function toProb(am){am=+am;return am>0?100/(am+100):(-am)/((-am)+100)}
+function toAm(d){return d>=2?Math.round((d-1)*100):Math.round(-100/(d-1))}
+function probToAm(p){return p>=0.5?Math.round(-100*p/(1-p)):Math.round(100*(1-p)/p)}
+function sign(n){return n>0?'+'+n:''+n}
+function pct(p){return (p*100).toFixed(1)+'%'}
+function money(v){return (v<0?'-$':'$')+Math.abs(v).toFixed(2)}
+function ok(am){am=+am;return isFinite(am)&&(am<=-100||am>=100)}
+function set(id,v){document.getElementById(id).textContent=v}
+function setn(id,v,cls){const e=document.getElementById(id);e.textContent=v;e.className='n'+(cls?' '+cls:'')}
+function calc(){
+  const stake=Number(document.getElementById('s').value);
+  const o=document.getElementById('o').value,h=document.getElementById('h').value;
+  if(!ok(o)||!ok(h)||!isFinite(stake)||stake<=0)return;
+  const ret=stake*toDec(o),hd=toDec(h);
+  const amt=ret/hd,profit=ret-stake-amt;
+  set('amt',money(amt));
+  setn('profit',money(profit),profit>=0?'pos':'neg');
+  set('note',`Original ticket returns ${money(ret)} if it wins. Staking ${money(amt)} on the other side returns `
+    +`${money(amt*hd)}. Either way you finish with ${money(ret-amt)} against ${money(stake+amt)} risked`
+    +(profit<0?' — this hedge locks in a loss, it just caps the damage.':'.'));
+}
+document.addEventListener('input',calc);calc();
+</script>
+</body>
+</html>

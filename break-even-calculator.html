@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Break-Even Win Rate Calculator — What You Need to Hit | Inside the Number</title>
+<meta name="description" content="Free break-even calculator: enter any American odds and see the win rate you need just to stop losing money. At -110 it&#x27;s 52.4%."/>
+<link rel="canonical" href="https://insidethenumber.com/break-even-calculator.html"/>
+<meta property="og:title" content="Break-Even Win Rate Calculator — What You Need to Hit | Inside the Number"/>
+<meta property="og:description" content="Free break-even calculator: enter any American odds and see the win rate you need just to stop losing money. At -110 it&#x27;s 52.4%."/>
+<meta property="og:url" content="https://insidethenumber.com/break-even-calculator.html"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What win rate do you need to break even at -110?", "acceptedAnswer": {"@type": "Answer", "text": "52.38%. That is the implied probability of -110, so anything below it loses money over a large enough sample even though it looks like close to a coin flip."}}, {"@type": "Question", "name": "How do you calculate break-even win rate?", "acceptedAnswer": {"@type": "Answer", "text": "Convert the American odds to implied probability. For negative odds: odds / (odds + 100). For positive odds: 100 / (odds + 100). The result is the share of bets you must win to break even."}}, {"@type": "Question", "name": "Is a 55% win rate good in sports betting?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. At standard -110 pricing, break-even is 52.4%, so 55% is a real and sustainable edge. Very few bettors hold above 55% over thousands of bets."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://insidethenumber.com/tools.html"}, {"@type": "ListItem", "position": 3, "name": "Break-Even Win Rate Calculator", "item": "https://insidethenumber.com/break-even-calculator.html"}]}</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--red:#ff5c5c;--gold:#f0b429;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--white);line-height:1.6}
+nav{border-bottom:1px solid var(--bd);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+nav a{color:var(--white);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+nav a span{color:var(--green)}
+nav .r a{font-size:12px;color:#b6bdc8;font-weight:500;margin-left:18px;letter-spacing:.08em}
+.wrap{max-width:680px;margin:0 auto;padding:36px 20px 56px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,44px);font-weight:900;text-transform:uppercase;line-height:1.02;margin-bottom:8px}
+h1 span{color:var(--green)}
+.sub{color:var(--mid);font-weight:300;margin-bottom:24px;max-width:58ch}
+.tool{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:26px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:12px 0 5px}
+input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:16px;padding:10px 12px}
+input:focus{outline:none;border-color:var(--green)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.out{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.out.one{grid-template-columns:1fr}
+.out .n{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--green);font-weight:600}
+.out .n.pos{color:var(--green)}
+.out .n.neg{color:var(--red)}
+.out .l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.out .s{grid-column:1/-1;font-size:12.5px;color:var(--mid);font-weight:300;line-height:1.5;margin-top:6px;text-align:left}
+h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;margin:26px 0 8px}
+p.x{font-size:14px;color:var(--mid);font-weight:300;margin:10px 0;max-width:60ch}
+p.x b{color:var(--white)}
+p.x a{color:var(--green);text-decoration:none}
+.foot{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--green);text-decoration:none}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><a href="/">Inside <span>the</span> Number</a>
+  <div class="r"><a href="/tools.html">All tools</a><a href="/games.html">Today's board</a></div></nav>
+<div class="wrap">
+  <div class="eyebrow">// Tools · Break-even</div>
+  <h1>Break-Even <span>Win Rate</span></h1>
+  <p class="sub">Enter a price. Out comes the win rate you need just to break even — the bar every bet has to clear before it makes you a dollar.</p>
+  <div class="tool">
+    <label>American odds</label>
+    <input type="number" id="o" value="-110" step="1"/>
+    <div class="out one">
+      <div><div class="n" id="be">—</div><div class="l">Required win rate to break even</div></div>
+      <div class="s" id="note"></div>
+    </div>
+  </div>
+  <h2>The number every bet has to clear</h2>
+  <p class="x">Break-even win rate is the implied probability of the price you're taking. At -110 it's 52.4%. At -150 it's 60%. At +200 it's 33.3%. Below that rate you lose money over time no matter how good any individual bet felt.</p>
+  <h2>Why 52.4% is the number people quote</h2>
+  <p class="x">-110 is the standard price on point spreads and totals, so 52.4% became the benchmark for whether someone can actually bet. It sounds close to a coin flip, and that's the trap: the gap between 50% and 52.4% is the entire business model of a sportsbook. Long-term winners typically land in the 53-55% range — a couple of points above break-even, not double digits.</p>
+  <h2>Reading it the other way</h2>
+  <p class="x">This calculator also answers the reverse question. If you think a team wins 58% of the time, any price with a break-even below 58% is a bet worth making. That comparison is exactly what the <a href="/edge-calculator.html">edge calculator</a> automates, and what <a href="/expected-value-calculator.html">expected value</a> turns into dollars.</p>
+  <p class="x">We run these numbers on
+  <a href="/games.html">every game on the board</a>, every day — or see
+  <a href="/tools.html">all ten calculators</a> on one page.</p>
+  <div class="foot">Inside the Number · every game priced at what the market really
+  thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
+  call 1-800-GAMBLER.</div>
+</div>
+<script>
+function toDec(am){am=+am;return am>0?1+am/100:1+100/(-am)}
+function toProb(am){am=+am;return am>0?100/(am+100):(-am)/((-am)+100)}
+function toAm(d){return d>=2?Math.round((d-1)*100):Math.round(-100/(d-1))}
+function probToAm(p){return p>=0.5?Math.round(-100*p/(1-p)):Math.round(100*(1-p)/p)}
+function sign(n){return n>0?'+'+n:''+n}
+function pct(p){return (p*100).toFixed(1)+'%'}
+function money(v){return (v<0?'-$':'$')+Math.abs(v).toFixed(2)}
+function ok(am){am=+am;return isFinite(am)&&(am<=-100||am>=100)}
+function set(id,v){document.getElementById(id).textContent=v}
+function setn(id,v,cls){const e=document.getElementById(id);e.textContent=v;e.className='n'+(cls?' '+cls:'')}
+function calc(){
+  const o=document.getElementById('o').value;
+  if(!ok(o))return;
+  const p=toProb(o);
+  set('be',pct(p));
+  set('note',`At ${sign(+o)}, you need to win more than ${pct(p)} of these for the bet to be profitable. `
+    +`Over 100 bets that is ${(p*100).toFixed(0)} wins just to stand still.`);
+}
+document.addEventListener('input',calc);calc();
+</script>
+</body>
+</html>
