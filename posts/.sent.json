@@ -20,7 +20,8 @@
   "08-conditions.txt",
   "09-market-choice.txt",
   "10-what-this-is.txt",
-  "11-breakeven-card.txt"
+  "11-breakeven-card.txt",
+  "12-line-shopping.txt"
  ],
  "history": [
   {
@@ -210,6 +211,15 @@
    "url": "https://x.com/thenumberdesk/status/2094541193602359781",
    "at": "2026-08-31T21:41:50.044414+00:00",
    "chars": 127,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "12-line-shopping.txt",
+   "id": "2094794578402365845",
+   "url": "https://x.com/thenumberdesk/status/2094794578402365845",
+   "at": "2026-09-01T14:28:41.708394+00:00",
+   "chars": 107,
    "had_link": false,
    "est_cost": 0.015
   }
