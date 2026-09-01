@@ -1,231 +1,254 @@
-# Inside the Number — X playbook
+# Inside the Number — X playbook (v2, rewritten Aug 29 2026)
 
 Internal. Excluded from the deployed site via `.assetsignore`.
 
-House style carries over from the newsletter: **no "vig", "juice" or "hold"**.
-American spellings only. Posts go out as the publication, not as Chuck.
+**This is a full rewrite.** v1 was written in August 2026 and produced 20 followers
+and posts averaging 5–17 views. It was not a bad document; it was a document for a
+different platform than the one we're actually on. Everything below is grounded in
+engagement data scraped live from ~50 competitor posts on Aug 29 2026
+(see `X_TEARDOWN_AUG29.md` for the raw findings).
 
 ---
 
-## 1. Profile
+## 0. WHAT KILLED v1 — read this before you write anything
 
-**Handle:** @thenumberdesk — claimed Aug 23, 2026.
+Four rules in v1 were actively suppressing us:
 
-Chosen after `@insidethenumber` came back reserved and every close variant was
-taken. Two of those are worth remembering: `@insidethenum` is an ACTIVE NFL
-analytics account literally called "Inside The Numbers", and
-`@theinsidenumber` is a dormant XFL betting account with the same name. The
-name is crowded on X, which is why we went with the byline instead of a
-near-miss of somebody else's handle.
+| v1 rule | What it actually did | v2 replacement |
+|---|---|---|
+| "Every post has a number in it. **No exceptions.**" | Made every post read like a Bloomberg terminal. Got us publicly called "AI." | **Every post must be TRUE. Numbers optional.** |
+| "Target ~150 characters" | Fine, but paired with the numbers rule it produced identical-shaped posts forever | Length varies by format. Some posts are 6 words. |
+| Three posts a day | At 20 followers, our ceiling is surface area, not quality | **10–20 posts/day**, mostly templated + replies |
+| No mention of images anywhere | We shipped 200+ text-only posts into a visual feed | **Media on everything that isn't a reply** |
 
-**Display name:** see note below — "Inside the Number" is the brand,
-"ITN Desk" is the byline. Display names are free to change; the handle isn't.
-
-**Bio** (160 char limit — this is 148):
-
-> Every game on the board, priced at what the market really thinks. Free pick
-> daily. Line moves, true prices, and the numbers other sites don't publish. 21+
-
-**Location:** Nashville, TN
-**Link:** https://insidethenumber.com
-**Avatar:** `social/itn-avatar.png`
-**Header:** `social/itn-x-header.png`
-
-### Pinned post
-
-> Most betting accounts sell you a record.
->
-> We don't publish one.
->
-> What we publish: every game on the board with the book's margin stripped
-> out, so you can see what the market actually thinks — and what you'd have
-> to hit to break even at the posted price.
->
-> Free, every day 👇
-> insidethenumber.com
+The single hardest lesson from the teardown: **Action Network's best-performing post
+on a Saturday with a full slate was "WAKE UP IT'S COLLEGE FOOTBALL SATURDAY!!!!"** —
+no numbers, no analysis, no link. 10.5K views. Emotion outperformed their own data.
 
 ---
 
-## 2. Why this works as content
+## 0.5 — THE BIGGEST FINDING. READ THIS TWICE.
 
-The site already computes things nobody else publishes free. Each one is a
-post that takes ten seconds to read and links back to a live page:
+**Measured Aug 29 2026, searching CFB posts with 2,000+ likes.** Here is what was
+actually winning on the biggest college football Saturday of the year:
 
-| Data we have | Post angle |
+| Post | Likes | Media? | Data? |
+|---|---|---|---|
+| @BarstoolGruden — "Time to watch college football." | **17,957** | no | none |
+| @espn — "We missed you very much, welcome back college football." | 12,678 | yes | none |
+| @CFBHome — "WE SHOULD BUILD ENORMOUS STADIUMS ON COLLEGE CAMPUSES" | 4,154 | no | none |
+| @CollegeFBonX — "TCU's offensive coordinator today" | 2,852 | image is the punchline | none |
+| @ESPNCFB — "A DUBLIN DUB FOR BELICHICK & THE TAR HEELS" | 2,467 | no | none |
+| @3YearLetterman — "College football should only be played on American soil" | 2,092 | no | none |
+
+**Not one has a chart. Not one has a number. The best post of the day was five words.**
+
+This platform runs on **feelings**, not information. Emotion, shared opinions,
+jokes, and moments. We had been building data visualizations for a feed that
+rewards relatability. Charts are *informative*. These are *relatable*. That is the
+entire gap and no amount of design polish on a spread-and-total card closes it.
+
+### The four registers that actually work
+
+1. **Pure emotion** — "Time to watch college football." No data. Just the feeling
+   everyone in the timeline already has, said first and said plainly.
+2. **A take people can argue with** — "a 37-point spread isn't a betting line, it's
+   a threat." Opinions get quote-tweeted. Facts get scrolled past.
+3. **The relatable gut-punch** — "Somewhere a guy has USC -37.5 and is watching a
+   28-0 game with his head in his hands. We've all been that guy." Name the shared
+   experience. The number is a prop, not the point.
+4. **Setup line, image is the punchline** — "whoever set the USC number this
+   morning" + graphic. The caption is the joke; the graphic is the reveal.
+
+**Where graphics belong:** as the punchline under a funny setup line. NEVER as the
+post itself. A beautiful card under a boring line still dies.
+
+**Where numbers belong:** in a supporting role. One per post, maximum, and often
+zero. The number makes the joke land — it is not the joke.
+
+---
+
+## 1. THE HOOK IS THE WHOLE GAME
+
+The account we should be copying is **@trendscenterapp** — similar size to us, and
+one post did **43K views / 224 likes / 17 reposts** against Action Network's typical
+10K views / 20 likes. Their post:
+
+> ⚠️ PERFECT TREND ALERT ⚠️ White Sox overs after a rest day:
+> **17-0 to the over**
+> Active on White Sox at Twins o8.5
+
+Deconstructed, in order of what did the work:
+
+1. **An extreme, checkable number.** "17-0" sounds impossible. You stop to check it.
+2. **A scarcity label.** "PERFECT TREND ALERT" says *this is rare*, so it earns a look.
+3. **Immediately actionable.** Names the live bet.
+4. **Graphics support it.** They do not lead it.
+
+### The rule that replaces everything in v1
+
+> **First line = the most surprising true thing we know.**
+> Not the setup. Not the context. The punch.
+
+| ❌ Dead on arrival | ✅ Stops the scroll |
 |---|---|
-| Biggest line move on the board | "This number moved further than any other today" |
-| Break-even vs our number | "You need 67% to break even. We make it 71%." |
-| Starter's last 3 starts vs season ERA | "His ERA says 4.53. His last three say 1.45." |
-| Hot/cold bats, last 15 games | "They're 4-1 — with their three best hitters ice cold." |
-| Injury report (IL, ranked by impact) | "Atlanta is starting this game without both aces." |
-| Predicted score from the run model | "We make it 3.81–4.14." |
-
-**Voice add-on (Chuck, Aug 25 2026, night): positive and human.** A sharp
-friend at the bar, not a brand. Punch up at prices and touts, never down at
-fans or players. Celebrate wild finishes; self-deprecate on our Ls. Warmth
-wins followers.
-
-**Reply cadence — HOURLY, 9am-11pm (Chuck, Aug 25 2026, evening).** Upgraded
-from 4-5 rounds a day after the first full day produced 3 -> 12 followers and
-the site's first-ever X referrals. Now automated: the scheduled task
-`itn-x-engagement-hourly` runs a round at :07 past each hour, 9am-11pm, on
-Chuck's Mac. Quality gates volume — a round with no good target does nothing.
-
-**Reply cadence — original note (Chuck, Aug 25 2026, morning).** Replies are doing
-far more for us than original posts. Followers went 3 → 6 in the twelve hours
-after the first reply round. Voice: one or two lines, playful, an emoji, and
-one real number. Fun, not a lecture. "Si Woo's +2300 this week. Scheffler
-+320. Diaper money is recoverable 🍼" is the target — a joke that happens to
-contain two verified prices.
-
-Two failure modes. First, running the same move every time: three break-even
-calculations in one round starts reading like a bot with a calculator. Vary
-the shape — a price, a coincidence, a joke, an observation about a player.
-Second, forcing the count. Four good replies beat five with a misfire; skip
-lawsuit stories, fan accounts, and anything where the only available reply is
-generic.
-
-**Length rule — keep them short (Chuck, Aug 25 2026).** Target roughly 150
-characters, hard ceiling 200. The 280 limit is not a target. Three short lines
-beat one paragraph: people read the first two lines in a timeline and scroll.
-When a post runs long it is almost always because we explained the reasoning
-instead of stating the number and stopping. State the number. Stop.
-
-**The rule: every post contains a real number.** No hype, no "LOCK OF THE
-DAY", no unit talk. The differentiator is that we sound like an analyst and
-everyone else sounds like a tout.
+| "Stanford's spread went from -3 to -4.5 while the total came down from 50.5 to 48.5" | "**3 of today's 8 games are already decided.**" |
+| "The break-even on this price is 67%" | "**You need to win 2 out of 3 just to break even.**" |
+| "USC is favored by 37.5 points" | "**The market says USC wins by five touchdowns.**" |
+| "Here is today's free pick" | "**One number on this board moved 3.5 points and nobody noticed.**" |
 
 ---
 
-## 3. Daily cadence
+## 2. SCARCITY LABELS — use one, every time
 
-Three posts a day, all generated from the board:
+Every post looking equally important means none of them do. Competitors all have
+labels. Ours:
 
-- **~9:00 AM CT — The free pick.** Same play as the newsletter, with the
-  reasoning compressed to two lines. Links to the game page.
-- **~2:00 PM CT — Biggest line move.** Price journey, which way money is
-  going, what it implies.
-- **~5:30 PM CT — One number.** The sharpest single stat off tonight's board
-  — a starter trending hard, a cold lineup, a total that moved.
+- `⚠️ NUMBER NOBODY IS TALKING ABOUT` — a line move with no obvious cause
+- `🚩 THE MARKET DISAGREES WITH ITSELF` — spread and total moving opposite directions
+- `📌 DECIDED BEFORE KICKOFF` — mismatch call-out
+- `🧾 THE RECEIPT` — break-even math on somebody's parlay
+- `✅ TODAY'S FREE PICK` — the daily
+- `📊 THE WHOLE BOARD` — slate roundup
 
-Volume is deliberately low. Three good posts beat fifteen filler ones, and at
-$0.20 per post with a link it also keeps the bill near $18/month.
-
----
-
-## 4. Launch posts — real numbers from tonight's board (Aug 23)
-
-These are live and verifiable. Use them or the equivalents on the day.
-
-**Post 1 — the thesis**
-
-> The Braves are 1-4 in their last five, scoring 1.8 runs a game.
-> The Brewers are 4-1, scoring 8.0.
->
-> Except one of those Brewers games was 22-0.
->
-> Take it out and they're scoring 4.5 — with Yelich at .192 and Naylor at
-> .130 over their last 15.
->
-> Averages lie. We flag it when one game is carrying them.
-
-**Post 2 — the break-even angle**
-
-> Brewers +1.5 is priced at -203 tonight.
->
-> That means it has to land 67.0% of the time just to break even.
->
-> Our model has it at 71.1%.
->
-> Four points of room isn't nothing — but it's thinner than "high
-> confidence" makes it sound, and we'd rather say so.
-
-**Post 3 — the differentiator**
-
-> Tyler Mahle's ERA is 4.53.
->
-> Over his last three starts: 1.45. Eighteen innings, three earned runs,
-> nineteen strikeouts.
->
-> Every site quotes the season number. It's five months old.
->
-> That's the pitcher on the mound tonight — and it's a reason to be careful
-> backing Milwaukee.
-
-**Post 4 — injuries done properly**
-
-> Atlanta is starting tonight without Spencer Strider AND Spencer
-> Schwellenbach. Both on the 60-day IL.
->
-> That's their top two starters, and it's why Mahle is taking the ball.
->
-> Most injury reports list five names in whatever order the feed spits out.
-> Ours puts the arms first, because that's the one that moves a number.
-
-**Post 5 — what we don't do**
-
-> We're not going to post a record.
->
-> Every touting account on this app has one, they're all winning, and none
-> of them are audited.
->
-> What we'll do instead: publish the price, publish what you need to hit to
-> break even, and publish what beats the bet. Then you decide.
+Never invent a label to make a boring post sound urgent. If nothing qualifies, post
+something funny instead, or post nothing.
 
 ---
 
-## 5. Recurring templates
+## 3. VOICE — 2026, not 1920
 
-**Free pick**
+We got called "AI" in public on Aug 28. The tell was never one post — it was the
+**pattern**: every reply built as [stat] + [percentage] + [tidy market conclusion].
+Templates are what get you clocked.
 
-> 🎯 Today's free pick — {MATCHUP}
->
-> {PICK} ({PRICE})
->
-> {ONE LINE OF REASONING WITH A NUMBER}
->
-> Break-even at this price: {BE}%. We make it {MINE}%.
->
-> Full card: insidethenumber.com/games
+**Write like a sharp friend at the bar who happens to know the numbers.**
 
-**Line move**
+Do:
+- Have a reaction FIRST, put the number in a supporting role or leave it out
+- Incomplete sentences. Start with "lol" or "man." Ask rhetorical questions
+- Sarcasm, punching UP — at books, prices, touts, TV narratives
+- Take a side without hedging
+- React to the specific thing someone said, not adjacent to it
 
-> 📉 Biggest line move today
->
-> {TEAM} {OPEN} → {CURRENT}
->
-> Money is coming in on {SIDE}. {ONE LINE ON WHAT THAT IMPLIES}
->
-> insidethenumber.com/games?sport={LG}&game={ID}
+Never:
+- More than one stat per reply. Many replies get zero
+- Hashtags in replies. One event tag on originals, sometimes
+- Explaining the joke
+- Anything that could be auto-generated about any game by swapping nouns —
+  if it passes that test, delete it
+- Replying to "you're a bot" accusations. **Silence.** Arguing amplifies it
 
-**One number**
-
-> {STAT, STATED PLAINLY}
->
-> {WHY IT MATTERS IN ONE LINE}
->
-> {LINK}
+**Never punch down** — not at fans, not at players having a bad night, not at people
+who lost a bet. Celebrate wild finishes. Warmth wins followers; snark loses them.
 
 ---
 
-## 6. Rules
+## 4. MEDIA — attach something to every original post
 
-- Every post has a number in it. No exceptions.
-- Never claim a record, ROI, or units won.
-- Never say "lock", "guaranteed", "free money", or "can't lose".
-- Always 21+ framing where it fits. Never target or reply to minors.
-- When we're wrong, say so in the same voice we said the pick in.
-- Reply to genuine questions. Do not argue with trolls.
+Six formats are built and live in `scripts/build_social_card.py`. All generate from
+live odds data in about two seconds.
+
+| Format | When to use | Hook it carries |
+|---|---|---|
+| **Tier list** (S/A/B/F) | Saturday slates | Argument bait — people quote-tweet to disagree |
+| **Group chat** | Parlay math, bad-beat logic | Funniest thing we make. Screenshot-and-send |
+| **The divergence** | Spread up + total down | Makes an invisible insight obvious |
+| **Big number** | One number translated to English | Most shareable |
+| **Board card** | Whole slate, color-coded | Reference object people save |
+| **Line-move GIF** | Any meaningful move | Motion in a still feed. Nobody else does this |
+
+**Graphics support, they never lead.** A great card under a boring first line still dies.
+
+### Meme formats we can build from scratch (no copyright exposure)
+
+These are *layout parodies* — instantly recognizable, built from nothing:
+- **Group chat / iMessage** (built)
+- **Tier list** (built)
+- **Notes app apology** — for a genuinely wild bad beat
+- **Spotify Wrapped** — season-in-review cards
+- **Letterboxd review** — rate a game like a film
+- **Airport departure board** — the slate as departures
+- **Betting slip receipt** — the pick as a printed ticket
+- **"POV:" cards** — first-person framing
+
+### What requires Chuck (10 minutes, biggest visual unlock available)
+
+Drop 5–10 images into `Inside the Number/stock/` and I composite our data over them.
+
+**Sources with free commercial licenses:** Unsplash, Pexels, Pixabay.
+**Search terms that don't look cheesy:** "stadium lights night", "empty stadium",
+"football texture close up", "sports bar neon", "crowd silhouette", "turf macro".
+**Avoid:** anything with visible faces, posed models, thumbs-up handshakes, or
+"business people pointing at charts." That's the stock-photo look that reads as fake.
+Dark, moody, textural, cropped tight — that matches our brand and looks expensive.
+
+**What we do NOT use:** Getty/AP/team game photography, broadcast stills, or
+reposted competitor graphics. Barstool and Bleacher Report post those because they
+hold rights. We're about to apply to affiliate programs that ask about content
+practices, and X removes posts on DMCA. Not worth it for a 20-follower account.
+
+---
+
+## 5. CADENCE — volume is the lever we never pulled
+
+Action Network posts a templated best-bet for **every game on the board.** We posted
+three times a day. That's the whole gap in surface area.
+
+**Daily target:**
+- **1 free pick** (~9am CT) — graphic attached, link in body
+- **1 board card** (~11am CT on slate days) — the whole slate
+- **3–6 per-game templated posts** — auto-generated, one per interesting number
+- **1 personality post** — a joke, a reaction, no data required
+- **1 meme-format card** — tier list, group chat, receipt
+- **8–14 replies** — the hourly engagement task, unchanged in volume, upgraded in voice
+- **1–2 plain reposts** — zero AI-tell risk, builds timeline texture
+
+Skipped slots are free. A bad post costs credibility; an empty slot costs nothing.
+
+---
+
+## 6. LINKS
+
+Link goes **in the body** of original posts. Chuck's call, Aug 29 2026, after a
+two-post thread buried the link in a reply and he couldn't find it.
+
+The reach cost of a body link is real but it's a rounding error at our size, and a
+link nobody sees converts at zero. **Never split a post into a thread to hide a link.**
+
+Replies carry no links. Ever.
+
+---
+
+## 7. HARD RULES (unchanged, still non-negotiable)
+
+- **Never post about an event that has already started or finished.** Verify status
+  live before every post. This burned us Aug 29 — we promoted odds on a UFC card
+  that had ended eight hours earlier. Check the timestamp, not the calendar date.
+- Never state a number you haven't verified **this hour**.
+- Never claim a record, ROI, or units won. We don't publish one.
+- Never say "lock", "guaranteed", "free money", "can't lose".
+- Never mention the WNBA. Never say "vig", "juice", or "hold" — say "the book's cut".
+- American spellings. 21+ framing where natural.
+- Never expand a name from an initial without checking ("Colin" for Clay Holmes and
+  "Wilmer" for Walbert Ureña both went out wrong).
+- No betting jokes in threads about death, injury, tragedy, lawsuits, or politics.
+- Do not take Ls publicly. When a pick loses, say nothing. The **only** exception is
+  a plain factual error — fix or delete that immediately.
 - No engagement bait, no follow-for-follow, no bought followers.
 
 ---
 
-## 7. Not yet
+## 8. MEASUREMENT — the baseline to beat
 
-- **Instagram** — start the Professional account + Facebook Page + app review
-  now, since approval runs 2-4 weeks. Captions still can't carry reliable
-  clickable links, so treat it as awareness, not traffic.
-- **Discord** — park it. It's a retention tool and a plausible home for Pro
-  later. An empty server hurts more than it helps.
-- **Reddit** — r/sportsbook is the right audience and brutal on self-promo.
-  Human participation only; nothing automated.
+As of Aug 29 2026: **20 followers. Posts averaging 5–17 views.** Site traffic
+~320 visits/week. Newsletter: 2 subscribers.
+
+Check weekly:
+- Views per post (baseline: ~10)
+- Follower delta
+- Referral traffic to insidethenumber.com from X (Cloudflare analytics)
+- Which format produced the top post that week — then do more of that
+
+If a format produces nothing after two weeks, kill it. This document should be
+rewritten again the moment the data says something different.

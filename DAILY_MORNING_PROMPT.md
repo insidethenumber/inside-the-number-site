@@ -22,8 +22,9 @@ Send this to Claude each morning (Cowork, same project folder) to kick off the d
 >
 > The business model changed with it: the market data (line, movement, no-vig
 > true price) stays free on every game; the projection, edge, stated bet and
-> written breakdown become **ITN Pro at $19.99/mo**. Free tier also carries
-> sportsbook affiliate links.
+> written breakdown become **ITN Pro at $17.99/mo — a founding rate for early
+> subscribers, locked in even after the price goes up later** (set Aug 31
+> 2026, was $19.99/mo). Free tier also carries sportsbook affiliate links.
 >
 > **Beehiiv: stay on the publishing path.** The daily run needs exactly two
 > areas — `app.beehiiv.com/posts` (to check nothing is already published) and

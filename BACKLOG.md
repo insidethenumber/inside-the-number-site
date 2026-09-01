@@ -41,8 +41,9 @@ there is traffic. He asked to be reminded rather than left to notice.
 1. `data/odds-usage.json` shows a month closing above **400 credits** (80% of the
    500 cap). At that point we are one slate change away from running dry.
 2. A run logs `::warning title=Odds credits low` twice in the same month.
-3. Paying subscribers reach roughly **20 at $19.99**, i.e. ~$400/mo — at which
-   point $30 is under 8% of revenue and the constraint stops being worth managing.
+3. Paying subscribers reach roughly **22 at $17.99** (founding rate, set Aug 31
+   2026, was $19.99), i.e. ~$400/mo — at which point $30 is under 8% of revenue
+   and the constraint stops being worth managing.
 4. We want a market the free tier cannot cover: player props, alternate lines, or
    historical odds for backtesting. Historical is EXCLUDED from free entirely,
    so any real backtest work forces the upgrade.
@@ -154,7 +155,7 @@ is obviously generated.
 **Leaning:** B, because the expensive part is the writing, not the data. The
 board can hold 150 games without any additional work per game; the picks stay
 at 3-4 a day regardless of how many games exist. Revisit if the Pro tier's
-value proposition needs more written volume to justify $19.99.
+value proposition needs more written volume to justify $17.99.
 
 **Note:** whichever way this goes, the diversification rules in the four
 scheduled task prompts cap picks at 2 per sport, so CFB/CBB can't flood the

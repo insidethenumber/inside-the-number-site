@@ -13,8 +13,11 @@ ship, where does ITN already match them, and what would it take to be as good.
 Owned by Better Collective, who paid **$240M** for it in 2021. Commercial data
 partnerships with BetMGM, DraftKings, FanDuel and PointsBet, which is where its
 betting-percentage data comes from — not a public feed.
-Pricing: **$19.99/mo, $99.99/yr** (the same monthly price we're proposing, at
-half our annual).
+Pricing: **$19.99/mo, $99.99/yr**. (We launched at $17.99/mo as a founding
+rate, $2 under Action's price, with $149/yr — roughly half their annual rate.
+Note added Aug 31 2026: this doc originally read "the same monthly price
+we're proposing" when the plan was still $19.99; changed after Chuck's call
+to undercut instead.)
 Ships: public betting % **split into bets vs money** (the valuable version),
 odds from real books, projections on moneyline/spread/total, PRO Report signals,
 bet tracking via BetSync, QuickSlip bet placement, custom betting systems.
