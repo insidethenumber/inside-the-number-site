@@ -23,7 +23,8 @@
   "11-breakeven-card.txt",
   "12-line-shopping.txt",
   "13-closing-line.txt",
-  "14-favorites-parlay.txt"
+  "14-favorites-parlay.txt",
+  "15-pitcher-wins.txt"
  ],
  "history": [
   {
@@ -240,6 +241,15 @@
    "url": "https://x.com/thenumberdesk/status/2094904150651990034",
    "at": "2026-09-01T21:44:05.737573+00:00",
    "chars": 99,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "15-pitcher-wins.txt",
+   "id": "2095156839621009781",
+   "url": "https://x.com/thenumberdesk/status/2095156839621009781",
+   "at": "2026-09-02T14:28:11.527725+00:00",
+   "chars": 112,
    "had_link": false,
    "est_cost": 0.015
   }
