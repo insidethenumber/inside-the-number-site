@@ -25,7 +25,8 @@
   "13-closing-line.txt",
   "14-favorites-parlay.txt",
   "15-pitcher-wins.txt",
-  "16-why-free.txt"
+  "16-why-free.txt",
+  "C2-model-not-backtested.txt"
  ],
  "history": [
   {
@@ -260,6 +261,15 @@
    "url": "https://x.com/thenumberdesk/status/2095201596493762613",
    "at": "2026-09-02T17:26:02.351867+00:00",
    "chars": 118,
+   "had_link": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "C2-model-not-backtested.txt",
+   "id": "2095266631567995130",
+   "url": "https://x.com/thenumberdesk/status/2095266631567995130",
+   "at": "2026-09-02T21:44:27.980266+00:00",
+   "chars": 162,
    "had_link": false,
    "est_cost": 0.015
   }
