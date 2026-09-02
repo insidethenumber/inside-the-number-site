@@ -312,3 +312,5 @@ the days it was supposed to. The weekend routine, by contrast, has been clean
 "is local automation reliable enough," the honest answer from this log is that it
 is reliable on weekends and unreliable on weekdays, and nobody has yet explained
 why the weekday task specifically keeps failing to start.
+
+**Schedule rewrite — Sep 2, 2026 (Chuck's request, 7:24 AM).** Targets changed and the send mechanism changed. Weekdays (non-holiday): task starts 8:00 AM CT and SCHEDULES the issue in Beehiiv for exactly 10:00 AM CT; safety net at 9:10 (pre-flight) and 10:10 (post-flight). Weekends and holidays: task fires 6:15 AM CT and schedules the issue for exactly 7:45 AM CT; safety net at 7:10 and 8:10. Rows dated Sep 3 or later are measured against these targets. Beehiiv's "Pick a specific time" scheduler was verified to parse "today at 10:00am" as 10:00 AM CDT.

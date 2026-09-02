@@ -129,18 +129,33 @@ when *this* prompt is pasted in chat by hand. The recurring scheduled
 tasks (itn-daily-weekday, itn-daily-weekend) are a separate, standing
 setup — Chuck gave advance permission for those to research, update
 the site, and publish/send the newsletter fully automatically with no
-check-in, every weekday starting 10am CST (targeting live by 1pm CST)
-and weekend starting 8am CST (targeting live by 9:30am CST). Those tasks
-have their own self-contained prompts (not this file) that spell this
-out explicitly, and **those prompts are authoritative** — where this
-reference doc disagrees with them on timing, newsletter format or pick
-selection, the task prompt wins. If asked to run this routine ad hoc in
-chat, default to the manual "wait for send" behavior above unless told
-otherwise.
+check-in. Those tasks have their own self-contained prompts (not this
+file) that spell this out explicitly, and **those prompts are
+authoritative** — where this reference doc disagrees with them on
+timing, newsletter format or pick selection, the task prompt wins. If
+asked to run this routine ad hoc in chat, default to the manual "wait
+for send" behavior above unless told otherwise.
 
-*Weekend timing changed Aug 22, 2026:* the weekend run used to start at
-4am CST targeting an 8am inbox time. Chuck moved it to an 8am start,
-9:30am target. The safety net moved with it, from 8:15am to 9:30am.
+**SEND TIMES — fixed, rewritten Sep 2, 2026 (Chuck: "super consistent
+on a daily basis").** The issue is built and then SCHEDULED in Beehiiv
+for a fixed clock time; it is never "published whenever the run
+finishes" any more.
+- Weekdays (Mon-Fri, non-holiday): task starts 8:00 AM CT, newsletter
+  scheduled to send at **10:00 AM CT**. Safety net at 9:10 (pre-flight:
+  recovery if nothing is scheduled) and 10:10 (post-flight: verify + log).
+- Weekends and holidays: task fires daily at 6:15 AM CT but only runs
+  Sat/Sun/holidays, newsletter scheduled to send at **7:45 AM CT**.
+  Safety net at 7:10 (pre-flight) and 8:10 (post-flight).
+- Holiday list lives in the task prompts (US federal holidays plus the
+  day after Thanksgiving and Christmas Eve, through Labor Day 2027).
+- Beehiiv scheduling: Review → "Schedule" → "Pick a specific time" →
+  type e.g. `today at 10:00am` → it resolves to "Sep 2, 2026 10:00 AM
+  CDT" → confirm → verify Scheduled status on /posts.
+
+*History:* before Sep 2 the weekday task started 10:06 and targeted
+1:00 PM, and the weekend task started 8:06 and targeted 9:30 AM; sends
+actually landed anywhere from 7:13 AM to 4:01 PM, and the weekday task
+failed to complete unattended on 7 of 7 weekdays Aug 24 - Sep 2.
 
 **Reliability safeguards (added Aug 20, 2026 after a missed 1pm send):**
 On Aug 20 the weekday routine got stuck in an unbounded retry loop
@@ -154,10 +169,10 @@ scheduled tasks themselves (not just this reference doc):
 2. *Idempotency check* — every run (including recovery runs) checks
    Beehiiv for an existing post dated today before drafting anything,
    so a re-trigger can never cause a duplicate send.
-3. *Deadline safety net* — two new scheduled tasks,
-   itn-deadline-check-weekday (1:15pm CST Mon-Fri) and
-   itn-deadline-check-weekend (9:30am CST Sat/Sun), check whether that
-   day's newsletter actually went out. If not, they run a recovery
+3. *Deadline safety net* — two scheduled tasks,
+   itn-deadline-check-weekday (9:10 + 10:10 AM CT Mon-Fri) and
+   itn-deadline-check-weekend (7:10 + 8:10 AM CT, Sat/Sun/holidays),
+   check whether that day's newsletter is scheduled and then went out. If not, they run a recovery
    send themselves and always message Chuck explaining what happened.
    If everything went fine, they do nothing and stay silent.
 
