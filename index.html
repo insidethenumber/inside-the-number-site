@@ -893,29 +893,28 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'MLB', away:{code:'det', name:'Tigers'}, home:{code:'min', name:'Twins'},
-      time: '7:40 PM ET', pick: 'Under 8.5 (+100)', conf: 4, free: true,
-      hook: 'Best arm on the board, median number',
-      why: 'Troy Melton takes the ball for Detroit at 7-3 with a 1.86 ERA \u2014 the lowest of any of the thirty starters listed on today\u2019s fifteen-game board. Andrew Morris answers at 3.82. The total is 8.5, which is exactly the median number on the card: fourteen other games, and this one sits dead in the middle of them. The market is pricing the game that features the best starter of the day as a completely average run environment. The line itself has not moved off 8.5 all day, but the price on the over has, from -104 at open to -120 now, and Minnesota went from +108 to -113 over the same stretch. Strip out what the book keeps and the over is a 52.2% proposition. We will take the other side at even money. What beats it: a 1.86 ERA regresses, Morris has four saves on his line and may be a short-outing starter who hands this to the bullpen early, and today\u2019s money is all on the over \u2014 being the minority side is not free.'
+      league: 'MLB', away:{code:'mil', name:'Brewers'}, home:{code:'chc', name:'Cubs'},
+      time: '7:40 PM ET', pick: 'Under 8.5 (-117)', conf: 3, free: true,
+      hook: 'Best arm on the board, middle-of-the-card number',
+      why: 'Jacob Misiorowski starts for Milwaukee at 14-5 with a 1.73 ERA — the lowest of any starter on today’s fifteen-game board, and it is not close. David Peterson answers for Chicago at 5.11. The total is 8.5, which is the median number on the card: five games priced above it, five below. So the game with the best pitcher of the day is priced as an average run environment. The book is already leaning the same way — the under is -117 to the over’s -103 — so this is not a secret, but the number itself has not moved off 8.5. What beats it: Peterson at 5.11 hands the Brewers runs, a 1.73 ERA in September regresses, and the wind at Wrigley decides more totals than either starter does.'
     },
     {
-      league: 'MLB', away:{code:'ath', name:'Athletics'}, home:{code:'tex', name:'Rangers'},
-      time: '8:05 PM ET', pick: 'Athletics +1.5 (-135)', conf: 3, free: false,
-      hook: 'A .493 team priced like a 65% favorite',
-      why: 'Texas opened -178 and is now -212. Strip out what the book keeps and that is a 65% win probability \u2014 near the ceiling baseball ever hands out, and normally reserved for an elite club with a real pitching edge. Texas is 68-70. The pitching edge does not exist either: MacKenzie Gore is at 4.40 and Brady Basso at 4.50, a tenth of a run apart. The whole price is Oakland\u2019s 53-85 record, and the market has kept buying it all day. In a game the same market expects to be low-scoring \u2014 the total is 7.5, among the four lowest on the board \u2014 the runline is where that overpricing shows up. What beats it: Oakland has the worst record on the card by a distance, -135 is a real price to lay for a dog, and a tidy 3-1 Texas win loses this outright.'
+      league: 'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'ari', name:'Diamondbacks'},
+      time: '3:40 PM ET', pick: 'Diamondbacks -105', conf: 4, free: false,
+      hook: 'A three-run pitching gap priced as a coin flip',
+      why: 'The market has this at Philadelphia -115, Arizona -105. Strip out what the book keeps and it is 51-49 — a coin flip. Now look at the mound. Andrew Painter starts for Philadelphia at 5.95, 3-8. Taylor Clarke starts for Arizona at 2.60. That is a gap of more than three runs of ERA in Arizona’s favor, at home, and the price says the market sees the two sides as even. The reason is the rosters: Philadelphia is 79-60 and Arizona is 73-67, and the number is weighing lineups, not starters. Break-even at -105 is 51.2%, so you are getting the far better arm at a price that reflects none of it. What beats it: the Phillies’ lineup is genuinely the better one and can cover for Painter, Clarke’s 2.60 comes on a 2-3 record and a short sample, and Arizona is a team that finds ways to lose games it should win.'
     }
   ];
-  // Set Tue Sep 1, 1:25 PM CT by the deadline-check recovery run. All numbers
-  // were read off the DraftKings line in ESPN’s odds feed at 1:20 PM CT, and
-  // all fifteen games on the board were STATUS_SCHEDULED at write time — the
-  // earliest first pitch anywhere today is 6:40 PM ET. Board surveyed in full:
-  // MLB 15 games, and that is effectively the whole card. CFB, NFL, NBA, CBB,
-  // NHL and PGA all return ZERO events today — CFB Week 1 opened Sat Aug 29
-  // and resumes Thu Sep 3. The only non-MLB event on any covered board is Dana
-  // White’s Contender Series Season 10 Week 4 (5 fights, 7:00 PM ET), and
-  // ESPN returns zero odds items on all five bouts, so it cannot be priced and
-  // gets no pick. Football-first is in its zero-football-games carve-out for a
-  // third day. Two picks is the ceiling under the max-two-per-sport rule.
+  // Set Wed Sep 2, 7:20 AM CT by hand from the Cowork session, ahead of the
+  // 10:11 AM automated run (which has failed to complete on every weekday
+  // since Aug 24; see SEND_LOG). All numbers read off the DraftKings line in
+  // ESPN's odds feed via data/brief-latest.json generated 12:03 UTC today,
+  // plus probables from the ESPN scoreboard. All fifteen games STATUS_SCHEDULED
+  // at write time; earliest first pitch 12:40 PM ET (SD@CIN). Board surveyed in
+  // full: MLB 15 games and nothing else -- CFB Week 1 resumes Thu Sep 3, NFL
+  // opens Wed Sep 9, and the brief returns no UFC/PGA/NBA/CBB/NHL events.
+  // Football-first rule cannot apply today; max-2-per-sport rule holds (2 MLB).
+  // One moneyline of two picks (50%), free pick is a total, per house rules.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1120,11 +1119,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Tue, Sep 1</div>
+        <div class="potd-date">Wed, Sep 2</div>
         <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Tigers @ Twins</div>
-        <div class="potd-line">THE PICK: Under 8.5 (+100) &middot; 7:40 PM ET</div>
-        <p class="potd-reasoning">Troy Melton starts for Detroit at Target Field. He is 7-3 with a 1.86 ERA, which is the lowest mark of any of the thirty starting pitchers listed on today&rsquo;s fifteen-game board &mdash; not the lowest among contenders, the lowest full stop. Andrew Morris answers for Minnesota at 3.82. Now look at the number the market has hung on the game: 8.5. Sort every total on the card and 8.5 is the exact median. Seven games are priced higher, seven lower, and this one &mdash; the one with the best arm of the day in it &mdash; sits dead in the middle. That is the disagreement in one line. The market is treating a game with the day&rsquo;s best starter as a completely average run environment. The second piece is what the money did with it. The total opened at 8.5 and has not moved a tick, but the price on the over went from -104 to -120, and Minnesota moved from +108 to -113 over the same hours. So the book held its number and let the over get bought, which tells you the 8.5 is a line it wants to defend rather than one it is unsure of. Strip out what the book keeps and the over is a 52.2% proposition and the under 47.8% &mdash; a real but modest tilt, and we are taking the cheaper side of it at even money. The case against, plainly: a 1.86 ERA in September is going to regress toward something ordinary, and Morris has four saves next to his name, which usually means a pitcher who is not built to go deep and a bullpen that inherits the middle innings. Add that today&rsquo;s money is on the over and you are the minority opinion in the room. That is often where the price is, but it is not free. High confidence, not certainty. Odds via DraftKings, read at 1:20 PM CT today &mdash; check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">Brewers @ Cubs</div>
+        <div class="potd-line">THE PICK: Under 8.5 (-117) &middot; 7:40 PM ET</div>
+        <p class="potd-reasoning">Jacob Misiorowski takes the ball for Milwaukee at Wrigley. He is 14-5 with a 1.73 ERA, the lowest mark of any of the thirty starting pitchers on today&rsquo;s fifteen-game board &mdash; and nobody else is within half a run of it. David Peterson answers for the Cubs at 5.11. Now look at the number: 8.5. Sort every total on the card and 8.5 is the median &mdash; five games are priced higher, five lower, and this one, with the best arm of the day in it, sits in the middle. That is the disagreement. The market is treating a game started by the best pitcher on the board as an ordinary run environment. To be fair to the book, it is leaning the same way we are: the under is -117 and the over is -103, so the price has tilted even though the number has not moved. Strip out what the book keeps and the under needs 53.9% to break even. We think the arm gets you there. The case against, plainly: Peterson at 5.11 is exactly the kind of starter who hands a lineup like Milwaukee&rsquo;s five runs by the sixth, a 1.73 ERA in September is going to regress, and Wrigley&rsquo;s wind decides more totals than the pitching matchup does. Medium confidence &mdash; the read is clean, the price already knows some of it. Odds via DraftKings, read at 7:20 AM CT today &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
