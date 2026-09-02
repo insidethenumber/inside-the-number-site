@@ -89,13 +89,75 @@ p.x b{color:var(--white)}
 """
 
 
+# ESPN gives the nickname only. Searches are split between "Brewers vs Cubs
+# prediction" and "Milwaukee Brewers vs Chicago Cubs prediction"; the full
+# name in the title and the nickname in the H1 covers both.
+MLB_CITY = {
+    "ARI": "Arizona", "ATL": "Atlanta", "BAL": "Baltimore", "BOS": "Boston",
+    "CHC": "Chicago", "CHW": "Chicago", "CWS": "Chicago", "CIN": "Cincinnati",
+    "CLE": "Cleveland", "COL": "Colorado", "DET": "Detroit", "HOU": "Houston",
+    "KC": "Kansas City", "LAA": "Los Angeles", "LAD": "Los Angeles",
+    "MIA": "Miami", "MIL": "Milwaukee", "MIN": "Minnesota", "NYM": "New York",
+    "NYY": "New York", "ATH": "Athletics", "OAK": "Oakland", "PHI": "Philadelphia",
+    "PIT": "Pittsburgh", "SD": "San Diego", "SF": "San Francisco",
+    "SEA": "Seattle", "STL": "St. Louis", "TB": "Tampa Bay", "TEX": "Texas",
+    "TOR": "Toronto", "WSH": "Washington",
+}
+
+
+def full_name(team, league):
+    city = MLB_CITY.get(team["abbr"].upper()) if league == "MLB" else None
+    if not city or city == team["name"]:
+        return team["name"]
+    return f"{city} {team['name']}"
+
+
+def projection(g):
+    """Market-implied prediction: winner, win chance, projected score.
+
+    This is NOT our model. It is the posted total split by the no-vig win
+    chance, so a reader searching "X vs Y prediction" gets a straight answer
+    that is honest about where it comes from. Returns None without a
+    no-vig number or a total."""
+    ta, th_ = g.get("true_away"), g.get("true_home")
+    tot = str(g.get("total", "")).lstrip("ou")
+    try:
+        tot = float(tot)
+    except ValueError:
+        return None
+    if ta is None or th_ is None:
+        return None
+    fav_is_away = ta >= th_
+    p = max(ta, th_) / 100.0
+    share = 0.5 + (p - 0.5) * 0.5          # 58% favorite -> 54% of the runs
+    fav_runs = tot * share
+    dog_runs = tot - fav_runs
+    fr, dr = int(round(fav_runs)), int(round(dog_runs))
+    if fr <= dr:
+        fr = dr + 1
+    fav, dog = (g["away"], g["home"]) if fav_is_away else (g["home"], g["away"])
+    return {"fav": fav, "dog": dog, "p": p * 100, "fav_runs": fr, "dog_runs": dr,
+            "total": tot, "fav_is_away": fav_is_away}
+
+
 def build_page(g, date):
     a, h = g["away"], g["home"]
-    title = f"{a['name']} vs {h['name']} Odds & True Price — {pretty_date(date)}"
-    desc = (f"{a['name']} at {h['name']} on {pretty_date(date)}: moneyline "
-            f"{fmt_odds(g.get('ml_away'))}/{fmt_odds(g.get('ml_home'))}, total "
-            f"{g.get('total','—')}, and the no-vig win chance on both sides — "
-            f"what the market really thinks, before the book's cut.")
+    lg = g["league"]
+    an, hn = full_name(a, lg), full_name(h, lg)
+    title = f"{an} vs {hn} Prediction, Picks & Odds — {pretty_date(date)}"
+    proj = projection(g)
+    if proj:
+        desc = (f"{a['name']} vs {h['name']} prediction for {pretty_date(date)}: "
+                f"the market makes {proj['fav']['name']} a {proj['p']:.0f}% favorite, "
+                f"projected score {proj['fav']['name']} {proj['fav_runs']}, "
+                f"{proj['dog']['name']} {proj['dog_runs']}. Moneyline "
+                f"{fmt_odds(g.get('ml_away'))}/{fmt_odds(g.get('ml_home'))}, total "
+                f"{g.get('total','—')}, plus the no-vig win chance on both sides.")
+    else:
+        desc = (f"{a['name']} vs {h['name']} prediction and odds for {pretty_date(date)}: "
+                f"moneyline {fmt_odds(g.get('ml_away'))}/{fmt_odds(g.get('ml_home'))}, "
+                f"total {g.get('total','—')}, and the no-vig win chance on both sides — "
+                f"what the market really thinks, before the book's cut.")
     fn = slug(g, date) + ".html"
     # Cloudflare serves /g/slug and 301s /g/slug.html, so the .html form can
     # never be indexed. Advertise the URL that returns 200.
@@ -126,6 +188,61 @@ def build_page(g, date):
         rows.append(f"<tr><td>Total {e(tot)}</td><td class='n'>Over "
                     f"{fmt_odds(g.get('over_odds'))}</td><td class='n'>Under "
                     f"{fmt_odds(g.get('under_odds'))}</td></tr>")
+
+    pred_block = ""
+    faq_ld = ""
+    if proj:
+        fav, dog = proj["fav"], proj["dog"]
+        gap = proj["p"] - 50
+        if gap < 4:
+            read = ("a coin flip. Nothing in the price separates these two, so the "
+                    "pick is whichever side you can get a better number on.")
+        elif gap < 10:
+            read = (f"a modest {fav['name']} lean. Enough to make {fav['name']} the "
+                    f"prediction, not enough to call the moneyline a value bet at this price.")
+        else:
+            read = (f"a clear {fav['name']} favorite. The question is not who wins but "
+                    f"whether {fmt_odds(g.get('ml_away') if proj['fav_is_away'] else g.get('ml_home'))} "
+                    f"is worth paying for it — see the break-even row below.")
+        tot_read = ""
+        try:
+            be_o, be_u = float(g.get("be_over")), float(g.get("be_under"))
+            cheaper = "under" if be_u < be_o else "over"
+            tot_read = (f" On the total, the {cheaper} is the cheaper side of "
+                        f"{proj['total']:g} at the posted prices.")
+        except (TypeError, ValueError):
+            pass
+        pred_block = f"""
+  <h2>{e(a['name'])} vs {e(h['name'])} prediction</h2>
+  <table>
+    <tr><th>Market-implied pick</th><th>Win chance</th><th>Projected score</th></tr>
+    <tr><td class='g'>{e(fav['name'])}</td><td class='n'>{proj['p']:.0f}%</td>
+        <td class='n'>{e(fav['name'])} {proj['fav_runs']}, {e(dog['name'])} {proj['dog_runs']}</td></tr>
+  </table>
+  <p class="x">Strip the book's cut out of the moneyline and the market calls this
+  {read}{e(tot_read)} The projected score is the posted total split by that win
+  chance — a market projection, not a model. Our own side on this game, if we
+  take one, goes out in the newsletter before first pitch.</p>"""
+        faq_ld = json.dumps({
+            "@context": "https://schema.org", "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question",
+                 "name": f"Who is predicted to win {a['name']} vs {h['name']} on {pretty_date(date)}?",
+                 "acceptedAnswer": {"@type": "Answer",
+                     "text": (f"The betting market makes the {fav['name']} a {proj['p']:.0f}% "
+                              f"favorite once the sportsbook's cut is removed, with a projected "
+                              f"score of {fav['name']} {proj['fav_runs']}, {dog['name']} "
+                              f"{proj['dog_runs']}.")}},
+                {"@type": "Question",
+                 "name": f"What are the odds for {a['name']} vs {h['name']}?",
+                 "acceptedAnswer": {"@type": "Answer",
+                     "text": (f"Moneyline: {a['name']} {fmt_odds(g.get('ml_away'))}, "
+                              f"{h['name']} {fmt_odds(g.get('ml_home'))}. Total: "
+                              f"{g.get('total','—')} (over {fmt_odds(g.get('over_odds'))}, "
+                              f"under {fmt_odds(g.get('under_odds'))}). Lines via "
+                              f"{g.get('provider','the market')} as of {pretty_date(date)}.")}},
+            ]})
+        faq_ld = f'<script type="application/ld+json">{faq_ld}</script>'
 
     true_block = ""
     if ta is not None and th_ is not None:
@@ -158,6 +275,7 @@ def build_page(g, date):
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <script type="application/ld+json">{ld}</script>
+{faq_ld}
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>{CSS}</style>
 </head>
@@ -166,7 +284,7 @@ def build_page(g, date):
   <div class="r"><a href="/games">Today's board</a><a href="/learn">Learn</a></div></nav>
 <div class="wrap">
   <div class="eyebrow">// {e(g['league'])} · {e(pretty_date(date))}</div>
-  <h1>{e(a['name'])} <span>at</span> {e(h['name'])}</h1>
+  <h1>{e(a['name'])} <span>vs</span> {e(h['name'])} <span style="color:var(--mid);font-weight:800">prediction &amp; odds</span></h1>
   <div class="meta">{e(g.get('detail',''))} · {e(g.get('venue',''))} ·
     {e(a['abbr'])} {e(a.get('record',''))} — {e(h['abbr'])} {e(h.get('record',''))}
     · lines via {e(g.get('provider','the market'))}</div>
@@ -176,6 +294,7 @@ def build_page(g, date):
     <tr><th>Market</th><th>{e(a['abbr'])}</th><th>{e(h['abbr'])}</th></tr>
     {''.join(rows)}
   </table>
+{pred_block}
 {true_block}
   <div class="cta">
     <div class="k">Every pick, in your inbox</div>

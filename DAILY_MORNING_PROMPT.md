@@ -1,3 +1,5 @@
+**READ NORTH_STAR.md FIRST.** The goal is traffic → subscribers → passive income. Every task must put a new human in front of the site or newsletter; building for its own sake waits.
+
 # Inside the Number — daily morning routine
 
 > **ACCOUNTS: every Google surface uses `insidethenumber.itn@gmail.com`. Never
