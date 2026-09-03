@@ -49,12 +49,23 @@ AMBER  = "#ffb020"
 LINE   = "#232a36"
 
 FONT_DIRS = [
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                 "assets", "fonts"),
+    "/usr/share/fonts/truetype/liberation/",
     "/usr/share/fonts/truetype/google-fonts/",
     "/System/Library/Fonts/Supplemental/",
     "/usr/share/fonts/truetype/dejavu/",
 ]
 BOLD_NAMES = ["Poppins-Bold.ttf", "BarlowCondensed-Bold.ttf", "Arial Bold.ttf",
               "DejaVuSans-Bold.ttf"]
+# The loud formats need a CONDENSED display face — the difference between a
+# graphic and a spreadsheet. Anton/Barlow Condensed if CI has cached them,
+# otherwise Liberation Sans Narrow, which ships on every Linux box and is a
+# Helvetica Narrow clone. Poppins is a last resort; it is round and soft and
+# reads as a slide deck, not a scoreboard.
+DISP_NAMES = ["Anton-Regular.ttf", "BarlowCondensed-Bold.ttf",
+              "LiberationSansNarrow-Bold.ttf", "DejaVuSansCondensed-Bold.ttf",
+              "Poppins-Bold.ttf"]
 MED_NAMES  = ["Poppins-Medium.ttf", "Barlow-Medium.ttf", "Arial.ttf",
               "DejaVuSans.ttf"]
 
@@ -69,7 +80,40 @@ def _font(names, size):
 
 
 def B(size): return _font(BOLD_NAMES, size)
+def D(size): return _font(DISP_NAMES, size)
 def M(size): return _font(MED_NAMES, size)
+
+
+LOGO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "assets", "logos")
+
+
+def logo(league, abbr, size):
+    """Cached team logo as an RGBA thumbnail, or None.
+
+    Never fetches. scripts/fetch_logos.py populates assets/logos/ from a CI
+    runner; here we only read. A missing logo is not an error — the card just
+    falls back to the team's colour bar, which is why every layout still works
+    on a machine with no assets at all."""
+    if not league or not abbr:
+        return None
+    path = os.path.join(LOGO_DIR, str(league).lower(), f"{str(abbr).upper()}.png")
+    if not os.path.exists(path):
+        return None
+    try:
+        im = Image.open(path).convert("RGBA")
+        im.thumbnail((size, size), Image.LANCZOS)
+        return im
+    except Exception:
+        return None
+
+
+def paste_logo(img, im, x, y_center):
+    """Paste centred vertically on y_center; returns the width consumed."""
+    if im is None:
+        return 0
+    img.paste(im, (x, int(y_center - im.height / 2)), im)
+    return im.width
 
 
 def hexcolor(c, fallback="#444a55"):
@@ -133,8 +177,15 @@ def card_board(a):
                             fill=HILITE if hero else PANEL)
         d.rounded_rectangle([56, y, 64, y + RH - 12], 4,
                             fill=hexcolor(r.get("home_color")))
-        d.text((86, y + 16), r["away"], font=B(30), fill=WHITE if hero else DIM)
-        d.text((86, y + 50), f"at {r['home']}", font=M(23), fill=MUTED)
+        tx = 86
+        la = logo(r.get("league"), r.get("away_abbr"), 46)
+        lh = logo(r.get("league"), r.get("home_abbr"), 46)
+        if la or lh:
+            cy = y + (RH - 12) / 2
+            tx += paste_logo(img, la, tx, cy) + 8
+            tx += paste_logo(img, lh, tx, cy) + 14
+        d.text((tx, y + 16), r["away"], font=B(30), fill=WHITE if hero else DIM)
+        d.text((tx, y + 50), f"at {r['home']}", font=M(23), fill=MUTED)
 
         col = GREEN if hero else (AMBER if abs(line) < 25 else "#6b7280")
         d.text((W - 430, y + 26), r["line_label"], font=B(36), fill=col)
@@ -162,14 +213,19 @@ def card_matchup(a):
 
     ac, hc = hexcolor(a.away_color), hexcolor(a.home_color)
     top, bh = 130, 150
-    for idx, (name, col, sub) in enumerate(
-            [(a.away, ac, a.away_sub), (a.home, hc, a.home_sub)]):
+    for idx, (name, col, sub, abbr) in enumerate(
+            [(a.away, ac, a.away_sub, a.away_abbr),
+             (a.home, hc, a.home_sub, a.home_abbr)]):
         yy = top + idx * (bh + 16)
         d.rounded_rectangle([56, yy, W - 56, yy + bh], 12, fill=PANEL)
         d.rounded_rectangle([56, yy, 74, yy + bh], 6, fill=col)
-        d.text((104, yy + 34), name, font=B(52), fill=WHITE)
+        tx = 104
+        lg = logo(a.league, abbr, 108)
+        if lg:
+            tx += paste_logo(img, lg, tx, yy + bh / 2) + 24
+        d.text((tx, yy + 34), name, font=B(52), fill=WHITE)
         if sub:
-            d.text((104, yy + 98), sub, font=M(24), fill=MUTED)
+            d.text((tx, yy + 98), sub, font=M(24), fill=MUTED)
 
     if a.number:
         d.text((W - 470, top + 44), a.number, font=B(78), fill=GREEN)
@@ -227,7 +283,65 @@ def card_trend(a):
     return img
 
 
-FORMATS = {"board": card_board, "matchup": card_matchup,
+
+# ------------------------------------------------------------------ split
+def card_split(a):
+    """The loud one. Two saturated blocks, one number each, read in a glance.
+
+    Modelled directly on what actually works in our own timeline — Bracco's
+    green/red "did your team go undefeated" card, Big Bet Co's single glowing
+    price. The lesson from scrolling the feed on Sep 2 2026: at thumbnail size
+    nobody reads a table. Five words of huge type beat sixty words of small
+    type every time. So this format refuses to carry more than a headline, two
+    numbers and a kicker.
+    """
+    W, H = 1200, 1004
+    BLUE_BANNER = "#1d9bf0"
+    L, R = "#00c46a", "#e0263c"
+    img = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(img)
+
+    def ctr(box, txt, font, fill):
+        if not txt:
+            return
+        x0, y0, x1, y1 = box
+        w = d.textlength(txt, font=font)
+        bb = font.getbbox(txt)
+        d.text(((x0 + x1 - w) / 2, (y0 + y1 - (bb[3] - bb[1])) / 2 - bb[1]),
+               txt, font=font, fill=fill)
+
+    d.rounded_rectangle([48, 44, W - 48, 168], 16, fill=BLUE_BANNER)
+    ctr((48, 44, W - 48, 168), (a.headline or "").upper(), D(54), "#ffffff")
+
+    gap, top, bh = 24, 196, 560
+    bw = (W - 96 - gap) // 2
+    d.rounded_rectangle([48, top, 48 + bw, top + bh], 18, fill=L)
+    d.rounded_rectangle([48 + bw + gap, top, W - 48, top + bh], 18, fill=R)
+
+    for x0, x1, big, lab, l1, l2, l3, ink in [
+        (48, 48 + bw, a.left_number, a.left_label, a.left_line1,
+         a.left_line2, a.left_line3, BG),
+        (48 + bw + gap, W - 48, a.right_number, a.right_label, a.right_line1,
+         a.right_line2, a.right_line3, "#ffffff"),
+    ]:
+        ctr((x0, top + 40, x1, top + 300), big or "", D(300), ink)
+        ctr((x0, top + 300, x1, top + 372), (lab or "").upper(), D(68), ink)
+        ctr((x0, top + 380, x1, top + 430), (l1 or "").upper(), D(38), ink)
+        ctr((x0, top + 430, x1, top + 486), (l2 or "").upper(), D(64), ink)
+        ctr((x0, top + 486, x1, top + 536), (l3 or "").upper(), D(32), ink)
+
+    y = top + bh + 28
+    d.rounded_rectangle([48, y, W - 48, y + 120], 16, fill=PANEL)
+    ctr((48, y, W - 48, y + 64), (a.note or "").upper(), D(60), WHITE)
+    ctr((48, y + 60, W - 48, y + 112), a.note2 or "", M(26), "#9aa3b0")
+
+    d.text((52, H - 58), "INSIDE THE NUMBER", font=B(28), fill=WHITE)
+    d.text((372, H - 54), "insidethenumber.com", font=M(25), fill=GREEN)
+    d.text((W - 108, H - 54), "21+", font=M(25), fill=MUTED)
+    return img
+
+
+FORMATS = {"split": card_split, "board": card_board, "matchup": card_matchup,
            "bignumber": card_bignumber, "trend": card_trend}
 
 
@@ -244,6 +358,12 @@ def main():
     p.add_argument("--away-color"); p.add_argument("--home-color")
     p.add_argument("--away-sub"); p.add_argument("--home-sub")
     p.add_argument("--number"); p.add_argument("--number-sub")
+    p.add_argument("--league", help="MLB/NFL/CFB/NBA/NHL/CBB — enables logos")
+    for side in ("left", "right"):
+        p.add_argument(f"--{side}-number"); p.add_argument(f"--{side}-label")
+        p.add_argument(f"--{side}-line1"); p.add_argument(f"--{side}-line2")
+        p.add_argument(f"--{side}-line3")
+    p.add_argument("--away-abbr"); p.add_argument("--home-abbr")
     a = p.parse_args()
 
     if a.format in ("board", "trend") and not a.data:
