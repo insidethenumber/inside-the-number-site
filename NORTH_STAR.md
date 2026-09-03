@@ -4,8 +4,9 @@
 "ready", "working" or "done":**
 1. `docs/DECISIONS.md` — the standing orders, the things that are broken, the
    things I got wrong. Chuck should never have to repeat any of it.
-2. `docs/MARKETING_PUNCHLIST.md` — the marketing campaign, with owners and
-   status. The Monday growth report reads this and reminds Chuck.
+2. `docs/MARKETING_PLAN.md` — THE plan: positioning, six franchises, X rules,
+   every platform, the weekly schedule, the 30-day targets, what Chuck
+   must decide. `docs/MARKETING_PUNCHLIST.md` is its execution tracker.
 3. `docs/sessions/` — the most recent session log. Append a new one for
    today before the session ends.
 4. `docs/inputs/` — external strategy docs from Chuck. File new ones

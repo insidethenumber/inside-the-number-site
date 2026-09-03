@@ -1,5 +1,7 @@
 # Marketing punch list — Inside the Number
 
+**The plan this list executes is `docs/MARKETING_PLAN.md`.** Read that first; this is the tracker.
+
 **This is the list. Every Monday morning the `itn-monday-growth-report` task
 reads it and sends Chuck the open items plus last week's numbers, so nothing
 here gets forgotten.** Sources: `docs/inputs/` (Chuck's external strategy
@@ -14,7 +16,7 @@ Owner: **C** = Claude, **CW** = Chuck
 
 | | Item | Owner | Source |
 |---|---|---|---|
-| ☐ | Draft the new X ruleset for Chuck's approval (voice, franchises, image rule, cadence, what is banned) | C | Chuck 9/2 |
+| ☑ | Draft the new X ruleset for Chuck's approval — **docs/MARKETING_PLAN.md §4.6** | C | Chuck 9/2 |
 | ☐ | Chuck approves the ruleset | CW | Chuck 9/2 |
 | ☐ | Re-enable `itn-x-engagement-hourly` AND restore the cron in `x-posts.yml` (both, or posts silently never resume) | C | — |
 
@@ -105,6 +107,16 @@ Owner: **C** = Claude, **CW** = Chuck
 |---|---|---|---|
 | ☐ | Monday ITN GROWTH REPORT: impressions, profile visits, site clicks, uniques, signups, conversion, open rate, tool usage, organic clicks, Reddit referrals | C | input B §24 |
 | ☐ | 30-day directional targets on the report: email subs, monthly impressions, sessions, posts over 10K, one over 50K, recurring series established | C | input B §25 |
+
+## 8b. Decisions the plan needs from Chuck (MARKETING_PLAN.md §19)
+
+| | Item | Owner |
+|---|---|---|
+| ☐ | Approve X rules (§4.6) | CW |
+| ☐ | Video: yes/no, whose voice (§10) | CW |
+| ☐ | Pro: waitlist to 100 subs, or open now (§12) | CW |
+| ☐ | Public record: stay retired, or rebuild losing-and-honest (§13) | CW |
+| ☐ | Create the Instagram account (§7) | CW |
 
 ## 9. Standing rules that came out of Sep 2
 
