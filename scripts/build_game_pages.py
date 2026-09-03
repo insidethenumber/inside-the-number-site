@@ -112,32 +112,69 @@ def full_name(team, league):
     return f"{city} {team['name']}"
 
 
+# Sports where the spread is a real, informative number and the standard way
+# to project a score is total/2 +/- spread/2. MLB's "spread" is the fixed 1.5
+# runline and says nothing about margin, so baseball uses the moneyline
+# method instead.
+SPREAD_SPORTS = {"NFL", "CFB", "NBA", "CBB"}
+
+
+def _num(v):
+    try:
+        return float(str(v).replace("+", "").strip())
+    except (TypeError, ValueError):
+        return None
+
+
 def projection(g):
     """Market-implied prediction: winner, win chance, projected score.
 
-    This is NOT our model. It is the posted total split by the no-vig win
-    chance, so a reader searching "X vs Y prediction" gets a straight answer
-    that is honest about where it comes from. Returns None without a
-    no-vig number or a total."""
+    NOT our model — it is the market's own numbers rearranged, so a reader
+    searching "X vs Y prediction" gets a straight answer that is honest about
+    where it came from.
+
+    Football/basketball: projected score is total/2 +/- spread/2, which is how
+    the market itself encodes an expected margin. Baseball: the total split by
+    the no-vig win chance, because the runline is fixed at 1.5 and carries no
+    margin information. Win chance comes from the de-vigged moneyline when one
+    is posted; on big mismatches books often post no moneyline at all, and the
+    page then shows a projected score with no win-chance claim rather than
+    inventing one."""
+    tot = _num(str(g.get("total", "")).lstrip("ou"))
+    if tot is None:
+        return None
+
     ta, th_ = g.get("true_away"), g.get("true_home")
-    tot = str(g.get("total", "")).lstrip("ou")
-    try:
-        tot = float(tot)
-    except ValueError:
-        return None
-    if ta is None or th_ is None:
-        return None
-    fav_is_away = ta >= th_
-    p = max(ta, th_) / 100.0
-    share = 0.5 + (p - 0.5) * 0.5          # 58% favorite -> 54% of the runs
-    fav_runs = tot * share
-    dog_runs = tot - fav_runs
-    fr, dr = int(round(fav_runs)), int(round(dog_runs))
+    spread_away = _num(g.get("spread")) if g.get("league") in SPREAD_SPORTS else None
+
+    if spread_away is not None:
+        # ESPN quotes the AWAY spread. Positive means the away team is getting
+        # points, i.e. the home team is favored.
+        fav_is_away = spread_away < 0
+        margin = abs(spread_away)
+        fav_pts = tot / 2 + margin / 2
+        dog_pts = tot / 2 - margin / 2
+    else:
+        if ta is None or th_ is None:
+            return None
+        fav_is_away = ta >= th_
+        share = 0.5 + (max(ta, th_) / 100.0 - 0.5) * 0.5
+        fav_pts = tot * share
+        dog_pts = tot - fav_pts
+
+    fr, dr = int(round(fav_pts)), int(round(dog_pts))
     if fr <= dr:
         fr = dr + 1
+    dr = max(dr, 0)
+
+    p = None
+    if ta is not None and th_ is not None:
+        p = (ta if fav_is_away else th_)
+
     fav, dog = (g["away"], g["home"]) if fav_is_away else (g["home"], g["away"])
-    return {"fav": fav, "dog": dog, "p": p * 100, "fav_runs": fr, "dog_runs": dr,
-            "total": tot, "fav_is_away": fav_is_away}
+    return {"fav": fav, "dog": dog, "p": p, "fav_runs": fr, "dog_runs": dr,
+            "total": tot, "fav_is_away": fav_is_away,
+            "margin": abs(fr - dr)}
 
 
 def build_page(g, date):
@@ -147,12 +184,14 @@ def build_page(g, date):
     title = f"{an} vs {hn} Prediction, Picks & Odds — {pretty_date(date)}"
     proj = projection(g)
     if proj:
+        edge = (f"the market makes {proj['fav']['name']} a {proj['p']:.0f}% favorite"
+                if proj["p"] is not None else
+                f"the market favors {proj['fav']['name']} by {proj['margin']}")
         desc = (f"{a['name']} vs {h['name']} prediction for {pretty_date(date)}: "
-                f"the market makes {proj['fav']['name']} a {proj['p']:.0f}% favorite, "
-                f"projected score {proj['fav']['name']} {proj['fav_runs']}, "
+                f"{edge}, projected score {proj['fav']['name']} {proj['fav_runs']}, "
                 f"{proj['dog']['name']} {proj['dog_runs']}. Moneyline "
                 f"{fmt_odds(g.get('ml_away'))}/{fmt_odds(g.get('ml_home'))}, total "
-                f"{g.get('total','—')}, plus the no-vig win chance on both sides.")
+                f"{g.get('total','—')}, plus what the market really thinks on both sides.")
     else:
         desc = (f"{a['name']} vs {h['name']} prediction and odds for {pretty_date(date)}: "
                 f"moneyline {fmt_odds(g.get('ml_away'))}/{fmt_odds(g.get('ml_home'))}, "
@@ -193,8 +232,13 @@ def build_page(g, date):
     faq_ld = ""
     if proj:
         fav, dog = proj["fav"], proj["dog"]
-        gap = proj["p"] - 50
-        if gap < 4:
+        gap = (proj["p"] - 50) if proj["p"] is not None else None
+        if gap is None:
+            read = (f"a {fav['name']} win as the overwhelmingly likely outcome. The book "
+                    f"has not posted a moneyline on this one at all, which is what happens "
+                    f"when a price would be so lopsided it stops being a market. The number "
+                    f"to look at here is the total, not the side.")
+        elif gap < 4:
             read = ("a coin flip. Nothing in the price separates these two, so the "
                     "pick is whichever side you can get a better number on.")
         elif gap < 10:
@@ -212,27 +256,37 @@ def build_page(g, date):
                         f"{proj['total']:g} at the posted prices.")
         except (TypeError, ValueError):
             pass
+        win_cell = f"{proj['p']:.0f}%" if proj["p"] is not None else "no line posted"
+        if g["league"] in SPREAD_SPORTS and _num(g.get("spread")) is not None:
+            how = ("The projected score is the posted total split by the spread — the "
+                   "market's own expected margin, not a model of ours.")
+        else:
+            how = ("The projected score is the posted total split by that win chance — "
+                   "a market projection, not a model of ours.")
         pred_block = f"""
   <h2>{e(a['name'])} vs {e(h['name'])} prediction</h2>
   <table>
     <tr><th>Market-implied pick</th><th>Win chance</th><th>Projected score</th></tr>
-    <tr><td class='g'>{e(fav['name'])}</td><td class='n'>{proj['p']:.0f}%</td>
+    <tr><td class='g'>{e(fav['name'])}</td><td class='n'>{e(win_cell)}</td>
         <td class='n'>{e(fav['name'])} {proj['fav_runs']}, {e(dog['name'])} {proj['dog_runs']}</td></tr>
   </table>
-  <p class="x">Strip the book's cut out of the moneyline and the market calls this
-  {read}{e(tot_read)} The projected score is the posted total split by that win
-  chance — a market projection, not a model. Our own side on this game, if we
-  take one, goes out in the newsletter before first pitch.</p>"""
+  <p class="x">Strip the book's cut out and the market calls this
+  {read}{e(tot_read)} {how} Our own side on this game, if we take one, goes out
+  in the newsletter before kickoff.</p>"""
         faq_ld = json.dumps({
             "@context": "https://schema.org", "@type": "FAQPage",
             "mainEntity": [
                 {"@type": "Question",
                  "name": f"Who is predicted to win {a['name']} vs {h['name']} on {pretty_date(date)}?",
                  "acceptedAnswer": {"@type": "Answer",
-                     "text": (f"The betting market makes the {fav['name']} a {proj['p']:.0f}% "
-                              f"favorite once the sportsbook's cut is removed, with a projected "
-                              f"score of {fav['name']} {proj['fav_runs']}, {dog['name']} "
-                              f"{proj['dog_runs']}.")}},
+                     "text": ((f"The betting market makes the {fav['name']} a {proj['p']:.0f}% "
+                               f"favorite once the sportsbook's cut is removed, with a projected "
+                               f"score of {fav['name']} {proj['fav_runs']}, {dog['name']} "
+                               f"{proj['dog_runs']}.") if proj['p'] is not None else
+                              (f"The market favors the {fav['name']} by {proj['margin']}, with a "
+                               f"projected score of {fav['name']} {proj['fav_runs']}, "
+                               f"{dog['name']} {proj['dog_runs']}. No moneyline is posted on "
+                               f"this game."))}},
                 {"@type": "Question",
                  "name": f"What are the odds for {a['name']} vs {h['name']}?",
                  "acceptedAnswer": {"@type": "Answer",
