@@ -278,7 +278,86 @@ def f_ticker(a):
     return None
 
 
-FORMATS = {"grid": f_grid, "poster": f_poster, "texts": f_texts, "ticker": f_ticker}
+
+# -------------------------------------------------------------------- stack
+def f_stack(a):
+    """Colour-blocked matchup rows. Modelled on @Novig's Chargers "gauntlet"
+    post (Sep 3, 2026 reference set): a vertical list where the left half is
+    one constant team block and the right half is each opponent in THEIR
+    colour, logo alongside. Dead simple, enormously legible at thumbnail size,
+    and it turns a schedule into a story ("look what they have to survive").
+
+    Ours carries the number on each row, which is the whole point of the
+    account — the same object, but priced.
+
+    data: [{"left":"COLORADO","left_abbr":"COLO","left_color":"CFB4A0",
+            "right":"GEORGIA TECH","right_abbr":"GT","right_color":"B3A369",
+            "line":"GT -6.5"}, ...]
+    A single constant left side reads best; repeat it on every row.
+    """
+    rows = json.load(open(a.data))
+    W = 1200
+    RH = 128
+    TOP = 210
+    H = TOP + len(rows) * RH + 150
+    img, d = new(W, H, "#07090d")
+
+    d.text((44, 44), (a.headline or "THE GAUNTLET").upper(), font=D(76), fill=WHITE)
+    if a.sub:
+        d.text((46, 136), a.sub.upper(), font=D(34), fill=HOT)
+
+    y = TOP
+    half = W // 2
+    for r in rows:
+        lc = hexcolor(r.get("left_color"), "#1b2230")
+        rc = hexcolor(r.get("right_color"), "#20283a")
+        d.rectangle([40, y, half, y + RH - 6], fill=lc)
+        d.rectangle([half, y, W - 40, y + RH - 6], fill=rc)
+
+        lg = r.get("league", "CFB")
+        # left: name then mark, hugging the centre seam
+        li = logo(lg, r.get("left_abbr"), 74)
+        lnf = fit(d, (r.get("left") or "").upper(), D, half - 70 - 110, 46, 24)
+        d.text((70, y + 38 + (46 - lnf.size) // 2), (r.get("left") or "").upper(),
+               font=lnf, fill=readable(lc))
+        paste_c(img, li, half - 60, y + (RH - 6) / 2)
+        # right: mark then name
+        ri = logo(lg, r.get("right_abbr"), 74)
+        paste_c(img, ri, half + 62, y + (RH - 6) / 2)
+        # Reserve the price's width FIRST, then fit the name into what is left.
+        # Sep 3: "KENNESAW ST" ran straight into "KENN -22.5" and read as one
+        # word. On a card whose whole job is legibility that is fatal.
+        ln = str(r.get("line", ""))
+        lf = D(44)
+        lw = d.textlength(ln, font=lf) if ln else 0
+        name_x = half + 118
+        name_max = (W - 66 - lw - 28) - name_x
+        nf = fit(d, (r.get("right") or "").upper(), D, name_max, 46, 24)
+        d.text((name_x, y + 38 + (46 - nf.size) // 2),
+               (r.get("right") or "").upper(), font=nf, fill=readable(rc))
+        if ln:
+            d.text((W - 66 - lw, y + 40), ln, font=lf, fill=readable(rc))
+        y += RH
+
+    if a.note:
+        d.text((44, y + 14), a.note.upper(), font=D(38), fill=HOT)
+    d.text((44, H - 62), "INSIDE THE NUMBER", font=B(28), fill=WHITE)
+    d.text((368, H - 58), "insidethenumber.com", font=M(25), fill=GREEN)
+    d.text((W - 232, H - 58), "@thenumberdesk", font=M(25), fill=MUTED)
+    return img
+
+
+def readable(bg):
+    """Black or white ink, whichever survives on this background colour.
+    Team colours run from Iowa black to Oregon yellow; hard-coding white text
+    makes half the league unreadable."""
+    c = bg.lstrip("#")
+    r, g, b = int(c[0:2], 16), int(c[2:4], 16), int(c[4:6], 16)
+    lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    return "#07090d" if lum > 0.6 else "#ffffff"
+
+FORMATS = {"grid": f_grid, "poster": f_poster, "texts": f_texts,
+           "ticker": f_ticker, "stack": f_stack}
 
 
 def main():
