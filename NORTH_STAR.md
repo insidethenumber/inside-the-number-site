@@ -1,5 +1,16 @@
 # NORTH STAR — read this before doing anything on Inside the Number
 
+**Then read, in this order, every session, before claiming anything is
+"ready", "working" or "done":**
+1. `docs/DECISIONS.md` — the standing orders, the things that are broken, the
+   things I got wrong. Chuck should never have to repeat any of it.
+2. `docs/MARKETING_PUNCHLIST.md` — the marketing campaign, with owners and
+   status. The Monday growth report reads this and reminds Chuck.
+3. `docs/sessions/` — the most recent session log. Append a new one for
+   today before the session ends.
+4. `docs/inputs/` — external strategy docs from Chuck. File new ones
+   verbatim, then mine them into the punch list with a source tag.
+
 **The goal is traffic → subscribers → passive income. Nothing else.**
 Chuck, Sep 2, 2026: "That is our number one goal every single minute of every
 single day. This project has been going on for quite some time, and it feels

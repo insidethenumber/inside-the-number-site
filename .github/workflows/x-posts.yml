@@ -9,7 +9,7 @@ name: X posts
 # neither the Claude sandbox nor a browser can do.
 
 on:
-  schedule:
+  # schedule: removed Sep 2, 2026 (see DISABLED note below)
     # UTC. Central is UTC-5 in summer, UTC-6 in winter, so these drift an hour
     # seasonally — acceptable for social posting.
     #
@@ -29,7 +29,11 @@ on:
     #
     # Costs nothing: Actions minutes are free on a public repo, and a run that
     # isn't due exits in seconds without touching the X API.
-    - cron: "*/20 14-23 * * *"   # every 20 min, 9am-6pm CDT (covers CST too)
+    # DISABLED Sep 2, 2026 — Chuck: "disable all X posts and interactions until
+    # new rules are written." Cron removed, not commented, so a merge cannot
+    # silently revive it. workflow_dispatch still works for a deliberate one-off.
+    # To re-enable: restore `- cron: "*/20 14-23 * * *"` here AND re-enable the
+    # itn-x-engagement-hourly scheduled task. Logged in docs/DECISIONS.md.
     #
     # Cut from four posts a day to three on Aug 25, 2026 — Chuck's call.
     # The dropped slot was 8:00pm CDT ("build-in-public"). It was the weakest
