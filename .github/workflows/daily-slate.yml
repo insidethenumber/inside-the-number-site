@@ -23,8 +23,15 @@ on:
     # dropped two days running, brief-latest.json quietly went two days stale,
     # and the /g/ pages served Aug 25 games the whole time. Moved to odd
     # minutes, and a third pass added so one dropped run is not the whole day.
-    - cron: "17 14 * * *"    #  9:17am CDT — first pass, well before the 1pm target
-    - cron: "47 16 * * *"    # 11:47am CDT — second pass
+    # MOVED EARLIER Sep 2, 2026. The newsletter routine used to start at
+    # 10:06am, so a 9:17 build was comfortably ahead of it. On Sep 2 the send
+    # was retimed to a fixed 10:00am inbox slot with the build starting at
+    # 8:00am — which put the 9:17 pass AFTER the thing that consumes it, so
+    # every weekday run would have opened a stale brief and had to trigger
+    # this workflow by hand first. First pass now lands before the 8:00 start.
+    - cron: "41 11 * * *"    #  6:41am CDT — first pass, ahead of the 8:00am build
+    - cron: "17 14 * * *"    #  9:17am CDT — second pass, catches a dropped first
+    - cron: "47 16 * * *"    # 11:47am CDT — third pass
     - cron: "23 19 * * *"    #  2:23pm CDT — late catch-all; idempotent if the
                              #               earlier passes already committed
   workflow_dispatch:        # lets Chuck trigger a run by hand from the UI
