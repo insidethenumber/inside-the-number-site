@@ -53,6 +53,8 @@
 !make_cards.py
 !posts/
 !posts/*.txt
+!posts/*.png
+!posts/*.jpg
 !X_LAUNCH_POSTS.md
 !itn_logo.py
 !logo_variants.py

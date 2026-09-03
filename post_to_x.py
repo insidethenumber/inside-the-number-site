@@ -124,6 +124,53 @@ def call(method, url, creds, body=None):
         return 0, str(e)
 
 
+API_MEDIA = "https://upload.twitter.com/1.1/media/upload.json"
+
+
+def upload_media(path, creds):
+    """Upload an image and return its media_id_string.
+
+    v1.1 simple upload: one multipart POST, images only, under 5MB. The OAuth
+    signature base string deliberately excludes multipart body fields — only
+    the oauth_* params are signed — which is why oauth_header() works here
+    unchanged. Getting that wrong is the classic 401 on this endpoint.
+    """
+    if not os.path.exists(path):
+        raise SystemExit(f"ERROR: no such image: {path}")
+    size = os.path.getsize(path)
+    if size > 5 * 1024 * 1024:
+        raise SystemExit(f"ERROR: {path} is {size/1e6:.1f}MB, over X's 5MB image limit.")
+
+    boundary = "----itn" + _secrets.token_hex(12)
+    fname = os.path.basename(path)
+    ext = os.path.splitext(fname)[1].lower()
+    mime = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+            ".gif": "image/gif", ".webp": "image/webp"}.get(ext, "image/png")
+
+    body = b"".join([
+        f"--{boundary}\r\n".encode(),
+        f'Content-Disposition: form-data; name="media"; filename="{fname}"\r\n'.encode(),
+        f"Content-Type: {mime}\r\n\r\n".encode(),
+        open(path, "rb").read(),
+        f"\r\n--{boundary}--\r\n".encode(),
+    ])
+    headers = {
+        "Authorization": oauth_header("POST", API_MEDIA, creds),
+        "Content-Type": f"multipart/form-data; boundary={boundary}",
+    }
+    req = urllib.request.Request(API_MEDIA, data=body, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            payload = json.loads(r.read().decode() or "{}")
+    except urllib.error.HTTPError as e:
+        raise SystemExit(f"MEDIA UPLOAD FAILED (HTTP {e.code}): {e.read().decode()[:300]}")
+    mid = payload.get("media_id_string")
+    if not mid:
+        raise SystemExit(f"MEDIA UPLOAD FAILED: no media_id in {str(payload)[:200]}")
+    print(f"uploaded {fname} ({size/1024:.0f}KB) -> media_id {mid}")
+    return mid
+
+
 def explain(status, payload):
     """Turn an HTTP status into something actionable at a glance."""
     if status in (401,):
@@ -166,6 +213,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--text", help="post body")
     ap.add_argument("--file", help="read the post body from a text file")
+    ap.add_argument("--image", metavar="PATH",
+                    help="attach an image (PNG/JPG/GIF, under 5MB)")
     ap.add_argument("--reply-to", metavar="TWEET_ID_OR_URL",
                     help="post this as a reply to that tweet")
     ap.add_argument("--dry-run", action="store_true", help="print, don't send")
@@ -207,6 +256,8 @@ def main():
     if n > 280:
         sys.exit(f"ERROR: {n} characters — over the 280 limit by {n-280}.")
 
+    if a.image:
+        print(f"with image: {a.image}")
     if a.reply_to:
         print(f"as a REPLY to {reply_id(a.reply_to)}")
 
@@ -215,6 +266,8 @@ def main():
         return
 
     body = {"text": a.text}
+    if a.image:
+        body["media"] = {"media_ids": [upload_media(a.image, creds)]}
     if a.reply_to:
         body["reply"] = {"in_reply_to_tweet_id": reply_id(a.reply_to)}
 

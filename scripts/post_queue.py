@@ -140,11 +140,22 @@ def main():
     name = pending[0]
     text = open(os.path.join(POSTS, name)).read().strip()
 
+    # A card sitting next to the post, same stem, rides along automatically.
+    # Sep 2 2026: every text-only post we sent got 8-36 views; the competitor
+    # posts Chuck pulled all carried an image. Images are the default now, so
+    # the queue looks for one rather than needing to be told.
+    image = None
+    for ext in (".png", ".jpg", ".jpeg", ".gif"):
+        cand = os.path.join(POSTS, os.path.splitext(name)[0] + ext)
+        if os.path.exists(cand):
+            image = cand
+            break
+
     n = len(text)
     has_link = "http://" in text or "https://" in text
     cost = 0.20 if has_link else 0.015
     print(f"--- next: {name} ({n} chars, {'link' if has_link else 'no link'}, "
-          f"est ${cost:.3f}) ---")
+          f"{'image' if image else 'NO IMAGE'}, est ${cost:.3f}) ---")
     print(text)
     print("-" * 50)
 
@@ -155,7 +166,13 @@ def main():
         print("DRY RUN — nothing sent.")
         return
 
-    status, payload = poster.call("POST", poster.API_POST, creds(), {"text": text})
+    body = {"text": text}
+    if image:
+        body["media"] = {"media_ids": [poster.upload_media(image, creds())]}
+    else:
+        print("::warning title=X post has no image::"
+              f"{name} went out as text only. Cards get more reach — see scripts/cards.py.")
+    status, payload = poster.call("POST", poster.API_POST, creds(), body)
     if status in (200, 201):
         tid = payload.get("data", {}).get("id")
         url = f"https://x.com/thenumberdesk/status/{tid}"
@@ -168,6 +185,7 @@ def main():
             "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "chars": n,
             "had_link": has_link,
+            "had_image": bool(image),
             "est_cost": cost,
         })
         save_state(st)
