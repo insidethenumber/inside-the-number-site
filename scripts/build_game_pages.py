@@ -216,6 +216,16 @@ def build_page(g, date):
             {"@type": "SportsTeam", "name": h["name"]},
         ]})
 
+    # Publisher entity on every game page, so Google ties the 150+ /g/ pages
+    # to one organisation and its X profile (marketing plan section 8).
+    org_ld = json.dumps({
+        "@context": "https://schema.org", "@type": "Organization",
+        "name": "Inside the Number", "url": "https://insidethenumber.com/",
+        "logo": "https://insidethenumber.com/favicon-512.png",
+        "sameAs": ["https://x.com/thenumberdesk",
+                   "https://insidethenumber.beehiiv.com/",
+                   "https://github.com/insidethenumber"]})
+
     rows = []
     rows.append(f"<tr><td>Moneyline</td><td class='g'>{fmt_odds(g.get('ml_away'))}"
                 f"</td><td class='g'>{fmt_odds(g.get('ml_home'))}</td></tr>")
@@ -329,6 +339,7 @@ def build_page(g, date):
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <script type="application/ld+json">{ld}</script>
+<script type="application/ld+json">{org_ld}</script>
 {faq_ld}
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>{CSS}</style>
@@ -362,7 +373,7 @@ def build_page(g, date):
   <a style="color:var(--green)" href="/games">today's board</a>.</p>
 
   <div class="foot">Inside the Number · every game priced at what the market
-  really thinks · <a href="/">insidethenumber.com</a> · 21+ only. If gambling
+  really thinks · <a href="/">insidethenumber.com</a> · <a rel="me" style="color:var(--green)" href="https://x.com/thenumberdesk">@thenumberdesk</a> · 21+ only. If gambling
   stops being fun, call 1-800-GAMBLER.</div>
 </div>
 </body>
