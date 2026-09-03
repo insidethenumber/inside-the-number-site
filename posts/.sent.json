@@ -26,8 +26,7 @@
   "14-favorites-parlay.txt",
   "15-pitcher-wins.txt",
   "16-why-free.txt",
-  "C2-model-not-backtested.txt",
-  "0000-cfb-thursday-board.txt"
+  "C2-model-not-backtested.txt"
  ],
  "history": [
   {
@@ -272,16 +271,6 @@
    "at": "2026-09-02T21:44:27.980266+00:00",
    "chars": 162,
    "had_link": false,
-   "est_cost": 0.015
-  },
-  {
-   "file": "0000-cfb-thursday-board.txt",
-   "id": "2095309853203878172",
-   "url": "https://x.com/thenumberdesk/status/2095309853203878172",
-   "at": "2026-09-03T00:36:12.995670+00:00",
-   "chars": 211,
-   "had_link": false,
-   "had_image": true,
    "est_cost": 0.015
   }
  ]
