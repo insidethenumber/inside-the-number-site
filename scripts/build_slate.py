@@ -127,6 +127,14 @@ def collect(date_yyyymmdd):
                         return v
                 return None
 
+            # Opening numbers, kept separately (Sep 2, 2026). MARKET MOVERS on X
+            # and "Biggest overnight move" in the Morning Board are open vs
+            # current; before this the brief threw the open away.
+            def opener(market, side, field="odds"):
+                blk = (o.get(market) or {}).get(side) or {}
+                v = (blk.get("open") or {}).get(field)
+                return None if v in (None, "") else v
+
             ml_a = leg("moneyline", "away") or (o.get("awayTeamOdds") or {}).get("moneyLine")
             ml_h = leg("moneyline", "home") or (o.get("homeTeamOdds") or {}).get("moneyLine")
             ov_o = leg("total", "over") or o.get("overOdds")
@@ -149,6 +157,14 @@ def collect(date_yyyymmdd):
                 "ml_away": ml_a,
                 "ml_home": ml_h,
                 "provider": (o.get("provider") or {}).get("name", ""),
+                "open": {
+                    "ml_away": opener("moneyline", "away"),
+                    "ml_home": opener("moneyline", "home"),
+                    "spread": opener("pointSpread", "away", "line"),
+                    "total": opener("total", "over", "line"),
+                    "over_odds": opener("total", "over"),
+                    "under_odds": opener("total", "under"),
+                },
             })
     return board
 
