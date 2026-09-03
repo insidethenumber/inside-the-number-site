@@ -30,7 +30,9 @@ LEAGUES = {
     "NHL": ("hockey/nhl", 60),
     "CBB": ("basketball/mens-college-basketball", 400),
 }
-UA = {"User-Agent": "Mozilla/5.0 (compatible; InsideTheNumber/1.0)"}
+# Same signature build_slate.py uses. ESPN/Akamai 403s the "compatible; bot"
+# string from a GitHub runner but accepts an honest curl UA (found Sep 2).
+UA = {"User-Agent": "curl/8.5.0", "Accept": "*/*"}
 
 
 def get(url, timeout=30):
