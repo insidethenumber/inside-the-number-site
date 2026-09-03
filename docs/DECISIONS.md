@@ -104,6 +104,17 @@ through and date the reversal.
 - **2026-09-02 · Built infrastructure when Chuck asked for growth, repeatedly.**
   Rule: "does this put a new human in front of the site this week?" If no,
   it waits.
+- **2026-09-02 (night) · Two silent data losses found while doing other work.**
+  (a) The game-page generator never carried the `rel="me"` X link, so the
+  link I "added to 179 pages" that morning was being stripped from 152 of
+  them on every rebuild. (b) The slate builder read ESPN's opening lines and
+  threw them away, so MARKET MOVERS — the franchise I called "genuinely
+  real" — had no data behind it. Both fixed. Rule: a change made by editing
+  generated files is not a change until it is in the generator. Rule: before
+  calling a data franchise "real", open the JSON and find the field.
+- **2026-09-02 (night) · The logo-cache job failed on its first run** (bot
+  User-Agent, ESPN 403). Caught because I checked the run instead of
+  assuming a green button meant a green job. Rule stands: verify the run.
 
 ## Honesty rules for content (non-negotiable)
 

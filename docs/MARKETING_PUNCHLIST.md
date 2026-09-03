@@ -17,8 +17,9 @@ Owner: **C** = Claude, **CW** = Chuck
 | | Item | Owner | Source |
 |---|---|---|---|
 | ☑ | Draft the new X ruleset for Chuck's approval — **docs/MARKETING_PLAN.md §4.6** | C | Chuck 9/2 |
+| ☑ | Hourly X task prompt rewritten to the 12 rules + monitor list + franchise templates — **docs/X_TASK_PROMPT.md**, not installed (the scheduler blocked editing the task; paste on approval) | C | 9/2 night |
 | ☐ | Chuck approves the ruleset | CW | Chuck 9/2 |
-| ☐ | Re-enable `itn-x-engagement-hourly` AND restore the cron in `x-posts.yml` (both, or posts silently never resume) | C | — |
+| ☐ | On approval: paste docs/X_TASK_PROMPT.md into `itn-x-engagement-hourly`, enable it, AND restore the cron in `x-posts.yml` (both, or posts silently never resume) | C | — |
 
 ## 1. Identity and entity (Google + brand)
 
@@ -28,7 +29,7 @@ Owner: **C** = Claude, **CW** = Chuck
 | ☑ | X bio rewritten | C | input A |
 | ☑ | Newsletter carries "Follow on X — @thenumberdesk" every issue | C | input A |
 | ☑ | Name consistency locked: Inside the Number / @thenumberdesk / insidethenumber.com; ITN = mark only | C | input A |
-| ☐ | `sameAs` in the site's Organization schema pointing to the X profile (and Beehiiv) | C | input B §12 |
+| ☑ | `sameAs` (X, Beehiiv, GitHub) in the Organization schema on every page — 7 site pages + the game-page generator (9/2 night). Also found and fixed: the generator had been silently dropping the `rel="me"` X link on every nightly rebuild; 11 calculator pages never had it | C | input B §12 |
 | ☐ | Beehiiv web profile → X link (in the website builder footer) | C | input A |
 | ☐ | GitHub org profile → site + X | C | input A |
 | ☐ | Check Google for `site:x.com/thenumberdesk` weekly until it indexes | C | input A |
@@ -40,13 +41,14 @@ Owner: **C** = Claude, **CW** = Chuck
 | ☑ | Six franchises defined (FRANCHISES.md) | C | input A |
 | ☑ | Image required on every original; media upload via API | C | Chuck 9/2 |
 | ☑ | Card library: split, board, matchup, bignumber, trend | C | — |
-| ☐ | Run `cache-logos.yml` once so team logos appear on cards | C | — |
-| ☐ | Cache Anton / Barlow Condensed via CI so cards use the brand face | C | — |
-| ☐ | Franchise card templates with the name baked in — target 10-15 | C | input A §7, input B §3 |
-| ☐ | Monitor list: 200-500 relevant accounts in buckets (NFL, CFB, MLB, NBA, DFS, betting, media, analytics, journalists, influencers, industry) | C | input B §6 |
-| ☐ | Real-time reaction protocol: news → what it did to the number, same hour | C | input B §A, §18 |
-| ☐ | Weekly "viral data story" hunt (one shareable finding a week) | C | input B §17 |
-| ☐ | Every post passes the "why would someone stop scrolling?" test — write it into the task | C | input B §26 |
+| ☑ | `cache-logos.yml` run — 860 logos cached (first run failed: ESPN 403s the bot UA from a runner; fixed to the curl UA the slate builder uses) | C | 9/2 night |
+| ☑ | Anton + Barlow Condensed cached via the same CI job; cards now render in the brand face | C | 9/2 night |
+| ☑ | **12 franchise templates** in `scripts/franchise.py` — board, board-one, number, number-red, movers, movers-list, price, breakeven, knows, q4, q4-split, sunday. Samples: `docs/samples/franchise-templates-2026-09-02.jpg` | C | input A §7, input B §3 |
+| ☑ | Monitor list — `docs/MONITOR_LIST.md`, ~230 accounts, 12 buckets, 3 tiers; 53 confirmed (our follows + verified replies), the rest flagged "verify on first use" | C | input B §6 |
+| ◐ | Real-time reaction protocol — written into docs/X_TASK_PROMPT.md rule 7; live when X is | C | input B §A, §18 |
+| ◐ | Weekly "viral data story" hunt — data capture now exists (every slate pass snapshotted to `data/snapshots/`, opening lines kept in the brief). First story possible after ~2 weeks of snapshots | C | input B §17 |
+| ☑ | Stop-scrolling test — rule 3 of the X prompt; also the Morning Board prompts | C | input B §26 |
+| ☐ | Fill the monitor list's empty buckets: beat writers per team/conference, video influencers, all team accounts | C | input B §6 |
 | ✗ | Ticket/money splits in posts | — | we do not have the data |
 | ✗ | "ITN EDGE" / model-vs-market edge posts | — | fabricated; model has no edge; record 12-18 |
 
@@ -65,7 +67,7 @@ Owner: **C** = Claude, **CW** = Chuck
 |---|---|---|---|
 | ☑ | Game pages retitled "Prediction, Picks & Odds" with projection + FAQ schema (152) | C | Sep 2 |
 | ☑ | 10 standalone calculator pages | C | input B §11 |
-| ☐ | Game pages: add opening line, movement, injuries, weather, timestamp (the input B §12 spec) | C | input B §12 |
+| ◐ | Game pages: add opening line, movement, injuries, weather, timestamp (the input B §12 spec) — the brief now carries the open (9/2 night); the page template still needs to show it | C | input B §12 |
 | ☐ | Calculator pages: answer the query in the first screen, then introduce ITN | C | input B §11 |
 | ☐ | Weekly GSC check: which query family is climbing; double down | C | NORTH_STAR |
 
@@ -74,7 +76,7 @@ Owner: **C** = Claude, **CW** = Chuck
 | | Item | Owner | Source |
 |---|---|---|---|
 | ☑ | Newsletter named "the Morning Board"; site CTA rewritten | C | input B §13 |
-| ☐ | Morning Board format: 1 free pick · biggest overnight move · one number to know · one market observation · today's slate | C | input B §13 |
+| ☑ | Morning Board fixed five-part format written into BOTH newsletter tasks (weekday + weekend): THE FREE PICK · BIGGEST OVERNIGHT MOVE · THE NUMBER TO KNOW · WHAT THE MARKET KNOWS · TODAY'S BOARD. First issue in the format: Sep 3, 10:00 AM — UNVERIFIED until it lands | C | input B §13 |
 | ☐ | Lead magnets: No-Vig Cheat Sheet, How to Read Line Movement, EV Cheat Sheet, Bankroll Guide, NFL Numbers Guide — each a separate entry point | C | input B §14 |
 | ☐ | Referral program (Beehiiv has one built in): 3 → perk, 5 → 1 mo Pro, 10 → 3 mo Pro | C/CW | input B §20 |
 | ☐ | Chuck's own network: 20 real people this week | CW | Sep 2 |
