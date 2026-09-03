@@ -5,7 +5,7 @@ diagnosis, and it is correct: 372 one-off posts instead of a handful of
 formats people learn to recognise. Franchises fix that. Someone should be
 able to scroll past and know it is us before they read the handle.
 
-Every post from here is one of these five. If it is not one of these, it is
+Every post from here is one of these six. If it is not one of these, it is
 a reply — replies stay free-form, that is where the conversation is.
 
 ---
@@ -30,7 +30,7 @@ What we DO have, honestly, and nobody else frames this well:
 - the de-vigged true price and the break-even
 - our own stated side, before kickoff, with the reasoning shown
 
-That is enough for four data franchises and one joke.
+That is enough for five data franchises and one joke.
 
 ---
 
@@ -80,7 +80,22 @@ posted price means once the book's cut comes out.
 > The 4.5% is the house. Strip it and the market says Dodgers 72%.
 > That is what you are actually buying.
 
-## 5. FOURTH QUARTER — daily, no numbers required
+## 5. WHAT THE MARKET KNOWS — 2-3x a week
+
+The teaching franchise. Not "here is our pick" — "here is how to read this."
+Take one real thing the market did and explain what it means, so the reader
+gets a little better at this every time. Card format: `matchup` or `trend`.
+
+Why it works: it is credibility you cannot buy. Almost every betting account
+tells people what to think; almost none teach them how. And it needs no
+model, no record and no proprietary data — just a posted number and the
+patience to explain it.
+
+> A total that opens 9.5 and closes 9.5 while the over goes from +100 to
+> -110 is not a market that is unsure. It is a market that is defending
+> the number. Those are different things and they pay differently.
+
+## 6. FOURTH QUARTER — daily, no numbers required
 
 The joke. The relatable one. This is the franchise that makes the account
 human, and it is the one the analysts skip and then wonder why nobody
@@ -104,6 +119,45 @@ qualify. A number is optional here and often better left out.
 | Midday | THE NUMBER *or* MARKET MOVERS |
 | Evening | FOURTH QUARTER |
 | 3-4x/week, floating | THE PRICE IS THE POINT |
+| 2-3x/week, floating | WHAT THE MARKET KNOWS |
+
+## Content architecture — the three layers
+
+**Daily (scheduled, the franchises above).** The Morning Board, one Number,
+Market Movers when there is a move, the evening joke.
+
+**Real-time (reactive, from the hourly task).** These are replies and
+quote-posts, not originals, and they are where the audience actually is:
+- breaking sports news → what it does to the number
+- a big line move → MARKET MOVERS, same hour, not tomorrow
+- a huge individual performance → the historical or statistical context
+- a big account posting a take → the number that agrees or disagrees with it
+Never sell in the reply. Give them something they can use.
+
+**Weekly (Sunday evening, one post).** "What the numbers taught us this
+week" — the biggest market surprise, the line that moved the most, the
+number that turned out to mean the most. This is NOT a performance report
+and NOT a record; the public record was retired Aug 22 and stays retired.
+
+## Every post passes one of three tests
+
+Before it goes out, name which one it is for. If none, it does not go out.
+1. **Get attention** — FOURTH QUARTER, THE NUMBER, the reactive replies
+2. **Establish credibility** — THE PRICE IS THE POINT, WHAT THE MARKET KNOWS, MARKET MOVERS
+3. **Drive people deeper** — THE BOARD, which is the Morning Board newsletter's front door
+
+## The funnel this all feeds
+
+X → insidethenumber.com → the Morning Board (email) → premium, later.
+
+Every original carries the site. The site carries the X handle on every
+page (done Sep 2). The newsletter carries the X handle in every issue (done
+Sep 2). The Morning Board is the free product; the site's CTA is "Want the
+numbers before the games start? Get the free Morning Board."
+
+Not monetising hard yet — Chuck's call, and the right one. Trust first.
+Phase 1 (now to 1,000 followers) is identity. Phase 2 is authority. Phase 3
+is community and the list. Phase 4 is money.
 
 Three originals a day maximum. Everything else is replies — a reply is worth
 roughly 150x a like at our size, and replies are how strangers find us.
