@@ -211,11 +211,18 @@ def t_movers(a):
     y0, y1 = 320, 600
     d.rounded_rectangle([48, y0, 540, y1], 18, fill=PANEL)
     d.rounded_rectangle([660, y0, W - 48, y1], 18, fill=FR["MARKET MOVERS"])
-    ctr(d, (48, y0 + 20, 540, y0 + 70), "OPENED", D(36), MUTED)
-    ctr(d, (48, y0 + 70, 540, y1 - 20), a.left_number or "", D(170), DIM)
-    ctr(d, (660, y0 + 20, W - 48, y0 + 70), "NOW", D(36), BG)
-    ctr(d, (660, y0 + 70, W - 48, y1 - 20), a.right_number or "", D(170), BG)
-    ctr(d, (540, y0, 660, y1), "→", D(110), FR["MARKET MOVERS"])
+    # Fit both figures to the SAME size — the smaller of the two that fit —
+    # so the eye compares the numbers, not the type sizes. Sep 3: hardcoding
+    # 170 let "BUF -24.5" run straight out of its panel.
+    lw, rw = 540 - 48 - 56, (W - 48) - 660 - 56
+    fL = fit(d, a.left_number or "", D, lw, 170, 40)
+    fR = fit(d, a.right_number or "", D, rw, 170, 40)
+    fN = D(min(fL.size, fR.size))
+    ctr(d, (48, y0 + 20, 540, y0 + 78), "OPENED", D(36), MUTED)
+    ctr(d, (48, y0 + 78, 540, y1 - 24), a.left_number or "", fN, DIM)
+    ctr(d, (660, y0 + 20, W - 48, y0 + 78), "NOW", D(36), BG)
+    ctr(d, (660, y0 + 78, W - 48, y1 - 24), a.right_number or "", fN, BG)
+    ctr(d, (548, y0, 652, y1), "\u2192", D(96), FR["MARKET MOVERS"])
     if a.note:
         f = fit(d, a.note.upper(), D, W - 96, 52, 32)
         ctr(d, (48, 630, W - 48, 700), a.note.upper(), f, WHITE)

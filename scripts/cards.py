@@ -97,8 +97,24 @@ def logo(league, abbr, size):
     on a machine with no assets at all."""
     if not league or not abbr:
         return None
-    path = os.path.join(LOGO_DIR, str(league).lower(), f"{str(abbr).upper()}.png")
-    if not os.path.exists(path):
+    # ESPN's /teams endpoint (what fetch_logos.py reads) and the scoreboard feed
+    # do not always agree on a team's abbreviation — Buffalo is BUF in one and
+    # BUFF in the other, UAlbany is UALB vs ALB. Found Sep 3, 2026 when the
+    # MARKET MOVERS card for UAlbany @ Buffalo silently drew colour bars instead
+    # of logos. Try the exact name, then the obvious near-misses, before giving
+    # up. A missing logo is still not an error; it just should be rare.
+    league = str(league).lower()
+    a = str(abbr).upper()
+    cands = [a, a[:-1], a + "F", a + "R", a[:3], a[:4]]
+    path = None
+    for c in dict.fromkeys(cands):
+        if not c:
+            continue
+        pp = os.path.join(LOGO_DIR, league, f"{c}.png")
+        if os.path.exists(pp):
+            path = pp
+            break
+    if path is None:
         return None
     try:
         im = Image.open(path).convert("RGBA")
