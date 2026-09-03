@@ -106,6 +106,12 @@ jobs:
           git config user.name  "ITN Desk"
           git config user.email "desk@insidethenumber.com"
           mkdir -p data
+          # Keep every pass, not just the last one. Four passes a day gives
+          # four snapshots of every line, which is what MARKET MOVERS, the
+          # Wednesday data story and the monthly Reddit data project run on.
+          # Added Sep 2, 2026 (marketing plan sections 2, 6, 9).
+          mkdir -p data/snapshots
+          cp brief.json "data/snapshots/$(date -u +%Y-%m-%d-%H%M).json"
           mv brief.json "data/brief-$(date -u +%Y-%m-%d).json"
           cp "data/brief-$(date -u +%Y-%m-%d).json" data/brief-latest.json
           # One static, indexable page per game (g/), straight from the brief.

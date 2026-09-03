@@ -26,6 +26,18 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Fetch display fonts (the sandbox cannot; the runner can)
+        run: |
+          mkdir -p assets/fonts
+          for f in ofl/anton/Anton-Regular.ttf \
+                   ofl/barlowcondensed/BarlowCondensed-Bold.ttf \
+                   ofl/barlowcondensed/BarlowCondensed-SemiBold.ttf \
+                   ofl/barlow/Barlow-Medium.ttf; do
+            curl -sSL --retry 3 -o "assets/fonts/$(basename "$f")" \
+              "https://raw.githubusercontent.com/google/fonts/main/$f" || echo "miss: $f"
+          done
+          ls -la assets/fonts
+
       - name: Fetch logos
         run: |
           if [ -n "${{ github.event.inputs.league }}" ]; then
@@ -38,11 +50,11 @@ jobs:
         run: |
           git config user.name  "ITN Desk"
           git config user.email "desk@insidethenumber.com"
-          git add -f assets/logos
+          git add -f assets/logos assets/fonts
           if git diff --cached --quiet; then
             echo "no new logos"
           else
-            git commit -m "Cache team logos [skip ci]"
+            git commit -m "Cache team logos + display fonts [skip ci]"
             git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
