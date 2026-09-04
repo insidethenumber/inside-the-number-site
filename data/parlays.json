@@ -1,0 +1,70 @@
+[
+ {
+  "date_line": "Friday, September 4",
+  "price": "+615",
+  "decimal": "7.15",
+  "be": "14.0%",
+  "coin": "12.5%",
+  "hook": "Three bets you would make on their own, priced as one you would not.",
+  "legs_line": "San Jose State / Yankees / Rays",
+  "thread_title": "the group chat, every Friday",
+  "thread": [
+   [
+    "them",
+    "put all three on one ticket"
+   ],
+   [
+    "me",
+    "that ticket needs to hit 14% of the time to break even"
+   ],
+   [
+    "them",
+    "so like a coin flip"
+   ],
+   [
+    "me",
+    "three coin flips. 12.5%."
+   ],
+   [
+    "them",
+    "so yes"
+   ]
+  ],
+  "legs": [
+   {
+    "league": "cfb",
+    "abbr": "SJSU",
+    "pick": "San Jose State +2.5",
+    "price": "-102",
+    "be": "50.5%",
+    "decimal": "1.98",
+    "color": "#0055a2",
+    "note": "EMU opened -3.5 and -162. It is -2.5 and -135 now.",
+    "start": "2026-09-04T22:30:00Z"
+   },
+   {
+    "league": "mlb",
+    "abbr": "NYY",
+    "pick": "Yankees ML",
+    "price": "-119",
+    "be": "54.3%",
+    "decimal": "1.84",
+    "color": "#132448",
+    "note": "Opened -131. Fried 2.80 against Buehler 4.66.",
+    "start": "2026-09-05T01:40:00Z"
+   },
+   {
+    "league": "mlb",
+    "abbr": "TB",
+    "pick": "Rays ML",
+    "price": "-104",
+    "be": "51.0%",
+    "decimal": "1.96",
+    "color": "#092c5c",
+    "note": "Opened -126. Texas is the home favorite now.",
+    "start": "2026-09-05T00:05:00Z"
+   }
+  ],
+  "date": "2026-09-04"
+ }
+]

@@ -175,6 +175,22 @@
   .gm-n .mv{display:block;font-weight:600;font-size:11px;margin-top:4px}
   .mv.up{color:#f0b232}.mv.dn{color:#68b0ff}
   .gm-note{grid-column:2/-1;margin-top:9px;font:400 13.5px/1.55 ui-sans-serif,system-ui;color:#96a0b0}
+  /* Results. Added Sep 4, 2026 — Chuck: "there should be results from
+     yesterday's games... always do this in the evening or live." Rather than
+     a nightly job that can miss, the board reads status and score straight
+     from the same feed it already reads the lines from, so it is correct
+     during the game and after it without anything having to run. */
+  .gm.done{opacity:.9}
+  .gm-k .fin{display:block;font-weight:800;font-size:11px;color:#5ec8a0;letter-spacing:.06em}
+  .gm-k .live{display:block;font-weight:800;font-size:11px;color:#ff5d5d;letter-spacing:.06em}
+  .gm-k .live::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:#ff5d5d;margin-right:5px;vertical-align:middle;animation:lv 1.4s infinite}
+  @keyframes lv{0%,100%{opacity:1}50%{opacity:.25}}
+  .sc{font:800 16px/1.3 ui-sans-serif,system-ui;color:#eef2f7;margin-top:4px}
+  .sc .w{color:#fff}.sc .l{color:#7c8698}
+  .res{display:block;font:600 11px/1.4 ui-sans-serif,system-ui;margin-top:5px;color:#96a0b0}
+  .res b{font-weight:800}
+  .res .ok{color:#5ec8a0}.res .no{color:#ff8a8a}.res .push{color:#f0b232}
   @media(max-width:620px){
     .gm{grid-template-columns:60px 1fr;row-gap:6px}
     .gm-n{grid-column:2;text-align:left}
@@ -305,7 +321,7 @@
     Colorado State opened &minus;4 and &minus;180. It is &minus;3 and &minus;155 now. Wyoming fair: 38.4% to 41.7%. Break-even at &minus;108 is 51.9%.
     <i>What beats it:</i> the Border War in Fort Collins, and 3 is the most common margin in football.</p>
 
-    <div class="pick-line" style="margin-top:18px">Saturday parlay &mdash; priced honestly.</div>
+    <div class="pick-line" style="margin-top:18px">Saturday parlay &mdash; priced honestly. <a href="parlay" style="color:inherit;font-weight:600">Today&rsquo;s is here</a>.</div>
     <p><b>Clemson +10 / Tulane +7.5 / Wyoming +3 &rarr; +602.</b> A three-leg parlay at these prices needs to hit <b>14.2%</b> of the time to break even. Three coin flips hit 12.5%. That 1.7-point gap is what the parlay costs you, and you should know it before you bet it. If you are going to parlay Saturday, parlay the numbers that moved your way. Today&rsquo;s Parlay of the Day is on the <a href="/" style="color:inherit">homepage</a>.</p>
 
     <p>Friday night&rsquo;s free pick is on the <a href="/" style="color:inherit">homepage</a>: San Jos&eacute; State +3 at Eastern Michigan. Sixty-eight games Saturday; fifteen ranked teams, none of them playing another ranked team.</p>
@@ -412,6 +428,11 @@
     var sat=targetSaturday();
     var from=new Date(sat); from.setDate(sat.getDate()-2);
     var to=new Date(sat);   to.setDate(sat.getDate()+2);
+    // Always reach back far enough to include yesterday. Without this, the
+    // window jumps forward to the next Saturday on Tuesday morning and the
+    // weekend's results disappear the moment they become interesting.
+    var y=new Date(); y.setDate(y.getDate()-1);
+    if(y<from) from=y;
     return {from:from,to:to,sat:sat};
   }
   function dayKey(iso){
@@ -439,21 +460,68 @@
     list.forEach(function(g){
       if(g.day!==lastDay){
         lastDay=g.day;
-        var n=list.filter(function(x){return x.day===g.day;}).length;
-        html+='<div class="dayhdr">'+g.day+'<span class="n">'+n+(n===1?' game':' games')+'</span></div>';
+        var sameDay=list.filter(function(x){return x.day===g.day;});
+        var n=sameDay.length;
+        var fin=sameDay.filter(function(x){return x.state==='post';});
+        var favs=fin.filter(function(x){return x.cover&&x.cover!=='push'&&x.spread!=null&&
+                    ((x.spread<0&&x.cover==='home')||(x.spread>0&&x.cover==='away'));}).length;
+        var graded=fin.filter(function(x){return x.cover&&x.cover!=='push';}).length;
+        var meta = fin.length===n&&graded
+          ? n+(n===1?' game':' games')+' &middot; '+favs+' of '+graded+' favorites covered'
+          : n+(n===1?' game':' games');
+        html+='<div class="dayhdr">'+g.day+'<span class="n">'+meta+'</span></div>';
       }
       var tags=[];
       if(g.conf) tags.push('<span class="tag">'+g.conf+'</span>');
       if(Math.abs(g.move)>=1) tags.push('<span class="tag hot">Moved '+Math.abs(g.move)+'</span>');
       var note=NOTES[g.key];
-      html+='<div class="gm">'+
-        '<div class="gm-k"><span class="gd">'+g.dayS+'</span>'+g.time+' CT'+(g.tv?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
-        '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
-          (tags.length?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
-        '<div class="gm-n">'+(g.line||'&mdash;')+
+      var done=g.state==='post', live=g.state==='in';
+
+      // Left column: kickoff before, clock during, FINAL after.
+      var kick = done ? '<span class="fin">FINAL</span>'
+               : live ? '<span class="live">'+(g.detail||'LIVE')+'</span>'
+               : '<span class="gd">'+g.dayS+'</span>'+g.time+' CT';
+
+      // Middle column gains the score once there is one, winner in white.
+      var score='';
+      if((done||live)&&g.aSc!=null){
+        var aw=g.aSc>g.hSc, hw=g.hSc>g.aSc;
+        score='<div class="sc"><span class="'+(aw?'w':'l')+'">'+g.aSc+'</span>'
+             +' <span class="l">&ndash;</span> '
+             +'<span class="'+(hw?'w':'l')+'">'+g.hSc+'</span>'
+             +(live&&g.detail?' <span class="l" style="font-size:12px">'+g.detail+'</span>':'')+'</div>';
+      }
+
+      // Right column: what the number did. This is the whole point of the
+      // page — not who won, but whether the price was right.
+      var right;
+      if(done){
+        var bits=[];
+        if(g.cover&&g.line){
+          var who = g.cover==='push' ? 'Push on the spread'
+                  : (g.cover==='home'? g.home : g.away)+' covered';
+          bits.push('<span class="res"><b class="'+(g.cover==='push'?'push':'ok')+'">'+who+'</b> &middot; closed '+g.line+'</span>');
+        } else if(g.line){
+          bits.push('<span class="res">closed '+g.line+'</span>');
+        }
+        if(g.totRes&&g.total!=null){
+          var tw=g.totRes==='push'?'Push':(g.totRes==='over'?'Over':'Under');
+          bits.push('<span class="res">'+tw+' '+g.total+' <b class="'+(g.totRes==='push'?'push':'ok')+'">'+(g.aSc+g.hSc)+'</b></span>');
+        }
+        right='<div class="gm-n">'+(bits.join('')||'&mdash;')+'</div>';
+      } else {
+        right='<div class="gm-n">'+(g.line||'&mdash;')+
           (g.total!=null?'<span class="ou">O/U '+g.total+'</span>':'')+
           (Math.abs(g.move)>=0.5?'<span class="mv '+(g.move>0?'up':'dn')+'">opened '+g.openLine+'</span>':'')+
-        '</div>'+
+        '</div>';
+      }
+
+      html+='<div class="gm'+(done?' done':'')+'">'+
+        '<div class="gm-k">'+kick+(g.tv&&!done?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
+        '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
+          score+
+          (tags.length&&!done?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
+        right+
         (note?'<div class="gm-note">'+note+'</div>':'')+
       '</div>';
     });
@@ -492,7 +560,8 @@
     });
   });
 
-  (async function(){
+  async function load(){
+    GAMES=[];
     var W=weekWindow(), d=W.sat;
     try{
       var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(W.from)+'-'+ymd(W.to)+'&groups=80&limit=300');
@@ -521,7 +590,24 @@
         var confs=[];
         if(P4[H.team.conferenceId]) confs.push(P4[H.team.conferenceId]);
         if(P4[A.team.conferenceId]&&confs.indexOf(P4[A.team.conferenceId])<0) confs.push(P4[A.team.conferenceId]);
+        var st=(ev.status&&ev.status.type)||{};
+        var aSc=A.score!=null?Number(A.score):null, hSc=H.score!=null?Number(H.score):null;
+        // Did the closing number get it right? Only computable once the game
+        // is final AND we have a line. sp is the HOME spread.
+        var cover=null, totRes=null;
+        if(st.state==='post'&&aSc!=null&&hSc!=null){
+          if(sp!=null){
+            var marg=hSc-aSc+sp;              // >0 home covered, <0 away covered
+            cover = marg>0?'home':(marg<0?'away':'push');
+          }
+          if(o.overUnder!=null){
+            var tot=aSc+hSc;
+            totRes = tot>o.overUnder?'over':(tot<o.overUnder?'under':'push');
+          }
+        }
         GAMES.push({
+          state:st.state||'pre', detail:st.shortDetail||'',
+          aSc:aSc, hSc:hSc, cover:cover, totRes:totRes,
           key:A.team.abbreviation+'@'+H.team.abbreviation,
           away:A.team.location, home:H.team.location,
           awayRk:rk(A), homeRk:rk(H),
@@ -571,7 +657,22 @@
         'The full board is on the <a href="games" style="color:inherit">games page</a>.</div>';
       document.getElementById('stamp').textContent='Lines via ESPN · feed unavailable';
     }
-  })();
+  }
+
+  // Live refresh. Chuck, Sep 4 2026: "always do this in the evening or live."
+  // While anything on the board is in progress the page re-reads the feed
+  // every 60 seconds, so scores and the cover result update themselves with
+  // no job to run and nothing to remember. Idle boards poll every 10 minutes
+  // to pick up line moves; a hidden tab does not poll at all.
+  load().then(function(){
+    setInterval(function(){
+      if(document.hidden) return;
+      var anyLive=GAMES.some(function(g){return g.state==='in';});
+      var mins=anyLive?1:10;
+      if(!load._last||Date.now()-load._last>=mins*60000){ load._last=Date.now(); load(); }
+    },30000);
+    load._last=Date.now();
+  });
 })();
 </script>
 </body>

@@ -1,0 +1,285 @@
+#!/usr/bin/env python3
+"""
+Build /parlay — the Parlay of the Day page.
+
+Chuck asked on Sep 4, 2026 whether a parlay page was a good idea. It is, on one
+condition: the cost has to lead. Our whole pitch is that we tell people what a
+price actually costs them, and a parlay is the worst-priced product on the
+board. A page that shows three legs and a payout makes us the thing we
+criticise. A page that shows three legs, the payout, AND the gap between the
+break-even it needs and the chance three independent bets actually land is the
+only parlay page on the internet that is honest about it. That gap is the
+product.
+
+Two rules baked in here:
+
+  1. ONE source of truth. The same spec JSON that renders the slip card
+     (scripts/parlay_cards.py) renders this page. The graphic on X and the page
+     it links to can never disagree, because they are the same file.
+
+  2. NOTHING IS PRESENTED AS BETTABLE AFTER IT KICKS OFF. Every leg carries its
+     start time and the page marks it live/started in the browser. A dated page
+     still showing a game that started three hours ago is worse than no page,
+     and it is the single most likely way this page embarrasses us.
+
+Usage:
+  python3 scripts/build_parlay_page.py --spec parlay.json          # add + build
+  python3 scripts/build_parlay_page.py --rebuild                   # archive only
+"""
+import argparse, html, json, os, sys
+from datetime import datetime, timezone
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ARCHIVE = os.path.join(ROOT, "data", "parlays.json")
+OUT = os.path.join(ROOT, "parlay.html")
+
+
+def esc(x):
+    return html.escape(str(x), quote=True)
+
+
+def load_archive():
+    if os.path.exists(ARCHIVE):
+        return json.load(open(ARCHIVE))
+    return []
+
+
+def save_archive(a):
+    os.makedirs(os.path.dirname(ARCHIVE), exist_ok=True)
+    json.dump(a, open(ARCHIVE, "w"), indent=1)
+
+
+def leg_rows(legs):
+    out = []
+    for l in legs:
+        out.append(
+            '<div class="leg" data-start="%s">'
+            '<div class="lg-t"><b>%s</b><span class="st"></span>'
+            '<div class="lg-n">%s</div></div>'
+            '<div class="lg-p">%s<span class="be">%s to break even</span></div>'
+            '</div>' % (esc(l.get("start", "")), esc(l["pick"]), esc(l.get("note", "")),
+                        esc(l["price"]), esc(l["be"])))
+    return "\n".join(out)
+
+
+def today_block(p):
+    gap = round(float(p["be"].rstrip("%")) - float(p["coin"].rstrip("%")), 1)
+    return f"""<div class="card" id="today">
+  <div class="hd"><span class="k">Parlay of the Day</span><span class="dt">{esc(p['date_line'])}</span></div>
+  <div class="legs">
+{leg_rows(p['legs'])}
+  </div>
+  <div class="pay">
+    <div><span class="pl">Pays</span><span class="pv">{esc(p['price'])}</span></div>
+    <div class="pm">{esc(p['decimal'])} &times; your stake</div>
+  </div>
+  <div class="cost">
+    <div class="c-row"><span>What it needs to break even</span><b>{esc(p['be'])}</b></div>
+    <div class="c-row"><span>What three independent coin flips land</span><b class="dim">{esc(p['coin'])}</b></div>
+    <div class="c-row gap"><span>The gap &mdash; what stapling them together costs you</span><b>{gap} points</b></div>
+    <p class="c-note">{esc(p['hook'])} Every leg above is a bet we would make on its own; the reasoning for each is on
+    the <a href="/">free pick</a> and the <a href="/games">board</a>. Together they are priced worse than the sum of
+    their parts, and that is not an accident &mdash; the book&rsquo;s cut compounds with every leg you add.</p>
+  </div>
+  <div class="locked" id="locked" hidden>This ticket has started. Numbers below are what closed, not what you can bet.</div>
+</div>"""
+
+
+def archive_block(rows):
+    if not rows:
+        return ""
+    out = ['<h2>Previous days</h2>', '<div class="arch">']
+    for p in rows:
+        legs = " &middot; ".join(esc(l["pick"]) for l in p["legs"])
+        out.append(
+            '<div class="ar"><div class="ar-d">%s</div>'
+            '<div class="ar-l">%s</div>'
+            '<div class="ar-p">%s<span>%s to break even</span></div></div>'
+            % (esc(p["date_line"]), legs, esc(p["price"]), esc(p["be"])))
+    out.append("</div>")
+    return "\n".join(out)
+
+
+PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Parlay of the Day — With the Price It Actually Costs You | Inside the Number</title>
+<meta name="description" content="Today's parlay, the payout, and the number nobody else prints: the win rate it needs to break even versus the chance the legs actually land. Free, updated daily."/>
+<link rel="canonical" href="https://insidethenumber.com/parlay"/>
+<meta property="og:title" content="Parlay of the Day — With the Price It Actually Costs You"/>
+<meta property="og:description" content="Today's parlay, the payout, and the break-even it needs versus the chance the legs actually land."/>
+<meta property="og:url" content="https://insidethenumber.com/parlay"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"What is a parlay of the day?","acceptedAnswer":{{"@type":"Answer","text":"A single ticket combining several bets, where every leg must win for the ticket to pay. The payout looks large because the chance of all of them landing is small."}}}},{{"@type":"Question","name":"What win rate does a parlay need to break even?","acceptedAnswer":{{"@type":"Answer","text":"One divided by the combined decimal odds. A +600 three-leg parlay pays 7.00, so it must hit 1/7 = 14.3% of the time just to break even."}}}},{{"@type":"Question","name":"Are parlays a bad bet?","acceptedAnswer":{{"@type":"Answer","text":"They are a worse bet than the same legs placed separately, because the book's margin compounds with every leg. Three legs that each cost 4-5% in margin can cost 12-15% combined."}}}}]}}</script>
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"https://insidethenumber.com/"}},{{"@type":"ListItem","position":2,"name":"Parlay of the Day","item":"https://insidethenumber.com/parlay"}}]}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{{--bg:#050608;--s1:#0e1116;--s2:#141821;--bd:#1c2129;--green:#00d084;--blue:#3ba7ff;--amber:#f0b232;--white:#f0f2f5;--mid:#9ca3af;--muted:#6b7280}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--white);line-height:1.6}}
+nav{{border-bottom:1px solid var(--bd);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}}
+nav a{{color:var(--white);text-decoration:none;font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase}}
+nav a span{{color:var(--green)}}
+nav .r a{{font-size:12px;color:#b6bdc8;font-weight:500;margin-left:18px;letter-spacing:.08em}}
+.wrap{{max-width:720px;margin:0 auto;padding:36px 20px 56px}}
+.eyebrow{{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}}
+h1{{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,46px);font-weight:900;text-transform:uppercase;line-height:1.02;margin-bottom:10px}}
+h1 span{{color:var(--green)}}
+.sub{{color:var(--mid);font-weight:300;margin-bottom:26px;max-width:60ch}}
+.card{{background:var(--s1);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:12px}}
+.hd{{display:flex;justify-content:space-between;align-items:baseline;padding:16px 20px;border-bottom:1px solid var(--bd)}}
+.hd .k{{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.05em;font-size:19px;color:var(--amber)}}
+.hd .dt{{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}}
+.legs{{padding:6px 20px}}
+.leg{{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}}
+.leg:last-child{{border-bottom:0}}
+.lg-t b{{font-size:17px;font-weight:600}}
+.lg-n{{font-size:13.5px;color:var(--mid);font-weight:300;margin-top:3px;max-width:46ch}}
+.lg-p{{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:17px;white-space:nowrap}}
+.lg-p .be{{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.06em;margin-top:4px}}
+.st{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;margin-left:8px;color:var(--muted)}}
+.st.live{{color:#ff5d5d}}.st.done{{color:var(--muted)}}
+.pay{{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:var(--s2);border-top:1px solid var(--bd)}}
+.pl{{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-right:12px}}
+.pv{{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;color:var(--green);letter-spacing:.01em}}
+.pm{{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}}
+.cost{{padding:18px 20px}}
+.c-row{{display:flex;justify-content:space-between;gap:14px;padding:7px 0;font-size:14.5px;color:var(--mid)}}
+.c-row b{{font-family:'IBM Plex Mono',monospace;color:var(--white);white-space:nowrap}}
+.c-row b.dim{{color:var(--mid)}}
+.c-row.gap{{border-top:1px solid rgba(255,255,255,.08);margin-top:6px;padding-top:12px;color:var(--white)}}
+.c-row.gap b{{color:var(--amber)}}
+.c-note{{font-size:14px;color:var(--mid);font-weight:300;margin-top:12px;max-width:62ch}}
+.c-note a{{color:var(--green);text-decoration:none}}
+.locked{{padding:12px 20px;background:rgba(240,178,50,.08);border-top:1px solid rgba(240,178,50,.3);
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--amber)}}
+h2{{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;text-transform:uppercase;margin:34px 0 10px}}
+p.x{{font-size:14.5px;color:var(--mid);font-weight:300;margin:10px 0;max-width:62ch}}
+p.x b{{color:var(--white)}}
+p.x a{{color:var(--green);text-decoration:none}}
+.arch .ar{{display:grid;grid-template-columns:120px 1fr auto;gap:14px;padding:12px 0;border-top:1px solid var(--bd);align-items:baseline}}
+.ar-d{{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}}
+.ar-l{{font-size:14px;color:var(--mid)}}
+.ar-p{{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--green);text-align:right;white-space:nowrap}}
+.ar-p span{{display:block;font-size:10px;color:var(--muted);margin-top:2px}}
+.sub-cta{{margin:30px 0 10px;padding:18px 20px;border:1px solid rgba(0,208,132,.28);border-radius:12px;background:rgba(0,208,132,.05)}}
+.sub-cta .k{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}}
+.sub-cta p{{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}}
+.sub-cta p b{{color:var(--white);font-weight:600}}
+.sub-cta a.go{{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}}
+.foot{{border-top:1px solid var(--bd);margin-top:34px;padding-top:16px;font-size:12px;color:var(--muted)}}
+.foot a{{color:var(--green);text-decoration:none}}
+@media(max-width:560px){{.leg{{flex-direction:column;gap:6px}}.lg-p{{text-align:left}}
+  .arch .ar{{grid-template-columns:1fr;gap:4px}}.ar-p{{text-align:left}}}}
+</style>
+</head>
+<body>
+<nav><a href="/">Inside <span>the</span> Number</a>
+  <div class="r"><a href="/games">Today's board</a><a href="/parlay-calculator">Parlay calculator</a></div></nav>
+<div class="wrap">
+  <div class="eyebrow">// Parlay of the Day</div>
+  <h1>The parlay, <span>and what it costs you</span></h1>
+  <p class="sub">Everyone posts a parlay. Almost nobody prints the number underneath it: the win rate the
+  ticket needs just to break even, next to the chance those legs actually land. Both are below, every day.</p>
+
+{today}
+
+  <div class="sub-cta">
+    <div class="k">Free daily email</div>
+    <p>One pick a day with the full reasoning, the line movement, and <b>what beats it</b> &mdash;
+    written before kickoff, not after.</p>
+    <a class="go" href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Get it free &rarr;</a>
+  </div>
+
+  <h2>Why a parlay pays what it pays</h2>
+  <p class="x">Convert each leg's American price to decimal, multiply them together, and that is your payout.
+  Three legs at &minus;110 come to 1.909 &times; 1.909 &times; 1.909 = <b>6.96</b>, or about +596. The payout is not
+  generous; it is arithmetic.</p>
+  <p class="x">The break-even is the same arithmetic read backwards: <b>1 divided by the combined decimal odds</b>.
+  That 6.96 ticket has to win 14.4% of the time before it makes a cent. If the three legs were true coin flips
+  you would land all three 12.5% of the time. The distance between those two numbers is the book's cut,
+  compounded &mdash; and it compounds every time you add a leg.</p>
+  <p class="x">That is the entire case against parlays, and it is also why we still publish one. A parlay you
+  understand the price of is a different object from a parlay sold to you as free money. Run your own on the
+  <a href="/parlay-calculator">parlay calculator</a>, or read the fair price on every game on the
+  <a href="/games">board</a>.</p>
+
+  <h2>How we pick the legs</h2>
+  <p class="x">Every leg here is a bet that stands on its own &mdash; usually a number that moved toward the side
+  we like, with the open and the current price both shown. We do not build a ticket to reach a payout. We take
+  the day's picks and price them honestly as a group, which usually makes the parlay look worse than the singles.
+  It should.</p>
+  <p class="x"><b>We publish no record, no ROI and no units</b>, here or anywhere. Every parlay we have posted is
+  listed below with the price it carried, so you can check the claim rather than trust it.</p>
+
+{archive}
+
+  <div class="foot">
+    Odds read live from public feeds and correct at publication; they move, so check the number before you take it.
+    Nothing here is a guarantee and nothing here is advice. 21+. If gambling stops being fun,
+    <a href="/responsible-gambling">stop and get help</a>. &nbsp;&middot;&nbsp;
+    <a href="/">Inside the Number</a>
+  </div>
+</div>
+<script>
+/* Kickoff guard. A page that still calls a started game "bettable" is the
+   fastest way to lose the reader's trust, so the browser checks each leg's
+   start time on load and every 30 seconds. */
+(function(){{
+  function tick(){{
+    var legs=document.querySelectorAll('.leg[data-start]'), started=0, n=0;
+    legs.forEach(function(el){{
+      var iso=el.getAttribute('data-start'); if(!iso) return;
+      n++;
+      var t=new Date(iso).getTime(), now=Date.now(), s=el.querySelector('.st');
+      if(now>=t){{ started++;
+        var hrs=(now-t)/36e5;
+        s.textContent = hrs>4 ? 'FINAL' : 'STARTED';
+        s.className='st '+(hrs>4?'done':'live');
+      }} else {{ s.textContent=''; s.className='st'; }}
+    }});
+    var lock=document.getElementById('locked');
+    if(lock) lock.hidden = !(n && started===n);
+  }}
+  tick(); setInterval(tick,30000);
+}})();
+</script>
+</body>
+</html>
+"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--spec", help="today's parlay JSON (same file parlay_cards.py uses)")
+    ap.add_argument("--rebuild", action="store_true", help="rebuild from the archive only")
+    a = ap.parse_args()
+
+    arch = load_archive()
+
+    if a.spec:
+        p = json.load(open(a.spec))
+        p.setdefault("date", datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+        arch = [x for x in arch if x.get("date") != p["date"]]
+        arch.insert(0, p)
+        save_archive(arch)
+    elif not a.rebuild:
+        ap.error("need --spec or --rebuild")
+
+    if not arch:
+        print("nothing to build", file=sys.stderr)
+        return
+
+    html_out = PAGE.format(today=today_block(arch[0]),
+                           archive=archive_block(arch[1:12]))
+    open(OUT, "w").write(html_out)
+    print("wrote", OUT, "-", len(arch), "parlay(s) in archive")
+
+
+if __name__ == "__main__":
+    main()
