@@ -101,10 +101,10 @@ def f_slip(s, out):
     d.rounded_rectangle([70, 60, W - 70, H - 60], 26, fill=CARD, outline=LINE,
                         width=2)
 
-    eyebrow(d, 110, 104, "PARLAY OF THE DAY", AMBER, 30)
+    eyebrow(d, 110, 104, s.get("label", "Parlay of the Day").upper(), AMBER, 30)
     d.text((110, 146), s["date_line"].upper(), font=M(26), fill=MUTED)
-    d.text((W - 110 - d.textlength(str(len(s["legs"])) + " LEGS", font=B(30)),
-            108), f"{len(s['legs'])} LEGS", font=B(30), fill=DIM)
+    tag = s.get("count_label", f"{len(s['legs'])} LEGS")
+    d.text((W - 110 - d.textlength(tag, font=B(30)), 108), tag, font=B(30), fill=DIM)
 
     y = 206
     for leg in s["legs"]:
@@ -121,9 +121,8 @@ def f_slip(s, out):
         y += 148
 
     d.line([110, y + 4, W - 110, y + 4], fill=LINE, width=2)
-    d.text((110, y + 44), "PAYOUT", font=B(34), fill=MUTED)
-    d.text((110, y + 90), f"{s['be']} to break even  ·  three coin flips hit "
-                          f"{s['coin']}", font=M(24), fill=MUTED)
+    d.text((110, y + 44), s.get("pay_label", "Payout").upper(), font=B(34), fill=MUTED)
+    d.text((110, y + 90), s.get("foot_line", ""), font=M(24), fill=MUTED)
     pw = d.textlength(s["price"], font=D(92))
     d.text((W - 110 - pw, y + 24), s["price"], font=D(92), fill=GREEN)
     foot(d, W, H)
@@ -307,13 +306,12 @@ def f_bug(s, out):
         d.line([0, y, W, y], fill=(v, v + 2, v + 6))
 
     d.text((56, 70), s["hook"], font=D(54), fill=WHITE)
-    d.text((58, 146), f"{s['be']} to break even  ·  three coin flips hit "
-                      f"{s['coin']}", font=M(30), fill=MUTED)
+    d.text((58, 146), s.get("foot_line", ""), font=M(30), fill=MUTED)
 
     bar_y = 230
     d.rectangle([0, bar_y, W, bar_y + 96], fill="#101623")
     d.rectangle([0, bar_y, 16, bar_y + 96], fill=AMBER)
-    d.text((52, bar_y + 24), "PARLAY OF THE DAY", font=B(44), fill=WHITE)
+    d.text((52, bar_y + 24), s.get("label", "Parlay of the Day").upper(), font=B(44), fill=WHITE)
     d.text((W - 300, bar_y + 28), s["date_line"].upper(), font=M(26),
            fill=MUTED)
 
@@ -323,13 +321,14 @@ def f_bug(s, out):
         d.rectangle([0, y, 16, y + 96], fill=leg.get("color", PANEL))
         mark(img, d, leg, 78, y + 48, 62)
         d.text((136, y + 24), leg["pick"], font=D(50), fill=WHITE)
-        d.text((640, y + 32), leg["note"], font=M(24), fill=MUTED)
+        nt = wrap(d, leg["note"], M(24), 660)[0]
+        d.text((600, y + 32), nt, font=M(24), fill=MUTED)
         pw = d.textlength(leg["price"], font=D(50))
         d.text((W - 60 - pw, y + 24), leg["price"], font=D(50), fill=DIM)
         y += 100
 
     d.rectangle([0, y, W, y + 104], fill=GREEN)
-    d.text((52, y + 26), "PAYS", font=B(44), fill=INK)
+    d.text((52, y + 26), s.get("pay_label", "Pays").upper(), font=B(44), fill=INK)
     pw = d.textlength(s["price"], font=D(72))
     d.text((W - 60 - pw, y + 16), s["price"], font=D(72), fill=INK)
     d.text((52, H - 80), "insidethenumber.com  ·  @thenumberdesk", font=M(26),
@@ -343,7 +342,7 @@ def f_square(s, out):
     W = H = 1080
     img, d = new(W, H)
     d.rounded_rectangle([40, 40, W - 40, H - 40], 28, outline=LINE, width=2)
-    ctr(d, (0, 96, W, 140), "PARLAY OF THE DAY", B(32), AMBER)
+    ctr(d, (0, 96, W, 140), s.get("label", "Parlay of the Day").upper(), B(32), AMBER)
 
     n = len(s["legs"])
     for i, leg in enumerate(s["legs"]):
@@ -354,8 +353,9 @@ def f_square(s, out):
 
     f = fit(d, s["price"], D, W - 200, 300, 140)
     ctr(d, (0, 420, W, 660), s["price"], f, GREEN)
-    ctr(d, (0, 690, W, 736), f"{s['be']} TO BREAK EVEN", B(34), DIM)
-    ctr(d, (0, 744, W, 786), f"THREE COIN FLIPS HIT {s['coin']}", B(30), MUTED)
+    fl = s.get("foot_line", "").upper()
+    ff = fit(d, fl, B, W - 180, 30, 18)
+    ctr(d, (0, 690, W, 740), fl, ff, DIM)
     for k, line in enumerate(wrap(d, s["hook"], M(30), W - 200)[:2]):
         ctr(d, (0, 850 + k * 44, W, 894 + k * 44), line, M(30), DIM)
     ctr(d, (0, H - 110, W, H - 70), "insidethenumber.com", B(30), WHITE)
@@ -375,7 +375,9 @@ def f_texts(s, out):
     ctr(d, (px0, 94, px1, 138), s["thread_title"], B(30), MUTED)
 
     y = 172
-    for who, txt in s["thread"]:
+    for who, txt in s["thread"][:6]:
+        if y > pbot - 130:
+            break
         me = who == "me"
         f = M(31)
         lines = wrap(d, txt, f, 470)
@@ -424,10 +426,57 @@ def f_poster(s, out):
     img.save(out)
 
 
+# ------------------------------------------------------- 11 price (two games)
+def f_price(s, out):
+    """THE PRICE IS THE POINT. For each game: what you pay vs what the market's
+    own de-vigged number says. When break-even is above fair, the card shows
+    you are paying for a favourite the market prices as a coin flip or worse.
+    That gap is the only thing we publish that nobody else will."""
+    W, H = 1600, 900
+    img, d = new(W, H)
+    eyebrow(d, 70, 66, "THE PRICE IS THE POINT  ·  " + s["date_line"].upper())
+    d.text((70, 112), s["headline"], font=D(58), fill=WHITE)
+
+    n = len(s["legs"])
+    top, rowh = 236, 250
+    for i, leg in enumerate(s["legs"]):
+        y = top + i * rowh
+        d.rounded_rectangle([70, y, W - 70, y + 208], 18, fill=CARD)
+        mark(img, d, leg, 150, y + 104, 96)
+        d.text((236, y + 30), leg["pick"], font=D(56), fill=WHITE)
+        for k, line in enumerate(wrap(d, leg["note"], M(24), 600)[:2]):
+            d.text((238, y + 94 + k * 30), line, font=M(24), fill=MUTED)
+
+        fair = float(leg["fair"].rstrip("%"))
+        be = float(leg["be"].rstrip("%"))
+        gap = round(be - fair, 1)
+
+        bx = 900
+        d.text((bx, y + 34), "YOU PAY", font=B(22), fill=MUTED)
+        d.text((bx, y + 62), leg["be"], font=D(52), fill=WHITE)
+        d.text((bx + 210, y + 34), "MARKET SAYS", font=B(22), fill=MUTED)
+        d.text((bx + 210, y + 62), leg["fair"], font=D(52), fill=DIM)
+        d.text((bx + 460, y + 34), "THE GAP", font=B(22), fill=AMBER)
+        d.text((bx + 460, y + 62), f"{gap:+.1f}", font=D(52), fill=AMBER)
+
+        # the bar: fair filled, the rest of break-even in amber
+        bw = W - 70 - 236 - 40
+        fx = int(bw * fair / 100)
+        gx = int(bw * be / 100)
+        d.rounded_rectangle([236, y + 156, 236 + gx, y + 176], 8, fill=AMBER)
+        d.rounded_rectangle([236, y + 156, 236 + fx, y + 176], 8, fill=GREEN)
+
+    for k, line in enumerate(wrap(d, s["tail"], M(26), W - 150)[:2]):
+        d.text((70, H - 178 + k * 34), line, font=M(26), fill=DIM)
+    foot(d, W, H)
+    grain(img)
+    img.save(out)
+
+
 FORMATS = {
     "slip": f_slip, "stub": f_stub, "math": f_math, "dots": f_dots,
     "bars": f_bars, "trip": f_trip, "bug": f_bug, "square": f_square,
-    "texts": f_texts, "poster": f_poster,
+    "texts": f_texts, "poster": f_poster, "price": f_price,
 }
 
 
