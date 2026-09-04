@@ -540,3 +540,35 @@ If the board genuinely did not move (no game moved half a point), skip the GIF
 rather than animate a non-event, and say "the board barely moved overnight" in
 the text as the format already requires. One image is better than one honest
 image plus one dishonest one.
+
+### Beehiiv image mechanics — PROVEN Sep 4, 2026, follow exactly
+
+Tested end to end on a real draft. Do not improvise around this; the UI paths
+that look obvious do not work.
+
+**Insert images by pasting HTML into the body, not by hunting for an image
+button.** After duplicating and opening `/posts/<id>/edit`, focus `.ProseMirror`,
+`document.execCommand('selectAll')`, then dispatch a synthetic paste whose
+DataTransfer carries **`text/html`** containing the whole issue including
+`<img src="https://insidethenumber.com/assets/newsletter/<date>/<file>"
+alt="...">` tags. ProseMirror converts them to real image blocks. Verify with
+`document.querySelectorAll('.ProseMirror img').length` — expect 2.
+
+**The post title will NOT save via the React value setter.** Setting
+`.editor-title-textarea` programmatically updates the tab title and looks
+correct, but the Review step still shows the OLD duplicated title with " (1)".
+Set the title by **real typing**: triple-click the title, `cmd+a`, then type.
+Confirm on the Review step that "Post Title:" is the new title before scheduling.
+
+**Subject line is separate and does not follow the title.** On the Email step it
+snapshots the duplicated post's title. Set it explicitly (the input whose value
+still contains yesterday's headline) and re-check on Review.
+
+**Send a test before scheduling.** On the Email step, click the button whose text
+is exactly "Send test email" — it fires immediately to the account owner and the
+page shows "Test email sent". Confirm both images render in that inbox before
+scheduling. A broken image cannot be fixed after a send.
+
+**Push assets BEFORE building the issue.** Commit to
+`assets/newsletter/<date>/`, push, wait ~60s for Cloudflare, then confirm each
+URL returns 200 with the right content-type before pasting it into Beehiiv.
