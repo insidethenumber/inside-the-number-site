@@ -181,3 +181,25 @@ than an evening job, because a job that has to run is a job that can be missed:
 
 Day headers now read e.g. "11 games · 5 of 11 favorites covered". That is a fact
 about the market, not a record of ours — the no-W/L rule is untouched.
+
+## Sep 4, 2026 — the nav was dead on every page but two
+
+Chuck, on the CFB page: clicking the ITN logo or HOME just reloaded CFB. It was
+not a CFB bug. Fourteen pages shipped `<a class="nav-brand" href="">` and
+`<a href="">Home</a>`. An empty href resolves to the current URL, so every logo
+and every Home link on the site reloaded the page you were already on. Only
+index.html (which used `#top`) and ufc.html (`index.html`) were unaffected, which
+is why it survived earlier nav checks — those checks confirmed the links existed
+and were styled, not that they went anywhere.
+
+Fixed: 40 links across 14 pages, all now `href="/"`, desktop nav and mobile menu
+both. Verified by clicking, live, not by reading markup — from /cfb and /tools
+the logo and Home both land on the homepage.
+
+Also swept every internal href and src on every page for dead targets. Clean:
+the only unresolved matches are JS template literals (`${g.a.logo}`) and the
+tel:/sms: helpline links on the responsible-gambling page.
+
+**Standing rule going forward: a link is not fixed until it has been clicked.**
+Grepping for `href=` proves a link is present. It does not prove it works. Every
+nav audit from here clicks through at least one page per template.
