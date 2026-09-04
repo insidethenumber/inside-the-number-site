@@ -29,7 +29,8 @@
   "C2-model-not-backtested.txt",
   "0000-cfb-thursday-board.txt",
   "100-result-colorado.txt",
-  "020-parlay-of-the-day.txt"
+  "020-parlay-of-the-day.txt",
+  "120-board-15-ranked.txt"
  ],
  "history": [
   {
@@ -302,6 +303,16 @@
    "url": "https://x.com/thenumberdesk/status/2095917372372890060",
    "at": "2026-09-04T16:50:16.718969+00:00",
    "chars": 256,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "120-board-15-ranked.txt",
+   "id": "2095951898239012896",
+   "url": "https://x.com/thenumberdesk/status/2095951898239012896",
+   "at": "2026-09-04T19:07:28.593628+00:00",
+   "chars": 198,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
