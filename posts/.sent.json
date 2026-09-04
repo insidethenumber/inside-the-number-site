@@ -30,7 +30,8 @@
   "0000-cfb-thursday-board.txt",
   "100-result-colorado.txt",
   "020-parlay-of-the-day.txt",
-  "120-board-15-ranked.txt"
+  "120-board-15-ranked.txt",
+  "180-friday-miami-move.txt"
  ],
  "history": [
   {
@@ -315,6 +316,16 @@
    "chars": 198,
    "had_link": false,
    "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "180-friday-miami-move.txt",
+   "id": "2095982265964880200",
+   "url": "https://x.com/thenumberdesk/status/2095982265964880200",
+   "at": "2026-09-04T21:08:08.466032+00:00",
+   "chars": 207,
+   "had_link": false,
+   "had_image": false,
    "est_cost": 0.015
   }
  ]
