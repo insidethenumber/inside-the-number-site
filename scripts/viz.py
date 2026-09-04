@@ -316,14 +316,23 @@ def f_stack(a):
 
         lg = r.get("league", "CFB")
         # left: name then mark, hugging the centre seam
-        li = logo(lg, r.get("left_abbr"), 74)
+        li = logo(lg, r.get("left_abbr"), 66)
         lnf = fit(d, (r.get("left") or "").upper(), D, half - 70 - 110, 46, 24)
         d.text((70, y + 38 + (46 - lnf.size) // 2), (r.get("left") or "").upper(),
                font=lnf, fill=readable(lc))
-        paste_c(img, li, half - 60, y + (RH - 6) / 2)
+        # Sep 3: a logo the same colour as its panel disappears (Texas burnt
+        # orange on burnt orange, Clemson's paw on orange, Indiana crimson on
+        # crimson). Every mark now sits on a white disc so it reads on any
+        # team colour — the same trick broadcast score bugs use.
+        cy = y + (RH - 6) / 2
+        if li is not None:
+            plate(d, half - 60, cy, 44)
+        paste_c(img, li, half - 60, cy)
         # right: mark then name
-        ri = logo(lg, r.get("right_abbr"), 74)
-        paste_c(img, ri, half + 62, y + (RH - 6) / 2)
+        ri = logo(lg, r.get("right_abbr"), 66)
+        if ri is not None:
+            plate(d, half + 62, cy, 44)
+        paste_c(img, ri, half + 62, cy)
         # Reserve the price's width FIRST, then fit the name into what is left.
         # Sep 3: "KENNESAW ST" ran straight into "KENN -22.5" and read as one
         # word. On a card whose whole job is legibility that is fatal.
@@ -345,6 +354,11 @@ def f_stack(a):
     d.text((368, H - 58), "insidethenumber.com", font=M(25), fill=GREEN)
     d.text((W - 232, H - 58), "@thenumberdesk", font=M(25), fill=MUTED)
     return img
+
+
+def plate(d, cx, cy, r, fill="#ffffff"):
+    """White disc behind a team mark so it survives any panel colour."""
+    d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=fill)
 
 
 def readable(bg):
