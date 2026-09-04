@@ -37,12 +37,45 @@ That is a ~1000x difference in reach per unit of effort, and we have been
 spending our effort on the wrong side of it. Ten mockups is not the problem;
 the problem is that whichever mockup we pick gets shown to 70 people.
 
-### The second finding, which is worse
+### The second finding — CORRECTED Sep 4, after Chuck pushed back
 
-490 visits produced 0 signups. That is not a traffic problem, it is a
-**conversion problem sitting on top of a traffic problem**. Even at our tiny
-volume, a compelling offer should have converted 5–10 people. It converted
-nobody. Two separate things are broken and fixing only one changes nothing.
+I originally wrote that 490 visits producing 0 signups proved a conversion
+problem on top of a traffic problem. Chuck's response: "all of the traffic is
+you, pinging the page." He is right, and I should have checked before drawing a
+conclusion from it.
+
+The evidence he is right:
+
+- **`/record` is in the 30-day top-URL list.** That page was deleted weeks ago.
+  Nobody outside this project has a link to it. Those loads are ours.
+- **`/top2-preview` is in the list.** A preview page that was never linked from
+  anywhere public. That is purely internal.
+- **Today: 42 page views.** In this session alone I loaded /cfb four times,
+  /parlay three times, plus the homepage, /tools and /games while verifying
+  fixes. That is most of today's number by itself.
+
+So the 490 is largely me verifying my own work, and a smaller amount of Chuck
+checking pages. **Real outside traffic is a small fraction of it — plausibly
+tens of visits a month, not hundreds.**
+
+**What this changes:** the "0% conversion" claim is unsupported. You cannot
+diagnose an offer from traffic that is mostly your own browser. There is one
+problem, not two: **almost nobody has ever seen this site.** The offer might be
+weak, and I still think leading with the honest-price angle is right on the
+merits — but it is untested, and I should not have presented it as diagnosed.
+
+**Process fix, so the number becomes trustworthy:**
+
+1. *My side, effective immediately:* verify with `fetch()` rather than real
+   browser page loads. Fetch does not execute page JavaScript, so the analytics
+   beacon never fires. Browser loads only when I genuinely need to see rendering.
+2. *Site side:* Web Analytics is on "Automatic setup", so Cloudflare injects the
+   beacon at the edge and there is no script tag to guard. Switching to manual
+   setup would let us wrap it in a `localStorage.itn_internal` check, so Chuck's
+   own browsing stops counting too. Worth doing before we make any decision off
+   these numbers again.
+3. *Until then:* treat all historical traffic figures in this project as
+   contaminated. Do not cite the 490.
 
 ---
 
@@ -129,7 +162,8 @@ conversion page burns money to prove something we already know.
 ## 4. The honest arithmetic
 
 At a 1% visit-to-subscriber rate — optimistic for cold traffic — 100 subscribers
-needs ~10,000 visits. We are at 490 a month. That is a 20x gap, and no amount of
+needs ~10,000 visits. We are at *tens* of real visits a month once our own
+loads come out. That is not a 20x gap, it is closer to 100x, and no amount of
 site polish closes it.
 
 Which means: **the next month should be almost entirely distribution, and the
@@ -145,7 +179,8 @@ features is an hour not spent finding readers.
 - I run X replies hard — 40+ a day, football-first, every one carrying a real
   number. Originals drop to 2.
 - Chuck sets up the Reddit account properly and starts commenting. I write them.
-- We rewrite the homepage offer to lead with the price/cost angle, not "free pick".
+- We rewrite the homepage offer to lead with the price/cost angle, not "free pick"
+  — on the merits, not because the data proved it. The data proves nothing yet.
 
 **Next two weeks:**
 - Reddit daily, 20 minutes, Chuck.
