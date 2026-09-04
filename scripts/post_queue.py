@@ -62,7 +62,9 @@ def queue(st):
 
 # Target posting times, Central. These are intentions, not triggers — see
 # --if-due below.
-SLOTS_CT = [(9, 15), (12, 15), (16, 40)]
+# Fri Sep 4, 2026 — Chuck: "a post every 2 hours today until 10pm" for CFB
+# kickoff weekend. Seven windows. Revert to three slots after the weekend.
+SLOTS_CT = [(10, 0), (12, 0), (14, 0), (16, 0), (18, 0), (20, 0), (22, 0)]
 
 
 def central_now():

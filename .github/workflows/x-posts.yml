@@ -42,6 +42,11 @@ on:
     # reply we've earned came from a specific, checkable observation about a
     # player or a price. Three of those beat three of those plus one about
     # ourselves.
+  schedule:
+    # Re-armed Fri Sep 4, 2026 on Chuck's instruction (post every 2 hours
+    # until 10pm CT for kickoff weekend). Polls every 20 min; post_queue.py
+    # --if-due gates volume by SLOTS_CT. Covers 10:00 CT through 22:40 CT.
+    - cron: "*/20 0-3,15-23 * * *"
   workflow_dispatch:
 
 concurrency:
