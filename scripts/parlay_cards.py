@@ -431,21 +431,36 @@ FORMATS = {
 }
 
 
-def contact_sheet(paths, out, cols=3, cell=760):
-    ims = []
+def contact_sheet(paths, out, cols=2, cell=880, pad=26, label_h=54):
+    """Every format on one screen, packed by real aspect ratio and labelled.
+
+    The first version padded each cell to a square, which left an ocean of
+    black under every 16:9 card and made the sheet unreadable at a glance.
+    Rows are now as tall as their tallest card and nothing else.
+    """
+    ims, labels = [], []
     for p in paths:
         im = Image.open(p)
-        r = min(cell / im.width, cell / im.height)
-        ims.append(im.resize((int(im.width * r), int(im.height * r))))
-    rows = (len(ims) + cols - 1) // cols
-    pad = 24
+        r = cell / im.width
+        ims.append(im.resize((cell, int(im.height * r))))
+        labels.append(os.path.splitext(os.path.basename(p))[0]
+                      .replace("-", "  ").upper())
+
+    rows = [(ims[i:i + cols], labels[i:i + cols])
+            for i in range(0, len(ims), cols)]
+    row_h = [max(i.height for i in r[0]) + label_h for r in rows]
     W = cols * cell + pad * (cols + 1)
-    H = rows * cell + pad * (rows + 1)
+    H = sum(row_h) + pad * (len(rows) + 1)
     sheet = Image.new("RGB", (W, H), "#05070a")
-    for i, im in enumerate(ims):
-        cx = pad + (i % cols) * (cell + pad) + (cell - im.width) // 2
-        cy = pad + (i // cols) * (cell + pad) + (cell - im.height) // 2
-        sheet.paste(im, (cx, cy))
+    d = ImageDraw.Draw(sheet)
+
+    y = pad
+    for (row_ims, row_labels), rh in zip(rows, row_h):
+        for k, (im, lab) in enumerate(zip(row_ims, row_labels)):
+            x = pad + k * (cell + pad)
+            d.text((x + 2, y), lab, font=B(30), fill="#8a93a0")
+            sheet.paste(im, (x, y + label_h))
+        y += rh + pad
     sheet.save(out, quality=92)
 
 
