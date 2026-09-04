@@ -606,6 +606,7 @@
           }
         }
         GAMES.push({
+          id:ev.id,
           state:st.state||'pre', detail:st.shortDetail||'',
           aSc:aSc, hSc:hSc, cover:cover, totRes:totRes,
           key:A.team.abbreviation+'@'+H.team.abbreviation,
@@ -652,11 +653,47 @@
         'Lines via ESPN, read live at '+new Date().toLocaleTimeString('en-US',
           {timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})+' CT · '+GAMES.length+' games';
       render();
+      gradeFinals();
     }catch(e){
       board.innerHTML='<div class="loading">The odds feed didn\'t answer just now. '+
         'The full board is on the <a href="games" style="color:inherit">games page</a>.</div>';
       document.getElementById('stamp').textContent='Lines via ESPN · feed unavailable';
     }
+  }
+
+  // ESPN strips the odds block out of a game once it is final, so the board
+  // knows the score but not the number it should be graded against. The
+  // summary endpoint keeps it (pickcenter), so finals get one extra request
+  // each — only finals, only once, and only after the board has already
+  // painted, so nothing waits on it.
+  var graded={};
+  async function gradeFinals(){
+    var todo=GAMES.filter(function(g){return g.state==='post'&&g.spread==null&&!graded[g.id];});
+    if(!todo.length) return;
+    todo=todo.slice(0,24);
+    await Promise.all(todo.map(async function(g){
+      graded[g.id]=1;
+      try{
+        var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/summary?event='+g.id);
+        if(!r.ok) return;
+        var j=await r.json();
+        var pc=(j.pickcenter||[])[0]; if(!pc) return;
+        var sp=(pc.spread!=null)?Number(pc.spread):null;
+        var ou=(pc.overUnder!=null)?Number(pc.overUnder):null;
+        if(sp!=null){
+          g.spread=sp;
+          g.line=(pc.details||g.line);
+          var marg=g.hSc-g.aSc+sp;
+          g.cover=marg>0?'home':(marg<0?'away':'push');
+        }
+        if(ou!=null){
+          g.total=ou;
+          var tot=g.aSc+g.hSc;
+          g.totRes=tot>ou?'over':(tot<ou?'under':'push');
+        }
+      }catch(e){}
+    }));
+    render();
   }
 
   // Live refresh. Chuck, Sep 4 2026: "always do this in the evening or live."
