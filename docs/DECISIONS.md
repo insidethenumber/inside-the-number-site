@@ -138,3 +138,46 @@ through and date the reversal.
   7:10 / 8:10. Chuck must keep the Mac awake at 6:15.
 - Slate data: GitHub Action at 6:41 / 9:17 / 11:47 AM / 2:23 PM CT.
 - Holidays are listed in the task prompts; the weekend task owns them.
+
+## Sep 4, 2026 — /parlay page, and results on the CFB board
+
+**Parlay of the Day page (`/parlay`).** Chuck asked whether it was a good idea.
+Yes, with one condition, and the condition is the whole product: the cost leads.
+Our pitch is that we tell people what a price actually costs them, and a parlay
+is the worst-priced thing on the board. Three legs and a payout would make us
+the thing we criticise. So the page prints the break-even the ticket needs, the
+chance three independent bets actually land, and the gap between them, above the
+fold, every day.
+
+Built as `scripts/build_parlay_page.py`, fed by the SAME spec JSON that renders
+the slip card in `scripts/parlay_cards.py` — one source of truth, so the graphic
+on X and the page it links to cannot disagree. Archive in `data/parlays.json`
+accumulates under the fold, which is what gives the page depth instead of it
+being thin on day one.
+
+Kickoff guard: every leg carries its start time and the browser marks it
+STARTED/FINAL and locks the card once all three are away. A dated page still
+presenting a game that kicked off three hours ago as bettable is the fastest way
+to lose a reader, and it is the failure mode this page was always going to have.
+
+Honest expectation on SEO: we will not rank for "parlay of the day" — Action
+Network, Covers and Pickswise own it. The value is a real landing page for the X
+post and internal support for `/parlay-calculator`, which is the page that can
+actually rank.
+
+**Results on the CFB board.** Chuck: "there should be results from yesterday's
+games. Please always do this in the evening or live." Built as live reads rather
+than an evening job, because a job that has to run is a job that can be missed:
+
+- The board window now always reaches back to include yesterday (it used to jump
+  forward to the next Saturday on Tuesday and drop the weekend entirely).
+- Final games show the score, who covered, and the total result. In-progress
+  games show a live clock and score. The page re-reads the feed every minute
+  while anything is live, every ten otherwise, and not at all in a hidden tab.
+- ESPN strips the odds block from a game once it is final, so the board would
+  know the score but not the number to grade it against. Finals therefore pull
+  the closing spread and total from the summary endpoint (pickcenter), once
+  each, after the board has already painted.
+
+Day headers now read e.g. "11 games · 5 of 11 favorites covered". That is a fact
+about the market, not a record of ours — the no-W/L rule is untouched.
