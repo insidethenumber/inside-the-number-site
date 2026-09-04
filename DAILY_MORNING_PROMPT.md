@@ -483,3 +483,60 @@ where there's no read, purely to fill a quota. Betting a spread blind to
 look sophisticated is worse than passing. The point is that the survey has
 to happen first — the edge is usually not in the MLB moneyline, and the
 old instruction never even asked the routine to look elsewhere.
+
+## Visuals in the newsletter (added Sep 4, 2026 — Chuck asked for GIFs/graphics)
+
+**Every issue carries exactly two images. No more, no fewer.** More than two
+slows the load, trips spam filters, and turns the Morning Board into a brochure.
+
+### The two slots
+
+1. **THE FREE PICK — a static card.** Build with
+   `python3 scripts/parlay_cards.py --out-dir /tmp/nl --spec spec.json --only price`
+   (or `slip` when the issue leads with a multi-leg ticket). The card carries the
+   price, the de-vigged fair number and the break-even; the copy carries the take.
+
+2. **BIGGEST OVERNIGHT MOVE — an animated GIF.** This is the one that makes the
+   email feel alive, and it is the thing we do that nobody else does:
+   `python3 scripts/viz.py ticker --out /tmp/nl/move.gif --left <open> --right <now> \
+      --headline "AWAY AT HOME" --sub "<one line on what moved>"`
+   Writes both `.gif` and `.mp4`; the newsletter uses the **.gif**.
+
+### Email rules — these are not optional
+
+- **Outlook (Windows desktop) renders only the FIRST FRAME of a GIF.** The
+  ticker's frame one already shows the headline, the opening number, and OPEN /
+  NOW labelled at both ends of the track, so a frozen frame still tells the whole
+  story. If you build any other animation, hold that standard: **frame one must
+  work as a still.**
+- Keep each GIF **under 1 MB** (the ticker lands around 190 KB at 800px wide).
+- **Alt text on both images, always** — many clients block images by default and
+  a meaningful share of readers will only ever see the alt text. Write it as a
+  sentence that carries the number: "Miami opened -21.5 at Stanford and is -24.5
+  now," not "line movement chart."
+- Never put a number in an image that is not also in the text. The image is a
+  reinforcement, never the only place a fact lives.
+
+### Hosting — our own domain, not a third party
+
+Commit the files to `assets/newsletter/<YYYY-MM-DD>/` in the same push as the
+site update. Cloudflare then serves them at
+`https://insidethenumber.com/assets/newsletter/<YYYY-MM-DD>/<file>`, which is
+what you paste into the Beehiiv image block. Reasons: the URL is on our domain,
+it never expires, it costs nothing, and it survives any connector going away.
+Do not hotlink GIPHY or any third-party CDN in email.
+
+### Beehiiv mechanics
+
+In the editor, insert an Image block and give it the public URL above, then fill
+the alt text field. Place the static card directly under the free pick's
+reasoning, and the ticker GIF directly under the BIGGEST OVERNIGHT MOVE heading.
+Send yourself the test email and confirm both images render before scheduling —
+a broken image in an email cannot be fixed after it sends.
+
+### When to skip
+
+If the board genuinely did not move (no game moved half a point), skip the GIF
+rather than animate a non-event, and say "the board barely moved overnight" in
+the text as the format already requires. One image is better than one honest
+image plus one dishonest one.
