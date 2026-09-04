@@ -31,7 +31,8 @@
   "100-result-colorado.txt",
   "020-parlay-of-the-day.txt",
   "120-board-15-ranked.txt",
-  "180-friday-miami-move.txt"
+  "180-friday-miami-move.txt",
+  "200-weekend-picks.txt"
  ],
  "history": [
   {
@@ -326,6 +327,16 @@
    "chars": 207,
    "had_link": false,
    "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "200-weekend-picks.txt",
+   "id": "2096012460239061053",
+   "url": "https://x.com/thenumberdesk/status/2096012460239061053",
+   "at": "2026-09-04T23:08:07.577618+00:00",
+   "chars": 280,
+   "had_link": false,
+   "had_image": true,
    "est_cost": 0.015
   }
  ]
