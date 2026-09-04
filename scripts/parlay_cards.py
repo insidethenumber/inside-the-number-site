@@ -432,18 +432,22 @@ def f_price(s, out):
     own de-vigged number says. When break-even is above fair, the card shows
     you are paying for a favourite the market prices as a coin flip or worse.
     That gap is the only thing we publish that nobody else will."""
-    W, H = 1600, 900
-    img, d = new(W, H)
-    eyebrow(d, 70, 66, "THE PRICE IS THE POINT  ·  " + s["date_line"].upper())
-    d.text((70, 112), s["headline"], font=D(58), fill=WHITE)
-
     n = len(s["legs"])
     top, rowh = 236, 250
+    # Canvas grows with the card. Fixed at 900 this silently overlapped the
+    # footer the first time a three-leg spec was passed (Sep 4, 2026).
+    W = 1600
+    H = max(900, top + n * rowh + 200)
+    img, d = new(W, H)
+    eyebrow(d, 70, 66, "THE PRICE IS THE POINT  ·  " + s["date_line"].upper())
+    f_h = fit(d, s["headline"], D, W - 140, 58, 34)
+    d.text((70, 112), s["headline"], font=f_h, fill=WHITE)
     for i, leg in enumerate(s["legs"]):
         y = top + i * rowh
         d.rounded_rectangle([70, y, W - 70, y + 208], 18, fill=CARD)
         mark(img, d, leg, 150, y + 104, 96)
-        d.text((236, y + 30), leg["pick"], font=D(56), fill=WHITE)
+        fp = fit(d, leg["pick"], D, 620, 56, 34)
+        d.text((236, y + 30), leg["pick"], font=fp, fill=WHITE)
         for k, line in enumerate(wrap(d, leg["note"], M(24), 600)[:2]):
             d.text((238, y + 94 + k * 30), line, font=M(24), fill=MUTED)
 
