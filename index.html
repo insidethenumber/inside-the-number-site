@@ -898,19 +898,27 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'CFB', away:{code:'38', name:'Colorado'}, home:{code:'59', name:'Georgia Tech'},
-      time: '8:00 PM ET', pick: 'Colorado +6.5', conf: 3, free: true,
-      hook: 'The spread already gave back half a point before either team has played a down',
-      why: 'Georgia Tech opened this game at -290 on the moneyline and -7 on the spread against a Colorado team that, like Georgia Tech, is 0-0 — it is each team’s opener. Both numbers have come in since: Georgia Tech is now -238, the spread is down to 6.5. That is real movement on a game with no in-season result to justify it. The book’s own no-vig math puts Colorado’s true win probability at 32.5%, up from an implied 29.8% at open, so the shift is not just vig noise — the market’s own fair number moved too. What beats it: Georgia Tech is at home for a season opener under its own staff, home openers tend to outperform a market still calibrating on zero data, and a game between two unknowns is exactly the kind that can move another six points before Saturday’s Colorado tape ever mattered.'
+      league: 'CFB', away:{code:'23', name:'San José State'}, home:{code:'2199', name:'Eastern Michigan'},
+      time: '6:30 PM ET', pick: 'San José State +3', conf: 3, free: true,
+      hook: 'The spread and the moneyline both moved toward San José State before kickoff',
+      why: 'Eastern Michigan opened -3.5 and -162. It is -3 and -148 now — the spread and the moneyline came in together, which is the consistent kind of move. De-vigged, San José State went from 40.7% to 42.8% to win outright. Break-even on +3 at -115 is 53.5%. What beats it: a 3-point home favorite in a MAC opener is exactly the number that lands on 3.'
     },
     {
-      league: 'MLB', away:{code:'mia', name:'Marlins'}, home:{code:'kc', name:'Royals'},
-      time: '7:40 PM ET', pick: 'Royals -118', conf: 3, free: false,
-      hook: 'Kansas City is sixteen games under .500 and the market just made them the favorite anyway',
-      why: 'This line opened Miami -128, Kansas City +106 — the Marlins as the clear favorite on the road, which is what a 71-69 team playing a 62-78 team should look like. It has flipped completely: Kansas City is now -118, Miami is +102, with no roster news to explain it. The book’s own no-vig math has the Royals at 51.7% to win this one, ahead of Miami’s 48.3%, so the model sides with the new price, not the old one. Break-even on Kansas City at -118 is 54.1%, so the fair number still trails what the price requires — this is a short-priced move, not free money. What beats it: Miami is nine games better in the standings for a reason, and a home underdog flipping to a home favorite overnight without a lineup change is exactly the kind of number that can flip back by first pitch.'
+      league: 'MLB', away:{code:'nyy', name:'Yankees'}, home:{code:'sd', name:'Padres'},
+      time: '9:40 PM ET', pick: 'Yankees -130', conf: 3, free: false,
+      hook: 'Max Fried against Walker Buehler at close to a coin-flip price',
+      why: 'Fried has a 2.80 ERA; Buehler is at 4.66. The market has the Yankees at 54.0% fair and asks 56.5% to break even at -130, so you pay about two and a half points for the better arm. The line has not moved (-131 to -130) — nobody is fading Fried. What beats it: San Diego’s bullpen shortens games, and -130 leaves no room for a bad first inning.'
+    },
+    {
+      league: 'MLB', away:{code:'tb', name:'Rays'}, home:{code:'tex', name:'Rangers'},
+      time: '8:05 PM ET', pick: 'Rays -118', conf: 2, free: false,
+      hook: 'The price got better and the pitching edge did not change',
+      why: 'Nick Martinez (2.99 ERA) against Kumar Rocker (4.44). Tampa opened -126 and is -118 now — the market drifted toward Texas with no lineup reason. Fair price on the Rays is 51.7%; break-even at -118 is 54.1%, so this is a bet that the arm gap is worth more than a coin flip. What beats it: Rocker at home, and 2.4 points is thin.'
     }
   ];
-  // Set Thu Sep 3, 10:05 AM CT by hand from the Cowork session, after the
+  // Set Fri Sep 4, 8:40 AM CT by hand from the Cowork session (numbers from
+  // ESPN/DraftKings live pull + data/brief-latest.json generated 11:49 UTC).
+  // Previous note kept for the record: set Thu Sep 3, 10:05 AM CT by hand, after the
   // 10:00 AM automated run failed to update index.html on every weekday
   // since Aug 24 (see SEND_LOG). The auto pipeline built data/brief-latest.json
   // and the game pages but never touched todaysGames. Numbers read off the
@@ -1124,11 +1132,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Thu, Sep 3</div>
+        <div class="potd-date">Fri, Sep 4</div>
         <div class="potd-sport">CFB</div>
-        <div class="potd-matchup" id="potd-matchup">Colorado @ Georgia Tech</div>
-        <div class="potd-line">THE PICK: Colorado +6.5 &middot; 8:00 PM ET</div>
-        <p class="potd-reasoning">Georgia Tech opened this game at -290 on the moneyline and -7 on the spread against a Colorado team that, like Georgia Tech, is 0-0 &mdash; it is each team&rsquo;s opener. Both numbers have come in since: Georgia Tech is now -238 and the spread is down to 6.5. That is real movement on a game with no in-season result to justify it. Strip out what the book keeps and the market&rsquo;s own fair price puts Colorado at 32.5% to win, up from 29.8% at open &mdash; so this is not just the book shaving its cut, the fair number moved too. The case against, plainly: Georgia Tech is home for a season opener, home openers tend to outperform a market still calibrating on zero data, and a game between two unknowns can move another six points once anyone has actual tape. Medium confidence. Odds via DraftKings, read this morning &mdash; check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">San Jos&eacute; State @ Eastern Michigan</div>
+        <div class="potd-line">THE PICK: San Jos&eacute; State +3 &middot; 6:30 PM ET</div>
+        <p class="potd-reasoning">Eastern Michigan opened -3.5 and -162. It is -3 and -148 now &mdash; the spread and the moneyline came in together, which is the consistent kind of move. De-vigged, San Jos&eacute; State went from 40.7% to 42.8% to win outright. Break-even on +3 at -115 is 53.5%. What beats it: a 3-point home favorite in a MAC opener is exactly the number that lands on 3. Medium confidence. Odds via DraftKings, read this morning &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
