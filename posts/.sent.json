@@ -27,7 +27,8 @@
   "15-pitcher-wins.txt",
   "16-why-free.txt",
   "C2-model-not-backtested.txt",
-  "0000-cfb-thursday-board.txt"
+  "0000-cfb-thursday-board.txt",
+  "100-result-colorado.txt"
  ],
  "history": [
   {
@@ -280,6 +281,16 @@
    "url": "https://x.com/thenumberdesk/status/2095312462807445515",
    "at": "2026-09-03T00:46:35.146519+00:00",
    "chars": 211,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "100-result-colorado.txt",
+   "id": "2095891828784652320",
+   "url": "https://x.com/thenumberdesk/status/2095891828784652320",
+   "at": "2026-09-04T15:08:46.663178+00:00",
+   "chars": 238,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
