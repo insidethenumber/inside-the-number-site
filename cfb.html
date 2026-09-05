@@ -162,7 +162,13 @@
   .gm:first-child{border-top:0}
   .gm-k{font:600 12px/1.35 ui-sans-serif,system-ui;color:#7c8698;white-space:nowrap}
   .gm-k .gd{display:block;font-weight:700;font-size:11px;color:#aeb7c4;margin-bottom:2px}
-  .gm-k .tv{display:block;font-weight:500;font-size:11px;color:#5d6675;margin-top:3px}
+  .gm-k .tv{display:inline-block;font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:#9fb0c4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
+    border-radius:4px;padding:2px 6px;margin-top:5px;white-space:nowrap}
+  /* During a live game the network is the thing people actually want
+     (Chuck, Sep 5: "where the broadcast is being held"), so it gets the
+     accent instead of sitting grey under the clock. */
+  .gm-k .tv.on{color:#0b0e13;background:var(--green,#00d084);border-color:transparent}
   .gm-m{font:600 16px/1.35 ui-sans-serif,system-ui;color:#eef2f7}
   .gm-m .rk{color:#f0b232;font-size:12px;font-weight:700;margin-right:3px}
   .gm-tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:6px}
@@ -205,7 +211,10 @@
 <style>
   .lede { font-size:16px; line-height:1.65; color:var(--mid,#c9cfd8); max-width:62ch; margin:18px 0; }
   table td.kick { white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
-  table td.kick .tv { display:block; font-size:10px; color:var(--muted,#7c8794); letter-spacing:.06em; text-transform:uppercase; }
+  table td.kick .tv { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    color:#9fb0c4; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10);
+    border-radius:4px; padding:1px 5px; margin-top:4px; }
+  table td.kick .tv.on { color:#0b0e13; background:var(--green,#00d084); border-color:transparent; }
   table td.mu .vn { display:block; font-size:11px; color:var(--muted,#7c8794); }
   table td.num { font-family:'IBM Plex Mono',monospace; white-space:nowrap; }
   tr.note td { font-size:13px; color:var(--mid,#c9cfd8); padding-top:0; border-top:none; opacity:.92; }
@@ -519,7 +528,7 @@
       }
 
       html+='<div class="gm'+(done?' done':'')+'">'+
-        '<div class="gm-k">'+kick+(g.tv&&!done?'<span class="tv">'+g.tv+'</span>':'')+'</div>'+
+        '<div class="gm-k">'+kick+(g.tv&&!done?'<span class="tv'+(live?' on':'')+'">'+g.tv+'</span>':'')+'</div>'+
         '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
           score+
           (tags.length&&!done?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
@@ -622,7 +631,9 @@
           total:(o.overUnder!=null?o.overUnder:null), move:move,
           time:ct(ev.date), ts:new Date(ev.date).getTime(),
           day:dayKey(ev.date), dayS:dayShort(ev.date),
-          tv:(c.broadcasts&&c.broadcasts[0]&&c.broadcasts[0].names&&c.broadcasts[0].names[0])||''
+          tv:(function(){var b=(c.broadcasts||[]).map(function(x){return (x.names&&x.names[0])||x.media&&x.media.shortName||'';}).filter(Boolean);
+                var gb=(c.geoBroadcasts||[]).map(function(x){return (x.media&&(x.media.shortName||x.media.name))||'';}).filter(Boolean);
+                return b[0]||gb[0]||'';})()
         });
       });
       var dOpts={month:'short',day:'numeric'};
