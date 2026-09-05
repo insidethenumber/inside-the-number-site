@@ -154,7 +154,7 @@ def issue_html(spec, date, have):
         alt = "; ".join(f'{l["pick"]} is {l["price"]}, break-even {l["be"]}, fair {l["fair"]}' for l in legs)
         P.append(f'<p><img src="{u("pick.jpg")}" alt="{e(alt)}"></p>')
     if spec.get("also"):
-        P.append("<p><strong>Also on the card</strong></p>")
+        P.append("<p><strong>OTHER CONFIDENT PLAYS</strong></p>")
         for a in spec["also"]:
             P.append(f'<p><strong>{e(a["pick"])} ({e(a["price"])})</strong>, {e(a["start"])}. {e(a["body"])}</p>')
 
