@@ -1,5 +1,53 @@
 [
  {
+  "date": "2026-09-05",
+  "date_line": "Saturday, September 5",
+  "price": "+596",
+  "decimal": "6.96",
+  "be": "14.4%",
+  "coin": "12.5%",
+  "hook": "Three sides the market moved toward, priced as one ticket you should understand before you bet it.",
+  "legs_line": "Tulane / Wyoming / UCLA",
+  "label": "Parlay of the Day",
+  "pay_label": "Payout",
+  "foot_line": "14.4% to break even. Three coin flips hit 12.5%.",
+  "legs": [
+   {
+    "league": "cfb",
+    "abbr": "TULN",
+    "pick": "Tulane +7.5 at Duke",
+    "price": "-110",
+    "be": "52.4%",
+    "decimal": "1.91",
+    "color": "#006747",
+    "note": "Duke opened -8.5 and -455. It is -7.5 and -310 now. 3:30 ET.",
+    "start": "2026-09-05T19:30:00Z"
+   },
+   {
+    "league": "cfb",
+    "abbr": "WYO",
+    "pick": "Wyoming +3 at Colorado State",
+    "price": "-108",
+    "be": "51.9%",
+    "decimal": "1.93",
+    "color": "#492f24",
+    "note": "CSU opened -4 and -180. It is -3 and -155 now. 6:00 ET.",
+    "start": "2026-09-05T22:00:00Z"
+   },
+   {
+    "league": "cfb",
+    "abbr": "UCLA",
+    "pick": "UCLA -2.5 at California",
+    "price": "-112",
+    "be": "52.8%",
+    "decimal": "1.89",
+    "color": "#2d68c4",
+    "note": "Cal opened -1.5 and is +2.5 now. The favorite flipped. 10:30 ET.",
+    "start": "2026-09-06T02:30:00Z"
+   }
+  ]
+ },
+ {
   "date_line": "Friday, September 4",
   "price": "+615",
   "decimal": "7.15",

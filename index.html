@@ -897,30 +897,18 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    {
-      league: 'CFB', away:{code:'98', name:'Western Kentucky'}, home:{code:'2440', name:'Nevada'},
-      time: '10:30 PM ET', pick: 'Nevada +1.5', conf: 3, free: true,
-      hook: 'The spread and the moneyline are telling two different stories',
-      why: 'Nevada opened +4.5 on the spread and +120 on the moneyline — a live underdog by any measure. It closes +1.5, and the moneyline has flipped outright: Nevada -112, Western Kentucky -108. De-vigged, that is a 50.4%-49.6% game, about as close to a coin flip as this board gets. Getting a point and a half for free in a true 50/50 game is the kind of gap that does not last, and the total sliding from 53.5 to 51.5 fits a tighter, lower-scoring read.'
-    },
-    {
-      league: 'CFB', away:{code:'26', name:'UCLA'}, home:{code:'25', name:'California'},
-      time: '10:30 PM ET', pick: 'UCLA -2.5', conf: 3, free: false,
-      hook: 'The number flipped sides and took the moneyline with it',
-      why: 'California opened a 1.5-point home favorite and closes a 2.5-point underdog — a four-point swing that reversed the moneyline too, from Cal -115/UCLA -105 to Cal +114/UCLA -135. De-vigged, UCLA is a 55.1% favorite to Cal’s 44.9%, and the total never moved off 53.5. The market changed its mind about who wins, not about how many points get scored.'
-    },
-    {
-      league: 'MLB', away:{code:'tb', name:'Rays'}, home:{code:'tex', name:'Rangers'},
-      time: '7:05 PM ET', pick: 'Rays ML', conf: 3, free: false,
-      hook: 'The better arm at a true coin-flip price',
-      why: 'Drew Rasmussen takes the mound for Tampa Bay at 14-5 with a 2.95 ERA; Texas counters with Jacob deGrom at 10-9 and a 4.00 ERA, better than a full run worse. The book still has this at a dead-even -110/-110, which de-vigs to an exact 50/50 split. When the price does not move for the better pitcher, that gap is free.'
-    },
-    {
-      league: 'UFC', solo: true, event: 'Klaudia Syguła vs. Nora Cornolle',
-      time: '1:00 PM ET', pick: 'Klaudia Syguła -115', conf: 2, free: false,
-      hook: 'Both fighters are priced at minus money',
-      why: 'Syguła -115, Cornolle -105 — that only happens when a book sees almost nothing between two names. De-vigged, it is 51.1% Syguła to 48.9% Cornolle, a real but thin edge on a card with several lopsided mismatches.'
-    }
+    { league:'CFB', away:{code:'2655', name:'Tulane'}, home:{code:'150', name:'Duke'}, time:'3:30 PM ET', pick:'Tulane +7.5', conf:3, free:true,
+      hook:'Biggest fair-price move toward a dog on the board',
+      why:'Duke opened -8.5 and -455. It is -7.5 and -310 now — the spread and the moneyline came toward Tulane together. De-vigged, Tulane went from 21.3% to 27.4% to win outright. Break-even on +7.5 at -110 is 52.4%. What beats it: Duke scoring early and Tulane chasing on the road.' },
+    { league:'CFB', away:{code:'26', name:'UCLA'}, home:{code:'25', name:'California'}, time:'10:30 PM ET', pick:'UCLA -2.5', conf:3, free:false,
+      hook:'The favorite flipped before kickoff',
+      why:'California opened a 1.5-point favorite at -115 and is a 2.5-point dog at +114 now. UCLA went -105 to -135. A four-point swing across zero means the market changed its mind about who wins. UCLA fair 48.9% to 55.1%; break-even at -112 is 52.8%. What beats it: a late road kick against a team that was favored last week for a reason.' },
+    { league:'CFB', away:{code:'2751', name:'Wyoming'}, home:{code:'36', name:'Colorado State'}, time:'6:00 PM ET', pick:'Wyoming +3', conf:2, free:false,
+      hook:'Border War number came a full point toward the dog',
+      why:'Colorado State opened -4 and -180. It is -3 and -155 now. Wyoming fair 38.4% to 41.7%. Break-even at -108 is 51.9%. What beats it: 3 is the most common margin in football, and this is Fort Collins.' },
+    { league:'CFB', away:{code:'98', name:'Western Kentucky'}, home:{code:'2440', name:'Nevada'}, time:'10:30 PM ET', pick:'Nevada +1.5', conf:2, free:false,
+      hook:'Three points toward Nevada; moneyline agrees',
+      why:'Western Kentucky opened -4.5 and -142. It is -1.5 and -112 now. WKU fair fell 56.3% to 50.4% — a coin flip still priced as a favorite. Break-even on +1.5 at -118 is 54.1%. What beats it: a 1.5-point cushion is thin.' }
   ];
   // Set Sat Sep 5, 6:30 AM CT by hand from the weekend Cowork run (numbers
   // from ESPN scoreboard odds, read live via a browser tab since the sandbox
@@ -1135,9 +1123,10 @@
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
         <div class="potd-date">Sat, Sep 5</div>
         <div class="potd-sport">CFB</div>
-        <div class="potd-matchup" id="potd-matchup">Western Kentucky @ Nevada</div>
-        <div class="potd-line">THE PICK: Nevada +1.5 &middot; 10:30 PM ET</div>
-        <p class="potd-reasoning">Nevada opened +4.5 on the spread and +120 on the moneyline &mdash; a live underdog by any measure. It closes +1.5, and the moneyline has flipped outright: Nevada -112, Western Kentucky -108. De-vigged, that is a 50.4%-49.6% game, about as close to a coin flip as this board gets. Getting a point and a half for free in a true 50/50 game is the kind of gap that does not last. Medium confidence. Odds via DraftKings, read this morning &mdash; check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">Tulane @ Duke</div>
+        <div class="potd-line">THE PICK: Tulane +7.5 &middot; 3:30 PM ET</div>
+        <p class="potd-reasoning">Duke opened -8.5 and -455. It is -7.5 and -310 now &mdash; the spread and the moneyline came toward Tulane together, which is the consistent kind of move. De-vigged, Tulane went from 21.3% to 27.4% to win outright, the biggest fair-price move toward a dog on the Saturday board. Break-even on +7.5 at -110 is 52.4%. What beats it: Duke scoring early and Tulane chasing on the road. High confidence. Odds via ESPN, read at 10:15 AM CT &mdash; check the number before you take it.</p>
+        <p class="potd-reasoning" style="margin-top:12px"><b style="color:var(--white)"><a href="parlay" style="color:inherit">Parlay of the Day</a> &mdash; priced honestly.</b> Tulane +7.5 / Wyoming +3 / UCLA -2.5 &rarr; <b style="color:var(--green)">+596</b>. Needs to hit 14.4% to break even; three coin flips hit 12.5%. That gap is the price of the parlay.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
