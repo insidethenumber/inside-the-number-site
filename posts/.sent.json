@@ -36,7 +36,8 @@
   "220-saturday-zero-ranked.txt",
   "300-parlay-saturday.txt",
   "400-bc-cin-split.txt",
-  "410-movers-list.txt"
+  "410-movers-list.txt",
+  "425-byu-implied.txt"
  ],
  "history": [
   {
@@ -379,6 +380,16 @@
    "url": "https://x.com/thenumberdesk/status/2096314720307331275",
    "at": "2026-09-05T19:09:11.958748+00:00",
    "chars": 280,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "425-byu-implied.txt",
+   "id": "2096345071436038341",
+   "url": "https://x.com/thenumberdesk/status/2096345071436038341",
+   "at": "2026-09-05T21:09:48.205068+00:00",
+   "chars": 272,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
