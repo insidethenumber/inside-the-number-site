@@ -831,55 +831,6 @@ def render(fights, title, venue, datestr, preview):
 <body>
 {NAV}
 <div class="wrap">
-<div id="live-card" hidden>
-  <div class="eyebrow">// UFC · TODAY · <span id="lc-venue"></span></div>
-  <h1 id="lc-title" style="font-size:clamp(28px,4vw,44px)"></h1>
-  <div class="early" id="lc-times"></div>
-  <div id="lc-bouts"></div>
-  <div class="stamp" id="lc-stamp"></div>
-  <div class="early" style="margin-top:22px;border-top:1px solid var(--border);padding-top:18px">NEXT CARD ↓</div>
-</div>
-<style>
-  .lb{{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;padding:12px 16px;border:1px solid var(--border);background:var(--surface-1);border-radius:10px;margin-bottom:8px}}
-  .lb .n{{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;letter-spacing:.02em}}
-  .lb .n.win{{color:var(--green)}} .lb .n.lose{{color:var(--mid)}}
-  .lb .st{{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mid);text-align:center;min-width:120px}}
-  .lb .st.live{{color:var(--gold)}} .lb .st.fin{{color:var(--white)}}
-  .lb .n.r{{text-align:right}}
-  .lb .w{{grid-column:1/-1;font-size:12px;color:var(--muted);margin-top:-4px}}
-  @media(max-width:600px){{.lb .n{{font-size:16px}}.lb .st{{min-width:80px}}}}
-</style>
-<script>
-(async function(){{
-  try{{
-    const ct=new Date().toLocaleDateString('en-CA',{{timeZone:'America/Chicago'}}).replace(/-/g,'');
-    const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates='+ct);
-    const j=await r.json(); const ev=(j.events||[])[0]; if(!ev) return;
-    const pageTitle=document.querySelector('.wrap > .eyebrow + h1');
-    if(pageTitle && pageTitle.textContent.toLowerCase().indexOf(ev.name.split(':')[0].toLowerCase())===0) return;
-    const fmt=d=>new Date(d).toLocaleTimeString('en-US',{{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'}})+' CT';
-    const segs=[...new Set(ev.competitions.map(c=>c.date))].sort();
-    const v=ev.competitions[0].venue; 
-    document.getElementById('lc-venue').textContent=v?(v.fullName+' · '+v.address.city).toUpperCase():'';
-    document.getElementById('lc-title').textContent=ev.name;
-    document.getElementById('lc-times').textContent=(segs.length>1?'Prelims '+fmt(segs[0])+' · Main card '+fmt(segs[segs.length-1]):'Card starts '+fmt(segs[0]))+'. Main event is last. Results update live from ESPN.';
-    const bouts=[...ev.competitions].reverse();
-    document.getElementById('lc-bouts').innerHTML=bouts.map(c=>{{
-      const a=c.competitors[0],b=c.competitors[1];const st=c.status.type;
-      const fin=st.state==='post', live=st.state==='in';
-      const cls=x=>fin?(x.winner?'win':'lose'):'';
-      const wt=(c.type&&c.type.text)||(c.notes&&c.notes[0]&&c.notes[0].headline)||'';
-      const label=fin?'FINAL':(live?st.detail:fmt(c.date));
-      const how=fin&&c.status.result?(c.status.result.displayName||''):'';
-      return '<div class="lb"><div class="n '+cls(a)+'">'+a.athlete.displayName+'</div><div class="st '+(fin?'fin':(live?'live':''))+'">'+label+'</div><div class="n r '+cls(b)+'">'+b.athlete.displayName+'</div><div class="w">'+wt+(how?' · '+how:'')+'</div></div>';
-    }}).join('');
-    document.getElementById('lc-stamp').textContent='Live from ESPN · '+new Date().toLocaleTimeString('en-US',{{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'}})+' CT';
-    document.getElementById('live-card').hidden=false;
-    const eb=document.querySelector('.wrap > .eyebrow + h1'); if(eb&&eb.previousElementSibling) eb.previousElementSibling.textContent=eb.previousElementSibling.textContent.replace('// UFC ·','// NEXT CARD ·');
-    if(ev.status.type.state!=='post') setTimeout(()=>location.reload(),120000);
-  }}catch(e){{}}
-}})();
-</script>
   <div class="eyebrow">// UFC · {e(datestr)} · {e(venue)}</div>
   <h1>{e(title)}<br/><span>{tagline}</span></h1>
   <p class="sub">{sub}</p>
