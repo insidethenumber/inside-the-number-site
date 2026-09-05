@@ -38,7 +38,8 @@
   "400-bc-cin-split.txt",
   "410-movers-list.txt",
   "425-byu-implied.txt",
-  "430-tier-list.txt"
+  "430-tier-list.txt",
+  "435-clemson-lsu-price.txt"
  ],
  "history": [
   {
@@ -401,6 +402,16 @@
    "url": "https://x.com/thenumberdesk/status/2096360238295441904",
    "at": "2026-09-05T22:10:04.215977+00:00",
    "chars": 254,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "435-clemson-lsu-price.txt",
+   "id": "2096369155477995719",
+   "url": "https://x.com/thenumberdesk/status/2096369155477995719",
+   "at": "2026-09-05T22:45:30.229669+00:00",
+   "chars": 277,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
