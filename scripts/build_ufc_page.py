@@ -191,7 +191,13 @@ def fetch_espn(ymds):
                     bouts.append({"names": names, "recs": recs,
                                   "weight": weight, "periods": periods,
                                   "card": ev.get("name") or "",
-                                  "status": status})
+                                  "status": status,
+                                  # ESPN dates each bout with the START of its
+                                  # card segment (prelims / main card). That is
+                                  # the only trustworthy time we have; the odds
+                                  # feed's commence_time was wrong by hours on
+                                  # Noche UFC (Sep 5, 2026 — Chuck caught it).
+                                  "date": c_.get("date") or ev.get("date") or ""})
     print(f"ESPN: {len(bouts)} bouts across {len(cards)} card(s)", file=sys.stderr)
     return bouts, cards
 
@@ -535,6 +541,13 @@ def build(events, bouts, title, venue, datestr, preview=False):
         if matched is None:
             off_card.append(f"{f['a']['name']} vs {f['b']['name']}")
             continue
+        # Trust ESPN for WHEN. Segment = earliest ESPN bout date on the card is
+        # the prelims; anything later is the main card.
+        if matched.get("date"):
+            seg_dates = sorted({b["date"] for b in bouts if b.get("date")})
+            seg = "Prelims" if matched["date"] == seg_dates[0] else "Main card"
+            f["time"] = f"{seg} · {fmt_time(matched['date'])}"
+            f["iso"] = matched["date"]
         f["periods"] = matched.get("periods")
         f["read"] = read_for(f)
         fights.append(f)
@@ -671,11 +684,17 @@ def render(fights, title, venue, datestr, preview):
         stamp_line = (f"Prices updated {stamp} · "
                       + (f"best of {nbooks} books" if nbooks > 1
                          else "one book, not shopped"))
-        early_html = (f'<div class="early">First fight ~{e(first_t)}, main '
-                      f'event ~{e(main_t)}.</div>')
+        segs = sorted({f["iso"] for f in fights if f.get("iso")})
+        if len(segs) >= 2:
+            early_html = (f'<div class="early">Prelims {e(fmt_time(segs[0]))} · '
+                          f'Main card {e(fmt_time(segs[-1]))}. Times are card starts; '
+                          f'the main event is last.</div>')
+        else:
+            early_html = (f'<div class="early">Card starts {e(fmt_time(segs[0]))}.</div>'
+                          if segs else '')
         strip_html = f"""    <div class="chip"><div class="l">Main event</div>
       <div class="v">{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}</div>
-      <div class="s">{e(main.get('weight') or 'headliner')} · {e(main_t)}</div></div>
+      <div class="s">{e(main.get('weight') or 'headliner')} · closes the main card</div></div>
     <div class="chip"><div class="l">Closest fight</div>
       <div class="v">{e(closest['a']['name'].split()[-1])} / {e(closest['b']['name'].split()[-1])}</div>
       <div class="s">near even money both ways — pick a side</div></div>
