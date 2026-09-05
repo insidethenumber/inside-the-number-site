@@ -924,7 +924,7 @@ def render(fights, title, venue, datestr, preview):
   </div>
 {rows}
   {expl_html}
-  <div class="cta"><b>One free pick every day, with the reasoning shown.</b><br/>
+  <div class="cta"><b>Every line, explained &mdash; what the market actually thinks.</b> In your inbox every morning.<br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
     Get it in your inbox →</a></div>
 </div>

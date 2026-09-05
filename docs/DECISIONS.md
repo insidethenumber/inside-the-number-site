@@ -219,3 +219,11 @@ Chuck: "I love the memes. Mix them in with data." Saturday cadence: one post an 
 ## Sep 5, 2026 — X reply voice: human first, number second
 Chuck: "let's have some humor or something besides just constantly spitting out statistics and numbers. Have a human element. use emojis, etc...whatever you need to do to not look so sterile."
 Rule: react like a person first (joke, wince, compliment), THEN the number as the thing that makes it land. Never open with a number. One or two emoji as punctuation. No [stat]+[percentage]+[tidy conclusion]. Max one or two numbers per reply. Sarcasm punches at books/prices/TV narratives, never at fans, players having a bad night, or anyone who lost a bet. No jokes in injury/tragedy threads. Emojis stay OUT of the newsletter — X only. The hourly task prompt carries the full VOICE section with before/after examples.
+
+## 2026-09-05 — Slogan: "Every line, explained — what the market actually thinks."
+Replaces "One free pick every day, with the reasoning shown" everywhere it was
+used as the brand line (meta/OG, hero, page CTAs, X header, evergreen post).
+Chuck: the old line described one feature, not the business. "The number,
+explained" was rejected because it would stack "Number" three times with the
+site name and @thenumberdesk. The free pick stays as a feature bullet where it
+is listed as a feature. Hero H1 "The Number Doesn't Lie" is unchanged.

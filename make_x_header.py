@@ -92,8 +92,8 @@ def build():
     d.text((x0, 226), "DOESN'T LIE.", font=fh, fill=GREEN)
 
     fb = f(SANS, 27)
-    d.text((x0, 322), "A free pick every morning, with the reasoning shown.", font=fb, fill=MID)
-    d.text((x0, 360), "Live odds and the true price on every game.", font=fb, fill=MID)
+    d.text((x0, 322), "Every line, explained — what the market actually thinks.", font=fb, fill=MID)
+    d.text((x0, 360), "Live odds and the true price on every game, free.", font=fb, fill=MID)
 
     track(d, (x0, 412), "insidethenumber.com", f(MONO, 25), GREEN, sp=2)
 
