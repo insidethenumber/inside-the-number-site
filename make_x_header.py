@@ -75,39 +75,67 @@ def build():
     for y in range(0, H, 60):
         d.line([(0, y), (W, y)], fill=(20, 40, 44), width=1)
 
-    # ---- Logo lockup, top left. Sits above the avatar overlay. ----
-    badge = itn.render_badge(104)
-    img.paste(badge, (72, 60))
+    # ---- Everything in one centred band, measured off Chuck's iPhone
+    # screenshot (Sep 5 2026). On iOS the profile view scales the 1500x500
+    # banner to ~0.73 and crops ~118px off each side, then lays these over it
+    # (source-pixel coordinates):
+    #   status bar + "Messages" back-label   y 0..150   full width
+    #   back button circle                    x 180..303, y 212..336
+    #   search button circle                  x 1200..1323, y 212..336
+    #   avatar                                x 145..420, y 465+
+    # Desktop adds the avatar at x 20..352, y 333..500. The intersection of
+    # what survives everywhere is x 360..1180, y 165..455 -- so that is the
+    # only place anything is drawn. The old top-left lockup sat under the
+    # status bar and the old headline ran into the search button.
+    L, R = 360, 1180
+    band_w = R - L
+
+    # Row 1: small lockup
+    badge = itn.render_badge(52)
+    img.paste(badge, (L, 172))
     d = ImageDraw.Draw(img)
-    fw = f(COND, 60)
-    cx = 200
+    fw = f(COND, 40)
+    cx = L + 66
     for word, col in [("INSIDE ", WHITE), ("THE ", GREEN), ("NUMBER", WHITE)]:
-        cx = track(d, (cx, 68), word, fw, col, sp=2)
-    track(d, (202, 134), "SHARP SPORTS ANALYSIS", f(MONO, 22), MUTED, sp=6)
+        cx = track(d, (cx, 178), word, fw, col, sp=1)
 
-    # ---- Everything else lives right of the avatar ----
-    x0 = 620
-    fh = f(COND, 76)
-    d.text((x0, 150), "THE NUMBER", font=fh, fill=WHITE)
-    d.text((x0, 226), "DOESN'T LIE.", font=fh, fill=GREEN)
+    # Row 2: headline on one line
+    fh = f(COND, 70)
+    x = L
+    for word, col in [("THE NUMBER ", WHITE), ("DOESN'T LIE.", GREEN)]:
+        d.text((x, 236), word, font=fh, fill=col)
+        x += d.textlength(word, font=fh)
 
+    # Rows 3-4: the line, and what it means
     fb = f(SANS, 27)
-    d.text((x0, 322), "Every line, explained — what the market actually thinks.", font=fb, fill=MID)
-    d.text((x0, 360), "Live odds and the true price on every game, free.", font=fb, fill=MID)
+    d.text((L, 330), "Every line, explained \u2014 what the market actually thinks.", font=fb, fill=MID)
+    d.text((L, 366), "Live odds and the true price on every game, free.", font=fb, fill=MID)
 
-    track(d, (x0, 412), "insidethenumber.com", f(MONO, 25), GREEN, sp=2)
+    # Row 5
+    track(d, (L, 412), "insidethenumber.com", f(MONO, 24), GREEN, sp=2)
 
     return img
 
 
 def preview(img):
-    """Simulate exactly what X covers, so a collision is obvious."""
+    """Simulate what X covers on iPhone AND desktop, so a collision is obvious."""
     p = img.copy()
     d = ImageDraw.Draw(p, "RGBA")
-    d.ellipse([20, 333, 352, 665], fill=(255, 60, 60, 110), outline=(255, 60, 60, 255), width=4)
-    d.rectangle([0, 0, W, 60], fill=(255, 200, 0, 60))
-    d.rectangle([0, H - 60, W, H], fill=(255, 200, 0, 60))
-    d.text((370, 300), "avatar overlay", fill=(255, 160, 160, 255), font=f(SANS, 22))
+    red = (255, 60, 60, 110)
+    # iPhone side crop
+    d.rectangle([0, 0, 118, H], fill=(255, 200, 0, 90))
+    d.rectangle([W - 118, 0, W, H], fill=(255, 200, 0, 90))
+    # iPhone status bar / back label
+    d.rectangle([0, 0, W, 150], fill=(255, 200, 0, 70))
+    # iPhone back + search buttons
+    d.ellipse([180, 212, 303, 336], fill=red)
+    d.ellipse([1200, 212, 1323, 336], fill=red)
+    # iPhone avatar
+    d.ellipse([145, 465, 420, 740], fill=red)
+    # desktop avatar
+    d.ellipse([20, 333, 352, 665], fill=(60, 120, 255, 90), outline=(60, 120, 255, 255), width=3)
+    d.text((400, 470), "red = iPhone overlays, blue = desktop avatar, yellow = iPhone crop/status bar",
+           fill=(255, 220, 220, 255), font=f(SANS, 18))
     return p
 
 
