@@ -227,3 +227,10 @@ Chuck: the old line described one feature, not the business. "The number,
 explained" was rejected because it would stack "Number" three times with the
 site name and @thenumberdesk. The free pick stays as a feature bullet where it
 is listed as a feature. Hero H1 "The Number Doesn't Lie" is unchanged.
+
+## 2026-09-05 — Caesars and BetMGM affiliate programs are closed as dead ends
+Chuck: "Those are dead ends... remember?" Both were already marked broken /
+unverified in AFFILIATE_APPLICATION_PACK.md, yet still showed up on his to-do
+list today. Rule: a program marked BROKEN or DEAD END in the status board is
+never resurfaced as an action item. Open threads that remain: PrizePicks and
+Underdog (submitted Sep 1, awaiting reply), Fanatics via Impact (ready).

@@ -198,9 +198,9 @@ support emails went unanswered.
 ## Status board
 | Program | Status |
 |---|---|
-| Caesars | ⛔ BROKEN ON THEIR END. Re-verified Sep 2: submit still returns "result storage capacity has been reached." Support email (sent ~Aug 29) never answered. DO NOT RETRY THE FORM. Only path is a human contact at Caesars/William Hill affiliates. |
+| Caesars | ⛔ DEAD END — Chuck, Sep 5. Form broken on their end (Aug 29 + Sep 2), support never answered. Closed. Do not list as a to-do again. Revisit only if a human contact at Caesars/William Hill surfaces. |
 | DraftKings | Interest survey submitted, expect slow/quiet |
-| BetMGM | Registration wizard renders (4 steps, step 1 = login/password). Last attempt: verification email never arrived; support email unanswered as of Sep 2. UNVERIFIED end-to-end — worth ONE attempt, do not promise it works. |
+| BetMGM | ⛔ DEAD END — Chuck, Sep 5. Verification email never arrived, support unanswered. Closed. Do not list as a to-do again. |
 | FanDuel | Dead portal, abandoned — revisit via BD once traffic grows |
 | bet365 | Applied Aug 31 — instant rejection at pre-questionnaire, traffic threshold. Retry once traffic grows. |
 | PrizePicks | Applied + submitted Sept 1 (Google Form, insidethenumber.itn@gmail.com account) — awaiting reply |
