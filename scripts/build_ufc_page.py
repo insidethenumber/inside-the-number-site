@@ -581,16 +581,24 @@ def build(events, bouts, title, venue, datestr, preview=False):
     # Every bout ESPN lists but no book has priced still belongs on the page —
     # Chuck, Sep 5 2026: "put all fights ... for the Sept 12th fights". They
     # render with records and segment time and an honest "lines not posted yet".
-    def _key(names):
-        return frozenset(last(n).lower() for n in names if n)
-    priced_keys = {_key([f["a"]["name"], f["b"]["name"]]) for f in fights}
+    # Dedupe against the priced list with the SAME fuzzy matcher enrich() uses.
+    # Comparing last names alone was not enough: the odds feed's "Zhu Rong" and
+    # ESPN's "Rongzhu" have different last names, so the bout published twice --
+    # once priced, once as an "unpriced" extra. Sep 5 2026.
+    def already_priced(names):
+        for f in fights:
+            fa, fb = f["a"]["name"], f["b"]["name"]
+            if ((same_person(names[0], fa) and same_person(names[1], fb))
+                    or (same_person(names[0], fb) and same_person(names[1], fa))):
+                return True
+        return False
     seg_dates = sorted({b["date"] for b in bouts if b.get("date")})
     extras = []
     for b in reversed(bouts):
         names = b.get("names") or []
         if len(names) != 2 or not all(names):
             continue
-        if _key(names) in priced_keys:
+        if already_priced(names):
             continue
         recs = b.get("recs") or ["", ""]
         seg = ""
