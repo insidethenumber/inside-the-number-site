@@ -898,35 +898,36 @@
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
     {
-      league: 'CFB', away:{code:'23', name:'San José State'}, home:{code:'2199', name:'Eastern Michigan'},
-      time: '6:30 PM ET', pick: 'San José State +2.5', conf: 3, free: true,
-      hook: 'The spread and the moneyline both moved toward San José State before kickoff',
-      why: 'Eastern Michigan opened -3.5 and -162. It is -2.5 and -135 now — the spread and the moneyline came in together, which is the consistent kind of move. De-vigged, San José State went from 40.7% to 44.9% to win outright. Break-even on +2.5 at -102 is 50.5%. What beats it: the number has come all the way to 2.5, so a field goal no longer saves the ticket.'
+      league: 'CFB', away:{code:'98', name:'Western Kentucky'}, home:{code:'2440', name:'Nevada'},
+      time: '10:30 PM ET', pick: 'Nevada +1.5', conf: 3, free: true,
+      hook: 'The spread and the moneyline are telling two different stories',
+      why: 'Nevada opened +4.5 on the spread and +120 on the moneyline — a live underdog by any measure. It closes +1.5, and the moneyline has flipped outright: Nevada -112, Western Kentucky -108. De-vigged, that is a 50.4%-49.6% game, about as close to a coin flip as this board gets. Getting a point and a half for free in a true 50/50 game is the kind of gap that does not last, and the total sliding from 53.5 to 51.5 fits a tighter, lower-scoring read.'
     },
     {
-      league: 'MLB', away:{code:'nyy', name:'Yankees'}, home:{code:'sd', name:'Padres'},
-      time: '9:40 PM ET', pick: 'Yankees -130', conf: 3, free: false,
-      hook: 'Max Fried against Walker Buehler at close to a coin-flip price',
-      why: 'Fried has a 2.80 ERA; Buehler is at 4.66. The market has the Yankees at 54.0% fair and asks 56.5% to break even at -130, so you pay about two and a half points for the better arm. The line has not moved (-131 to -130) — nobody is fading Fried. What beats it: San Diego’s bullpen shortens games, and -130 leaves no room for a bad first inning.'
+      league: 'CFB', away:{code:'26', name:'UCLA'}, home:{code:'25', name:'California'},
+      time: '10:30 PM ET', pick: 'UCLA -2.5', conf: 3, free: false,
+      hook: 'The number flipped sides and took the moneyline with it',
+      why: 'California opened a 1.5-point home favorite and closes a 2.5-point underdog — a four-point swing that reversed the moneyline too, from Cal -115/UCLA -105 to Cal +114/UCLA -135. De-vigged, UCLA is a 55.1% favorite to Cal’s 44.9%, and the total never moved off 53.5. The market changed its mind about who wins, not about how many points get scored.'
     },
     {
       league: 'MLB', away:{code:'tb', name:'Rays'}, home:{code:'tex', name:'Rangers'},
-      time: '8:05 PM ET', pick: 'Rays -104', conf: 2, free: false,
-      hook: 'The price got better and the pitching edge did not change',
-      why: 'Nick Martinez (2.99 ERA) against Kumar Rocker (4.44). Tampa opened -126 and is -104 now — Texas is the -115 favorite at home, and the market has drifted that way all day with no lineup reason. Fair price on the Rays is 48.8%; break-even at -104 is 51.0%. This is a bet that the arm gap is worth more than the market's coin flip. What beats it: Rocker at home, and 2.4 points is thin.'
+      time: '7:05 PM ET', pick: 'Rays ML', conf: 3, free: false,
+      hook: 'The better arm at a true coin-flip price',
+      why: 'Drew Rasmussen takes the mound for Tampa Bay at 14-5 with a 2.95 ERA; Texas counters with Jacob deGrom at 10-9 and a 4.00 ERA, better than a full run worse. The book still has this at a dead-even -110/-110, which de-vigs to an exact 50/50 split. When the price does not move for the better pitcher, that gap is free.'
+    },
+    {
+      league: 'UFC', solo: true, event: 'Klaudia Syguła vs. Nora Cornolle',
+      time: '1:00 PM ET', pick: 'Klaudia Syguła -115', conf: 2, free: false,
+      hook: 'Both fighters are priced at minus money',
+      why: 'Syguła -115, Cornolle -105 — that only happens when a book sees almost nothing between two names. De-vigged, it is 51.1% Syguła to 48.9% Cornolle, a real but thin edge on a card with several lopsided mismatches.'
     }
   ];
-  // Set Fri Sep 4, 8:40 AM CT by hand from the Cowork session (numbers from
-  // ESPN/DraftKings live pull + data/brief-latest.json generated 11:49 UTC).
-  // Previous note kept for the record: set Thu Sep 3, 10:05 AM CT by hand, after the
-  // 10:00 AM automated run failed to update index.html on every weekday
-  // since Aug 24 (see SEND_LOG). The auto pipeline built data/brief-latest.json
-  // and the game pages but never touched todaysGames. Numbers read off the
-  // DraftKings line in data/brief-latest.json (generated 14:28 UTC today) plus
-  // ESPN scoreboard team ids fetched live. Board surveyed in full: 9 MLB games
-  // and 11 CFB games, nothing else -- NFL opens Wed Sep 9, brief returns no
-  // UFC/PGA/NBA/CBB/NHL events. Football-first rule applies: CFB leads as the
-  // free pick. Max-2-per-sport rule holds (1 CFB, 1 MLB). One moneyline of two
+  // Set Sat Sep 5, 6:30 AM CT by hand from the weekend Cowork run (numbers
+  // from ESPN scoreboard odds, read live via a browser tab since the sandbox
+  // cannot reach ESPN directly -- 403). Board surveyed in full: 68 CFB games,
+  // 15 MLB games, 1 UFC Fight Night card (14 bouts), 0 NFL/NBA/CBB/NHL/PGA
+  // events. Football-first rule applies: CFB leads as the free pick.
+  // Max-2-per-sport rule holds (2 CFB, 1 MLB, 1 UFC). Two moneylines of four
   // picks (50%), free pick is a spread, per house rules.
 
   // NOTE: the site deliberately does not display a win/loss record or a
@@ -1132,12 +1133,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Fri, Sep 4</div>
+        <div class="potd-date">Sat, Sep 5</div>
         <div class="potd-sport">CFB</div>
-        <div class="potd-matchup" id="potd-matchup">San Jos&eacute; State @ Eastern Michigan</div>
-        <div class="potd-line">THE PICK: San Jos&eacute; State +2.5 &middot; 6:30 PM ET</div>
-        <p class="potd-reasoning">Eastern Michigan opened -3.5 and -162. It is -2.5 and -135 now &mdash; the spread and the moneyline came in together, which is the consistent kind of move. De-vigged, San Jos&eacute; State went from 40.7% to 44.9% to win outright. Break-even on +2.5 at -102 is 50.5%. What beats it: the number has come all the way to 2.5, so a field goal no longer saves the ticket. Medium confidence. Odds via DraftKings, read this morning &mdash; check the number before you take it.</p>
-        <p class="potd-reasoning" style="margin-top:12px"><b style="color:var(--white)"><a href="parlay" style="color:inherit">Parlay of the Day</a> &mdash; priced honestly.</b> San Jos&eacute; State +2.5 / Yankees -119 / Rays -104 &rarr; <b style="color:var(--green)">+615</b>. Needs to hit 14.0% to break even; three coin flips hit 12.5%. That gap is the price of the parlay. Two of the three are Pro picks tonight &mdash; the reasoning is on the board below.</p>
+        <div class="potd-matchup" id="potd-matchup">Western Kentucky @ Nevada</div>
+        <div class="potd-line">THE PICK: Nevada +1.5 &middot; 10:30 PM ET</div>
+        <p class="potd-reasoning">Nevada opened +4.5 on the spread and +120 on the moneyline &mdash; a live underdog by any measure. It closes +1.5, and the moneyline has flipped outright: Nevada -112, Western Kentucky -108. De-vigged, that is a 50.4%-49.6% game, about as close to a coin flip as this board gets. Getting a point and a half for free in a true 50/50 game is the kind of gap that does not last. Medium confidence. Odds via DraftKings, read this morning &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
