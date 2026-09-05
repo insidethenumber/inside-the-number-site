@@ -209,3 +209,9 @@ The Sep 5 7:45 issue shipped with zero images because the task prompt said text/
 
 ## Sep 5, 2026 — Mockups from other sessions get re-verified against the live board before use
 x-posts-preview-2026-09-05.html carried 46/68 (live: 47), LSU -375 (live: -380), and named Clemson +10 as the free pick while the site said Tulane +7.5. Concepts are reusable; numbers are re-pulled the day of.
+
+## Sep 5, 2026 — Newsletter picks subsection is "OTHER CONFIDENT PLAYS"
+Chuck: "Instead of 'on the board' for picks, rephrase." The remaining-picks heading is OTHER CONFIDENT PLAYS in every issue. TODAY'S BOARD (the slate) is unchanged.
+
+## Sep 5, 2026 — Meme/data 50-50 on X
+Chuck: "I love the memes. Mix them in with data." Saturday cadence: one post an hour, alternating meme and data. Big-number typography cards (THE NUMBER, dots, price/breakeven for LSU) were cut by Chuck; matchup, movers, board-one, movers-list, split, knows, tier list, Notes-app apology, and GIF reactions stay.
