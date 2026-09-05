@@ -39,7 +39,8 @@
   "410-movers-list.txt",
   "425-byu-implied.txt",
   "430-tier-list.txt",
-  "435-clemson-lsu-price.txt"
+  "435-clemson-lsu-price.txt",
+  "440-cal-flipped.txt"
  ],
  "history": [
   {
@@ -412,6 +413,16 @@
    "url": "https://x.com/thenumberdesk/status/2096369155477995719",
    "at": "2026-09-05T22:45:30.229669+00:00",
    "chars": 277,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "440-cal-flipped.txt",
+   "id": "2096384236446204286",
+   "url": "https://x.com/thenumberdesk/status/2096384236446204286",
+   "at": "2026-09-05T23:45:25.804919+00:00",
+   "chars": 276,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
