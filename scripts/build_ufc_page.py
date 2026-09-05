@@ -552,6 +552,41 @@ def build(events, bouts, title, venue, datestr, preview=False):
         f["read"] = read_for(f)
         fights.append(f)
 
+    # Every bout ESPN lists but no book has priced still belongs on the page —
+    # Chuck, Sep 5 2026: "put all fights ... for the Sept 12th fights". They
+    # render with records and segment time and an honest "lines not posted yet".
+    def _key(names):
+        return frozenset(last(n).lower() for n in names if n)
+    priced_keys = {_key([f["a"]["name"], f["b"]["name"]]) for f in fights}
+    seg_dates = sorted({b["date"] for b in bouts if b.get("date")})
+    extras = []
+    for b in reversed(bouts):
+        names = b.get("names") or []
+        if len(names) != 2 or not all(names):
+            continue
+        if _key(names) in priced_keys:
+            continue
+        recs = b.get("recs") or ["", ""]
+        seg = ""
+        if b.get("date") and seg_dates:
+            seg = ("Prelims" if b["date"] == seg_dates[0] else "Main card")
+            seg = f"{seg} · {fmt_time(b['date'])}"
+        extras.append({
+            "a": {"name": names[0], "record": recs[0] if len(recs) > 0 else ""},
+            "b": {"name": names[1], "record": recs[1] if len(recs) > 1 else ""},
+            "weight": tidy_weight(b.get("weight", "")),
+            "periods": b.get("periods"),
+            "time": seg, "iso": b.get("date") or "",
+            "unpriced": True, "books": 0,
+            "read": NOTES.get(frozenset({last(names[0]), last(names[1])}), ""),
+        })
+    if extras:
+        print(f"{len(extras)} bout(s) on the ESPN card with no book price yet — "
+              "published without odds: "
+              + "; ".join(f"{x['a']['name']} vs {x['b']['name']}" for x in extras),
+              file=sys.stderr)
+        fights += extras
+
     if off_card:
         print(f"filtered {len(off_card)} priced event(s) not on this ESPN card: "
               + "; ".join(off_card), file=sys.stderr)
@@ -583,9 +618,12 @@ def render(fights, title, venue, datestr, preview):
         hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
         first_t, main_t = fights[-1]["time"], main["time"]
 
-    def corner(x):
+    def corner(x, bare=False):
+        # bare=True: this bout is on the card but no book has posted a two-way
+        # price yet (Sep 5 2026 — three Noche prelims). Showing the fighters
+        # with an honest blank beats hiding a fight that is on the card.
         rec = f'<div class="f-rec">{e(x["record"])}</div>' if x.get("record") else ""
-        if preview:
+        if preview or bare:
             return f"""<div class="corner"><div class="f-name">{e(x['name'])}</div>{rec}</div>"""
         return f"""<div class="corner"><div class="f-name">{e(x['name'])}</div>{rec}
             <div class="f-price">{x['price']:+d}</div>
@@ -599,14 +637,15 @@ def render(fights, title, venue, datestr, preview):
                 "Main event" if feature else wt)
         left = e(f['time']) + (f" · {wt}" if f.get('time') and wt else
                                ("" if f.get('time') else label))
-        hold = ("lines not posted yet" if preview
+        bare = bool(f.get("unpriced"))
+        hold = ("lines not posted yet" if (preview or bare)
                 else f"{f['books']} books quoted")
         read = f'<div class="f-read">{e(f["read"])}</div>' if f.get("read") else ""
         return f"""
       <div class="{cls}">
         <div class="f-top"><span class="f-time">{left}</span>
           <span class="f-hold">{hold}</span></div>
-        <div class="f-grid">{corner(f['a'])}<div class="vs">vs</div>{corner(f['b'])}</div>
+        <div class="f-grid">{corner(f['a'], bare)}<div class="vs">vs</div>{corner(f['b'], bare)}</div>
         {read}
       </div>"""
 
@@ -614,7 +653,7 @@ def render(fights, title, venue, datestr, preview):
 
     ld = {"@context": "https://schema.org", "@type": "SportsEvent",
           "name": title, "sport": "Mixed Martial Arts",
-          **({"startDate": min(f["iso"] for f in fights)}
+          **({"startDate": min(f["iso"] for f in fights if f.get("iso"))}
              if not preview and any(f.get("iso") for f in fights) else {}),
           "location": {"@type": "Place", "name": venue},
           "description": (f"Every fight on the {title} card: records and "
