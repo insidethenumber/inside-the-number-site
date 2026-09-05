@@ -203,3 +203,9 @@ tel:/sms: helpline links on the responsible-gambling page.
 **Standing rule going forward: a link is not fixed until it has been clicked.**
 Grepping for `href=` proves a link is present. It does not prove it works. Every
 nav audit from here clicks through at least one page per template.
+
+## Sep 5, 2026 — Newsletter visuals are built by script, never by hand
+The Sep 5 7:45 issue shipped with zero images because the task prompt said text/plain and never mentioned images. From now on: `scripts/newsletter_assets.py --issue issue.json` produces every image AND the paste-ready `issue.html` in one run; the task pastes that file as text/html and refuses to schedule with fewer than 3 `.ProseMirror img` (one fresh-duplicate retry, then fall back and report). The task prompt is authoritative over DAILY_MORNING_PROMPT.md, so mechanics changes must land in the task prompt itself, not only in the docs.
+
+## Sep 5, 2026 — Mockups from other sessions get re-verified against the live board before use
+x-posts-preview-2026-09-05.html carried 46/68 (live: 47), LSU -375 (live: -380), and named Clemson +10 as the free pick while the site said Tulane +7.5. Concepts are reusable; numbers are re-pulled the day of.
