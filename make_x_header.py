@@ -35,7 +35,7 @@ MONO = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 SANS = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
 
 # Where X lays the avatar over a 1500x500 banner, plus a little slack.
-AVATAR_BOX = (0, 320, 380, 500)
+AVATAR_BOX = (0, 319, 400, 500)
 
 
 def f(p, s): return ImageFont.truetype(p, s)
@@ -87,7 +87,10 @@ def build():
     # what survives everywhere is x 360..1180, y 165..455 -- so that is the
     # only place anything is drawn. The old top-left lockup sat under the
     # status bar and the old headline ran into the search button.
-    L, R = 360, 1180
+    # Desktop web (Sep 5, measured in Chrome): avatar actually covers x 0..400,
+    # y 319..500 -- bigger than the earlier estimate, and it was clipping the
+    # first letters of the URL at x 360. Band starts at 440 now.
+    L, R = 440, 1180
     band_w = R - L
 
     # Row 1: small lockup
@@ -100,7 +103,7 @@ def build():
         cx = track(d, (cx, 178), word, fw, col, sp=1)
 
     # Row 2: headline on one line
-    fh = f(COND, 70)
+    fh = f(COND, 64)
     x = L
     for word, col in [("THE NUMBER ", WHITE), ("DOESN'T LIE.", GREEN)]:
         d.text((x, 236), word, font=fh, fill=col)
@@ -133,7 +136,7 @@ def preview(img):
     # iPhone avatar
     d.ellipse([145, 465, 420, 740], fill=red)
     # desktop avatar
-    d.ellipse([20, 333, 352, 665], fill=(60, 120, 255, 90), outline=(60, 120, 255, 255), width=3)
+    d.ellipse([0, 319, 400, 719], fill=(60, 120, 255, 90), outline=(60, 120, 255, 255), width=3)
     d.text((400, 470), "red = iPhone overlays, blue = desktop avatar, yellow = iPhone crop/status bar",
            fill=(255, 220, 220, 255), font=f(SANS, 18))
     return p
