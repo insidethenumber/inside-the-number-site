@@ -500,7 +500,7 @@
         score='<div class="sc"><span class="'+(aw?'w':'l')+'">'+g.aSc+'</span>'
              +' <span class="l">&ndash;</span> '
              +'<span class="'+(hw?'w':'l')+'">'+g.hSc+'</span>'
-             +(live&&g.detail?' <span class="l" style="font-size:12px">'+g.detail+'</span>':'')+'</div>';
+             +'</div>';   // clock lives in the left column only — printing g.detail here too showed '13:20 · 4th' twice on every live row
       }
 
       // Right column: what the number did. This is the whole point of the
