@@ -33,7 +33,8 @@
   "120-board-15-ranked.txt",
   "180-friday-miami-move.txt",
   "200-weekend-picks.txt",
-  "220-saturday-zero-ranked.txt"
+  "220-saturday-zero-ranked.txt",
+  "300-parlay-saturday.txt"
  ],
  "history": [
   {
@@ -346,6 +347,16 @@
    "url": "https://x.com/thenumberdesk/status/2096042544320700582",
    "at": "2026-09-05T01:07:40.150589+00:00",
    "chars": 258,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "300-parlay-saturday.txt",
+   "id": "2096255757658579140",
+   "url": "https://x.com/thenumberdesk/status/2096255757658579140",
+   "at": "2026-09-05T15:14:54.110028+00:00",
+   "chars": 250,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
