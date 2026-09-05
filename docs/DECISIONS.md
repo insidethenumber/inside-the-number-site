@@ -215,3 +215,7 @@ Chuck: "Instead of 'on the board' for picks, rephrase." The remaining-picks head
 
 ## Sep 5, 2026 — Meme/data 50-50 on X
 Chuck: "I love the memes. Mix them in with data." Saturday cadence: one post an hour, alternating meme and data. Big-number typography cards (THE NUMBER, dots, price/breakeven for LSU) were cut by Chuck; matchup, movers, board-one, movers-list, split, knows, tier list, Notes-app apology, and GIF reactions stay.
+
+## Sep 5, 2026 — X reply voice: human first, number second
+Chuck: "let's have some humor or something besides just constantly spitting out statistics and numbers. Have a human element. use emojis, etc...whatever you need to do to not look so sterile."
+Rule: react like a person first (joke, wince, compliment), THEN the number as the thing that makes it land. Never open with a number. One or two emoji as punctuation. No [stat]+[percentage]+[tidy conclusion]. Max one or two numbers per reply. Sarcasm punches at books/prices/TV narratives, never at fans, players having a bad night, or anyone who lost a bet. No jokes in injury/tragedy threads. Emojis stay OUT of the newsletter — X only. The hourly task prompt carries the full VOICE section with before/after examples.
