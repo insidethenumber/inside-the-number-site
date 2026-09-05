@@ -484,6 +484,23 @@ look sophisticated is worse than passing. The point is that the survey has
 to happen first — the edge is usually not in the MLB moneyline, and the
 old instruction never even asked the routine to look elsewhere.
 
+## Visuals in the newsletter — ONE COMMAND (Sep 5, 2026, supersedes the section below)
+
+The Sep 5 7:45 issue went out with zero images. Root cause: the task prompt said
+"paste text/plain" and never mentioned images. The fix is mechanical, not a
+reminder:
+
+    python3 scripts/newsletter_assets.py --issue issue.json --date YYYY-MM-DD \
+        --out-dir assets/newsletter/YYYY-MM-DD
+
+writes header.jpg, pick.jpg, move.gif (skipped when nothing moved), number.jpg
+AND issue.html — the full body with the <img> tags already in place. Paste
+issue.html as text/html into a fresh duplicate; verify
+`document.querySelectorAll('.ProseMirror img').length >= 3` before scheduling.
+Spec shape: docs/newsletter-issue-example.json. The two task prompts
+(itn-daily-weekday / itn-daily-weekend) carry these exact steps and win over
+this file where they differ.
+
 ## Visuals in the newsletter (added Sep 4, 2026 — Chuck asked for GIFs/graphics)
 
 **Every issue carries exactly two images. No more, no fewer.** More than two
