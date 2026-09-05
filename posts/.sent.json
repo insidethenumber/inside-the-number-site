@@ -34,7 +34,8 @@
   "180-friday-miami-move.txt",
   "200-weekend-picks.txt",
   "220-saturday-zero-ranked.txt",
-  "300-parlay-saturday.txt"
+  "300-parlay-saturday.txt",
+  "400-bc-cin-split.txt"
  ],
  "history": [
   {
@@ -357,6 +358,16 @@
    "url": "https://x.com/thenumberdesk/status/2096255757658579140",
    "at": "2026-09-05T15:14:54.110028+00:00",
    "chars": 250,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "400-bc-cin-split.txt",
+   "id": "2096284197904154968",
+   "url": "https://x.com/thenumberdesk/status/2096284197904154968",
+   "at": "2026-09-05T17:07:54.850787+00:00",
+   "chars": 275,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
