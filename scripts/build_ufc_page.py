@@ -28,7 +28,7 @@ One Odds API credit per run.
         --title "UFC Fight Night Shanghai" --venue "Shanghai, China"
 """
 
-import argparse, html, json, os, re, sys, urllib.parse, urllib.request, urllib.error
+import argparse, html, json, os, re, sys, unicodedata, urllib.parse, urllib.request, urllib.error
 from datetime import datetime, timezone, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -202,18 +202,41 @@ def fetch_espn(ymds):
     return bouts, cards
 
 
+def fold(n):
+    """Lowercase and strip accents: 'Edgar Chairez' -> 'edgar chairez'.
+
+    Sep 5 2026: ESPN spells the Noche UFC flyweight 'Edgar Chairez' and the
+    odds feed spells him 'Edgar Chairez' with acutes. Without folding, the
+    accented letters were being replaced by spaces, which shredded the name
+    into 'dgar ch irez' and the two feeds stopped agreeing that he was one
+    person -- so a priced bout was thrown off the card.
+    """
+    d = unicodedata.normalize("NFKD", n or "")
+    return "".join(c for c in d if not unicodedata.combining(c)).lower()
+
+
 def last(n):
-    return re.sub(r"[^a-z]", "", (n or "").split()[-1].lower()) if n else ""
+    return re.sub(r"[^a-z]", "", fold(n).split()[-1]) if n else ""
 
 
 def toks(n):
-    """Every word of a name, lowercased and stripped of punctuation."""
-    return frozenset(re.sub(r"[^a-z ]", " ", (n or "").lower()).split())
+    """Every word of a name, lowercased, folded and stripped of punctuation."""
+    return frozenset(re.sub(r"[^a-z ]", " ", fold(n)).split())
 
 
 def squash(n):
     """A name with every space and mark removed: 'Su Mudaerji' -> 'sumudaerji'."""
-    return re.sub(r"[^a-z]", "", (n or "").lower())
+    return re.sub(r"[^a-z]", "", fold(n))
+
+
+def squash_sorted(n):
+    """Space-stripped name with its words alphabetised.
+
+    Handles spacing and word order at once: ESPN 'Rongzhu' and the odds feed's
+    'Zhu Rong' both reduce to 'rongzhu'. squash() alone could not, because it
+    preserved order.
+    """
+    return "".join(sorted(toks(n)))
 
 
 def same_person(x, y):
@@ -229,7 +252,10 @@ def same_person(x, y):
     if toks(x) & toks(y):
         return True
     sx, sy = squash(x), squash(y)
-    return bool(sx) and sx == sy
+    if sx and sx == sy:
+        return True
+    ax, ay = squash_sorted(x), squash_sorted(y)
+    return bool(ax) and ax == ay
 
 
 # Divisions as we want them rendered. ESPN is inconsistent about case —
@@ -603,8 +629,11 @@ def build(events, bouts, title, venue, datestr, preview=False):
         sys.exit("ERROR: no priced fights matched this card — refusing to write "
                  "a page. Check --start/--end and that ESPN lists the card.")
 
+    # If nothing on the card is priced yet, everything here came from the
+    # unpriced-extras pass -- that is the roster preview, not an odds page.
+    any_priced = any(not f.get("unpriced") for f in fights)
     return render(order_main_first(fights), title, venue, datestr,
-                  preview=False)
+                  preview=not any_priced)
 
 
 def render(fights, title, venue, datestr, preview):
@@ -612,11 +641,18 @@ def render(fights, title, venue, datestr, preview):
     stamp = datetime.now(timezone.utc).strftime("%b %-d, %Y %H:%M UTC")
     e = html.escape
 
+    # Unpriced bouts (on the ESPN card, no book price yet) carry no win
+    # chance, so every stat in the summary strip is computed over the priced
+    # subset only. Sep 5 2026: forgetting this crashed the build with a
+    # KeyError on "chance" the first time unpriced bouts were published.
+    priced = [f for f in fights if not f.get("unpriced")]
     if not preview:
-        closest = min(fights, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
-        heaviest = max(fights, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
+        closest = min(priced, key=lambda f: abs(f["a"]["chance"] - f["b"]["chance"]))
+        heaviest = max(priced, key=lambda f: max(f["a"]["chance"], f["b"]["chance"]))
         hfav = heaviest["a"] if heaviest["a"]["chance"] > heaviest["b"]["chance"] else heaviest["b"]
-        first_t, main_t = fights[-1]["time"], main["time"]
+        by_time = sorted((f for f in fights if f.get("iso")), key=lambda f: f["iso"])
+        first_t = (by_time[0]["time"] if by_time else fights[-1]["time"])
+        main_t = main["time"]
 
     def corner(x, bare=False):
         # bare=True: this bout is on the card but no book has posted a two-way
