@@ -712,7 +712,7 @@ def render(fights, title, venue, datestr, preview):
                   {"@type": "ListItem", "position": 1, "name": "Home",
                    "item": "https://insidethenumber.com/"},
                   {"@type": "ListItem", "position": 2, "name": "UFC",
-                   "item": "https://insidethenumber.com/ufc.html"}]}
+                   "item": "https://insidethenumber.com/ufc"}]}
 
     if preview:
         desc = (f"{title} card preview — every announced fight with records "
@@ -799,14 +799,14 @@ def render(fights, title, venue, datestr, preview):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{e(page_title)}</title>
 <meta name="description" content="{e(desc)}"/>
-<link rel="canonical" href="https://insidethenumber.com/ufc.html"/>
+<link rel="canonical" href="https://insidethenumber.com/ufc"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
-<meta property="og:url" content="https://insidethenumber.com/ufc.html"/>
+<meta property="og:url" content="https://insidethenumber.com/ufc"/>
 <meta property="og:title" content="{e(og_title)}"/>
 <meta property="og:description" content="{e(desc)}"/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>

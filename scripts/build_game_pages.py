@@ -202,6 +202,17 @@ def build_page(g, date):
     # never be indexed. Advertise the URL that returns 200.
     canon = f"https://insidethenumber.com/g/{fn[:-5]}"
 
+    # Google Search Console, Sep 6 2026: "Duplicate, Google chose different
+    # canonical than user" across the /g/ set. These pages are templated and
+    # thin (~1,300 visible characters), so once a game has been played the page
+    # is a dead pre-game price sheet with no search value — and 260+ of them
+    # look near-identical to a crawler, which is exactly what triggers the
+    # duplicate clustering. Past games stay live (nothing links to a 404) but
+    # stop asking to be indexed. Upcoming games remain indexable.
+    _today = datetime.now(timezone.utc).date().isoformat()
+    _is_past = date < _today
+    robots = '\n<meta name="robots" content="noindex,follow"/>' if _is_past else ""
+
     ta, th_ = g.get("true_away"), g.get("true_home")
     hold = g.get("hold")
 
@@ -330,7 +341,7 @@ def build_page(g, date):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{e(title)} | Inside the Number</title>
 <meta name="description" content="{e(desc)}"/>
-<link rel="canonical" href="{canon}"/>
+<link rel="canonical" href="{canon}"/>{robots}
 <meta property="og:title" content="{e(title)}"/>
 <meta property="og:description" content="{e(desc)}"/>
 <meta property="og:url" content="{canon}"/>
@@ -383,11 +394,18 @@ def build_page(g, date):
 
 def rebuild_sitemap():
     """Every page under g/, newest first, into g/sitemap-games.xml."""
+    # Only games that have not been played yet. A sitemap that lists 285
+    # near-identical thin pages, 267 of them for finished games, is an
+    # instruction to Google to index 267 dead price sheets — and it answered
+    # by clustering them and picking its own canonicals (GSC, Sep 6 2026).
+    today = datetime.now(timezone.utc).date().isoformat()
     urls = []
     for p in sorted(glob.glob(os.path.join(OUTDIR, "*.html")), reverse=True):
         fn = os.path.basename(p)
         m = re.match(r"(\d{4}-\d{2}-\d{2})-", fn)
-        lastmod = m.group(1) if m else datetime.now(timezone.utc).date().isoformat()
+        if not m or m.group(1) < today:
+            continue
+        lastmod = m.group(1)
         urls.append(f"  <url><loc>https://insidethenumber.com/g/{fn[:-5]}</loc>"
                     f"<lastmod>{lastmod}</lastmod></url>")
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
