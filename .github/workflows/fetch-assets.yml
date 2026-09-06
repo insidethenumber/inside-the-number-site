@@ -18,13 +18,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download manifest
         run: |
+          set +e
           while IFS=$'\t' read -r url path; do
-            [ -z "$url" ] && continue
+            if [ -z "$url" ] || [ -z "$path" ]; then continue; fi
             case "$url" in \#*) continue;; esac
             mkdir -p "$(dirname "$path")"
             if [ -s "$path" ]; then echo "have: $path"; continue; fi
-            curl -sSL --retry 3 -A "Mozilla/5.0 (ITN asset fetch)" -o "$path" "$url" && echo "ok: $path ($(stat -c%s "$path") bytes)" || echo "MISS: $url"
+            if curl -sSL --retry 3 -A "Mozilla/5.0 (ITN asset fetch)" -o "$path" "$url"; then
+              echo "ok: $path ($(stat -c%s "$path") bytes)"
+            else
+              echo "MISS: $url"; rm -f "$path"
+            fi
           done < assets/fetch/manifest.txt
+          true
       - name: Commit
         run: |
           git config user.name  "ITN Desk"
