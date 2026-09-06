@@ -43,7 +43,8 @@
   "440-cal-flipped.txt",
   "445-done-for-the-day.txt",
   "448-late-window.txt",
-  "449a-radar-parlay.txt"
+  "449a-radar-parlay.txt",
+  "449-parlay-night.txt"
  ],
  "history": [
   {
@@ -456,6 +457,16 @@
    "url": "https://x.com/thenumberdesk/status/2096419476036329852",
    "at": "2026-09-06T02:05:27.545140+00:00",
    "chars": 278,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "449-parlay-night.txt",
+   "id": "2096420811137761729",
+   "url": "https://x.com/thenumberdesk/status/2096420811137761729",
+   "at": "2026-09-06T02:10:45.887091+00:00",
+   "chars": 256,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
