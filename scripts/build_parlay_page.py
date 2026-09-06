@@ -62,10 +62,13 @@ def leg_rows(legs):
     return "\n".join(out)
 
 
-def today_block(p):
+def today_block(p, idx=0):
     gap = round(float(p["be"].rstrip("%")) - float(p["coin"].rstrip("%")), 1)
-    return f"""<div class="card" id="today">
-  <div class="hd"><span class="k">Parlay of the Day</span><span class="dt">{esc(p['date_line'])}</span></div>
+    n = len(p["legs"])
+    word = {2: "two", 3: "three", 4: "four"}.get(n, str(n))
+    label = p.get("label", "Parlay of the Day")
+    return f"""<div class="card today" id="today{idx or ''}" data-halftime-hide="1">
+  <div class="hd"><span class="k">{esc(label)}</span><span class="dt">{esc(p['date_line'])}</span></div>
   <div class="legs">
 {leg_rows(p['legs'])}
   </div>
@@ -75,14 +78,21 @@ def today_block(p):
   </div>
   <div class="cost">
     <div class="c-row"><span>What it needs to break even</span><b>{esc(p['be'])}</b></div>
-    <div class="c-row"><span>What three independent coin flips land</span><b class="dim">{esc(p['coin'])}</b></div>
+    <div class="c-row"><span>What {word} independent coin flips land</span><b class="dim">{esc(p['coin'])}</b></div>
     <div class="c-row gap"><span>The gap &mdash; what stapling them together costs you</span><b>{gap} points</b></div>
     <p class="c-note">{esc(p['hook'])} Every leg above is a bet we would make on its own; the reasoning for each is on
     the <a href="/">free pick</a> and the <a href="/games">board</a>. Together they are priced worse than the sum of
     their parts, and that is not an accident &mdash; the book&rsquo;s cut compounds with every leg you add.</p>
   </div>
-  <div class="locked" id="locked" hidden>This ticket has started. Numbers below are what closed, not what you can bet.</div>
+  <div class="locked" hidden>This ticket has started. Numbers below are what closed, not what you can bet.</div>
 </div>"""
+
+
+def today_blocks(rows, today):
+    """Every parlay dated today, newest first. Sep 5 2026: Chuck asked for the
+    night parlay AND the Clemson-LSU same-game parlay on the page at once."""
+    live = [p for p in rows if p.get("date") == today] or rows[:1]
+    return "\n".join(today_block(p, i) for i, p in enumerate(live))
 
 
 def archive_block(rows):
@@ -227,24 +237,36 @@ p.x a{{color:var(--green);text-decoration:none}}
   </div>
 </div>
 <script>
-/* Kickoff guard. A page that still calls a started game "bettable" is the
-   fastest way to lose the reader's trust, so the browser checks each leg's
-   start time on load and every 30 seconds. */
+/* Kickoff + halftime guard. Chuck, Sep 5 2026: "Put parlays on the site
+   immediately but then remove after halftime." A started leg is labelled;
+   once ANY leg of a card is ~105 minutes past its kickoff (college halftime,
+   give or take) the whole card comes down and a one-line note takes its
+   place. Time-based on purpose so it cannot fail on a dead feed. */
 (function(){{
+  var HALF = 105*60*1000;
   function tick(){{
-    var legs=document.querySelectorAll('.leg[data-start]'), started=0, n=0;
-    legs.forEach(function(el){{
-      var iso=el.getAttribute('data-start'); if(!iso) return;
-      n++;
-      var t=new Date(iso).getTime(), now=Date.now(), s=el.querySelector('.st');
-      if(now>=t){{ started++;
-        var hrs=(now-t)/36e5;
-        s.textContent = hrs>4 ? 'FINAL' : 'STARTED';
-        s.className='st '+(hrs>4?'done':'live');
-      }} else {{ s.textContent=''; s.className='st'; }}
+    var now = Date.now(), removed = 0;
+    document.querySelectorAll('.card.today').forEach(function(card){{
+      var legs=card.querySelectorAll('.leg[data-start]'), started=0, n=0, pastHalf=false;
+      legs.forEach(function(el){{
+        var iso=el.getAttribute('data-start'); if(!iso) return;
+        n++;
+        var t=new Date(iso).getTime(), s=el.querySelector('.st');
+        if(now>=t){{ started++; if(now-t>=HALF) pastHalf=true;
+          s.textContent='STARTED'; s.className='st live';
+        }} else {{ s.textContent=''; s.className='st'; }}
+      }});
+      var lock=card.querySelector('.locked');
+      if(lock) lock.hidden = !(n && started===n);
+      if(pastHalf){{ card.remove(); removed++; }}
     }});
-    var lock=document.getElementById('locked');
-    if(lock) lock.hidden = !(n && started===n);
+    if(removed && !document.getElementById('halftime-note')){{
+      var d=document.createElement('div'); d.id='halftime-note'; d.className='card';
+      d.innerHTML='<div class="hd"><span class="k">Parlay of the Day</span></div>'
+        +'<p class="c-note" style="padding:16px 18px;margin:0">Tonight\u2019s ticket came down at halftime \u2014 a parlay you can no longer bet at that price has no business sitting on a page about honest prices. Tomorrow\u2019s goes out in the <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Morning Board</a> before first kick.</p>';
+      var anchor=document.querySelector('.card.today')||document.querySelector('h2');
+      if(anchor) anchor.parentNode.insertBefore(d, anchor); else document.body.appendChild(d);
+    }}
   }}
   tick(); setInterval(tick,30000);
 }})();
@@ -275,8 +297,10 @@ def main():
         print("nothing to build", file=sys.stderr)
         return
 
-    html_out = PAGE.format(today=today_block(arch[0]),
-                           archive=archive_block(arch[1:12]))
+    today = arch[0].get("date")
+    n_live = len([p for p in arch if p.get("date") == today]) or 1
+    html_out = PAGE.format(today=today_blocks(arch, today),
+                           archive=archive_block(arch[n_live:n_live + 12]))
     open(OUT, "w").write(html_out)
     print("wrote", OUT, "-", len(arch), "parlay(s) in archive")
 

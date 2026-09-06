@@ -1,6 +1,43 @@
 [
  {
   "date": "2026-09-05",
+  "date_line": "Saturday, September 5 \u00b7 Clemson at LSU",
+  "label": "Same-Game Parlay \u00b7 Rain Edition",
+  "price": "+275",
+  "decimal": "3.75",
+  "be": "26.7%",
+  "coin": "25.0%",
+  "hook": "Two legs that tell one story: the total dropped two points in a week, the field is wet, and a low-scoring game is exactly where a 10-point dog stays inside the number. Your book pays less than +275 for these together because they are correlated; that is the book being right, not stingy.",
+  "legs_line": "Clemson +10 / Under 48.5",
+  "legs": [
+   {
+    "league": "cfb",
+    "abbr": "CLEM",
+    "pick": "Clemson +10 at LSU",
+    "price": "-102",
+    "be": "50.5%",
+    "fair": "48.3%",
+    "decimal": "1.98",
+    "color": "#f56600",
+    "note": "Opened +10.5. Moneyline -453 \u2192 -425 all week toward Clemson; spread never moved. 9:40 ET after a weather delay, ABC.",
+    "start": "2026-09-06T01:40:00Z"
+   },
+   {
+    "league": "cfb",
+    "abbr": "LSU",
+    "pick": "Under 48.5 (Clemson-LSU)",
+    "price": "-112",
+    "be": "52.8%",
+    "fair": "50.4%",
+    "decimal": "1.89",
+    "color": "#461d7c",
+    "note": "Total opened 50.5, closed 48.5. Rain in Baton Rouge, delayed kick.",
+    "start": "2026-09-06T01:40:00Z"
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
   "date_line": "Saturday, September 5 \u00b7 the 10:30 window",
   "price": "+256",
   "decimal": "3.56",
