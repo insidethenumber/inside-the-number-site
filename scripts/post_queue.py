@@ -64,7 +64,7 @@ def queue(st):
 # --if-due below.
 # Fri Sep 4, 2026 — Chuck: "a post every 2 hours today until 10pm" for CFB
 # kickoff weekend. Seven windows. Revert to three slots after the weekend.
-SLOTS_CT = [(11, 30), (13, 0), (15, 0), (16, 45), (18, 15), (19, 30)]  # Sun Sep 6
+SLOTS_CT = [(11, 30), (13, 0), (14, 15), (16, 0), (18, 15)]  # Sun Sep 6
 
 
 def central_now():
