@@ -65,14 +65,25 @@ The method that does work, from a browser session on app.beehiiv.com:
    `document.querySelector('.tiptap.ProseMirror').editor.commands.setContent(HTML, true)`.
 6. Re-verify with `get_post_content(format="html")` before scheduling.
 
-## The older method, and why it hid this bug
+## What actually broke on Sep 6 — and why the automation is FINE
 
-Previous issues were built by **duplicating the last published post and
-rewriting only the text**, which inherited that post's already-uploaded
-imageBlock nodes. That worked, but it meant nobody had ever built a body with
-new images from scratch — so the moment a session used `setContent` with fresh
-external URLs (Sep 6), the images vanished and it looked like a regression.
-It was not. It was the first time the real constraint got hit.
+The scheduled newsletter tasks were never broken. **I broke this issue by
+taking a shortcut the task prompts do not use.**
 
-Do not go back to the duplicate-and-retype method: it silently reuses
-YESTERDAY's graphics, which will contradict today's numbers.
+The documented method (itn-daily-weekday / itn-daily-weekend, STEP 4b) pastes
+the body as a real `ClipboardEvent` carrying `text/html`. beehiiv's editor has
+a **paste handler that ingests external `<img>` URLs and uploads them to its own
+CDN**. That is why every issue built by the tasks has beehiiv-hosted images.
+
+I used `editor.commands.setContent(HTML, true)` instead, because it is cleaner
+and avoids the leftover-paragraph quirk. `setContent` writes straight to the
+document and **never fires the paste handler**, so the external URLs were stored
+verbatim, rendered fine on screen, and were dropped at send.
+
+### The rule that follows
+
+**Never build a newsletter body with `setContent`.** Use the ClipboardEvent
+paste in STEP 4b, or upload the images first (above) and reference
+beehiiv-hosted URLs. `setContent` is safe only when every `imageBlock` in the
+HTML already points at `beehiiv-images-production.s3.amazonaws.com` with
+`data-is-uploaded="true"`.
