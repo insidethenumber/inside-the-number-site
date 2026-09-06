@@ -246,7 +246,7 @@ def f_bars(s, out):
     coin = float(s["coin"].rstrip("%"))
     top, full = 236, W - 560
     for i, (lab, val, col) in enumerate(
-            [("NEEDS TO HIT", need, AMBER), ("THREE COIN FLIPS", coin, "#38455c")]):
+            [("NEEDS TO HIT", need, AMBER), ({2:"TWO",3:"THREE",4:"FOUR",5:"FIVE"}.get(len(s["legs"]),str(len(s["legs"]))) + " COIN FLIPS", coin, "#38455c")]):
         y = top + i * 180
         w = int(full * val / max(need, coin))
         d.rounded_rectangle([300, y, 300 + w, y + 112], 10, fill=col)
@@ -290,7 +290,7 @@ def f_trip(s, out):
     d.rectangle([0, H - 150, W, H], fill=INK)
     d.text((56, H - 120), "ALL THREE", font=B(34), fill=MUTED)
     d.text((56, H - 78), s["price"], font=D(64), fill=GREEN)
-    tail = f"{s['be']} to break even  ·  three coin flips hit {s['coin']}"
+    tail = f"{s['be']} to break even  ·  {({2:'two',3:'three',4:'four'}.get(len(s['legs']), str(len(s['legs']))))} coin flips hit {s['coin']}"
     d.text((W - 56 - d.textlength(tail, font=M(28)), H - 96), tail, font=M(28),
            fill=DIM)
     img.save(out)

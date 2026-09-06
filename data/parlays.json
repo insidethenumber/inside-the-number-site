@@ -1,6 +1,72 @@
 [
  {
   "date": "2026-09-05",
+  "date_line": "Saturday, September 5 \u00b7 the 10:30 window",
+  "price": "+256",
+  "decimal": "3.56",
+  "be": "28.1%",
+  "coin": "25.0%",
+  "hook": "Two coin flips the market moved toward this week, priced as one ticket. Needs 28.1%. The market says 25.6%.",
+  "legs_line": "Nevada ML / UCLA -2.5",
+  "label": "Parlay of the Night",
+  "pay_label": "Payout",
+  "foot_line": "28.1% to break even. Two coin flips hit 25%. The market's own number is 25.6%.",
+  "thread_title": "the group chat, 9:15 CT",
+  "thread": [
+   [
+    "them",
+    "two 10:30 games. parlay them"
+   ],
+   [
+    "me",
+    "+256. needs 28.1% to break even"
+   ],
+   [
+    "them",
+    "and it hits?"
+   ],
+   [
+    "me",
+    "market says 25.6%. two coin flips"
+   ],
+   [
+    "them",
+    "so it's close"
+   ],
+   [
+    "me",
+    "it's $9 of vig on $100. that's the whole story"
+   ]
+  ],
+  "legs": [
+   {
+    "league": "cfb",
+    "abbr": "NEV",
+    "pick": "Nevada ML vs Western Kentucky",
+    "price": "-108",
+    "be": "51.9%",
+    "fair": "49.6%",
+    "decimal": "1.93",
+    "color": "#003366",
+    "note": "WKU opened -4.5, is -1.5 now. Three points toward Nevada.",
+    "start": "2026-09-06T02:30:00Z"
+   },
+   {
+    "league": "cfb",
+    "abbr": "UCLA",
+    "pick": "UCLA -2.5 at California",
+    "price": "-118",
+    "be": "54.1%",
+    "fair": "51.7%",
+    "decimal": "1.85",
+    "color": "#2d68c4",
+    "note": "Cal opened -1.5, is +2.5 now. Four points across zero.",
+    "start": "2026-09-06T02:30:00Z"
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
   "date_line": "Saturday, September 5",
   "price": "+596",
   "decimal": "6.96",
