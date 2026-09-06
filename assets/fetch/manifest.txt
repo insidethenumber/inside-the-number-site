@@ -40,3 +40,5 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Coors_Field_panorama_2
 https://images.unsplash.com/photo-1556033681-83abea291a96?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-nissan-skyline.jpg
 https://images.unsplash.com/photo-1693433583048-968c1db8dd6d?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-stadium-sunset.jpg
 https://images.unsplash.com/photo-1588897159261-328f3f53715f?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-broadway.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Dodger_Stadium_from_Top_Deck_night_2021-06-28.jpg/1920px-Dodger_Stadium_from_Top_Deck_night_2021-06-28.jpg	assets/stock/dodger-stadium-night.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Downtown_L.A._from_Dodger_Stadium_at_night%2C_Chicago_Cubs_at_Los_Angeles_Dodgers%2C_%28April_12%2C_2025%29.jpg/1920px-Downtown_L.A._from_Dodger_Stadium_at_night%2C_Chicago_Cubs_at_Los_Angeles_Dodgers%2C_%28April_12%2C_2025%29.jpg	assets/stock/dodger-stadium-dtla.jpg
