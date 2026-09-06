@@ -162,9 +162,13 @@
   .gm:first-child{border-top:0}
   .gm-k{font:600 12px/1.35 ui-sans-serif,system-ui;color:#7c8698;white-space:nowrap}
   .gm-k .gd{display:block;font-weight:700;font-size:11px;color:#aeb7c4;margin-bottom:2px}
-  .gm-k .tv{display:inline-block;font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-    color:#9fb0c4;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-    border-radius:4px;padding:2px 6px;margin-top:5px;white-space:nowrap}
+  .gm-k .tv{display:inline-block;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:#e8eef6;background:rgba(59,167,255,.16);border:1px solid rgba(59,167,255,.45);
+    border-radius:4px;padding:3px 7px;margin-top:6px;white-space:nowrap}
+  /* Chuck, Sep 5 9 PM: "you never wrote where the games were being shown". The chip
+     existed but sat in 10px grey on upcoming games and read as decoration. Now it is
+     a blue tag on every game with a listed network, green once the game is live. */
+  .gm-k .tv::before{content:'\1F4FA  ';font-size:10px}
   /* During a live game the network is the thing people actually want
      (Chuck, Sep 5: "where the broadcast is being held"), so it gets the
      accent instead of sitting grey under the clock. */
@@ -198,7 +202,8 @@
   .res b{font-weight:800}
   .res .ok{color:#5ec8a0}.res .no{color:#ff8a8a}.res .push{color:#f0b232}
   @media(max-width:620px){
-    .gm{grid-template-columns:60px 1fr;row-gap:6px}
+    .gm{grid-template-columns:78px 1fr;row-gap:6px}
+    .gm-k{white-space:normal}
     .gm-n{grid-column:2;text-align:left}
     .gm-note{grid-column:1/-1}
   }
