@@ -1468,6 +1468,103 @@
     draw(labels[0]);
   })();
 
+  /* ═══════════════════════════════════════════════════════════
+     AUTO-RETIRE FINISHED PICKS  (Chuck, Sat Sep 5 2026)
+
+     "Once the game is over, it needs to be removed... Please keep
+     everything up to date."
+
+     On Sep 5 the free pick (Tulane +7.5) sat on the homepage for two
+     hours after Duke won 17-3. A stated side still showing after the
+     final is the worst thing this site can do: it is the one moment a
+     reader checks whether we are honest, and a stale board answers no.
+
+     This runs on every page load, asks ESPN which of today's picks are
+     final, and removes them from the array — hero card, slate and parlay
+     line all re-render without them. It is deliberately outcome-blind:
+     a pick disappears when the GAME ENDS, win or lose. Hiding only the
+     losers would be the tout move we are positioned against, and readers
+     who screenshot would catch it inside a week.
+
+     Everything here fails open: if ESPN is unreachable the page renders
+     exactly as it did before.
+     ═══════════════════════════════════════════════════════════ */
+  const retireFinished = async () => {
+    const PATHS = { CFB:'football/college-football', NFL:'football/nfl',
+                    MLB:'baseball/mlb', NBA:'basketball/nba',
+                    NHL:'hockey/nhl', CBB:'basketball/mens-college-basketball' };
+    const leagues = [...new Set(todaysGames.filter(g => !g.solo).map(g => g.league))];
+    if (!leagues.length) return false;
+    const final = new Set();
+    await Promise.all(leagues.map(async lg => {
+      const path = PATHS[lg]; if (!path) return;
+      try {
+        const r = await fetch(sbUrl(path)); if (!r.ok) return;
+        const d = await r.json();
+        (d.events || []).forEach(ev => {
+          const c = ev.competitions?.[0]; if (!c) return;
+          if (ev.status?.type?.state !== 'post') return;   // only true finals
+          c.competitors.forEach(x => final.add(lg + ':' + x.team.id));
+        });
+      } catch (_) { /* fail open — never blank the board on a fetch error */ }
+    }));
+    if (!final.size) return false;
+    const before = todaysGames.length;
+    for (let i = todaysGames.length - 1; i >= 0; i--) {
+      const g = todaysGames[i];
+      if (g.solo) continue;
+      if (final.has(g.league + ':' + g.away.code) &&
+          final.has(g.league + ':' + g.home.code)) todaysGames.splice(i, 1);
+    }
+    return todaysGames.length !== before;
+  };
+
+  /* When the free pick is the one that finished, promote the next game so the
+     hero panel is never a dead card. If nothing is left, say so plainly. */
+  const repaintAfterRetire = () => {
+    const potd = document.getElementById('pick-of-the-day');
+    if (!todaysGames.some(g => g.free)) {
+      const next = todaysGames[0];
+      if (next) { next.free = true; }
+      else if (potd) {
+        potd.innerHTML = `<div class="potd-inner"><div class="potd-card"><div>
+          <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
+          <div class="potd-matchup">Today's card is done.</div>
+          <p class="potd-reasoning">Every game we posted today has finished. Tomorrow's
+          pick goes out in the Morning Board before first kick — and the full board with
+          live prices is on the <a href="games">games page</a> right now.</p></div>
+          <div class="potd-cta"><a href="https://insidethenumber.beehiiv.com/subscribe"
+          target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
+          </div></div></div>`;
+      }
+    }
+    const g = todaysGames.find(x => x.free);
+    if (g && potd) {
+      const line = potd.querySelector('.potd-line');
+      const why  = potd.querySelector('.potd-reasoning');
+      const sport= potd.querySelector('.potd-sport');
+      if (line)  line.innerHTML = 'THE PICK: ' + g.pick + ' &middot; ' + (g.time || '');
+      if (why && g.why) why.textContent = g.why;
+      if (sport) sport.textContent = g.league;
+      // The parlay paragraph names specific legs; once any leg is final the
+      // sentence is stale, so it goes rather than lies.
+      const legs = potd.querySelectorAll('.potd-reasoning');
+      if (legs.length > 1) legs[1].remove();
+    }
+    if (typeof paintSlate === 'function') paintSlate();
+    const el = document.getElementById('potd-matchup');
+    if (g && el && !g.solo) {
+      el.innerHTML =
+        `<img src="${logo(g.league, g.away.code)}" alt="${g.away.name}"/>` +
+        `<span>${g.away.name}</span><span class="at">@</span>` +
+        `<img src="${logo(g.league, g.home.code)}" alt="${g.home.name}"/>` +
+        `<span>${g.home.name}</span>`;
+    }
+  };
+
+  retireFinished().then(changed => { if (changed) repaintAfterRetire(); })
+                  .catch(() => {});
+
   // Pick of the Day headline gets the same logo treatment, pulled from
   // whichever game is flagged free:true — so it can never drift out of sync.
   (function renderPotdLogos(){
