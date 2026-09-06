@@ -42,3 +42,9 @@ https://images.unsplash.com/photo-1693433583048-968c1db8dd6d?w=1600&q=80&fit=cro
 https://images.unsplash.com/photo-1588897159261-328f3f53715f?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-broadway.jpg
 https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Dodger_Stadium_from_Top_Deck_night_2021-06-28.jpg/1920px-Dodger_Stadium_from_Top_Deck_night_2021-06-28.jpg	assets/stock/dodger-stadium-night.jpg
 https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Downtown_L.A._from_Dodger_Stadium_at_night%2C_Chicago_Cubs_at_Los_Angeles_Dodgers%2C_%28April_12%2C_2025%29.jpg/1920px-Downtown_L.A._from_Dodger_Stadium_at_night%2C_Chicago_Cubs_at_Los_Angeles_Dodgers%2C_%28April_12%2C_2025%29.jpg	assets/stock/dodger-stadium-dtla.jpg
+https://media.giphy.com/media/ToMjGpKniGqRNLGBrhu/giphy.gif	assets/gifs/gif-wazzu-chance.gif
+https://media.giphy.com/media/NTur7XlVDUdqM/giphy.gif	assets/gifs/gif-wku-fine.gif
+https://media.giphy.com/media/b6egYsO1DR2KQIBwo2/giphy.gif	assets/gifs/gif-coors-beer.gif
+https://media.giphy.com/media/YRuFixSNWFVcXaxpmX/giphy.gif	assets/gifs/gif-rain-backfired.gif
+https://media.giphy.com/media/cdlr2QaQ4o4lEtiXkW/giphy.gif	assets/gifs/gif-nd-sure.gif
+https://media.giphy.com/media/26DN5mTjpKEsumZqg/giphy.gif	assets/gifs/gif-scooby-gulp.gif
