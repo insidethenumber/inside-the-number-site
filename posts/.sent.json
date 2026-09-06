@@ -44,7 +44,8 @@
   "445-done-for-the-day.txt",
   "448-late-window.txt",
   "449a-radar-parlay.txt",
-  "449-parlay-night.txt"
+  "449-parlay-night.txt",
+  "449z-parlay-why.txt"
  ],
  "history": [
   {
@@ -469,6 +470,16 @@
    "chars": 256,
    "had_link": false,
    "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "449z-parlay-why.txt",
+   "id": "2096424161543651753",
+   "url": "https://x.com/thenumberdesk/status/2096424161543651753",
+   "at": "2026-09-06T02:24:04.590476+00:00",
+   "chars": 275,
+   "had_link": false,
+   "had_image": false,
    "est_cost": 0.015
   }
  ]
