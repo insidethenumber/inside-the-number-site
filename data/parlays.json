@@ -2,24 +2,24 @@
  {
   "date": "2026-09-06",
   "date_line": "Sunday, September 6",
-  "price": "+634",
-  "decimal": "7.34",
-  "be": "13.6%",
+  "price": "+603",
+  "decimal": "7.03",
+  "be": "14.2%",
   "coin": "12.5%",
-  "hook": "Three underdogs the market moved toward this week, priced as one ticket. Every leg is a side we would take alone; together the book's cut compounds.",
-  "legs_line": "Louisville / Washington State / Wisconsin",
+  "hook": "One favorite the market shaded away from and two underdogs it moved toward, priced as one ticket. Every leg is a side we would take alone; together the book's cut compounds.",
+  "legs_line": "Ole Miss / Washington State / Wisconsin",
   "label": "Parlay of the Day",
   "pay_label": "Payout",
-  "foot_line": "13.6% to break even. Three coin flips hit 12.5%.",
+  "foot_line": "14.2% to break even. Three coin flips hit 12.5%.",
   "thread_title": "the group chat, Sunday",
   "thread": [
    [
     "them",
-    "three dogs on one ticket?"
+    "a favorite and two dogs on one ticket?"
    ],
    [
     "me",
-    "+634. needs 13.6% to break even"
+    "+603. needs 14.2% to break even"
    ],
    [
     "them",
@@ -41,14 +41,14 @@
   "legs": [
    {
     "league": "cfb",
-    "abbr": "LOU",
-    "pick": "Louisville +6.5 vs Ole Miss",
-    "price": "-105",
-    "be": "51.2%",
-    "fair": "48.9%",
-    "decimal": "1.95",
-    "color": "#ad0000",
-    "note": "Ole Miss opened -7 and -297. It is -6.5 and -250 now. Neutral site, Nashville. 7:30 ET, ABC.",
+    "abbr": "MISS",
+    "pick": "Ole Miss -6.5 vs Louisville",
+    "price": "-115",
+    "be": "53.5%",
+    "fair": "51.1%",
+    "decimal": "1.87",
+    "color": "#14213d",
+    "note": "Opened -7, now -6.5. Total up to 54.5. Neutral, Nashville.",
     "start": "2026-09-06T23:30:00Z"
    },
    {
@@ -60,7 +60,7 @@
     "fair": "48.9%",
     "decimal": "1.95",
     "color": "#981e32",
-    "note": "Washington opened -21.5, is -23.5. Total up a point too. 4:00 ET, NBC.",
+    "note": "Opened -21.5, now -23.5. Total up a point. 4 ET NBC.",
     "start": "2026-09-06T20:00:00Z"
    },
    {
@@ -72,7 +72,7 @@
     "fair": "49.6%",
     "decimal": "1.93",
     "color": "#c5050c",
-    "note": "Opened +20.5, now +21. Notre Dame moneyline -2400 to -1600: same margin, less certainty. Lambeau, 7:30 ET, NBC.",
+    "note": "ND ML -2400 to -1600. Same margin, less certainty. Lambeau.",
     "start": "2026-09-06T23:30:00Z"
    }
   ]
