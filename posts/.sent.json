@@ -49,7 +49,8 @@
   "520-sun-texts.txt",
   "610-sunday-board.txt",
   "615-gif-coors.txt",
-  "620-applecup-hero.txt"
+  "620-applecup-hero.txt",
+  "625-applecup-implied.txt"
  ],
  "history": [
   {
@@ -522,6 +523,16 @@
    "url": "https://x.com/thenumberdesk/status/2096681685261705378",
    "at": "2026-09-06T19:27:23.157884+00:00",
    "chars": 250,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "625-applecup-implied.txt",
+   "id": "2096686225436385378",
+   "url": "https://x.com/thenumberdesk/status/2096686225436385378",
+   "at": "2026-09-06T19:45:25.663755+00:00",
+   "chars": 242,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
