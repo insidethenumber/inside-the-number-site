@@ -51,7 +51,8 @@
   "615-gif-coors.txt",
   "620-applecup-hero.txt",
   "625-applecup-implied.txt",
-  "630-gif-wazzu.txt"
+  "630-gif-wazzu.txt",
+  "635-applecup-moves.txt"
  ],
  "history": [
   {
@@ -546,6 +547,16 @@
    "chars": 156,
    "had_link": false,
    "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "635-applecup-moves.txt",
+   "id": "2096712092456022478",
+   "url": "https://x.com/thenumberdesk/status/2096712092456022478",
+   "at": "2026-09-06T21:28:12.764094+00:00",
+   "chars": 271,
+   "had_link": false,
+   "had_image": true,
    "est_cost": 0.015
   }
  ]
