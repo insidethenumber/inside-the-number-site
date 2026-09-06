@@ -18,3 +18,18 @@
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Newsletter images must be readable cross-origin so the beehiiv editor can
+# fetch them as blobs and upload them into beehiiv's own media library.
+#
+# Why (Sep 6, 2026, Chuck: "No graphics, nothing but text. Why?"): beehiiv's
+# email renderer ONLY renders imageBlock nodes whose file lives on beehiiv's
+# CDN. An <img> or an imageBlock pointing at insidethenumber.com is accepted
+# by the editor, looks correct on screen, and is then silently dropped from
+# both the email and the web post. The only fix is to get the bytes into
+# beehiiv's media library. With file-picker upload unavailable, the working
+# path is: fetch the image cross-origin in the beehiiv tab, wrap it in a File,
+# and paste it into the editor, which triggers beehiiv's own upload.
+/assets/newsletter/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000
