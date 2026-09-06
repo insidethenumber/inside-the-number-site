@@ -162,17 +162,21 @@
   .gm:first-child{border-top:0}
   .gm-k{font:600 12px/1.35 ui-sans-serif,system-ui;color:#7c8698;white-space:nowrap}
   .gm-k .gd{display:block;font-weight:700;font-size:11px;color:#aeb7c4;margin-bottom:2px}
-  .gm-k .tv{display:inline-block;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-    color:#e8eef6;background:rgba(59,167,255,.16);border:1px solid rgba(59,167,255,.45);
-    border-radius:4px;padding:3px 7px;margin-top:6px;white-space:nowrap}
+  /* Chuck, Sun Sep 6: "where you have the channel covering the game, it is
+     overlapping with other content or graphics." The chip lived in the 74px
+     kick column with white-space:nowrap, so "CBS SPORTS NETWORK" ran straight
+     under the matchup text. It now sits in the tag row beneath the matchup,
+     where there is a full column of room and it can wrap like any other tag. */
+  .tag.tv{color:#8fd0ff;border-color:rgba(59,167,255,.5);background:rgba(59,167,255,.12);
+    letter-spacing:.07em;white-space:nowrap}
+  .tag.tv.on{color:#0b0e13;background:var(--green,#00d084);border-color:transparent}
+  .tag.tv::before{content:'\1F4FA  ';font-size:9px}
   /* Chuck, Sep 5 9 PM: "you never wrote where the games were being shown". The chip
      existed but sat in 10px grey on upcoming games and read as decoration. Now it is
      a blue tag on every game with a listed network, green once the game is live. */
-  .gm-k .tv::before{content:'\1F4FA  ';font-size:10px}
   /* During a live game the network is the thing people actually want
      (Chuck, Sep 5: "where the broadcast is being held"), so it gets the
      accent instead of sitting grey under the clock. */
-  .gm-k .tv.on{color:#0b0e13;background:var(--green,#00d084);border-color:transparent}
   .gm-m{font:600 16px/1.35 ui-sans-serif,system-ui;color:#eef2f7}
   .gm-m .rk{color:#f0b232;font-size:12px;font-weight:700;margin-right:3px}
   .gm-tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:6px}
@@ -296,7 +300,7 @@
     <a href="index.html#pricing" class="nav-cta">Get Pro</a>
   </div>
 <div class="wrap">
-  <div class="eyebrow" id="eyebrow">// CFB · this Saturday</div>
+  <div class="eyebrow" id="eyebrow">// CFB · this weekend</div>
   <h1><span id="wk">College Football</span><br/><span>every game, every number.</span></h1>
 
   <p class="lede" id="lede">The whole board — spread, total, where the line opened and kickoff — with no pretence that anyone knows anything yet.</p>
@@ -317,33 +321,23 @@
 
   <div class="pick" id="our-pick">
     <div class="pick-tag">★ Our pick on this card</div>
-    <!-- PICK:START — replaced by the Saturday routine. Keep these markers. -->
-    <div class="pick-conf" style="margin-bottom:14px">Saturday picks &mdash; four games, one rule.
-    Read at <b>10:15 AM CT, Saturday Sep 5</b>.</div>
+    <!-- PICK:START — replaced by the daily routine. Keep these markers. -->
+    <div class="pick-conf" style="margin-bottom:14px">Sunday picks &mdash; three games, one rule.
+    Read at <b>1:45 PM CT, Sunday Sep 6</b>.</div>
 
-    <div class="pick-line">Every pick below is a side the market moved toward since the number opened &mdash; spread and moneyline together, not one without the other.</div>
+    <div class="pick-line">Two of tonight's favorites got bigger this week. One got smaller. We are on the side the market moved toward on all three &mdash; which on the Nashville game means the favorite.</div>
 
-    <p><b>Tulane +7.5 at Duke</b> &middot; 3:30 PM ET, ACC Network &middot; high.<br>
-    Duke opened &minus;8.5 and &minus;455. It is &minus;7.5 and &minus;310 now. De-vigged, Tulane went from 21.3% to 27.4% to win outright &mdash; the biggest fair-price move toward a dog on the whole board. Break-even at &minus;110 is 52.4%.
-    <i>What beats it:</i> Duke scoring early and Tulane chasing on the road.</p>
+    <p><b>Ole Miss &minus;6.5 vs Louisville</b> &middot; 7:30 PM ET, ABC, Nissan Stadium &middot; high.<br>
+    Ole Miss opened &minus;7 and &minus;297; it is &minus;6.5 and &minus;258 now, while the total climbed 53.5 to 54.5. Less margin, more points &mdash; the market shaved the favorite and we are taking the side it shaved. Neutral field, so none of the usual two to three home-crowd points are inside this number. De-vigged, Ole Miss is 69% to win outright; &minus;6.5 at &minus;110 asks 52.4%.
+    <i>What beats it:</i> Louisville keeping it inside a score into the fourth, which is exactly what Jeff Brohm does as a dog.</p>
 
-    <p><b>UCLA &minus;2.5 at California</b> &middot; 10:30 PM ET, ESPN &middot; high.<br>
-    California opened a 1.5-point favorite at &minus;115. It is a 2.5-point underdog at +114 now; UCLA went &minus;105 to &minus;135. A four-point swing that crosses zero means the market changed its mind about who wins, not just by how much. UCLA fair: 48.9% to 55.1%. Break-even at &minus;112 is 52.8%.
-    <i>What beats it:</i> a late kick on the road against a team that was favored a week ago for a reason.</p>
+    <p><b>Washington State +23.5 at Washington</b> &middot; 4:00 PM ET, NBC &middot; medium.<br>
+    Washington opened &minus;21.5 and is &minus;23.5; the total moved one point, 50.5 to 51.5. The spread outran the total, which is margin being priced in rather than scoring. The implied final is Washington 37.5, Washington State 14. +23.5 at &minus;105 asks 51.2%.
+    <i>What beats it:</i> a Husky defense that gets three short fields in the first half.</p>
 
-    <p><b>Wyoming +3 at Colorado State</b> &middot; 6:00 PM ET, USA &middot; medium.<br>
-    Colorado State opened &minus;4 and &minus;180. It is &minus;3 and &minus;155 now. Wyoming fair: 38.4% to 41.7%. Break-even at &minus;108 is 51.9%.
-    <i>What beats it:</i> the Border War in Fort Collins, and 3 is the most common margin in football.</p>
-
-    <p><b>Nevada +1.5 vs Western Kentucky</b> &middot; 10:30 PM ET, CBS Sports Network &middot; medium.<br>
-    Western Kentucky opened &minus;4.5 and &minus;142. It is &minus;1.5 and &minus;112 now, three full points toward Nevada with the moneyline agreeing. WKU fair fell 56.3% to 50.4% &mdash; this is a coin flip the market is still pricing as a favorite. Break-even at &minus;118 is 54.1%.
-    <i>What beats it:</i> 1.5 is a thin cushion, and Nevada needs to win or lose by exactly one.</p>
-
-    <div class="pick-line" style="margin-top:18px">Parlay of the Day &mdash; priced honestly.</div>
-    <p><b>Tulane +7.5 / Wyoming +3 / UCLA &minus;2.5 &rarr; +596.</b> A three-leg parlay at these prices needs to hit <b>14.4%</b> of the time to break even. Three coin flips hit 12.5%. That 1.9-point gap is what stapling them together costs you. Full breakdown on the <a href="parlay" style="color:inherit">parlay page</a>.</p>
-
-    <div class="pick-conf" style="margin-top:20px">Every game on the board is priced at
-    <a href="games" style="color:inherit">what the market really thinks</a>.</div>
+    <p><b>Wisconsin +21 vs Notre Dame</b> &middot; 7:30 PM ET, NBC, Lambeau Field &middot; medium.<br>
+    Notre Dame went &minus;20.5 to &minus;21, half a point, while its moneyline fell from &minus;2400 to &minus;1600. Same margin, noticeably less certainty about the outcome &mdash; when those two disagree we side with the moneyline. Neutral field. +21 at &minus;108 asks 51.9%.
+    <i>What beats it:</i> Notre Dame scoring 40 and having this covered by halftime.</p>
     <!-- PICK:END -->
   </div>
 
@@ -438,20 +432,22 @@
   // Saturday — then take two days either side, so Thursday MACtion, Friday
   // openers and a Monday holiday game all land on one page instead of the
   // old version's Saturday-only view.
+  // Chuck, Sun Sep 6: "the main board is old news from yesterday... no need for
+  // next week's games on there." The old anchor jumped to the NEXT Saturday the
+  // moment Saturday ended, so a Sunday visitor got Sep 10-14 (next week) with
+  // yesterday bolted on. A football week runs Thu -> Mon, so on Sunday and
+  // Monday the week we are IN is the one whose Saturday just passed.
   function targetSaturday(){
-    var d=new Date(); var day=d.getDay();
-    var add=(6-day+7)%7;
-    d.setDate(d.getDate()+add); return d;
+    var d=new Date(), day=d.getDay();          // 0 Sun … 6 Sat
+    if(day===0){ d.setDate(d.getDate()-1); }   // Sunday  -> yesterday
+    else if(day===1){ d.setDate(d.getDate()-2); } // Monday -> Saturday
+    else { d.setDate(d.getDate()+(6-day)); }   // Tue-Sat -> this Saturday
+    return d;
   }
   function weekWindow(){
     var sat=targetSaturday();
-    var from=new Date(sat); from.setDate(sat.getDate()-2);
-    var to=new Date(sat);   to.setDate(sat.getDate()+2);
-    // Always reach back far enough to include yesterday. Without this, the
-    // window jumps forward to the next Saturday on Tuesday morning and the
-    // weekend's results disappear the moment they become interesting.
-    var y=new Date(); y.setDate(y.getDate()-1);
-    if(y<from) from=y;
+    var from=new Date(sat); from.setDate(sat.getDate()-3);  // Wed, catches Thu openers
+    var to=new Date(sat);   to.setDate(sat.getDate()+2);    // Mon, catches Labor Day
     return {from:from,to:to,sat:sat};
   }
   function dayKey(iso){
@@ -536,10 +532,12 @@
       }
 
       html+='<div class="gm'+(done?' done':'')+'">'+
-        '<div class="gm-k">'+kick+(g.tv&&!done?'<span class="tv'+(live?' on':'')+'">'+g.tv+'</span>':'')+'</div>'+
+        '<div class="gm-k">'+kick+'</div>'+
         '<div><div class="gm-m">'+g.awayRk+g.away+' <span style="color:#7c8698;font-weight:500">at</span> '+g.homeRk+g.home+'</div>'+
           score+
-          (tags.length&&!done?'<div class="gm-tags">'+tags.join('')+'</div>':'')+'</div>'+
+          (function(){var tt=tags.slice();
+             if(g.tv&&!done) tt.unshift('<span class="tag tv'+(live?' on':'')+'">'+g.tv+'</span>');
+             return tt.length?'<div class="gm-tags">'+tt.join('')+'</div>':'';})()+'</div>'+
         right+
         (note?'<div class="gm-note">'+note+'</div>':'')+
       '</div>';
@@ -667,9 +665,10 @@
       var days={}; GAMES.forEach(function(g){days[g.day]=1;});
       var rkdN=GAMES.filter(function(g){return g.ranked;}).length;
       document.getElementById('lede').textContent=
-        GAMES.length+' games across '+Object.keys(days).length+' days, '+label+'. '+
+        GAMES.length+' games this week, '+label+'. '+
         rkdN+' involve a ranked team. Grouped by day, ordered by kickoff — spread, '+
-        'total, where each line opened, and the TV channel, all read live from the feed.';
+        'total, where each line opened, and the TV channel, all read live from the feed. '+
+        'Next week\u2019s board goes up Monday morning.';
       document.getElementById('stamp').textContent =
         'Lines via ESPN, read live at '+new Date().toLocaleTimeString('en-US',
           {timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})+' CT · '+GAMES.length+' games';
