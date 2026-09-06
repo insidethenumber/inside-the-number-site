@@ -1,411 +1,11 @@
 {
- "generated_utc": "2026-09-06T16:54:39.296671+00:00",
+ "generated_utc": "2026-09-06T19:30:38.993687+00:00",
  "slate_date": "2026-09-06",
  "slate_label": "Sun, Sep 6",
  "non_mlb_available": [
   "CFB"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401816828",
-   "short": "ATL @ PHI",
-   "start": "2026-09-06T17:10Z",
-   "detail": "9/6 - 1:10 PM EDT",
-   "venue": "Citizens Bank Park",
-   "away": {
-    "abbr": "ATL",
-    "name": "Braves",
-    "record": "84-58"
-   },
-   "home": {
-    "abbr": "PHI",
-    "name": "Phillies",
-    "record": "80-62"
-   },
-   "total": "o8",
-   "over_odds": "-115",
-   "under_odds": "-105",
-   "spread": "-1.5",
-   "ml_away": "-108",
-   "ml_home": "-111",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-114",
-    "ml_home": "-106",
-    "spread": "-1.5",
-    "total": "o8",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 49.7,
-   "true_home": 50.3,
-   "hold": 4.53,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 51.9,
-   "be_ml_home": 52.6
-  },
-  {
-   "league": "MLB",
-   "id": "401816827",
-   "short": "LAA @ PIT",
-   "start": "2026-09-06T17:35Z",
-   "detail": "9/6 - 1:35 PM EDT",
-   "venue": "PNC Park",
-   "away": {
-    "abbr": "LAA",
-    "name": "Angels",
-    "record": "54-88"
-   },
-   "home": {
-    "abbr": "PIT",
-    "name": "Pirates",
-    "record": "70-73"
-   },
-   "total": "o7",
-   "over_odds": "-119",
-   "under_odds": "-102",
-   "spread": "+1.5",
-   "ml_away": "+149",
-   "ml_home": "-181",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+159",
-    "ml_home": "-194",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-104",
-    "under_odds": "-116"
-   },
-   "true_away": 38.4,
-   "true_home": 61.6,
-   "hold": 4.57,
-   "be_over": 54.3,
-   "be_under": 50.5,
-   "be_ml_away": 40.2,
-   "be_ml_home": 64.4
-  },
-  {
-   "league": "MLB",
-   "id": "401816829",
-   "short": "BOS @ BAL",
-   "start": "2026-09-06T17:35Z",
-   "detail": "9/6 - 1:35 PM EDT",
-   "venue": "Oriole Park at Camden Yards",
-   "away": {
-    "abbr": "BOS",
-    "name": "Red Sox",
-    "record": "78-65"
-   },
-   "home": {
-    "abbr": "BAL",
-    "name": "Orioles",
-    "record": "69-74"
-   },
-   "total": "o7.5",
-   "over_odds": "+104",
-   "under_odds": "-125",
-   "spread": "-1.5",
-   "ml_away": "-135",
-   "ml_home": "+112",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-136",
-    "ml_home": "+113",
-    "spread": "-1.5",
-    "total": "o8.5",
-    "over_odds": "-107",
-    "under_odds": "-113"
-   },
-   "true_away": 54.9,
-   "true_home": 45.1,
-   "hold": 4.62,
-   "be_over": 49.0,
-   "be_under": 55.6,
-   "be_ml_away": 57.4,
-   "be_ml_home": 47.2
-  },
-  {
-   "league": "MLB",
-   "id": "401816830",
-   "short": "CHC @ MIA",
-   "start": "2026-09-06T17:40Z",
-   "detail": "9/6 - 1:40 PM EDT",
-   "venue": "loanDepot park",
-   "away": {
-    "abbr": "CHC",
-    "name": "Cubs",
-    "record": "81-62"
-   },
-   "home": {
-    "abbr": "MIA",
-    "name": "Marlins",
-    "record": "71-72"
-   },
-   "total": "o8",
-   "over_odds": "-117",
-   "under_odds": "-103",
-   "spread": "-1.5",
-   "ml_away": "-149",
-   "ml_home": "+123",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-149",
-    "ml_home": "+123",
-    "spread": "-1.5",
-    "total": "o8",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 57.2,
-   "true_home": 42.8,
-   "hold": 4.68,
-   "be_over": 53.9,
-   "be_under": 50.7,
-   "be_ml_away": 59.8,
-   "be_ml_home": 44.8
-  },
-  {
-   "league": "MLB",
-   "id": "401816831",
-   "short": "DET @ CLE",
-   "start": "2026-09-06T17:40Z",
-   "detail": "9/6 - 1:40 PM EDT",
-   "venue": "Progressive Field",
-   "away": {
-    "abbr": "DET",
-    "name": "Tigers",
-    "record": "65-77"
-   },
-   "home": {
-    "abbr": "CLE",
-    "name": "Guardians",
-    "record": "72-71"
-   },
-   "total": "o7",
-   "over_odds": "-105",
-   "under_odds": "-115",
-   "spread": "+1.5",
-   "ml_away": "+141",
-   "ml_home": "-171",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+138",
-    "ml_home": "-167",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 39.7,
-   "true_home": 60.3,
-   "hold": 4.59,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 41.5,
-   "be_ml_home": 63.1
-  },
-  {
-   "league": "MLB",
-   "id": "401816833",
-   "short": "SF @ NYM",
-   "start": "2026-09-06T17:40Z",
-   "detail": "9/6 - 1:40 PM EDT",
-   "venue": "Citi Field",
-   "away": {
-    "abbr": "SF",
-    "name": "Giants",
-    "record": "59-84"
-   },
-   "home": {
-    "abbr": "NYM",
-    "name": "Mets",
-    "record": "64-78"
-   },
-   "total": "o8",
-   "over_odds": "-113",
-   "under_odds": "-107",
-   "spread": "+1.5",
-   "ml_away": "+130",
-   "ml_home": "-157",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+129",
-    "ml_home": "-156",
-    "spread": "+1.5",
-    "total": "o9",
-    "over_odds": "+100",
-    "under_odds": "-120"
-   },
-   "true_away": 41.6,
-   "true_home": 58.4,
-   "hold": 4.57,
-   "be_over": 53.1,
-   "be_under": 51.7,
-   "be_ml_away": 43.5,
-   "be_ml_home": 61.1
-  },
-  {
-   "league": "MLB",
-   "id": "401816834",
-   "short": "ARI @ HOU",
-   "start": "2026-09-06T18:10Z",
-   "detail": "9/6 - 2:10 PM EDT",
-   "venue": "Daikin Park",
-   "away": {
-    "abbr": "ARI",
-    "name": "Diamondbacks",
-    "record": "75-68"
-   },
-   "home": {
-    "abbr": "HOU",
-    "name": "Astros",
-    "record": "73-70"
-   },
-   "total": "o8",
-   "over_odds": "-107",
-   "under_odds": "-112",
-   "spread": "-1.5",
-   "ml_away": "-105",
-   "ml_home": "-114",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-110",
-    "ml_home": "-110",
-    "spread": "-1.5",
-    "total": "o7.5",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 49.0,
-   "true_home": 51.0,
-   "hold": 4.49,
-   "be_over": 51.7,
-   "be_under": 52.8,
-   "be_ml_away": 51.2,
-   "be_ml_home": 53.3
-  },
-  {
-   "league": "MLB",
-   "id": "401816837",
-   "short": "TOR @ KC",
-   "start": "2026-09-06T18:10Z",
-   "detail": "9/6 - 2:10 PM EDT",
-   "venue": "Kauffman Stadium",
-   "away": {
-    "abbr": "TOR",
-    "name": "Blue Jays",
-    "record": "72-71"
-   },
-   "home": {
-    "abbr": "KC",
-    "name": "Royals",
-    "record": "63-80"
-   },
-   "total": "o9.5",
-   "over_odds": "-103",
-   "under_odds": "-117",
-   "spread": "-1.5",
-   "ml_away": "-125",
-   "ml_home": "+104",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-118",
-    "ml_home": "-102",
-    "spread": "-1.5",
-    "total": "o10",
-    "over_odds": "-106",
-    "under_odds": "-114"
-   },
-   "true_away": 53.1,
-   "true_home": 46.9,
-   "hold": 4.58,
-   "be_over": 50.7,
-   "be_under": 53.9,
-   "be_ml_away": 55.6,
-   "be_ml_home": 49.0
-  },
-  {
-   "league": "MLB",
-   "id": "401816836",
-   "short": "TB @ TEX",
-   "start": "2026-09-06T18:35Z",
-   "detail": "9/6 - 2:35 PM EDT",
-   "venue": "Globe Life Field",
-   "away": {
-    "abbr": "TB",
-    "name": "Rays",
-    "record": "85-57"
-   },
-   "home": {
-    "abbr": "TEX",
-    "name": "Rangers",
-    "record": "70-73"
-   },
-   "total": "o7.5",
-   "over_odds": "-108",
-   "under_odds": "-112",
-   "spread": "-1.5",
-   "ml_away": "-111",
-   "ml_home": "-108",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-108",
-    "ml_home": "-112",
-    "spread": "-1.5",
-    "total": "o7.5",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 50.3,
-   "true_home": 49.7,
-   "hold": 4.53,
-   "be_over": 51.9,
-   "be_under": 52.8,
-   "be_ml_away": 52.6,
-   "be_ml_home": 51.9
-  },
-  {
-   "league": "MLB",
-   "id": "401816838",
-   "short": "STL @ COL",
-   "start": "2026-09-06T19:10Z",
-   "detail": "9/6 - 3:10 PM EDT",
-   "venue": "Coors Field",
-   "away": {
-    "abbr": "STL",
-    "name": "Cardinals",
-    "record": "71-72"
-   },
-   "home": {
-    "abbr": "COL",
-    "name": "Rockies",
-    "record": "55-87"
-   },
-   "total": "o11",
-   "over_odds": "-112",
-   "under_odds": "-108",
-   "spread": "-1.5",
-   "ml_away": "-135",
-   "ml_home": "+112",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-135",
-    "ml_home": "+112",
-    "spread": "-1.5",
-    "total": "o11",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 54.9,
-   "true_home": 45.1,
-   "hold": 4.62,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 57.4,
-   "be_ml_home": 47.2
-  },
   {
    "league": "MLB",
    "id": "401816839",
@@ -424,10 +24,10 @@
     "record": "66-77"
    },
    "total": "o7",
-   "over_odds": "-118",
-   "under_odds": "-102",
+   "over_odds": "-117",
+   "under_odds": "-103",
    "spread": "+1.5",
-   "ml_away": "+167",
+   "ml_away": "+168",
    "ml_home": "-205",
    "provider": "DraftKings",
    "open": {
@@ -438,12 +38,12 @@
     "over_odds": "-112",
     "under_odds": "-108"
    },
-   "true_away": 35.8,
-   "true_home": 64.2,
-   "hold": 4.67,
-   "be_over": 54.1,
-   "be_under": 50.5,
-   "be_ml_away": 37.5,
+   "true_away": 35.7,
+   "true_home": 64.3,
+   "hold": 4.53,
+   "be_over": 53.9,
+   "be_under": 50.7,
+   "be_ml_away": 37.3,
    "be_ml_home": 67.2
   },
   {
@@ -464,11 +64,11 @@
     "record": "74-68"
    },
    "total": "o7",
-   "over_odds": "-112",
-   "under_odds": "-108",
+   "over_odds": "-105",
+   "under_odds": "-115",
    "spread": "-1.5",
-   "ml_away": "-112",
-   "ml_home": "-107",
+   "ml_away": "-102",
+   "ml_home": "-118",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-110",
@@ -478,13 +78,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 50.5,
-   "true_home": 49.5,
-   "hold": 4.52,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 52.8,
-   "be_ml_home": 51.7
+   "true_away": 48.3,
+   "true_home": 51.7,
+   "hold": 4.62,
+   "be_over": 51.2,
+   "be_under": 53.5,
+   "be_ml_away": 50.5,
+   "be_ml_home": 54.1
   },
   {
    "league": "MLB",
@@ -544,11 +144,11 @@
     "record": "85-57"
    },
    "total": "o8",
-   "over_odds": "-120",
-   "under_odds": "-101",
+   "over_odds": "-118",
+   "under_odds": "-102",
    "spread": "+1.5",
-   "ml_away": "+163",
-   "ml_home": "-199",
+   "ml_away": "+167",
+   "ml_home": "-204",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+179",
@@ -558,13 +158,13 @@
     "over_odds": "-105",
     "under_odds": "-115"
    },
-   "true_away": 36.4,
-   "true_home": 63.6,
-   "hold": 4.58,
-   "be_over": 54.5,
-   "be_under": 50.2,
-   "be_ml_away": 38.0,
-   "be_ml_home": 66.6
+   "true_away": 35.8,
+   "true_home": 64.2,
+   "hold": 4.56,
+   "be_over": 54.1,
+   "be_under": 50.5,
+   "be_ml_away": 37.5,
+   "be_ml_home": 67.1
   },
   {
    "league": "CFB",
@@ -627,8 +227,8 @@
    "over_odds": "-108",
    "under_odds": "-112",
    "spread": "+21",
-   "ml_away": "+950",
-   "ml_home": "-1650",
+   "ml_away": "+1000",
+   "ml_home": "-1800",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+970",
@@ -638,13 +238,13 @@
     "over_odds": "-112",
     "under_odds": "-111"
    },
-   "true_away": 9.2,
-   "true_home": 90.8,
-   "hold": 3.81,
+   "true_away": 8.8,
+   "true_home": 91.2,
+   "hold": 3.83,
    "be_over": 51.9,
    "be_under": 52.8,
-   "be_ml_away": 9.5,
-   "be_ml_home": 94.3
+   "be_ml_away": 9.1,
+   "be_ml_home": 94.7
   },
   {
    "league": "CFB",
@@ -663,12 +263,12 @@
     "name": "Ole Miss",
     "record": "0-0"
    },
-   "total": "o54.5",
-   "over_odds": "-115",
-   "under_odds": "-105",
+   "total": "o55.5",
+   "over_odds": "-105",
+   "under_odds": "-115",
    "spread": "+6.5",
-   "ml_away": "+205",
-   "ml_home": "-250",
+   "ml_away": "+210",
+   "ml_home": "-258",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+228",
@@ -678,13 +278,13 @@
     "over_odds": "-114",
     "under_odds": "-109"
    },
-   "true_away": 31.5,
-   "true_home": 68.5,
-   "hold": 4.22,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 32.8,
-   "be_ml_home": 71.4
+   "true_away": 30.9,
+   "true_home": 69.1,
+   "hold": 4.33,
+   "be_over": 51.2,
+   "be_under": 53.5,
+   "be_ml_away": 32.3,
+   "be_ml_home": 72.1
   }
  ]
 }
