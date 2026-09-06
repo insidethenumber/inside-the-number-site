@@ -1,0 +1,37 @@
+name: Fetch stock assets
+
+# The sandbox that builds cards cannot download images (Unsplash, Giphy).
+# The runner can. Put lines of "<url><TAB><repo path>" in assets/fetch/manifest.txt,
+# dispatch this, and the files land in the repo.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download manifest
+        run: |
+          while IFS=$'\t' read -r url path; do
+            [ -z "$url" ] && continue
+            case "$url" in \#*) continue;; esac
+            mkdir -p "$(dirname "$path")"
+            if [ -s "$path" ]; then echo "have: $path"; continue; fi
+            curl -sSL --retry 3 -A "Mozilla/5.0 (ITN asset fetch)" -o "$path" "$url" && echo "ok: $path ($(stat -c%s "$path") bytes)" || echo "MISS: $url"
+          done < assets/fetch/manifest.txt
+      - name: Commit
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          git add -f assets/stock assets/gifs
+          if git diff --cached --quiet; then echo "nothing new"; else
+            git commit -m "Fetch stock assets [skip ci]"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
