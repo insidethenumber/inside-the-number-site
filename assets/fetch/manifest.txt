@@ -28,3 +28,15 @@ https://media.giphy.com/media/40NMGSPYUtzJaOa3WI/giphy.gif	assets/gifs/nailbiter
 https://media.giphy.com/media/tei52cyY5mroA/giphy.gif	assets/gifs/refresh.gif
 https://media.giphy.com/media/l1L2UkgpuiE4U/giphy.gif	assets/gifs/tom-jerry-cheese.gif
 https://media.giphy.com/media/CoOZDC3WJoFUZECxPK/giphy.gif	assets/gifs/underdog-hbo.gif
+https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Paul_Skenes_Pitching_2026.jpg/1920px-Paul_Skenes_Pitching_2026.jpg	assets/stock/skenes-2026.jpg
+https://upload.wikimedia.org/wikipedia/commons/0/04/Paul_Skenes_stl_2024.jpg	assets/stock/skenes-stl-2024.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/SKeness_Pirates_9-16-24_26458.png/1920px-SKeness_Pirates_9-16-24_26458.png	assets/stock/skenes-wide.png
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Lambeau_Field_at_night.jpg/1920px-Lambeau_Field_at_night.jpg	assets/stock/lambeau-night.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Nissan_Stadium_wide_angle.jpg/1920px-Nissan_Stadium_wide_angle.jpg	assets/stock/nissan-aerial.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Nissan_Stadium_2022.jpg/1920px-Nissan_Stadium_2022.jpg	assets/stock/nissan-2022.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Husky_stadium_from_Laurelhurst.jpg/1920px-Husky_stadium_from_Laurelhurst.jpg	assets/stock/husky-stadium.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Suzzalo%2C_Husky_Stadium_%2811680640253%29.jpg/1920px-Suzzalo%2C_Husky_Stadium_%2811680640253%29.jpg	assets/stock/husky-stadium-2.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Coors_Field_panorama_2022.jpg/1920px-Coors_Field_panorama_2022.jpg	assets/stock/coors-pano.jpg
+https://images.unsplash.com/photo-1556033681-83abea291a96?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-nissan-skyline.jpg
+https://images.unsplash.com/photo-1693433583048-968c1db8dd6d?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-stadium-sunset.jpg
+https://images.unsplash.com/photo-1588897159261-328f3f53715f?w=1600&q=80&fit=crop&auto=format	assets/stock/nashville-broadway.jpg
