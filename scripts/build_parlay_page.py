@@ -260,7 +260,7 @@ p.x a{{color:var(--green);text-decoration:none}}
       if(lock) lock.hidden = !(n && started===n);
       if(pastHalf){{ card.remove(); removed++; }}
     }});
-    if(removed && !document.getElementById('halftime-note')){{
+    if(removed && !document.querySelector('.card.today') && !document.getElementById('halftime-note')){{
       var d=document.createElement('div'); d.id='halftime-note'; d.className='card';
       d.innerHTML='<div class="hd"><span class="k">Parlay of the Day</span></div>'
         +'<p class="c-note" style="padding:16px 18px;margin:0">Tonight\u2019s ticket came down at halftime \u2014 a parlay you can no longer bet at that price has no business sitting on a page about honest prices. Tomorrow\u2019s goes out in the <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Morning Board</a> before first kick.</p>';
