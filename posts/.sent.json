@@ -54,7 +54,8 @@
   "630-gif-wazzu.txt",
   "635-applecup-moves.txt",
   "650-olemiss-hero.txt",
-  "660-lambeau-hero.txt"
+  "660-lambeau-hero.txt",
+  "660-dodgers-nobet.txt"
  ],
  "history": [
   {
@@ -577,6 +578,16 @@
    "url": "https://x.com/thenumberdesk/status/2096754847215501812",
    "at": "2026-09-07T00:18:06.258729+00:00",
    "chars": 235,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "660-dodgers-nobet.txt",
+   "id": "2096763384737792073",
+   "url": "https://x.com/thenumberdesk/status/2096763384737792073",
+   "at": "2026-09-07T00:52:01.796502+00:00",
+   "chars": 260,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
