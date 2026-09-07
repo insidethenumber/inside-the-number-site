@@ -17,10 +17,19 @@ through and date the reversal.
 
 ## Standing orders (Chuck's calls)
 
-- **2026-09-02 · X is OFF until new rules are written.** `itn-x-engagement-hourly`
-  disabled; `x-posts.yml` schedule removed (manual-only). Do not post, reply,
-  quote, repost or follow from @thenumberdesk until Chuck approves a written
-  ruleset. Re-enable BOTH when he does.
+- **2026-09-02 · X was OFF until new rules were written.** `itn-x-engagement-hourly`
+  disabled; `x-posts.yml` schedule removed (manual-only). Superseded below.
+- **2026-09-05 · X is BACK ON.** Chuck lifted the pause verbally over the Sep 5-6
+  weekend and has directed posting, queue timing and cadence himself since
+  ("get X posts out", "run these every 45 minutes", "slow down a little on the
+  posting to X"). `itn-x-engagement-hourly` and the `x-posts.yml` cron are both
+  running again. This entry exists because the Sep 7 growth report correctly
+  flagged the account posting against a standing order that was still on the
+  books — the order was lifted, the doc just was not updated. The operating
+  rules Chuck has stated since, which stand until he changes them: nothing
+  posts without a graphic or GIF; no likes, no reposts; no AI photos, real
+  images only; remove or re-grade a pick once its game is over; no public
+  win/loss record, ROI or units. Written §4.6 approval is still open.
 - **2026-09-02 · Log every session** to `docs/sessions/YYYY-MM-DD.md`. What
   was done, what broke, what was fixed, what is unverified. Chuck should never
   have to check for inaccuracies himself.
