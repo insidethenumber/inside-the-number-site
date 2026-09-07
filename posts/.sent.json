@@ -55,7 +55,8 @@
   "635-applecup-moves.txt",
   "650-olemiss-hero.txt",
   "660-lambeau-hero.txt",
-  "660-dodgers-nobet.txt"
+  "660-dodgers-nobet.txt",
+  "662-applecup-result.txt"
  ],
  "history": [
   {
@@ -588,6 +589,16 @@
    "url": "https://x.com/thenumberdesk/status/2096763384737792073",
    "at": "2026-09-07T00:52:01.796502+00:00",
    "chars": 260,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "662-applecup-result.txt",
+   "id": "2096798513191440801",
+   "url": "https://x.com/thenumberdesk/status/2096798513191440801",
+   "at": "2026-09-07T03:11:37.156804+00:00",
+   "chars": 263,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
