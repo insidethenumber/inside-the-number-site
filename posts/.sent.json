@@ -65,7 +65,8 @@
   "750-opener-sea.txt",
   "762-jets-titans.txt",
   "763-melbourne.txt",
-  "764-miami-famu.txt"
+  "764-miami-famu.txt",
+  "765-three-nights.txt"
  ],
  "history": [
   {
@@ -698,6 +699,16 @@
    "url": "https://x.com/thenumberdesk/status/2097432340511273191",
    "at": "2026-09-08T21:10:13.326463+00:00",
    "chars": 270,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "765-three-nights.txt",
+   "id": "2097452432326382046",
+   "url": "https://x.com/thenumberdesk/status/2097452432326382046",
+   "at": "2026-09-08T22:30:03.588235+00:00",
+   "chars": 268,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
