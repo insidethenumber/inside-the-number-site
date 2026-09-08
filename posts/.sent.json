@@ -62,7 +62,8 @@
   "700-norvell-quote.txt",
   "705-gbmin-flip.txt",
   "702-miami-lights.txt",
-  "750-opener-sea.txt"
+  "750-opener-sea.txt",
+  "762-jets-titans.txt"
  ],
  "history": [
   {
@@ -667,6 +668,16 @@
    "chars": 262,
    "had_link": false,
    "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "762-jets-titans.txt",
+   "id": "2097393574299992475",
+   "url": "https://x.com/thenumberdesk/status/2097393574299992475",
+   "at": "2026-09-08T18:36:10.800350+00:00",
+   "chars": 267,
+   "had_link": false,
+   "had_image": true,
    "est_cost": 0.015
   }
  ]
