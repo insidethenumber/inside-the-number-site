@@ -64,7 +64,8 @@
   "702-miami-lights.txt",
   "750-opener-sea.txt",
   "762-jets-titans.txt",
-  "763-melbourne.txt"
+  "763-melbourne.txt",
+  "764-miami-famu.txt"
  ],
  "history": [
   {
@@ -687,6 +688,16 @@
    "url": "https://x.com/thenumberdesk/status/2097411327530832371",
    "at": "2026-09-08T19:46:43.420591+00:00",
    "chars": 273,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "764-miami-famu.txt",
+   "id": "2097432340511273191",
+   "url": "https://x.com/thenumberdesk/status/2097432340511273191",
+   "at": "2026-09-08T21:10:13.326463+00:00",
+   "chars": 270,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
