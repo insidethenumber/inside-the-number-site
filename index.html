@@ -897,24 +897,21 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    { league:'CFB', away:{code:'2567', name:'SMU'}, home:{code:'52', name:'Florida State'}, time:'7:30 PM ET', pick:'SMU -3', conf:3, free:true,
-      hook:'The line and the price moved the same direction all night',
-      why:'SMU opened -2.5 on a -144 moneyline and closed -3 on -155, while the total climbed from 52.5 to 53.5 \u2014 the spread, the price and the total all moved toward the Mustangs together instead of fighting each other. SMU -3 costs -105 and asks 51.2% to break even; the de-vig on both sides puts this close to 49-51, not the blowout the raw number might suggest. What beats it: Florida State is 1-0 off a season-opening win at home, and SMU is walking into its opener cold on the road.' },
-    { league:'MLB', away:{code:'cle', name:'Guardians'}, home:{code:'bal', name:'Orioles'}, time:'1:35 PM ET', pick:'Under 8', conf:3, free:false,
-      hook:'A full run came off the total overnight',
-      why:'This total opened 9 and closed 8 \u2014 a full run lower, the bigger total move on today\u2019s board. Under 8 is -106 (52% to break even); Over 8 costs -114. The de-vig splits it close to 51-49 toward the under, so the move looks real and not just the book shading its own number. What beats it: either bullpen having a rough afternoon at Camden Yards, where the ball tends to carry.' },
-    { league:'MLB', away:{code:'chc', name:'Cubs'}, home:{code:'mil', name:'Brewers'}, time:'2:10 PM ET', pick:'Milwaukee -1.5', conf:2, free:false,
-      hook:'The run line flipped sides overnight',
-      why:'Milwaukee opened +1.5 on the run line and closed -1.5 \u2014 a full-point flip from underdog to favorite by run line, the single biggest move on the board today. Milwaukee -1.5 pays +163 (38% to break even, the plus price you\u2019d expect asking a team to win by two-plus in baseball); Chicago +1.5 is -199. The de-vig makes Milwaukee about 36% to cover on the market\u2019s own numbers \u2014 a real, verified move, not a lock. What beats it: a one-run Cubs game either way, which happens more often than not in this park.' }
+    { league:'MLB', away:{code:'tb', name:'Rays'}, home:{code:'atl', name:'Braves'}, time:'7:15 PM ET', pick:'Tampa Bay ML', conf:2, free:true,
+      hook:'The moneyline flipped signs while the run line never moved',
+      why:'Tampa Bay opened +100 on the moneyline and closed -103 \u2014 a flip from underdog to favorite by the vig-included price \u2014 while the run line sat parked at -1.5 the entire day, moving only two cents (+159 to +161). Tampa Bay -103 asks 50.7% to break even; Atlanta -117 asks 53.9%. The de-vig splits this close to 49-51 toward Atlanta, so the flip reads as real movement on a game that\u2019s still functionally a coin flip. What beats it: Atlanta holding home field against a Rays lineup that has been streaky on the road.' },
+    { league:'MLB', away:{code:'chc', name:'Cubs'}, home:{code:'mil', name:'Brewers'}, time:'7:40 PM ET', pick:'Under 7.5', conf:2, free:false,
+      hook:'The total never moved. The price on it did, by 200-plus cents.',
+      why:'This total sat at 7.5 all day, but the over\u2019s price jumped from +104 to -101 \u2014 a swing of more than two hundred cents with the number itself never budging, the largest price move on today\u2019s board. Under 7.5 is -119 (54.3% to break even); Over 7.5 costs -101 (50.2%). The de-vig splits this close to 52-48 toward the under, so the money pushing the over\u2019s price up hasn\u2019t flipped the fair number. What beats it: either bullpen turning this into a track meet at a park that has played a little bigger than average this month.' }
   ];
-  // Set Mon Sep 7, 6:20 AM CT by the weekend/holiday Cowork run (Labor Day;
-  // numbers from ESPN scoreboard odds, read live via a browser tab since the
-  // sandbox cannot reach ESPN directly -- 403). Board surveyed in full: 11
-  // MLB games, 1 CFB game (SMU @ FSU), 0 NFL/NBA/CBB/NHL/UFC/PGA events (PGA's
-  // next event doesn't start until Sep 17). Football-first rule applies: CFB
-  // leads as the free pick since it's the only football on the board.
-  // Max-2-per-sport rule holds (1 CFB, 2 MLB). Zero moneylines of three picks
-  // (0%, well under the 50% cap), free pick is a spread, per house rules.
+  // Set Tue Sep 8, 9:19 AM CT by the itn-deadline-check-weekday Cowork safety
+  // net, after the 8:00 AM main routine failed to run \u2014 nothing was
+  // scheduled or published in Beehiiv and this file still carried Monday's
+  // card. Numbers from ESPN scoreboard odds, read live via a browser tab
+  // since the sandbox cannot reach ESPN directly. Board surveyed in full: 15
+  // MLB games, 0 NFL/CFB/NBA/CBB/NHL events. Max-2-per-sport rule holds (2
+  // MLB, the only sport with games). One of two picks is a moneyline (50%,
+  // at the cap). Free pick is a moneyline, per house rules.
 
   // NOTE: the site deliberately does not display a win/loss record or a
   // win-rate percentage anywhere. A bare percentage hides its own sample
@@ -1119,11 +1116,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Mon, Sep 7</div>
-        <div class="potd-sport">CFB</div>
-        <div class="potd-matchup" id="potd-matchup">SMU @ Florida State</div>
-        <div class="potd-line">THE PICK: SMU -3 &middot; 7:30 PM ET</div>
-        <p class="potd-reasoning">SMU opened -2.5 on a -144 moneyline and closed -3 on -155, while the total climbed from 52.5 to 53.5 &mdash; the spread, the price and the total all moved toward the Mustangs together instead of fighting each other. SMU -3 costs -105 and asks 51.2% to break even; the de-vig on both sides puts this close to 49-51, not the blowout the raw number might suggest. What beats it: Florida State is 1-0 off a season-opening win at home, and SMU is walking into its opener cold on the road. Medium confidence. Odds via ESPN, read at 6:20 AM CT &mdash; check the number before you take it.</p>
+        <div class="potd-date">Tue, Sep 8</div>
+        <div class="potd-sport">MLB</div>
+        <div class="potd-matchup" id="potd-matchup">Tampa Bay Rays @ Atlanta Braves</div>
+        <div class="potd-line">THE PICK: Tampa Bay ML &middot; 7:15 PM ET</div>
+        <p class="potd-reasoning">Tampa Bay opened +100 on the moneyline and closed -103 &mdash; a flip from underdog to favorite by the vig-included price &mdash; while the run line sat parked at -1.5 the entire day, moving only two cents (+159 to +161). Tampa Bay -103 asks 50.7% to break even; Atlanta -117 asks 53.9%. The de-vig splits this close to 49-51 toward Atlanta, so the flip reads as real movement on a game that&rsquo;s still functionally a coin flip. What beats it: Atlanta holding home field against a Rays lineup that has been streaky on the road. Medium confidence. Odds via ESPN, read at 9:19 AM CT &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
