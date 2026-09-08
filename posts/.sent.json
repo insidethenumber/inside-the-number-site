@@ -57,7 +57,8 @@
   "660-lambeau-hero.txt",
   "660-dodgers-nobet.txt",
   "662-applecup-result.txt",
-  "670-smu-tarp.txt"
+  "670-smu-tarp.txt",
+  "672-gif-tarp.txt"
  ],
  "history": [
   {
@@ -610,6 +611,16 @@
    "url": "https://x.com/thenumberdesk/status/2097123505598849332",
    "at": "2026-09-08T00:43:01.299110+00:00",
    "chars": 262,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "672-gif-tarp.txt",
+   "id": "2097130435432100285",
+   "url": "https://x.com/thenumberdesk/status/2097130435432100285",
+   "at": "2026-09-08T01:10:33.486619+00:00",
+   "chars": 88,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
