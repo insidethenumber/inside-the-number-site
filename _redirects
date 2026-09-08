@@ -1,10 +1,12 @@
-# Canonical host: force https + non-www. GSC (Sep 8 2026) showed Google
-# indexing four variants of every page — http+www carried 199 impressions,
-# including our single most-seen URL (kelly-calculator, 109). Canonical tags
-# alone were not consolidating them.
-https://www.insidethenumber.com/* https://insidethenumber.com/:splat 301!
-http://www.insidethenumber.com/* https://insidethenumber.com/:splat 301!
-http://insidethenumber.com/* https://insidethenumber.com/:splat 301!
+# Canonical host (https + non-www) is NOT handled here.
+# Cloudflare Workers static assets only accept RELATIVE paths in _redirects,
+# and does not accept Netlify's "301!" force suffix. Three absolute-URL rules
+# were added here on Sep 8 2026 to consolidate the four indexed variants GSC
+# was showing; they broke EVERY deploy from ~12:00 CT that day with:
+#   Line 5: Only relative URLs are allowed.
+#   Line 6/7: Valid status codes are 200, 301, 302, 303, 307, or 308. Got 0.
+# The site silently stopped updating until it was caught at 1:30 PM.
+# Host canonicalisation belongs in a zone-level Redirect Rule instead.
 
 /record    /games.html   301
 /record.html    /games.html   301
