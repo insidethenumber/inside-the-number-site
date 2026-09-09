@@ -33,3 +33,20 @@
 /assets/newsletter/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=31536000
+
+# Reels must be readable cross-origin so the video can be pushed straight into
+# Instagram's composer from the browser.
+#
+# Why (Sep 9, 2026): the file-attach tool is unavailable in this session, and
+# Instagram's mobile picker only reads the Photos library, so an AirDropped mp4
+# sitting in Files is invisible to the app. Chuck went through four
+# delete-and-repost cycles because of it. Same fix as the newsletter images
+# above: fetch the bytes cross-origin in the Instagram tab, wrap them in a
+# File, and hand that to the composer's file input.
+/reel.mp4
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/assets/reels/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
