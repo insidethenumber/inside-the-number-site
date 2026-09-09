@@ -4,6 +4,13 @@ Set by Chuck, 9 September 2026. This governs every post on every platform and
 supersedes any earlier guidance about "making a card." Scheduled tasks and
 future sessions read this first.
 
+## Identity — not negotiable
+
+**Inside the Number stands on its own.** Chuck's separate professional
+reputation is not attached to this brand, is not a growth lever, and is not to
+be raised again. Do not suggest it, do not reference it, do not build creative
+around it. ITN builds its own identity from zero.
+
 ## The standard
 
 We look like a professional sports-media publisher, not an AI content farm.
