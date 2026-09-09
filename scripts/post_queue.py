@@ -64,7 +64,10 @@ def queue(st):
 # --if-due below.
 # Fri Sep 4, 2026 — Chuck: "a post every 2 hours today until 10pm" for CFB
 # kickoff weekend. Seven windows. Revert to three slots after the weekend.
-SLOTS_CT = [(8, 30), (11, 0), (13, 30), (16, 0), (18, 30)]  # Wed Sep 9 - NFL Week 1 opener, building to the 7:20 CT kickoff
+# Wed Sep 9 - Chuck: "let's hammer X for NFL content and a little CFB, MLB".
+# Four morning slots already burned on the Patriots-Seahawks build-up, so these
+# run the afternoon and evening into the 7:20 CT kickoff and past it.
+SLOTS_CT = [(8, 30), (11, 0), (13, 30), (15, 0), (16, 30), (18, 0), (19, 30), (21, 0), (22, 30)]
 
 
 # Sep 9 2026: Chuck went to the profile, saw five things in a row with no

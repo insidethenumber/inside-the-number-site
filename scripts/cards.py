@@ -340,15 +340,36 @@ def card_split(a):
         (48 + bw + gap, W - 48, a.right_number, a.right_label, a.right_line1,
          a.right_line2, a.right_line3, "#ffffff"),
     ]:
-        ctr((x0, top + 40, x1, top + 300), big or "", D(300), ink)
-        ctr((x0, top + 300, x1, top + 372), (lab or "").upper(), D(68), ink)
-        ctr((x0, top + 380, x1, top + 430), (l1 or "").upper(), D(38), ink)
-        ctr((x0, top + 430, x1, top + 486), (l2 or "").upper(), D(64), ink)
-        ctr((x0, top + 486, x1, top + 536), (l3 or "").upper(), D(32), ink)
+        ctr((x0, top + 128, x1, top + 380), big or "", D(215), ink)
+        ctr((x0, top + 382, x1, top + 444), (lab or "").upper(), D(56), ink)
+        ctr((x0, top + 448, x1, top + 486), (l1 or "").upper(), D(34), ink)
+        ctr((x0, top + 486, x1, top + 536), (l2 or "").upper(), D(54), ink)
+        ctr((x0, top + 536, x1, top + 560), (l3 or "").upper(), D(28), ink)
+
+    # Team logos, one per block. Sep 9 2026: Chuck on the first Reel — "use
+    # logos, or players, or the teams". A card with two coloured squares and no
+    # mark on it could belong to anybody; the logo is what makes someone stop
+    # because it is THEIR team.
+    if a.league:
+        for x0, x1, abbr in [(48, 48 + bw, a.away_abbr),
+                             (48 + bw + gap, W - 48, a.home_abbr)]:
+            if not abbr:
+                continue
+            lg = logo(a.league, abbr, 96)
+            if lg:
+                paste_logo(img, lg, int((x0 + x1) / 2 - 48), top + 82)
 
     y = top + bh + 28
     d.rounded_rectangle([48, y, W - 48, y + 120], 16, fill=PANEL)
-    ctr((48, y, W - 48, y + 64), (a.note or "").upper(), D(60), WHITE)
+    # The kicker used to render at a fixed 60px and silently run off both edges
+    # when the line was long — caught on the Sep 9 Packers card, where it read
+    # "E POINTS OF SPREAD AND 27 CENTS OF PRICE, IN FOUR D". Shrink to fit.
+    note = (a.note or "").upper()
+    nf, size = D(60), 60
+    while size > 26 and d.textlength(note, font=nf) > W - 128:
+        size -= 2
+        nf = D(size)
+    ctr((48, y, W - 48, y + 64), note, nf, WHITE)
     ctr((48, y + 60, W - 48, y + 112), a.note2 or "", M(26), "#9aa3b0")
 
     d.text((52, H - 58), "INSIDE THE NUMBER", font=B(28), fill=WHITE)
