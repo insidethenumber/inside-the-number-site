@@ -22,7 +22,7 @@ Credentials come from environment variables in CI (GitHub Secrets) or from
 itn-secrets.env locally — same four OAuth 1.0a values post_to_x.py uses.
 """
 
-import argparse, json, os, sys, glob, datetime
+import argparse, json, os, re, sys, glob, datetime
 import importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -65,6 +65,38 @@ def queue(st):
 # Fri Sep 4, 2026 — Chuck: "a post every 2 hours today until 10pm" for CFB
 # kickoff weekend. Seven windows. Revert to three slots after the weekend.
 SLOTS_CT = [(8, 30), (11, 0), (13, 30), (16, 0), (18, 30)]  # Wed Sep 9 - NFL Week 1 opener, building to the 7:20 CT kickoff
+
+
+# Sep 9 2026: Chuck went to the profile, saw five things in a row with no
+# hashtag and no team tag on any of them, and said we never use them. He was
+# looking at the hourly reply bot's output, not the queue - the queued posts
+# did carry tags. But there is no way for him to tell those apart from the
+# outside, and "the other system did it" is not an answer. So the queue now
+# refuses to send a post that has neither, rather than trusting whoever wrote
+# the file to have remembered.
+#
+# A hashtag is discovery: it is how someone who does not follow us finds a
+# Patriots post. A team tag is distribution: it puts us in that team's
+# notifications and in searches for them. A post with neither only reaches the
+# followers we already have, which for us is a rounding error.
+def discovery_tags(text):
+    """(hashtags, @mentions) found in a post, ignoring any inside a URL."""
+    bare = re.sub(r"https?://\S+", " ", text)
+    return (re.findall(r"#\w+", bare), re.findall(r"@\w+", bare))
+
+
+def check_discovery(name, text):
+    """Refuse to post something nobody outside our followers can find."""
+    tags, mentions = discovery_tags(text)
+    # A quote-tweet or link post carries its own reach through the thing it
+    # points at, so one signal is enough there. Everything else needs a hashtag.
+    quoting = "https://x.com/" in text
+    if tags or (quoting and mentions):
+        return
+    sys.exit(
+        f"ERROR: {name} has no hashtags and no team tags.\n"
+        f"       Nobody outside our followers can find it. Add at least one "
+        f"#hashtag,\n       and tag the teams involved with @ where they exist.")
 
 
 def central_now():
@@ -156,13 +188,17 @@ def main():
     n = len(text)
     has_link = "http://" in text or "https://" in text
     cost = 0.20 if has_link else 0.015
+    tags, mentions = discovery_tags(text)
     print(f"--- next: {name} ({n} chars, {'link' if has_link else 'no link'}, "
-          f"{'image' if image else 'NO IMAGE'}, est ${cost:.3f}) ---")
+          f"{'image' if image else 'NO IMAGE'}, "
+          f"{len(tags)} hashtag(s), {len(mentions)} tag(s), est ${cost:.3f}) ---")
     print(text)
     print("-" * 50)
 
     if n > 280:
         sys.exit(f"ERROR: {name} is {n} chars — over the 280 limit. Fix it and rerun.")
+
+    check_discovery(name, text)
 
     if a.dry_run:
         print("DRY RUN — nothing sent.")

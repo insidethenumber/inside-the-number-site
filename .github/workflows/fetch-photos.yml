@@ -1,0 +1,70 @@
+name: Fetch photo library
+
+# The sandbox that builds cards and Reels has no egress to any image host —
+# images.unsplash.com, upload.wikimedia.org and every mirror answer 403 through
+# the proxy. This runner does have network, so it downloads the library and
+# commits it back, and everything downstream reads photos out of the repo.
+#
+# Triggers on a push to the manifest so adding a photo is one commit, not a
+# commit plus a manual dispatch nobody remembers to click.
+
+on:
+  push:
+    paths:
+      - 'data/photo_manifest.json'
+      - 'scripts/fetch_photos.py'
+      - '.github/workflows/fetch-photos.yml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Re-download files we already have'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-photos
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch
+        run: |
+          python3 scripts/fetch_photos.py ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          # .gitignore is a bare "*", so every add here has to be forced.
+          git add -f assets/photos
+          if git diff --cached --quiet; then
+            echo "nothing new"
+          else
+            git commit -m "Photo library: fetch from manifest [skip ci]"
+            git pull --rebase --autostash
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "### Photo library"
+            echo ""
+            echo "\`\`\`"
+            ls -1 assets/photos | head -60
+            echo "\`\`\`"
+            echo ""
+            echo "Files: $(ls -1 assets/photos | grep -c -E '\.(jpg|png)$' || echo 0)"
+          } >> "$GITHUB_STEP_SUMMARY"

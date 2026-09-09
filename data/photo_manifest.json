@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "Photo library manifest for Inside the Number.",
+    "Nothing here is AI-generated and nothing is scraped. Two legal sources only:",
+    "  unsplash - Unsplash License. Free for commercial use, attribution not legally",
+    "             required but we credit anyway. Conceptual only: turf, lights,",
+    "             stadium, ball. No identifiable athletes, no team marks.",
+    "  commons  - Wikimedia Commons. Each file's own license is read at download",
+    "             time and the run FAILS on any non-commercial or no-derivatives",
+    "             file. This is where real game photography comes from.",
+    "Add an entry, push, and .github/workflows/fetch-photos.yml downloads it and",
+    "commits it back. The sandbox cannot reach any image host directly.",
+    "See docs/IMAGE-SOURCING.md for the editorial-vs-commercial rule."
+  ],
+  "unsplash": [
+    { "slug": "turf-aerial",     "path": "photo-1557174949-3b1f5b2e8fac", "credit": "Ameer Basheer",          "user": "24ameer",        "id": "Yzef5dRpwWg" },
+    { "slug": "arena-night",     "path": "photo-1556764420-e37ef4cdfa5c", "credit": "Jake Weirick",           "user": "weirick",        "id": "o9h6KJG52eU" },
+    { "slug": "crowd-football",  "path": "photo-1696542095251-2dff09ec6b5b", "credit": "Myron Mott",          "user": "s2killa",        "id": "eoi7E12koaM" },
+    { "slug": "field-empty",     "path": "photo-1568101794887-a7a3f149f6e6", "credit": "Elion Jashari",       "user": "elionj",         "id": "ByJvnMS3emY" },
+    { "slug": "ball-on-turf",    "path": "photo-1667662704601-ec87e45a2128", "credit": "Will Colavito",       "user": "willcola8",      "id": "AHN39XIDMMc" },
+    { "slug": "lucas-oil-night", "path": "photo-1664307015182-ba811c1b761b", "credit": "Steven Van Elk",      "user": "stevenvanelk",   "id": "WXZRimKM50c" },
+    { "slug": "stands-night",    "path": "photo-1626078790063-7953b6af2294", "credit": "Samuel Regan-Asante", "user": "reganography",   "id": "o2WeCKXRRN8" },
+    { "slug": "empty-seats",     "path": "photo-1719970699081-98285f3a5061", "credit": "Mayer Tawfik",        "user": "mayertawfik",    "id": "Pb9eUobce_M" },
+    { "slug": "goalposts",       "path": "photo-1652190364244-96ad73c21c4c", "credit": "Ambitious Studio",    "user": "weareambitious", "id": "6l0RUEu1dhw" }
+  ],
+  "commons_searches": [
+    { "slug": "nfl-action",        "query": "National Football League game action", "limit": 6 },
+    { "slug": "lumen-field",       "query": "Lumen Field Seahawks",                 "limit": 4 },
+    { "slug": "patriots",          "query": "New England Patriots game",            "limit": 4 },
+    { "slug": "seahawks",          "query": "Seattle Seahawks game",                "limit": 4 },
+    { "slug": "college-football",  "query": "college football game NCAA",           "limit": 6 },
+    { "slug": "hard-rock-stadium", "query": "Hard Rock Stadium Miami Hurricanes",   "limit": 3 },
+    { "slug": "sofi-stadium",      "query": "SoFi Stadium",                         "limit": 3 },
+    { "slug": "nissan-stadium",    "query": "Nissan Stadium Tennessee Titans",      "limit": 3 },
+    { "slug": "mlb-action",        "query": "Major League Baseball game action",    "limit": 4 },
+    { "slug": "referee-signal",    "query": "American football referee signal",     "limit": 3 },
+    { "slug": "scoreboard",        "query": "American football stadium scoreboard", "limit": 3 },
+    { "slug": "coin-toss",         "query": "American football coin toss",          "limit": 2 }
+  ]
+}
