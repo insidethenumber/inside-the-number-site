@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-09-09T15:31:35.605625+00:00",
+ "generated_utc": "2026-09-09T21:53:59.927299+00:00",
  "mode": "morning",
  "credits_spent": 4,
- "credits_remaining": 433,
+ "credits_remaining": 429,
  "results": [
   {
    "kind": "pick_shop",
@@ -16,51 +16,18 @@
    "books": 9,
    "best": {
     "New England Patriots": {
-     "price": 157,
+     "price": 153,
      "book": "LowVig.ag",
      "point": null,
-     "true": 38.2,
-     "hold": 1.87
+     "true": 38.8,
+     "hold": 1.93
     },
     "Seattle Seahawks": {
-     "price": -170,
+     "price": -166,
      "book": "DraftKings",
      "point": null,
-     "true": 61.8,
-     "hold": 1.87
-    }
-   }
-  },
-  {
-   "kind": "pick_shop",
-   "league": "MLB",
-   "pick": "Under 9",
-   "free": false,
-   "market": "totals",
-   "away": "Toronto Blue Jays",
-   "home": "Athletics",
-   "commence": "2026-09-09T19:06:00Z",
-   "books": 9,
-   "best": {
-    "Over +9.5": {
-     "price": 103,
-     "book": "LowVig.ag",
-     "point": 9.5
-    },
-    "Under +9.5": {
-     "price": -115,
-     "book": "FanDuel",
-     "point": 9.5
-    },
-    "Over +9": {
-     "price": -125,
-     "book": "BetRivers",
-     "point": 9.0
-    },
-    "Under +9": {
-     "price": -112,
-     "book": "BetRivers",
-     "point": 9.0
+     "true": 61.2,
+     "hold": 1.93
     }
    }
   },
@@ -72,22 +39,22 @@
    "market": "h2h",
    "away": "Minnesota Twins",
    "home": "Detroit Tigers",
-   "commence": "2026-09-09T17:11:00Z",
-   "books": 9,
+   "commence": "2026-09-09T18:51:00Z",
+   "books": 4,
    "best": {
     "Detroit Tigers": {
-     "price": -117,
-     "book": "BetOnline.ag",
+     "price": -10000,
+     "book": "BetMGM",
      "point": null,
-     "true": 53.1,
-     "hold": 1.54
+     "true": 97.1,
+     "hold": 1.95
     },
     "Minnesota Twins": {
-     "price": 110,
-     "book": "BetRivers",
+     "price": 3300,
+     "book": "BetMGM",
      "point": null,
-     "true": 46.9,
-     "hold": 1.54
+     "true": 2.9,
+     "hold": 1.95
     }
    }
   },
@@ -133,68 +100,68 @@
      "commence": "2026-09-12T18:10:00Z",
      "a": {
       "name": "J.J. Aldrich",
-      "price": 245,
-      "book": "BetOnline.ag",
-      "true": 28.0
+      "price": 240,
+      "book": "BetMGM",
+      "true": 28.7
      },
      "b": {
       "name": "Regina Tarin",
-      "price": -290,
+      "price": -270,
       "book": "BetUS",
-      "true": 72.0
+      "true": 71.3
      },
-     "hold": 3.34,
+     "hold": 2.38,
      "books": 6
     },
     {
      "commence": "2026-09-12T18:30:00Z",
      "a": {
       "name": "Jessie Rosas",
-      "price": 153,
-      "book": "BetOnline.ag",
-      "true": 38.8
+      "price": 165,
+      "book": "BetMGM",
+      "true": 37.0
      },
      "b": {
       "name": "Sean King",
-      "price": -165,
-      "book": "BetRivers",
-      "true": 61.2
+      "price": -180,
+      "book": "FanDuel",
+      "true": 63.0
      },
-     "hold": 1.79,
+     "hold": 2.02,
      "books": 7
     },
     {
      "commence": "2026-09-12T19:15:00Z",
      "a": {
       "name": "Rafa Garcia",
-      "price": 165,
-      "book": "Bovada",
-      "true": 36.8
+      "price": 152,
+      "book": "FanDuel",
+      "true": 38.9
      },
      "b": {
       "name": "Zhu Rong",
-      "price": -185,
+      "price": -165,
       "book": "BetOnline.ag",
-      "true": 63.2
+      "true": 61.1
      },
-     "hold": 2.65,
+     "hold": 1.95,
      "books": 7
     },
     {
      "commence": "2026-09-12T19:25:00Z",
      "a": {
       "name": "Drakkar Klose",
-      "price": 400,
-      "book": "DraftKings",
-      "true": 19.4
+      "price": 383,
+      "book": "BetOnline.ag",
+      "true": 20.5
      },
      "b": {
       "name": "Thomas Gantt",
-      "price": -500,
-      "book": "BetOnline.ag",
-      "true": 80.6
+      "price": -410,
+      "book": "FanDuel",
+      "true": 79.5
      },
-     "hold": 3.33,
+     "hold": 1.1,
      "books": 6
     },
     {
@@ -218,17 +185,17 @@
      "commence": "2026-09-12T20:30:00Z",
      "a": {
       "name": "Ignacio Bahamondes",
-      "price": -525,
-      "book": "BetOnline.ag",
-      "true": 81.5
+      "price": -500,
+      "book": "DraftKings",
+      "true": 81.4
      },
      "b": {
       "name": "Muslim Salikhov",
       "price": 425,
-      "book": "DraftKings",
-      "true": 18.5
+      "book": "BetMGM",
+      "true": 18.6
      },
-     "hold": 3.05,
+     "hold": 2.38,
      "books": 7
     },
     {
@@ -237,15 +204,15 @@
       "name": "Edgar Chairez",
       "price": -200,
       "book": "BetMGM",
-      "true": 65.5
+      "true": 65.6
      },
      "b": {
       "name": "Tim Elliott",
-      "price": 185,
-      "book": "DraftKings",
-      "true": 34.5
+      "price": 186,
+      "book": "BetOnline.ag",
+      "true": 34.4
      },
-     "hold": 1.75,
+     "hold": 1.63,
      "books": 7
     },
     {
@@ -254,32 +221,32 @@
       "name": "Dan Ige",
       "price": 316,
       "book": "BetOnline.ag",
-      "true": 23.5
+      "true": 23.2
      },
      "b": {
       "name": "David Martinez",
-      "price": -360,
+      "price": -385,
       "book": "BetRivers",
-      "true": 76.5
+      "true": 76.8
      },
-     "hold": 2.3,
+     "hold": 3.42,
      "books": 7
     },
     {
      "commence": "2026-09-12T21:45:00Z",
      "a": {
       "name": "Curtis Blaydes",
-      "price": 170,
-      "book": "BetOnline.ag",
-      "true": 35.9
+      "price": 180,
+      "book": "DraftKings",
+      "true": 35.1
      },
      "b": {
       "name": "Waldo Cortes-Acosta",
       "price": -195,
       "book": "BetOnline.ag",
-      "true": 64.1
+      "true": 64.9
      },
-     "hold": 3.14,
+     "hold": 1.82,
      "books": 7
     },
     {
@@ -288,32 +255,32 @@
       "name": "Alexa Grasso",
       "price": 206,
       "book": "BetUS",
-      "true": 31.5
+      "true": 31.8
      },
      "b": {
       "name": "Manon Fiorot",
-      "price": -245,
-      "book": "BetOnline.ag",
-      "true": 68.5
+      "price": -235,
+      "book": "Bovada",
+      "true": 68.2
      },
-     "hold": 3.69,
+     "hold": 2.83,
      "books": 7
     },
     {
      "commence": "2026-09-12T22:45:00Z",
      "a": {
       "name": "Marwan Rahiki",
-      "price": 150,
-      "book": "BetRivers",
-      "true": 39.2
+      "price": 145,
+      "book": "BetMGM",
+      "true": 40.2
      },
      "b": {
       "name": "Tommy McMillen",
-      "price": -163,
-      "book": "BetOnline.ag",
-      "true": 60.8
+      "price": -155,
+      "book": "BetUS",
+      "true": 59.8
      },
-     "hold": 1.98,
+     "hold": 1.6,
      "books": 7
     },
     {
@@ -337,8 +304,8 @@
      "commence": "2026-09-12T23:45:00Z",
      "a": {
       "name": "Jean Silva",
-      "price": -420,
-      "book": "Bovada",
+      "price": -410,
+      "book": "DraftKings",
       "true": 78.0
      },
      "b": {
@@ -347,7 +314,7 @@
       "book": "BetMGM",
       "true": 22.0
      },
-     "hold": 3.5,
+     "hold": 3.12,
      "books": 7
     },
     {
@@ -356,32 +323,32 @@
       "name": "Casey O'Neill",
       "price": -170,
       "book": "FanDuel",
-      "true": 62.5
+      "true": 61.4
      },
      "b": {
       "name": "Eduarda Moura",
-      "price": 165,
+      "price": 153,
       "book": "BetOnline.ag",
-      "true": 37.5
+      "true": 38.6
      },
-     "hold": 0.7,
+     "hold": 2.49,
      "books": 4
     },
     {
      "commence": "2026-09-19T22:45:00Z",
      "a": {
       "name": "Giga Chikadze",
-      "price": 274,
-      "book": "BetOnline.ag",
-      "true": 25.8
+      "price": 285,
+      "book": "DraftKings",
+      "true": 25.2
      },
      "b": {
       "name": "Joanderson Brito",
-      "price": -335,
-      "book": "BetRivers",
-      "true": 74.2
+      "price": -340,
+      "book": "BetOnline.ag",
+      "true": 74.8
      },
-     "hold": 3.75,
+     "hold": 3.25,
      "books": 4
     },
     {
@@ -507,17 +474,17 @@
      "commence": "2026-09-20T02:45:00Z",
      "a": {
       "name": "Arman Tsarukyan",
-      "price": -345,
-      "book": "DraftKings",
-      "true": 75.6
+      "price": -325,
+      "book": "BetOnline.ag",
+      "true": 74.4
      },
      "b": {
       "name": "Mauricio Ruffy",
-      "price": 300,
-      "book": "BetOnline.ag",
-      "true": 24.4
+      "price": 280,
+      "book": "FanDuel",
+      "true": 25.6
      },
-     "hold": 2.53,
+     "hold": 2.79,
      "books": 4
     },
     {
@@ -560,32 +527,32 @@
       "name": "Deiveson Figueiredo",
       "price": 415,
       "book": "BetOnline.ag",
-      "true": 18.7
+      "true": 18.8
      },
      "b": {
       "name": "Payton Talbott",
-      "price": -550,
-      "book": "BetOnline.ag",
-      "true": 81.3
+      "price": -530,
+      "book": "BetRivers",
+      "true": 81.2
      },
-     "hold": 4.03,
-     "books": 3
+     "hold": 3.54,
+     "books": 4
     },
     {
      "commence": "2026-10-04T04:30:00Z",
      "a": {
       "name": "Natalia Silva",
-      "price": -210,
-      "book": "BetOnline.ag",
-      "true": 67.4
+      "price": -205,
+      "book": "DraftKings",
+      "true": 66.7
      },
      "b": {
       "name": "Wang Cong",
-      "price": 205,
-      "book": "BetRivers",
-      "true": 32.6
+      "price": 198,
+      "book": "FanDuel",
+      "true": 33.3
      },
-     "hold": 0.53,
+     "hold": 0.77,
      "books": 4
     },
     {
