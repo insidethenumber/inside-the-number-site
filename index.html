@@ -897,15 +897,15 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    { league:'MLB', away:{code:'min', name:'Twins'}, home:{code:'det', name:'Tigers'}, time:'6:40 PM ET', pick:'Under 8', conf:2, free:true,
-      hook:'The total came down and got cheaper at once',
-      why:'The total opened at 8.5 and is 8 now. That part is ordinary. The part that is not is the price: when the number was 8.5 the under cost -115, and now that it has come down to 8, a friendlier number for under bettors, the under costs -105. It got cheaper. Normally a number moving your way is paid for with a worse price. Detroit\u2019s own price firmed at the same time, -129 to -137, so the market got more confident about who wins and less confident about how much gets scored. Under 8 at -105 asks 51.2% to break even; strip out what the book keeps and the two sides sit near 49-51. What beats it: an early crooked inning. At 8, one four-run frame does most of the work against you.' },
-    { league:'MLB', away:{code:'laa', name:'Angels'}, home:{code:'bos', name:'Red Sox'}, time:'6:45 PM ET', pick:'Under 7.5', conf:2, free:false,
-      hook:'Same shape as the free pick, one park over',
-      why:'Boston opened with a total of 8 and the under at -118. The total is 7.5 now and the under is -104. A better number at a better price is the market telling you it did not overcorrect the first time. Under 7.5 at -104 asks 51.0% to break even; the two sides split close to 49-51 once you strip out what the book keeps. What beats it: Fenway doing what Fenway does to a low total.' },
-    { league:'MLB', away:{code:'tb', name:'Rays'}, home:{code:'atl', name:'Braves'}, time:'7:15 PM ET', pick:'Tampa Bay ML', conf:2, free:false,
-      hook:'The moneyline flipped signs while the run line never moved',
-      why:'Tampa Bay opened +100 and is -103, a flip from underdog to favorite, while the run line sat parked at -1.5 all day, moving two cents. Tampa Bay -103 asks 50.7% to break even; Atlanta -117 asks 53.9%. Take out what the book keeps and it lands near 49-51 toward Atlanta, so the flip is real movement on a game that is still close to a coin flip. What beats it: Atlanta holding home field against a Rays lineup that has been streaky on the road.' }
+    { league:'NFL', away:{code:'ne', name:'Patriots'}, home:{code:'sea', name:'Seahawks'}, time:'8:20 PM ET', pick:'New England +3', conf:2, free:true,
+      hook:'The market got surer who wins, not how much',
+      why:'Week 1 opens tonight in Seattle. New England opened +3.5 with a +160 moneyline; both have come in, to +3 and +142. So the market spent the week getting more confident about who wins. What it did not do is change its mind about the game itself: the total opened 44.5 and is still 44.5, not a half point either way. Taking the Patriots means buying the key number. Three is the most common margin in football, and at +3 a late field goal still pushes rather than beats you. Strip out what the book keeps and the market makes Seattle about 60%, New England about 40%. What beats it: Seattle winning by a touchdown, which is exactly what the market is drifting toward.' },
+    { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'ath', name:'Athletics'}, time:'3:05 PM ET', pick:'Under 9', conf:2, free:false,
+      hook:'Total down half a run, favorite firming',
+      why:'The total opened at 9.5 and is 9. Toronto firmed at the same time, -185 to -193. The number came down while the market got more confident in the favorite, which is the market saying it expects Toronto to win without a shootout to do it. What beats it: the Coliseum playing small and an early bullpen game.' },
+    { league:'MLB', away:{code:'min', name:'Twins'}, home:{code:'det', name:'Tigers'}, time:'1:10 PM ET', pick:'Detroit -135', conf:1, free:false,
+      hook:'Barely moved in either direction',
+      why:'Detroit opened -131 and is -135. The total has not moved off 8.5 at all. This is the flattest game on the board, which is its own kind of information: the market saw nothing all week worth changing its mind about. What beats it: a day game after a night game and a lineup with regulars resting.' }
   ];
   // Set Tue Sep 8, 9:19 AM CT by the itn-deadline-check-weekday Cowork safety
   // net, after the 8:00 AM main routine failed to run \u2014 nothing was
@@ -1119,11 +1119,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Tue, Sep 8</div>
-        <div class="potd-sport">MLB</div>
-        <div class="potd-matchup" id="potd-matchup">Minnesota Twins @ Detroit Tigers</div>
-        <div class="potd-line">THE PICK: Under 8 &middot; 6:40 PM ET</div>
-        <p class="potd-reasoning">The total for Minnesota at Detroit opened at 8.5. It is 8 now &mdash; ordinary enough; totals move half a run all the time. What is not ordinary is the price. At 8.5 the under cost &minus;115. Now that the number has come down to 8, a friendlier number for under bettors, the under costs &minus;105. It got cheaper. Normally those two things fight each other: a number moves your way and the price moves against you to compensate. Here the market lowered the number and kept leaning the same way. Detroit&rsquo;s own price firmed at the same time, &minus;129 to &minus;137, so the market got more confident about who wins and less confident about how much gets scored. What beats it: an early crooked inning &mdash; at 8, a single four-run frame does most of the work against you. Odds via ESPN, read at 1:45 PM CT &mdash; check the number before you take it.</p>
+        <div class="potd-date">Wed, Sep 9</div>
+        <div class="potd-sport">NFL</div>
+        <div class="potd-matchup" id="potd-matchup">New England Patriots @ Seattle Seahawks</div>
+        <div class="potd-line">THE PICK: New England +3 &middot; 8:20 PM ET, NBC</div>
+        <p class="potd-reasoning">Week 1 opens tonight in Seattle. New England opened +3.5, with a +160 moneyline; both have come in, to +3 and +142. The market spent the week getting more confident about who wins. What it did not do is change its mind about the game: the total opened 44.5 and is still 44.5, not a half point either way. Taking the Patriots means buying the key number &mdash; three is the most common margin in football, and at +3 a late field goal pushes rather than beats you. Strip out what the book keeps and the market makes Seattle about 60%, New England about 40%. What beats it: Seattle winning by a touchdown, which is the direction the number has been drifting all week. Odds via ESPN, read at 6:40 AM CT &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
