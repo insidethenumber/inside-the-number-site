@@ -81,7 +81,8 @@
   "817-qb-first-and-last.txt",
   "818-dal-nyg-three.txt",
   "822-miami-famu.txt",
-  "823-dfs-fanduel-lineup.txt"
+  "823-dfs-fanduel-lineup.txt",
+  "830-humble-brag-recap.txt"
  ],
  "history": [
   {
@@ -876,6 +877,16 @@
    "chars": 276,
    "had_link": false,
    "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "830-humble-brag-recap.txt",
+   "id": "2098047253344661788",
+   "url": "https://x.com/thenumberdesk/status/2098047253344661788",
+   "at": "2026-09-10T13:53:39.856593+00:00",
+   "chars": 201,
+   "had_link": false,
+   "had_image": false,
    "est_cost": 0.015
   }
  ]
