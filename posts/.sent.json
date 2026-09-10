@@ -77,7 +77,8 @@
   "812-browns-jags.txt",
   "814-lowest-total.txt",
   "815-melbourne.txt",
-  "816-cards-chargers.txt"
+  "816-cards-chargers.txt",
+  "817-qb-first-and-last.txt"
  ],
  "history": [
   {
@@ -829,6 +830,16 @@
    "id": "2097890908750377160",
    "url": "https://x.com/thenumberdesk/status/2097890908750377160",
    "at": "2026-09-10T03:32:24.632477+00:00",
+   "chars": 270,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "817-qb-first-and-last.txt",
+   "id": "2098010679089266862",
+   "url": "https://x.com/thenumberdesk/status/2098010679089266862",
+   "at": "2026-09-10T11:28:20.058433+00:00",
    "chars": 270,
    "had_link": false,
    "had_image": true,
