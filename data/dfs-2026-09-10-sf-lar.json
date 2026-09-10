@@ -1,7 +1,7 @@
 [
- {"id":"4426515","name":"Puka Nacua","team":"LAR","pos":"WR","tag":"MVP","sub":"1.5x — highest-target share on the higher-scoring side"},
- {"id":"12483","name":"Matthew Stafford","team":"LAR","pos":"QB","tag":"FLEX","sub":"Stacks with Nacua — same drives, same points"},
- {"id":"4430737","name":"Kyren Williams","team":"LAR","pos":"RB","tag":"FLEX","sub":"Favored team's back — the lead is his volume"},
- {"id":"3117251","name":"Christian McCaffrey","team":"SF","pos":"RB","tag":"FLEX","sub":"Catches passes, so trailing doesn't hurt him"},
- {"id":"3040151","name":"George Kittle","team":"SF","pos":"TE","tag":"FLEX","sub":"If SF is chasing, he's the safety valve"}
+ {"id":"3040151","name":"George Kittle","team":"SF","pos":"TE","tag":"MVP","value":"$12,300","sub":"11.4 FPPG · cheapest of the five, captain saves the cap"},
+ {"id":"4426515","name":"Puka Nacua","team":"LAR","pos":"WR","tag":"FLEX","value":"$12,400","sub":"21.1 FPPG · target share on the favored side"},
+ {"id":"12483","name":"Matthew Stafford","team":"LAR","pos":"QB","tag":"FLEX","value":"$11,400","sub":"21.9 FPPG, tops the field · stacks with Nacua"},
+ {"id":"3117251","name":"Christian McCaffrey","team":"SF","pos":"RB","tag":"FLEX","value":"$13,000","sub":"21.8 FPPG · catches passes, so trailing doesn't hurt him"},
+ {"id":"4430737","name":"Kyren Williams","team":"LAR","pos":"RB","tag":"FLEX","value":"$10,200","sub":"15.1 FPPG · favored team's back, the lead is his volume"}
 ]
