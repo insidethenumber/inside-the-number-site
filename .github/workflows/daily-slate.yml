@@ -114,10 +114,17 @@ jobs:
           cp brief.json "data/snapshots/$(date -u +%Y-%m-%d-%H%M).json"
           mv brief.json "data/brief-$(date -u +%Y-%m-%d).json"
           cp "data/brief-$(date -u +%Y-%m-%d).json" data/brief-latest.json
-          # One static, indexable page per game (g/), straight from the brief.
-          # Pure transform — if the brief built, this cannot add a failure mode.
-          python3 scripts/build_game_pages.py --brief data/brief-latest.json
-          git add data/ g/
+          # PER-GAME PAGE GENERATION STOPPED — Sep 10, 2026.
+          # Search Console: 185 of these sat at "Discovered - currently not
+          # indexed" and 31 at "Crawled - currently not indexed", against 109
+          # indexed pages sitewide, and the count was climbing. They were
+          # orphans: advertised once via a daily-rotating g/sitemap-games.xml
+          # and linked from nowhere crawlable (/board/ is Disallowed). Google
+          # was being handed ~7 new dead URLs a day. Generator left in the repo
+          # (scripts/build_game_pages.py) but no longer run; the games sitemap
+          # reference was removed from robots.txt in the same commit.
+          # python3 scripts/build_game_pages.py --brief data/brief-latest.json
+          git add data/
           if git diff --cached --quiet; then
             echo "nothing changed"
           else

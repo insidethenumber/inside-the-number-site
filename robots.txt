@@ -2,9 +2,6 @@
 User-agent: *
 Allow: /
 Disallow: /404.html
+Disallow: /board/
 
 Sitemap: https://insidethenumber.com/sitemap.xml
-Sitemap: https://insidethenumber.com/g/sitemap-games.xml
-
-User-agent: *
-Disallow: /board/
