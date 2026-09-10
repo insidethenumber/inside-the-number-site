@@ -128,6 +128,18 @@
       "name": "Eddy Pineiro",
       "team": "SF",
       "pos": "PK"
+    },
+    "college-football/5121169": {
+      "id": "5121169",
+      "name": "Darian Mensah",
+      "team": "MIA",
+      "pos": "QB"
+    },
+    "college-football/4880668": {
+      "id": "4880668",
+      "name": "Isaiah Knowles",
+      "team": "FAMU",
+      "pos": "QB"
     }
   }
 }
