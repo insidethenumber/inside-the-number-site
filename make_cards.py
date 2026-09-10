@@ -12,7 +12,7 @@ its colours. Everything here is lifted from the live site:
     cards on a game page
   * a huge Barlow-Condensed-style headline with one accent word in green
   * mono, letter-spaced, uppercase labels
-  * insidethenumber.com and 21+ on the footer line
+  * insidethenumber.com on the footer line
 
     python3 make_cards.py     # rebuild everything into social/cards/
 
@@ -156,8 +156,6 @@ def card(name, label, headline, lines, accent=GREEN, label_col=None):
 
     fm = f(MONO, 26)
     d.text((110, H - 128), "insidethenumber.com", font=fm, fill=MUTED)
-    w21 = d.textlength("21+", font=fm)
-    d.text((W - 110 - w21, H - 128), "21+", font=fm, fill=MUTED)
 
     os.makedirs(OUT, exist_ok=True)
     p = os.path.join(OUT, name)

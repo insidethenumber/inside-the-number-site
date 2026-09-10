@@ -153,7 +153,6 @@ def footer(d, W, H):
     d.line([56, H - 92, W - 56, H - 92], fill=LINE, width=2)
     d.text((56, H - 70), "INSIDE THE NUMBER", font=B(26), fill=WHITE)
     d.text((330, H - 66), "insidethenumber.com", font=M(23), fill=GREEN)
-    d.text((W - 150, H - 66), "21+", font=M(23), fill=MUTED)
 
 
 def head(d, eyebrow, headline, sub, W):
@@ -374,7 +373,6 @@ def card_split(a):
 
     d.text((52, H - 58), "INSIDE THE NUMBER", font=B(28), fill=WHITE)
     d.text((372, H - 54), "insidethenumber.com", font=M(25), fill=GREEN)
-    d.text((W - 108, H - 54), "21+", font=M(25), fill=MUTED)
     return img
 
 

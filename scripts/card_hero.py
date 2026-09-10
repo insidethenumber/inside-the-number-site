@@ -82,7 +82,7 @@ for x, y, label, big, colour, l1, l2 in cells:
 d.rectangle([0, H - 76, W, H], fill=(5, 7, 11, 240))
 d.rectangle([0, H - 78, W, H - 76], fill=C.GREEN)
 txt(36, H - 52, "@thenumberdesk  ·  insidethenumber.com", C.B(26), C.WHITE)
-txt(W - 36, H - 50, "Wed Sep 9 · 8:20 PM ET · NBC  ·  21+", C.M(22), C.MUTED, "ra")
+txt(W - 36, H - 50, "Wed Sep 9 · 8:20 PM ET · NBC", C.M(22), C.MUTED, "ra")
 
 out = "/tmp/gem/itn-real-numbers.png"
 img.save(out)
