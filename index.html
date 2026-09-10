@@ -897,16 +897,26 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    { league:'NFL', away:{code:'ne', name:'Patriots'}, home:{code:'sea', name:'Seahawks'}, time:'8:20 PM ET', pick:'New England +3', conf:2, free:true,
-      hook:'The market got surer who wins, not how much',
-      why:'Week 1 opens tonight in Seattle. New England opened +3.5 with a +160 moneyline; both have come in, to +3 and +142. So the market spent the week getting more confident about who wins. What it did not do is change its mind about the game itself: the total opened 44.5 and is still 44.5, not a half point either way. Taking the Patriots means buying the key number. Three is the most common margin in football, and at +3 a late field goal still pushes rather than beats you. Strip out what the book keeps and the market makes Seattle about 60%, New England about 40%. What beats it: Seattle winning by a touchdown, which is exactly what the market is drifting toward.' },
-    { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'ath', name:'Athletics'}, time:'3:05 PM ET', pick:'Under 9', conf:2, free:false,
-      hook:'Total down half a run, favorite firming',
-      why:'The total opened at 9.5 and is 9. Toronto firmed at the same time, -185 to -193. The number came down while the market got more confident in the favorite, which is the market saying it expects Toronto to win without a shootout to do it. What beats it: the Coliseum playing small and an early bullpen game.' },
-    { league:'MLB', away:{code:'min', name:'Twins'}, home:{code:'det', name:'Tigers'}, time:'1:10 PM ET', pick:'Detroit -135', conf:1, free:false,
-      hook:'Barely moved in either direction',
-      why:'Detroit opened -131 and is -135. The total has not moved off 8.5 at all. This is the flattest game on the board, which is its own kind of information: the market saw nothing all week worth changing its mind about. What beats it: a day game after a night game and a lineup with regulars resting.' }
+    { league:'NFL', away:{code:'sf', name:'49ers'}, home:{code:'lar', name:'Rams'}, time:'8:35 PM ET', pick:'Los Angeles -3.5', conf:3, free:true,
+      hook:'The market got surer before either team played',
+      why:'The 49ers and Rams open the season in Melbourne, and neither team has played a snap yet. Los Angeles still opened -2.5 and is -3.5, with the moneyline sliding the same way \u2014 San Francisco from +130 to +164, Los Angeles from -155 to -198. The total has not moved off 48.5 at all, which means the market is repricing who wins, not how the game plays. De-vigged, that puts Los Angeles at roughly 64% to win outright. What beats it: a special-teams or turnover swing in a game with almost no information to lean on.' },
+    { league:'CFB', away:{code:'50', name:'Florida A&M'}, home:{code:'2390', name:'Miami'}, time:'8:00 PM ET', pick:'Over 63.5', conf:2, free:false,
+      hook:'Total up, Over pricier \u2014 clean signal',
+      why:'Miami is favored by 57.5, wide enough that the book will not even post a moneyline. The total is still a live market: 62.5 to 63.5, with the Over getting more expensive at the same time, +100 to -105. Total and price moving the same direction is the straightforward version of a signal \u2014 money is on the over.' },
+    { league:'MLB', away:{code:'col', name:'Rockies'}, home:{code:'nyy', name:'Yankees'}, time:'7:05 PM ET', pick:'Under 9', conf:3, free:false,
+      hook:'Total climbed, but the Over got cheaper',
+      why:'The total rose half a run overnight, 8.5 to 9, but the Over actually got cheaper doing it \u2014 -117 to +100. A total that rises while its own price falls is the market saying the number outran the money that pushed it there, which sets up a fade back toward the under.' }
   ];
+  // Set Thu Sep 10, ~12:30 PM CT (Beehiiv session was signed out for the
+  // 8:00 AM main routine window; this run rebuilt everything once the
+  // session came back). Numbers from data/brief-latest.json, generated
+  // 6:50 AM CT. Board: 5 MLB games, 1 NFL game (49ers @ Rams, Melbourne),
+  // 1 CFB game (Florida A&M @ Miami, moneyline off \u2014 spread too wide
+  // to price). Two early MLB games (Rays/Braves, Astros/Phillies) had
+  // already started by the time this ran and were correctly excluded.
+  // Football-first rule applied: NFL led as the free pick. Max-2-per-sport
+  // rule holds (1 NFL, 1 CFB, 1 MLB). 0 of 3 picks are moneylines (0%,
+  // well under the 50% cap).
   // Set Wed Sep 9, ~9:20 AM CT by the itn-deadline-check-weekday Cowork
   // safety net, after the 8:00 AM main routine again failed to schedule or
   // publish in Beehiiv. Numbers from data/brief-2026-09-09.json (generated
@@ -1119,11 +1129,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Wed, Sep 9</div>
+        <div class="potd-date">Thu, Sep 10</div>
         <div class="potd-sport">NFL</div>
-        <div class="potd-matchup" id="potd-matchup">New England Patriots @ Seattle Seahawks</div>
-        <div class="potd-line">THE PICK: New England +3 &middot; 8:20 PM ET, NBC</div>
-        <p class="potd-reasoning">Week 1 opens tonight in Seattle. New England opened +3.5, with a +160 moneyline; both have come in, to +3 and +142. The market spent the week getting more confident about who wins. What it did not do is change its mind about the game: the total opened 44.5 and is still 44.5, not a half point either way. Taking the Patriots means buying the key number &mdash; three is the most common margin in football, and at +3 a late field goal pushes rather than beats you. Strip out what the book keeps and the market makes Seattle about 60%, New England about 40%. What beats it: Seattle winning by a touchdown, which is the direction the number has been drifting all week. Odds via ESPN, read at 6:40 AM CT &mdash; check the number before you take it.</p>
+        <div class="potd-matchup" id="potd-matchup">San Francisco 49ers @ Los Angeles Rams</div>
+        <div class="potd-line">THE PICK: Los Angeles -3.5 &middot; 8:35 PM ET, Melbourne Cricket Ground</div>
+        <p class="potd-reasoning">The 49ers and Rams open the 2026 season 10,000 miles from either home stadium, and neither team has played a competitive down yet. The number still moved: Los Angeles opened -2.5 and is -3.5, with the moneyline sliding right alongside it &mdash; San Francisco from +130 to +164, Los Angeles from -155 to -198. The total hasn&rsquo;t budged, still 48.5, which means the market is repricing who wins, not how the game plays. Strip the book&rsquo;s cut out of the moneyline and the market has the Rams at roughly 64% to win outright. What beats it: San Francisco&rsquo;s defense forcing a special-teams or turnover swing in a game with this little in-season information to lean on. Odds via DraftKings, read at 6:50 AM CT &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
