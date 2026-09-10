@@ -70,3 +70,18 @@
   Content-Disposition: attachment; filename="itn-board.mp4"
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300
+
+/reel4.mp4
+  Content-Disposition: attachment; filename="itn-stafford-purdy.mp4"
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/reel5.mp4
+  Content-Disposition: attachment; filename="itn-the-calculator.mp4"
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/reel6.mp4
+  Content-Disposition: attachment; filename="itn-the-push.mp4"
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
