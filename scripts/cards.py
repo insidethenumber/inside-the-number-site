@@ -132,6 +132,47 @@ def paste_logo(img, im, x, y_center):
     return im.width
 
 
+HEADSHOT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "assets", "headshots")
+
+
+def headshot(league, pid, box_w, box_h, bg=PANEL):
+    """Cached ESPN roster portrait, cover-cropped to box_w x box_h, or None.
+
+    Never fetches — scripts/fetch_headshots.py populates assets/headshots/ from
+    a CI runner because the sandbox cannot reach a.espncdn.com. A missing
+    portrait is not an error; card_duel falls back to the team colour block, so
+    the layout still works on a machine with no assets at all.
+
+    ESPN serves these at 600x436 on a light grey field. They are NOT cutouts,
+    so we cover-crop rather than pad, and bias the crop upward because the head
+    sits in the top two thirds of the frame.
+    """
+    if not league or not pid:
+        return None
+    p = os.path.join(HEADSHOT_DIR, str(league).lower(), f"{pid}.png")
+    if not os.path.exists(p):
+        return None
+    try:
+        im = Image.open(p).convert("RGBA")
+    except Exception:
+        return None
+    # ESPN serves these as cut-outs with a transparent field. A plain
+    # .convert("RGB") fills that with pure black, which reads a shade darker
+    # than our panel and makes the portrait look like a pasted-in rectangle.
+    # Composite onto the panel colour instead so the player floats on it.
+    plate = Image.new("RGBA", im.size, bg)
+    im = Image.alpha_composite(plate, im).convert("RGB")
+    sw, sh = im.size
+    scale = max(box_w / sw, box_h / sh)
+    nw, nh = int(sw * scale + 0.5), int(sh * scale + 0.5)
+    im = im.resize((nw, nh), Image.LANCZOS)
+    # Bias upward: centre-crop puts the chin in the middle and cuts the hair.
+    left = (nw - box_w) // 2
+    top = int((nh - box_h) * 0.28)
+    return im.crop((left, top, left + box_w, top + box_h))
+
+
 def hexcolor(c, fallback="#444a55"):
     """ESPN gives colours as bare hex, sometimes empty, sometimes near-black."""
     if not c:
@@ -376,7 +417,187 @@ def card_split(a):
     return img
 
 
-FORMATS = {"split": card_split, "board": card_board, "matchup": card_matchup,
+# ------------------------------------------------------------------- duel
+def card_duel(a):
+    """Two players, head to head, each with one defining number.
+
+    Added Sep 9 2026. Chuck sent over a BettingPros post that was working and
+    asked where they get their imagery. The answer turned out to be: they
+    don't buy any. It is five ESPN roster portraits and five prices. That
+    killed a month-long assumption that the format we wanted needed a $100
+    wire photo, and this is the ITN version of it.
+
+    The difference from theirs: they list what the book is offering. We put
+    the book's number next to what the number should actually be. The faces
+    make somebody stop; the second number is the reason to follow.
+
+    Rights, because it is easy to get lazy here: these are team-issued roster
+    portraits used to identify the player a number belongs to. Odds next to a
+    face are commentary on the market and fine. Our price, a promo code, an
+    affiliate link or the word "premium" next to a face is his likeness
+    selling our product, and no licence fixes that. See fetch_headshots.py.
+    """
+    portrait = (getattr(a, "size", "ig") or "ig") != "x"
+    W, H = (1080, 1350) if portrait else (1600, 900)
+    img = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(img)
+
+    def ctr(box, txt, font, fill):
+        if not txt:
+            return
+        x0, y0, x1, y1 = box
+        w = d.textlength(txt, font=font)
+        bb = font.getbbox(txt)
+        d.text(((x0 + x1 - w) / 2, (y0 + y1 - (bb[3] - bb[1])) / 2 - bb[1]),
+               txt, font=font, fill=fill)
+
+    def fit(txt, maker, start, max_w, floor=14):
+        """Shrink until it fits. The kicker on the Sep 9 split card ran off
+        both edges at a fixed size; never again."""
+        s, f = start, maker(start)
+        while s > floor and d.textlength(txt, font=f) > max_w:
+            s -= 2
+            f = maker(s)
+        return f
+
+    M0 = 48
+    IW = W - 2 * M0
+    BOT = H - 104          # everything must finish above the footer rule
+
+    # ---- header. Portrait stacks the headline on the | breaks; landscape has
+    # the width to run it on one line, and its kicker lives in the caption.
+    y = 44
+    if a.eyebrow:
+        ef = fit(a.eyebrow.upper(), B, 28 if portrait else 26, IW)
+        d.text((M0, y), a.eyebrow.upper(), font=ef, fill=GREEN)
+        y += 46
+    lines = [l.strip() for l in (a.headline or "").upper().split("|") if l.strip()]
+    if not portrait:
+        lines = [" ".join(lines)]
+    for ln in lines:
+        hs = 92 if portrait else 66
+        f = fit(ln, D, hs, IW)
+        d.text((M0, y), ln, font=f, fill=WHITE)
+        y += int(f.size * 1.02)
+    head_end = y + (16 if portrait else 12)
+
+    # ---- budget the rest backwards from the footer so nothing can overlap
+    kick_h = 96 if portrait else 0        # landscape kicker goes in the caption
+    intel_h = 200 if portrait else 156
+    gap_v = 28
+    intel_top = BOT - kick_h - intel_h - (gap_v if kick_h else 0)
+    ptop = head_end
+    ph = intel_top - gap_v - ptop
+    imh = int(ph * (0.53 if portrait else 0.55))
+
+    gap = 48
+    pw = (IW - gap) // 2
+
+    sides = [
+        (M0, a.left_number, a.left_label, a.left_line1, a.left_line2,
+         a.left_line3, a.away_color, a.away_abbr, getattr(a, "left_id", None)),
+        (M0 + pw + gap, a.right_number, a.right_label, a.right_line1,
+         a.right_line2, a.right_line3, a.home_color, a.home_abbr,
+         getattr(a, "right_id", None)),
+    ]
+
+    for x0, big, name, l1, l2, l3, col, abbr, pid in sides:
+        x1 = x0 + pw
+        col = hexcolor(col)
+        d.rounded_rectangle([x0, ptop, x1, ptop + ph], 18, fill=PANEL)
+
+        hs_im = headshot(a.league, pid, pw, imh, PANEL) if pid else None
+        if hs_im:
+            mask = Image.new("L", (pw, imh), 0)
+            md = ImageDraw.Draw(mask)
+            md.rounded_rectangle([0, 0, pw, imh], 18, fill=255)
+            md.rectangle([0, imh - 24, pw, imh], fill=255)
+            img.paste(hs_im, (x0, ptop), mask)
+        else:
+            d.rounded_rectangle([x0, ptop, x1, ptop + imh], 18, fill=col)
+            lg = logo(a.league, abbr, int(imh * 0.55)) if abbr else None
+            if lg:
+                paste_logo(img, lg, int((x0 + x1) / 2 - lg.width / 2),
+                           ptop + imh / 2)
+
+        # team colour rule under the portrait — the only place the club colour
+        # lands, so the panel reads as that team without tinting the face
+        d.rectangle([x0, ptop + imh, x1, ptop + imh + 7], fill=col)
+
+        # text block: name, the number, then up to three supporting lines,
+        # all budgeted inside what is left of the panel
+        tz0 = ptop + imh + 7
+        tz1 = ptop + ph
+        avail = tz1 - tz0
+        subs = [s for s in (l1, l2, l3) if s]
+        nm_h = int(avail * 0.20)
+        sub_h = 32 if portrait else 28
+        big_h = avail - nm_h - len(subs) * sub_h - 18
+
+        ty = tz0 + 10
+        ctr((x0, ty, x1, ty + nm_h), (name or "").upper(),
+            fit((name or "").upper(), D, 44 if portrait else 38, pw - 28), WHITE)
+        ty += nm_h
+        bigf = fit(big or "", D, max(40, int(big_h * 0.92)), pw - 24)
+        ctr((x0, ty, x1, ty + big_h), big or "", bigf, GREEN)
+        ty += big_h + 8
+        for txt, ink in zip(subs, (DIM, MUTED, MUTED)):
+            ctr((x0, ty, x1, ty + sub_h), txt.upper(),
+                fit(txt.upper(), M, 24 if portrait else 22, pw - 24), ink)
+            ty += sub_h
+
+    # ---- the intelligence strip: the book's number next to what it should be
+    iy = intel_top
+    d.rounded_rectangle([M0, iy, W - M0, iy + intel_h], 16, fill=HILITE)
+    lab_h = 0
+    if a.hero_label:
+        d.text((M0 + 24, iy + 16), a.hero_label.upper(), font=B(24), fill=GREEN)
+        lab_h = 44
+
+    # board/trend take --data as a file path; accept either here so the
+    # caller can inline three columns without writing a temp file.
+    cols = []
+    if a.data:
+        try:
+            cols = (json.load(open(a.data)) if os.path.exists(a.data)
+                    else json.loads(a.data))
+        except (ValueError, TypeError, OSError):
+            cols = []
+    if cols:
+        cw = IW / len(cols)
+        cz0 = iy + lab_h + 8
+        cz1 = iy + intel_h - 10
+        ch = cz1 - cz0
+        for i, c in enumerate(cols):
+            cx0 = M0 + i * cw
+            cx1 = cx0 + cw
+            if i:
+                d.line([cx0, iy + 26, cx0, iy + intel_h - 26], fill=LINE, width=2)
+            ctr((cx0, cz0, cx1, cz0 + ch * 0.26),
+                str(c.get("label", "")).upper(), M(22), MUTED)
+            vf = fit(str(c.get("value", "")), D, int(ch * 0.46), cw - 30)
+            ctr((cx0, cz0 + ch * 0.26, cx1, cz0 + ch * 0.74),
+                str(c.get("value", "")), vf,
+                GREEN if c.get("ink") == "green" else WHITE)
+            if c.get("sub"):
+                ctr((cx0, cz0 + ch * 0.76, cx1, cz1),
+                    str(c["sub"]).upper(),
+                    fit(str(c["sub"]).upper(), M, 21, cw - 24), DIM)
+
+    # ---- kicker (portrait only; on X this line is the caption)
+    if a.note and kick_h:
+        ky = iy + intel_h + gap_v
+        ctr((M0, ky, W - M0, ky + 54), a.note.upper(),
+            fit(a.note.upper(), D, 46, IW), WHITE)
+        if a.note2:
+            ctr((M0, ky + 54, W - M0, ky + 92), a.note2,
+                fit(a.note2, M, 26, IW), MUTED)
+
+    footer(d, W, H)
+    return img
+
+
+FORMATS = {"split": card_split, "duel": card_duel, "board": card_board, "matchup": card_matchup,
            "bignumber": card_bignumber, "trend": card_trend}
 
 
@@ -399,6 +620,9 @@ def main():
         p.add_argument(f"--{side}-line1"); p.add_argument(f"--{side}-line2")
         p.add_argument(f"--{side}-line3")
     p.add_argument("--away-abbr"); p.add_argument("--home-abbr")
+    p.add_argument("--left-id"); p.add_argument("--right-id")
+    p.add_argument("--size", choices=("ig", "x"), default="ig",
+                   help="duel: ig=1080x1350 portrait, x=1600x900")
     a = p.parse_args()
 
     if a.format in ("board", "trend") and not a.data:
