@@ -136,7 +136,7 @@ HEADSHOT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
                             "assets", "headshots")
 
 
-def headshot(league, pid, box_w, box_h, bg=PANEL):
+def headshot(league, pid, box_w, box_h, bg=PANEL, tight=False):
     """Cached ESPN roster portrait, cover-cropped to box_w x box_h, or None.
 
     Never fetches — scripts/fetch_headshots.py populates assets/headshots/ from
@@ -164,12 +164,19 @@ def headshot(league, pid, box_w, box_h, bg=PANEL):
     plate = Image.new("RGBA", im.size, bg)
     im = Image.alpha_composite(plate, im).convert("RGB")
     sw, sh = im.size
+    if tight:
+        # A 120px square cover-cropped from the full 600x436 frame gives you a
+        # thumbnail that is mostly shoulder. Crop to the head first: ESPN
+        # centres the face horizontally and puts it in the top ~70%.
+        im = im.crop((int(sw * 0.22), 0,
+                      int(sw * 0.78), int(sh * 0.78)))
+        sw, sh = im.size
     scale = max(box_w / sw, box_h / sh)
     nw, nh = int(sw * scale + 0.5), int(sh * scale + 0.5)
     im = im.resize((nw, nh), Image.LANCZOS)
     # Bias upward: centre-crop puts the chin in the middle and cuts the hair.
     left = (nw - box_w) // 2
-    top = int((nh - box_h) * 0.28)
+    top = int((nh - box_h) * (0.0 if tight else 0.28))
     return im.crop((left, top, left + box_w, top + box_h))
 
 
@@ -597,7 +604,149 @@ def card_duel(a):
     return img
 
 
-FORMATS = {"split": card_split, "duel": card_duel, "board": card_board, "matchup": card_matchup,
+
+# ----------------------------------------------------------------- lineup
+def card_lineup(a):
+    """A roster list: portrait, name, and one number per row.
+
+    This is the shape of the post Chuck sent over on Sep 9 — BettingPros'
+    anytime-TD card, five faces and five prices, which was the single
+    highest-engagement format in our whole monitor list. Reproducing it needs
+    no licensed photography, only ESPN roster portraits.
+
+    Rows come from --data, as a path or inline JSON:
+        [{"id":"4361741","name":"Brock Purdy","team":"SF","pos":"QB",
+          "tag":"MVP","value":"$16,000","sub":"1.5x points"}]
+
+    The rights line does not move because the number changed: a face may sit
+    next to a market price or a salary, which are facts. It may not sit next
+    to OUR price, a promo code, an affiliate link or the word "premium."
+    """
+    rows = []
+    if a.data:
+        try:
+            rows = (json.load(open(a.data)) if os.path.exists(a.data)
+                    else json.loads(a.data))
+        except (ValueError, TypeError, OSError):
+            rows = []
+    rows = rows[:6]
+
+    W = 1080
+    RH, RGAP = 148, 14
+    img_h = 300 + len(rows) * (RH + RGAP) + (150 if a.note else 40) + 100
+    H = max(1350, img_h)
+    img = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(img)
+    M0, IW = 48, W - 96
+
+    def fit(txt, maker, start, max_w, floor=14):
+        s, f = start, maker(start)
+        while s > floor and d.textlength(txt, font=f) > max_w:
+            s -= 2
+            f = maker(s)
+        return f
+
+    def ctr(box, txt, font, fill):
+        if not txt:
+            return
+        x0, y0, x1, y1 = box
+        w = d.textlength(txt, font=font)
+        bb = font.getbbox(txt)
+        d.text(((x0 + x1 - w) / 2, (y0 + y1 - (bb[3] - bb[1])) / 2 - bb[1]),
+               txt, font=font, fill=fill)
+
+    def stack(txt, font, fill, y, lead=10):
+        """Draw a line top-aligned at y and return the true next y.
+
+        Advancing by font.size is what put the sub line on top of "TWO 49ERS"
+        on the first render — Anton draws well past its nominal size, so the
+        only safe advance is the measured bounding box."""
+        bb = font.getbbox(txt)
+        d.text((M0, y - bb[1]), txt, font=font, fill=fill)
+        return y + (bb[3] - bb[1]) + lead
+
+    y = 48
+    if a.eyebrow:
+        y = stack(a.eyebrow.upper(), fit(a.eyebrow.upper(), B, 28, IW),
+                  GREEN, y, 22)
+    for ln in [l.strip() for l in (a.headline or "").upper().split("|") if l.strip()]:
+        y = stack(ln, fit(ln, D, 86, IW), WHITE, y, 8)
+    if a.sub:
+        y = stack(a.sub, fit(a.sub, M, 27, IW), MUTED, y + 8, 10)
+    y += 20
+
+    for r in rows:
+        hi = str(r.get("tag", "")).upper() in ("MVP", "CAPTAIN", "CPT")
+        d.rounded_rectangle([M0, y, W - M0, y + RH], 16,
+                            fill=HILITE if hi else PANEL)
+        if hi:
+            d.rounded_rectangle([M0, y, M0 + 8, y + RH], 4, fill=GREEN)
+
+        # portrait, tight-cropped to the face, in a rounded square
+        ph = RH - 16
+        px, py = M0 + 18, y + 8
+        thumb = headshot(a.league, r.get("id"), ph, ph,
+                         HILITE if hi else PANEL, tight=True)
+        if thumb:
+            mask = Image.new("L", (ph, ph), 0)
+            ImageDraw.Draw(mask).rounded_rectangle([0, 0, ph, ph], 14, fill=255)
+            img.paste(thumb, (px, py), mask)
+        else:
+            d.rounded_rectangle([px, py, px + ph, py + ph], 14,
+                                fill=hexcolor(r.get("color")))
+
+        tx = px + ph + 24
+        rx = W - M0 - 24
+        # the value chip sits right; name gets whatever is left
+        val = str(r.get("value", "") or "")
+        vf = fit(val, D, 46, 260)
+        vw = d.textlength(val, font=vf) if val else 0
+        chip_w = int(vw + 44) if val else 0
+        if val:
+            d.rounded_rectangle([rx - chip_w, y + 30, rx, y + RH - 30], 12,
+                                fill=GREEN if hi else "#1d2431")
+            ctr((rx - chip_w, y + 30, rx, y + RH - 30), val, vf,
+                BG if hi else WHITE)
+
+        name_w = (rx - chip_w - 28) - tx
+        nm = str(r.get("name", ""))
+        meta = " \u00b7 ".join([str(r.get(k)) for k in ("team", "pos", "sub")
+                             if r.get(k)])
+        tag = str(r.get("tag", "")).upper()
+
+        # Lay the row out once, from the top, depending on what it actually
+        # has. The first pass drew the name twice and painted a patch over
+        # one of them, which is the kind of thing that looks fine until a
+        # name is long enough to poke out from under the patch.
+        ty = y + (14 if tag else 34)
+        if tag:
+            tf = M(21)
+            tw = d.textlength(tag, font=tf)
+            d.rounded_rectangle([tx, ty, tx + tw + 20, ty + 28], 8,
+                                fill=GREEN if hi else LINE)
+            d.text((tx + 10, ty + 3), tag, font=tf, fill=BG if hi else DIM)
+            ty += 36
+        d.text((tx, ty), nm, font=fit(nm, D, 44, name_w), fill=WHITE)
+        ty += 50
+        if meta:
+            d.text((tx, ty), meta.upper(),
+                   font=fit(meta.upper(), M, 24, name_w), fill=MUTED)
+        y += RH + RGAP
+
+    if a.note:
+        y += 16
+        d.rounded_rectangle([M0, y, W - M0, y + 108], 16, fill=PANEL)
+        ctr((M0, y + 8, W - M0, y + 62), a.note.upper(),
+            fit(a.note.upper(), D, 44, IW - 40), WHITE)
+        if a.note2:
+            ctr((M0, y + 62, W - M0, y + 100), a.note2,
+                fit(a.note2, M, 25, IW - 40), MUTED)
+
+    footer(d, W, H)
+    return img
+
+
+FORMATS = {"split": card_split, "duel": card_duel, "lineup": card_lineup, "board": card_board, "matchup": card_matchup,
            "bignumber": card_bignumber, "trend": card_trend}
 
 

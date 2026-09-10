@@ -119,3 +119,44 @@ Caption · CTA · Target platform · Ideal length
 Source · Rights status · Crop · Recommended duration
 
 No brief ships without both. "Rights status" may not read "TBD."
+
+---
+
+## Player headshots — settled Sep 9, 2026
+
+Chuck sent over a BettingPros post (five players, five prices, high
+engagement) and asked where they source their imagery. They don't buy any.
+Those are **ESPN roster portraits** — the team-issued publicity headshot every
+club publishes — pulled from `a.espncdn.com/i/headshots/nfl/players/full/<espn
+id>.png`, the same API we already call every morning for the numbers.
+
+This retires a month-long assumption that the format we wanted was blocked
+behind a $50-$100 wire photo. It wasn't. It was blocked behind not knowing
+which endpoint to call.
+
+**What a roster portrait is and isn't.** It is a publicity photo the league
+distributes so publishers can identify a player. It is *not* a wire
+photographer's copyrighted game frame, and the two are not the same risk. But
+it is also not a licence: copyright sits with the league or club, ESPN's CDN
+is a delivery host and not a grant, and the player holds a right of publicity
+on top. We use them the way we use a team logo — to identify the human a
+number belongs to, inside editorial commentary on a real game.
+
+**Do not read "everybody does it" as cover.** BettingPros is owned by
+FantasyPros, a real company that almost certainly holds a data-and-image
+agreement. We are making a judgment about a lower-risk category of asset, not
+relying on somebody else's licence.
+
+**The line, which no file and no price changes:**
+
+> A player's face never appears on a graphic carrying a price, a promo code,
+> an affiliate link, or the word "premium."
+
+Odds are fine. "+425 via DraftKings" is a fact about the market and reporting
+it is commentary. A DFS salary is a fact. **Our** subscription price beside
+the same face is his likeness selling our product, and no licence cures that.
+
+Pipeline: `data/headshot_manifest.json` -> `scripts/fetch_headshots.py` ->
+`.github/workflows/fetch-headshots.yml` -> `assets/headshots/<league>/<id>.png`.
+CI-routed because the sandbox cannot reach ESPN's CDN. Card formats `duel` and
+`lineup` in `scripts/cards.py` read them off disk.
