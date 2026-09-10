@@ -83,7 +83,8 @@
   "822-miami-famu.txt",
   "823-dfs-fanduel-lineup.txt",
   "830-humble-brag-recap.txt",
-  "831-miami-famu-moved-again.txt"
+  "831-miami-famu-moved-again.txt",
+  "832-yankees-drift.txt"
  ],
  "history": [
   {
@@ -896,6 +897,16 @@
    "url": "https://x.com/thenumberdesk/status/2098101178429022218",
    "at": "2026-09-10T17:27:56.583406+00:00",
    "chars": 242,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "832-yankees-drift.txt",
+   "id": "2098172056856854891",
+   "url": "https://x.com/thenumberdesk/status/2098172056856854891",
+   "at": "2026-09-10T22:09:35.315780+00:00",
+   "chars": 225,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
