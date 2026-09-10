@@ -82,7 +82,8 @@
   "818-dal-nyg-three.txt",
   "822-miami-famu.txt",
   "823-dfs-fanduel-lineup.txt",
-  "830-humble-brag-recap.txt"
+  "830-humble-brag-recap.txt",
+  "831-miami-famu-moved-again.txt"
  ],
  "history": [
   {
@@ -885,6 +886,16 @@
    "url": "https://x.com/thenumberdesk/status/2098047253344661788",
    "at": "2026-09-10T13:53:39.856593+00:00",
    "chars": 201,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "831-miami-famu-moved-again.txt",
+   "id": "2098101178429022218",
+   "url": "https://x.com/thenumberdesk/status/2098101178429022218",
+   "at": "2026-09-10T17:27:56.583406+00:00",
+   "chars": 242,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
