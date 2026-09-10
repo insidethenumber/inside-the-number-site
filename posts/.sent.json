@@ -86,7 +86,8 @@
   "831-miami-famu-moved-again.txt",
   "832-yankees-drift.txt",
   "833-famu-mia-blowout.txt",
-  "834-dfs-lock-reminder.txt"
+  "834-dfs-lock-reminder.txt",
+  "835-rams-kickoff.txt"
  ],
  "history": [
   {
@@ -931,6 +932,16 @@
    "chars": 197,
    "had_link": false,
    "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "835-rams-kickoff.txt",
+   "id": "2098174273001034117",
+   "url": "https://x.com/thenumberdesk/status/2098174273001034117",
+   "at": "2026-09-10T22:18:23.715822+00:00",
+   "chars": 273,
+   "had_link": false,
+   "had_image": false,
    "est_cost": 0.015
   }
  ]
