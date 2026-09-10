@@ -50,3 +50,23 @@
 /assets/reels/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300
+
+# Reels must DOWNLOAD, not stream.
+#
+# Why (Sep 9, 2026): when iOS Safari opens a direct .mp4 URL it hands the file
+# to the built-in video player, and that player's share sheet does not offer
+# "Save Video" - so the file can never reach Photos, which is the only place
+# Instagram's Reel picker looks. Content-Disposition: attachment makes Safari
+# download it to Files instead, and the Files share sheet DOES offer Save Video.
+/reel.mp4
+  Content-Disposition: attachment; filename="itn-reel.mp4"
+
+/reel2.mp4
+  Content-Disposition: attachment; filename="itn-melbourne.mp4"
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/reel3.mp4
+  Content-Disposition: attachment; filename="itn-board.mp4"
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
