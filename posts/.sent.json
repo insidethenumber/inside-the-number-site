@@ -85,7 +85,8 @@
   "830-humble-brag-recap.txt",
   "831-miami-famu-moved-again.txt",
   "832-yankees-drift.txt",
-  "833-famu-mia-blowout.txt"
+  "833-famu-mia-blowout.txt",
+  "834-dfs-lock-reminder.txt"
  ],
  "history": [
   {
@@ -918,6 +919,16 @@
    "url": "https://x.com/thenumberdesk/status/2098172554896875830",
    "at": "2026-09-10T22:11:34.169621+00:00",
    "chars": 267,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "834-dfs-lock-reminder.txt",
+   "id": "2098173228401541566",
+   "url": "https://x.com/thenumberdesk/status/2098173228401541566",
+   "at": "2026-09-10T22:14:14.719845+00:00",
+   "chars": 197,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
