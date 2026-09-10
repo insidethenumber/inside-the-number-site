@@ -1,0 +1,133 @@
+{
+  "source": "ESPN CDN roster portraits (a.espncdn.com/i/headshots)",
+  "what": "Team-issued roster publicity portraits, not wire game action.",
+  "use": "Editorial identification of the player a number belongs to. Never on a graphic carrying a price, promo code, affiliate link or the word premium.",
+  "players": {
+    "nfl/12483": {
+      "id": "12483",
+      "name": "Matthew Stafford",
+      "team": "LAR",
+      "pos": "QB"
+    },
+    "nfl/4361741": {
+      "id": "4361741",
+      "name": "Brock Purdy",
+      "team": "SF",
+      "pos": "QB"
+    },
+    "nfl/4426515": {
+      "id": "4426515",
+      "name": "Puka Nacua",
+      "team": "LAR",
+      "pos": "WR"
+    },
+    "nfl/16800": {
+      "id": "16800",
+      "name": "Davante Adams",
+      "team": "LAR",
+      "pos": "WR"
+    },
+    "nfl/4430737": {
+      "id": "4430737",
+      "name": "Kyren Williams",
+      "team": "LAR",
+      "pos": "RB"
+    },
+    "nfl/2573401": {
+      "id": "2573401",
+      "name": "Tyler Higbee",
+      "team": "LAR",
+      "pos": "TE"
+    },
+    "nfl/4570037": {
+      "id": "4570037",
+      "name": "Terrance Ferguson",
+      "team": "LAR",
+      "pos": "TE"
+    },
+    "nfl/4429096": {
+      "id": "4429096",
+      "name": "Blake Corum",
+      "team": "LAR",
+      "pos": "RB"
+    },
+    "nfl/4360797": {
+      "id": "4360797",
+      "name": "Tutu Atwell",
+      "team": "LAR",
+      "pos": "WR"
+    },
+    "nfl/4569382": {
+      "id": "4569382",
+      "name": "Jordan Whittington",
+      "team": "LAR",
+      "pos": "WR"
+    },
+    "nfl/4574716": {
+      "id": "4574716",
+      "name": "Harrison Mevis",
+      "team": "LAR",
+      "pos": "PK"
+    },
+    "nfl/3117251": {
+      "id": "3117251",
+      "name": "Christian McCaffrey",
+      "team": "SF",
+      "pos": "RB"
+    },
+    "nfl/3040151": {
+      "id": "3040151",
+      "name": "George Kittle",
+      "team": "SF",
+      "pos": "TE"
+    },
+    "nfl/3126486": {
+      "id": "3126486",
+      "name": "Deebo Samuel Sr.",
+      "team": "SF",
+      "pos": "WR"
+    },
+    "nfl/4360438": {
+      "id": "4360438",
+      "name": "Brandon Aiyuk",
+      "team": "SF",
+      "pos": "WR"
+    },
+    "nfl/4428209": {
+      "id": "4428209",
+      "name": "Ricky Pearsall",
+      "team": "SF",
+      "pos": "WR"
+    },
+    "nfl/3895856": {
+      "id": "3895856",
+      "name": "Christian Kirk",
+      "team": "SF",
+      "pos": "WR"
+    },
+    "nfl/16737": {
+      "id": "16737",
+      "name": "Mike Evans",
+      "team": "SF",
+      "pos": "WR"
+    },
+    "nfl/4685397": {
+      "id": "4685397",
+      "name": "Jordan James",
+      "team": "SF",
+      "pos": "RB"
+    },
+    "nfl/4372561": {
+      "id": "4372561",
+      "name": "Isaac Guerendo",
+      "team": "SF",
+      "pos": "RB"
+    },
+    "nfl/4034949": {
+      "id": "4034949",
+      "name": "Eddy Pineiro",
+      "team": "SF",
+      "pos": "PK"
+    }
+  }
+}
