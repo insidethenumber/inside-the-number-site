@@ -1,0 +1,27 @@
+{
+  "_note": "ESPN athlete IDs. scripts/fetch_headshots.py turns each into assets/headshots/<league>/<id>.png. Add a player, push, CI fetches it.",
+  "_rights": "Team-issued roster portraits, used to identify the player a number belongs to in editorial coverage of a real game. Never on a graphic carrying a price, promo code, affiliate link or the word premium. See docs/EDITORIAL-DOCTRINE.md.",
+  "nfl": [
+    {"id": "12483",   "name": "Matthew Stafford",   "team": "LAR", "pos": "QB"},
+    {"id": "4361741", "name": "Brock Purdy",        "team": "SF",  "pos": "QB"},
+    {"id": "4426515", "name": "Puka Nacua",         "team": "LAR", "pos": "WR"},
+    {"id": "16800",   "name": "Davante Adams",      "team": "LAR", "pos": "WR"},
+    {"id": "4430737", "name": "Kyren Williams",     "team": "LAR", "pos": "RB"},
+    {"id": "2573401", "name": "Tyler Higbee",       "team": "LAR", "pos": "TE"},
+    {"id": "4570037", "name": "Terrance Ferguson",  "team": "LAR", "pos": "TE"},
+    {"id": "4429096", "name": "Blake Corum",        "team": "LAR", "pos": "RB"},
+    {"id": "4360797", "name": "Tutu Atwell",        "team": "LAR", "pos": "WR"},
+    {"id": "4569382", "name": "Jordan Whittington", "team": "LAR", "pos": "WR"},
+    {"id": "4574716", "name": "Harrison Mevis",     "team": "LAR", "pos": "PK"},
+    {"id": "3117251", "name": "Christian McCaffrey","team": "SF",  "pos": "RB"},
+    {"id": "3040151", "name": "George Kittle",      "team": "SF",  "pos": "TE"},
+    {"id": "3126486", "name": "Deebo Samuel Sr.",   "team": "SF",  "pos": "WR"},
+    {"id": "4360438", "name": "Brandon Aiyuk",      "team": "SF",  "pos": "WR"},
+    {"id": "4428209", "name": "Ricky Pearsall",     "team": "SF",  "pos": "WR"},
+    {"id": "3895856", "name": "Christian Kirk",     "team": "SF",  "pos": "WR"},
+    {"id": "16737",   "name": "Mike Evans",         "team": "SF",  "pos": "WR"},
+    {"id": "4685397", "name": "Jordan James",       "team": "SF",  "pos": "RB"},
+    {"id": "4372561", "name": "Isaac Guerendo",     "team": "SF",  "pos": "RB"},
+    {"id": "4034949", "name": "Eddy Pineiro",       "team": "SF",  "pos": "PK"}
+  ]
+}

@@ -1,0 +1,66 @@
+name: Fetch player headshots
+
+# The sandbox that builds cards has no egress to a.espncdn.com — every request
+# returns nothing. This runner does. Same shape as fetch-photos.yml: push the
+# manifest, CI downloads and commits, everything downstream reads off disk.
+
+on:
+  push:
+    paths:
+      - 'data/headshot_manifest.json'
+      - 'scripts/fetch_headshots.py'
+      - '.github/workflows/fetch-headshots.yml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Re-download players we already have'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-headshots
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch
+        run: |
+          python3 scripts/fetch_headshots.py ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          # .gitignore is a bare "*", so every add here has to be forced.
+          git add -f assets/headshots
+          if git diff --cached --quiet; then
+            echo "nothing new"
+          else
+            git commit -m "Headshots: fetch from manifest [skip ci]"
+            git pull --rebase --autostash
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "### Player headshots"
+            echo ""
+            echo "\`\`\`"
+            ls -1 assets/headshots/nfl 2>/dev/null | head -40
+            echo "\`\`\`"
+            echo ""
+            echo "Files: $(ls -1 assets/headshots/nfl 2>/dev/null | grep -c '\.png$' || echo 0)"
+          } >> "$GITHUB_STEP_SUMMARY"
