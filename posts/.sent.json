@@ -78,7 +78,8 @@
   "814-lowest-total.txt",
   "815-melbourne.txt",
   "816-cards-chargers.txt",
-  "817-qb-first-and-last.txt"
+  "817-qb-first-and-last.txt",
+  "818-dal-nyg-three.txt"
  ],
  "history": [
   {
@@ -841,6 +842,16 @@
    "url": "https://x.com/thenumberdesk/status/2098010679089266862",
    "at": "2026-09-10T11:28:20.058433+00:00",
    "chars": 270,
+   "had_link": false,
+   "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "818-dal-nyg-three.txt",
+   "id": "2098038292331565412",
+   "url": "https://x.com/thenumberdesk/status/2098038292331565412",
+   "at": "2026-09-10T13:18:03.492689+00:00",
+   "chars": 262,
    "had_link": false,
    "had_image": true,
    "est_cost": 0.015
