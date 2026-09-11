@@ -3,5 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /404.html
 Disallow: /board/
+Disallow: /post.html
+Disallow: /post
 
 Sitemap: https://insidethenumber.com/sitemap.xml
