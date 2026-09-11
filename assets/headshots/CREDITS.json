@@ -183,6 +183,18 @@
       "team": "CHI",
       "pos": "QB"
     },
+    "nfl/4038941": {
+      "id": "4038941",
+      "name": "Justin Herbert",
+      "team": "LAC",
+      "pos": "QB"
+    },
+    "nfl/3043078": {
+      "id": "3043078",
+      "name": "Derrick Henry",
+      "team": "BAL",
+      "pos": "RB"
+    },
     "college-football/5121169": {
       "id": "5121169",
       "name": "Darian Mensah",
