@@ -122,6 +122,54 @@ After that, "2× a day without you" is real. Until then, `/post` is the process.
 
 ---
 
+## Caption rules — as of Sep 11, 2026
+
+These are standing rules. Every `/rN.txt` follows them; no exceptions without
+Chuck saying so.
+
+### Hashtags: 3–4. Hard ceiling of 5.
+
+Not ten, not eleven. Pick the ones a human would actually browse:
+
+- one sport (`#nfl`, `#cfb`, `#mlb`)
+- one or two topic tags (`#sportsbetting`, `#bettingtips`)
+- one specific tag tied to what the Reel is literally about (`#keynumbers`,
+  `#vig`, `#pointspread`, a team)
+
+Drop the volume tags that were padding the old captions — `#nflpicks`,
+`#linemovement`, `#bettingeducation`, `#sportsbook`, `#juice`. They add no
+discovery and they read like spam on a small account.
+
+### Tags: one or two, and only when they're honest.
+
+Tag an account when the Reel is **about** that account — the teams playing, the
+league, a book whose price we actually name on screen. A Rams/49ers Reel gets
+`@rams @49ers`. A generic no-vig explainer gets nothing, because there is no
+account it's about, and tagging a big handle to farm its audience is what
+everyone else does and it doesn't work.
+
+**No tag is better than a forced tag.** `r5.txt` ships untagged for exactly
+this reason.
+
+### No compliance line in the caption.
+
+`21+ · 1-800-GAMBLER` is off Instagram captions as of Sep 11 — Chuck's call.
+Nobody is watching these yet and it was eating the first-line preview.
+
+**Scope of that removal:** Instagram captions and the `/post` page only. The
+disclaimer stays where it actually matters and where removing it would be a
+real decision: the site footer, the legal pages, the on-image social cards
+(`scripts/build_social_card.py` and friends), and the newsletter. Revisit when
+there's an affiliate deal or real traffic — whichever lands first.
+
+### Structure
+
+Front-load. Instagram truncates after roughly the first line, so the hook has
+to survive on its own. Then short paragraphs, one idea each. `Link in bio.`
+Then tags, then hashtags, on their own lines at the bottom.
+
+---
+
 ## Cadence
 
 Two posts a day, per the daily checklist: **9:30 AM** and **5:00 PM CT**.
