@@ -44,26 +44,54 @@ wrong device.
 
 **Mobile app only — not available on web:**
 
-- **Trending audio library.** You cannot attach an Instagram audio track from desktop.
+- **Music, full stop.** No audio library, no trending sounds, no audio picker of any kind. Verified against Instagram's Help Center Sep 11, 2026.
 - Stickers, text effects, filters, green screen, the whole editing suite
 - Collabs (co-author posts)
 
-### The audio question
+### The audio question — verified Sep 11, 2026
 
-Posting from desktop means the Reel goes up with its own audio only — which
-for our cards means silence. Two reasons that's the right trade anyway:
+**You're right. There is no way to add Instagram music from instagram.com on a
+Mac.** Checked, not assumed:
 
-1. **We already ruled out trending audio.** A recognisable commercial track on
-   an account carrying sportsbook affiliate links is a takedown and
-   brand-safety risk that a small reach bump doesn't justify. That call is in
-   `docs/DECISIONS.md`.
-2. **These are data cards, not performance video.** Numbers on screen, read
-   silently on a muted feed. Audio isn't carrying the content.
+Instagram's own Help Center article on adding music to a Reel
+([help.instagram.com/664508917489819](https://help.instagram.com/664508917489819/))
+describes the music tool exclusively as a mobile feature — "when you **record**
+a reel you'll see a tool menu on the left," "**tap** Music," and a
+troubleshooting line telling you to update via "the App Store or Google Play
+Store." There is no web equivalent documented anywhere, and every third-party
+guide agrees: the desktop uploader has no audio library at all.
 
-If we ever want music on a specific Reel, the phone path still exists and is
-documented at the bottom of `/post`. The music selector lives **only** on the
-Instagram app's editing screen — once you tap the arrow past it, you can't go
-back and add it.
+So the desktop path gets you a silent Reel. That's the whole trade, stated
+plainly.
+
+**Three ways around it, best first:**
+
+**1. Bake the audio into the MP4 before upload.** We render these reels
+ourselves, so we can mux a track in at render time with ffmpeg. Upload from the
+Mac and it has sound. What you lose is the *sound page* — the Reel isn't
+attached to an Instagram audio ID, so it doesn't show up when someone taps
+through a trending track. Given we have no audience yet, sound-page discovery
+is worth roughly nothing to us today. Free licensed tracks are at
+**facebook.com/sound/collection** (Meta's own Sound Collection — cleared for
+use on Meta platforms, which matters on an account carrying betting links).
+
+**2. Meta Business Suite.** Its desktop Reel composer *does* have a music
+selector backed by Meta's commercially licensed library, plus scheduling.
+Caveat: that library is **not** Instagram's trending-sounds library — different
+catalog, no viral audio. Reports differ on how complete it is for Reels
+specifically, and I could not verify it first-hand because it needs your login.
+Worth five minutes to look: business.facebook.com offers **"Continue with
+Instagram"**, so you may not need a Facebook Page just to get in and check.
+
+**3. Keep using the phone** for any Reel where the music genuinely carries it.
+The mobile flow is documented below and still works. Remember the music
+selector lives **only** on the app's editing screen — once you tap past it,
+you can't go back and add it.
+
+**Standing recommendation:** option 1. It makes desktop the default for
+everything, keeps the account off commercial trending tracks, and removes the
+phone from the loop entirely. Say the word and I'll wire the audio mux into the
+reel render.
 
 ---
 
