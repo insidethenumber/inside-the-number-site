@@ -129,6 +129,48 @@
       "team": "SF",
       "pos": "PK"
     },
+    "nfl/4429795": {
+      "id": "4429795",
+      "name": "Jahmyr Gibbs",
+      "team": "DET",
+      "pos": "RB"
+    },
+    "nfl/4430027": {
+      "id": "4430027",
+      "name": "Sam LaPorta",
+      "team": "DET",
+      "pos": "TE"
+    },
+    "nfl/4374302": {
+      "id": "4374302",
+      "name": "Amon-Ra St. Brown",
+      "team": "DET",
+      "pos": "WR"
+    },
+    "nfl/4685382": {
+      "id": "4685382",
+      "name": "Omarion Hampton",
+      "team": "LAC",
+      "pos": "RB"
+    },
+    "nfl/4362628": {
+      "id": "4362628",
+      "name": "Ja'Marr Chase",
+      "team": "CIN",
+      "pos": "WR"
+    },
+    "nfl/4362238": {
+      "id": "4362238",
+      "name": "Chase Brown",
+      "team": "CIN",
+      "pos": "RB"
+    },
+    "nfl/4429086": {
+      "id": "4429086",
+      "name": "Michael Mayer",
+      "team": "LV",
+      "pos": "TE"
+    },
     "college-football/5121169": {
       "id": "5121169",
       "name": "Darian Mensah",
