@@ -87,7 +87,8 @@
   "832-yankees-drift.txt",
   "833-famu-mia-blowout.txt",
   "834-dfs-lock-reminder.txt",
-  "835-rams-kickoff.txt"
+  "835-rams-kickoff.txt",
+  "836-dfs-core-plays.txt"
  ],
  "history": [
   {
@@ -942,6 +943,16 @@
    "chars": 273,
    "had_link": false,
    "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "836-dfs-core-plays.txt",
+   "id": "2098498265750585529",
+   "url": "https://x.com/thenumberdesk/status/2098498265750585529",
+   "at": "2026-09-11T19:45:49.691463+00:00",
+   "chars": 270,
+   "had_link": false,
+   "had_image": true,
    "est_cost": 0.015
   }
  ]
