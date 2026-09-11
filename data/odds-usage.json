@@ -179,6 +179,12 @@
    "mode": "morning",
    "spent": 4,
    "remaining": 420
+  },
+  {
+   "at": "2026-09-11T15:30:05.963220+00:00",
+   "mode": "morning",
+   "spent": 4,
+   "remaining": 415
   }
  ]
 }
