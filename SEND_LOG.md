@@ -377,3 +377,47 @@ thumbnail was cleared and the post published without one. Email body unaffected.
 **To fix by hand: Web step -> thumbnail dropzone -> browse to upload -> pick
 assets/newsletter/2026-09-11/header.jpg. Ten seconds. Worth solving properly before
 the next duplicate-based send.**
+
+---
+
+## CORRECTION, 1:25 PM CT — the 8 AM diagnosis above was WRONG
+
+I wrote that the tasks "did not fire" and blamed a sleeping machine. That is not
+what happened, and the real cause is worse.
+
+`list_sessions` shows **four task sessions still RUNNING right now**, five hours in:
+
+| session | task | last thing it did |
+|---|---|---|
+| local_cc27433f | itn-daily-weekday | editing index.html, building issue.json |
+| local_53eca076 | itn-x-morning-scan | mid-bash |
+| local_b34beee8 | itn-dfs-weekly-draftkings | "216 rows. Continuing the descent." |
+| local_62cf1f97 | itn-dfs-weekly-draftkings | "300 rows, scrollTop 10108/11909." |
+
+They fired on time. They never **finished**. `lastRunAt` records when a task
+*started*, so a hung session looks identical to a healthy one in the task list —
+which is why the first pass through this read them as fine.
+
+**That also explains the 'nothing after 8:09' pattern.** It was never a scheduler
+outage. Four hung sessions were holding the runner, so the 9:10 deadline check,
+the 10:07 X engagement round and the 11:01 pick ledger never got a slot. One jam,
+one cause, all the downstream silence.
+
+Two specific faults:
+
+1. **The DFS task spawned TWO sessions from one cron fire.** Both are scraping the
+   same RotoWire table. Neither should exist twice.
+2. **Both DFS sessions are stuck in the scroll-accumulate loop** documented in
+   docs/DFS-WEEKLY.md — the virtualized-table workaround. Four-plus hours to walk a
+   423-row table is not slow, it is not terminating. That loop needs a hard iteration
+   cap and a wall-clock deadline, and the task needs a time budget like the newsletter
+   task has ("if it is past X, go with what you have").
+
+**LIVE RISK while those sessions exist:** `itn-daily-weekday` is mid-build with its
+own clone and its own Beehiiv session. If it unblocks it will publish a SECOND issue
+today — the exact collision that produced the Sep 10 double send. Its STEP 0
+idempotency check ran at 8:07 AM, hours before my 1:17 PM send, so it has no idea
+mine exists. It must be killed, not waited out.
+
+Repo is clean as of 1:23 PM: no commits after 42b36e6, and Beehiiv has exactly one
+post today. Nothing has been clobbered yet.
