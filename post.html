@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>ITN — Post Kit</title>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="theme-color" content="#050608"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#050608;color:#eef1f5;font:16px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:16px 14px 60px;max-width:640px;margin:0 auto}
+h1{font-size:20px;margin:0 0 2px;letter-spacing:-.2px}
+.sub{color:#8a93a0;font-size:13px;margin:0 0 20px}
+.card{background:#0f1319;border:1px solid #222833;border-radius:16px;padding:16px;margin:0 0 18px}
+.tag{display:inline-block;font:600 10px/1 ui-monospace,monospace;letter-spacing:.12em;color:#1dd682;background:#0c2a1c;border:1px solid #17593a;border-radius:999px;padding:6px 10px;margin:0 0 10px}
+h2{font-size:17px;margin:0 0 4px}
+.meta{color:#8a93a0;font-size:12px;margin:0 0 14px}
+a.btn,button.btn{display:block;width:100%;text-align:center;text-decoration:none;font:600 16px/1 -apple-system,sans-serif;padding:15px 12px;border-radius:12px;border:none;margin:0 0 9px;cursor:pointer}
+.primary{background:#1dd682;color:#04150d}
+.ghost{background:#161b23;color:#eef1f5;border:1px solid #2a3240}
+pre{white-space:pre-wrap;word-wrap:break-word;background:#0a0d12;border:1px solid #1c2129;border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,monospace;color:#c8d0da;margin:0 0 10px;max-height:190px;overflow:auto}
+ol{margin:10px 0 0;padding-left:20px;color:#b9c2cd;font-size:14px}
+ol li{margin:0 0 7px}
+.warn{color:#ffd166;font-weight:600}
+.ok{background:#17593a!important;color:#fff!important}
+footer{color:#5d6672;font-size:11px;text-align:center;margin-top:26px;line-height:1.6}
+</style></head><body>
+
+<h1>Post Kit</h1>
+<p class="sub">Open this on your phone. Save the video, tap Copy, paste in Instagram. Nothing to message yourself.</p>
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>The Calculator</h2>
+  <p class="meta">Reel · 9.8s · evergreen — no expiry</p>
+  <a class="btn primary" href="/reel5.mp4">⬇︎ Save video</a>
+  <pre id="c5">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c5',this)">Copy caption</button>
+</div>
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>The Push</h2>
+  <p class="meta">Reel · 9.8s · evergreen — no expiry</p>
+  <a class="btn primary" href="/reel6.mp4">⬇︎ Save video</a>
+  <pre id="c6">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c6',this)">Copy caption</button>
+</div>
+
+<div class="card">
+  <h2>Posting it</h2>
+  <ol>
+    <li>Tap <b>Save video</b> → it downloads → open it → share icon → <b>Save Video</b> so it lands in Photos.</li>
+    <li>Instagram <b>+</b> → <b>Reel</b> → pick it from Photos.</li>
+    <li><span class="warn">STOP. Add music here.</span> The music note only exists on this editing screen. Once you tap the arrow it's gone for good.</li>
+    <li>Arrow → <b>Edit info</b> → paste the caption → <b>Tag people</b> → Share.</li>
+  </ol>
+</div>
+
+<footer>Inside the Number · internal tool, not indexed<br/>21+ · 1-800-GAMBLER</footer>
+
+<script>
+async function load(id,url){
+  try{const r=await fetch(url+'?t='+Date.now());document.getElementById(id).textContent=(await r.text()).trim();}
+  catch(e){document.getElementById(id).textContent='Could not load '+url;}
+}
+load('c5','/r5.txt'); load('c6','/r6.txt');
+function cp(id,btn){
+  const t=document.getElementById(id).textContent;
+  const done=()=>{const o=btn.textContent;btn.textContent='✓ Copied';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1600);};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done).catch(()=>fb(t,done));}else{fb(t,done);}
+}
+function fb(t,done){const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;document.body.appendChild(a);a.select();try{document.execCommand('copy');done();}catch(e){alert('Select and copy manually');}document.body.removeChild(a);}
+</script>
+</body></html>
