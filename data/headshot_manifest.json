@@ -127,6 +127,48 @@
       "name": "Eddy Pineiro",
       "team": "SF",
       "pos": "PK"
+    },
+    {
+      "id": "4429795",
+      "name": "Jahmyr Gibbs",
+      "team": "DET",
+      "pos": "RB"
+    },
+    {
+      "id": "4430027",
+      "name": "Sam LaPorta",
+      "team": "DET",
+      "pos": "TE"
+    },
+    {
+      "id": "4374302",
+      "name": "Amon-Ra St. Brown",
+      "team": "DET",
+      "pos": "WR"
+    },
+    {
+      "id": "4685382",
+      "name": "Omarion Hampton",
+      "team": "LAC",
+      "pos": "RB"
+    },
+    {
+      "id": "4362628",
+      "name": "Ja'Marr Chase",
+      "team": "CIN",
+      "pos": "WR"
+    },
+    {
+      "id": "4362238",
+      "name": "Chase Brown",
+      "team": "CIN",
+      "pos": "RB"
+    },
+    {
+      "id": "4429086",
+      "name": "Michael Mayer",
+      "team": "LV",
+      "pos": "TE"
     }
   ],
   "college-football": [
