@@ -897,15 +897,15 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    { league:'NFL', away:{code:'sf', name:'49ers'}, home:{code:'lar', name:'Rams'}, time:'8:35 PM ET', pick:'Los Angeles -3.5', conf:3, free:true,
-      hook:'The market got surer before either team played',
-      why:'The 49ers and Rams open the season in Melbourne, and neither team has played a snap yet. Los Angeles still opened -2.5 and is -3.5, with the moneyline sliding the same way \u2014 San Francisco from +130 to +164, Los Angeles from -155 to -198. The total has not moved off 48.5 at all, which means the market is repricing who wins, not how the game plays. De-vigged, that puts Los Angeles at roughly 64% to win outright. What beats it: a special-teams or turnover swing in a game with almost no information to lean on.' },
-    { league:'CFB', away:{code:'50', name:'Florida A&M'}, home:{code:'2390', name:'Miami'}, time:'8:00 PM ET', pick:'Over 63.5', conf:2, free:false,
-      hook:'Total up, Over pricier \u2014 clean signal',
-      why:'Miami is favored by 57.5, wide enough that the book will not even post a moneyline. The total is still a live market: 62.5 to 63.5, with the Over getting more expensive at the same time, +100 to -105. Total and price moving the same direction is the straightforward version of a signal \u2014 money is on the over.' },
-    { league:'MLB', away:{code:'col', name:'Rockies'}, home:{code:'nyy', name:'Yankees'}, time:'7:05 PM ET', pick:'Under 9', conf:3, free:false,
-      hook:'Total climbed, but the Over got cheaper',
-      why:'The total rose half a run overnight, 8.5 to 9, but the Over actually got cheaper doing it \u2014 -117 to +100. A total that rises while its own price falls is the market saying the number outran the money that pushed it there, which sets up a fade back toward the under.' }
+    { league:'CFB', away:{code:'142', name:'Missouri'}, home:{code:'2305', name:'Kansas'}, time:'8:00 PM ET', pick:'Kansas +4.5', conf:3, free:true,
+      hook:'Missouri opened -7. It\u2019s -4.5 now.',
+      why:'The Border War is back after a 14-year gap, and the number has come a long way since it opened. Missouri opened -7 and is -4.5, a two-and-a-half point move that crossed 7, 6 and 5.5 \u2014 three of the most common margins in football \u2014 and the moneyline came with it, -238 to -205. The total fell the same direction, 53.5 to 51.5. Strip the book\u2019s cut out and the market has Kansas at 35.5% to win outright, up from about 33% at the open. What beats it: Missouri covering the number the market just walked away from, which is exactly the bet the other side is making.' },
+    { league:'CFB', away:{code:'164', name:'Rutgers'}, home:{code:'103', name:'Boston College'}, time:'7:30 PM ET', pick:'Under 53.5', conf:3, free:false,
+      hook:'Two full points off the total overnight',
+      why:'The total opened 55.5 and is 53.5 \u2014 a two-point drop, the largest on tonight\u2019s college board. Both sides are priced at -110, so the market is not charging extra to take the under even after moving the number toward it. Two 0-1 teams that both lost their opener tend to play tighter, not looser.' },
+    { league:'MLB', away:{code:'phi', name:'Phillies'}, home:{code:'atl', name:'Braves'}, time:'7:15 PM ET', pick:'Under 7', conf:3, free:false,
+      hook:'Total dropped and the under got cheaper',
+      why:'The total came down half a run, 7.5 to 7, and the under got cheaper doing it \u2014 -105 to -103, while the over went the other way, -115 to -117. When a number moves down and the price on that side moves down with it, the money and the number agree. That is the cleanest version of a signal you get on a total.' }
   ];
   // Set Thu Sep 10, ~12:30 PM CT (Beehiiv session was signed out for the
   // 8:00 AM main routine window; this run rebuilt everything once the
@@ -1129,11 +1129,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Thu, Sep 10</div>
-        <div class="potd-sport">NFL</div>
-        <div class="potd-matchup" id="potd-matchup">San Francisco 49ers @ Los Angeles Rams</div>
-        <div class="potd-line">THE PICK: Los Angeles -3.5 &middot; 8:35 PM ET, Melbourne Cricket Ground</div>
-        <p class="potd-reasoning">The 49ers and Rams open the 2026 season 10,000 miles from either home stadium, and neither team has played a competitive down yet. The number still moved: Los Angeles opened -2.5 and is -3.5, with the moneyline sliding right alongside it &mdash; San Francisco from +130 to +164, Los Angeles from -155 to -198. The total hasn&rsquo;t budged, still 48.5, which means the market is repricing who wins, not how the game plays. Strip the book&rsquo;s cut out of the moneyline and the market has the Rams at roughly 64% to win outright. What beats it: San Francisco&rsquo;s defense forcing a special-teams or turnover swing in a game with this little in-season information to lean on. Odds via DraftKings, read at 6:50 AM CT &mdash; check the number before you take it.</p>
+        <div class="potd-date">Fri, Sep 11</div>
+        <div class="potd-sport">CFB</div>
+        <div class="potd-matchup" id="potd-matchup">Missouri Tigers @ Kansas Jayhawks</div>
+        <div class="potd-line">THE PICK: Kansas +4.5 &middot; 8:00 PM ET, David Booth Kansas Memorial Stadium</div>
+        <p class="potd-reasoning">Missouri and Kansas play the Border War for the first time since 2011, and the number has traveled a long way since it opened. Missouri opened -7 and is -4.5 &mdash; two and a half points, crossing 7, 6 and 5.5, three of the most common margins in football. The moneyline moved with it, -238 to -205, and the total fell the same direction, 53.5 to 51.5. A line and a total both coming down on the favorite is the market lowering its estimate of Missouri, not just shaving a number. Strip the book&rsquo;s cut out and the market now has Kansas at 35.5% to win outright, up from roughly 33% at the open. What beats it: Missouri covering the exact number the market just walked away from. Odds via DraftKings, read at 12:55 PM CT &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
