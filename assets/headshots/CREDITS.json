@@ -171,6 +171,18 @@
       "team": "LV",
       "pos": "TE"
     },
+    "nfl/4612826": {
+      "id": "4612826",
+      "name": "Ladd McConkey",
+      "team": "LAC",
+      "pos": "WR"
+    },
+    "nfl/4431611": {
+      "id": "4431611",
+      "name": "Caleb Williams",
+      "team": "CHI",
+      "pos": "QB"
+    },
     "college-football/5121169": {
       "id": "5121169",
       "name": "Darian Mensah",
