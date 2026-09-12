@@ -93,7 +93,8 @@
   "838-iowa-frozen-number.txt",
   "839-osu-tex-preview.txt",
   "840-saturday-board-theme.txt",
-  "841-ou-michigan-noon.txt"
+  "841-ou-michigan-noon.txt",
+  "842-ariz-byu-biggest-move.txt"
  ],
  "history": [
   {
@@ -1006,6 +1007,16 @@
    "url": "https://x.com/thenumberdesk/status/2098600216903451055",
    "at": "2026-09-12T02:30:56.622201+00:00",
    "chars": 268,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "842-ariz-byu-biggest-move.txt",
+   "id": "2098604449421836513",
+   "url": "https://x.com/thenumberdesk/status/2098604449421836513",
+   "at": "2026-09-12T02:47:45.739791+00:00",
+   "chars": 264,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
