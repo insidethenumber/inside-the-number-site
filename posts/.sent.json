@@ -90,7 +90,8 @@
   "835-rams-kickoff.txt",
   "836-dfs-core-plays.txt",
   "837-mizzou-closed.txt",
-  "838-iowa-frozen-number.txt"
+  "838-iowa-frozen-number.txt",
+  "839-osu-tex-preview.txt"
  ],
  "history": [
   {
@@ -973,6 +974,16 @@
    "url": "https://x.com/thenumberdesk/status/2098584574938771588",
    "at": "2026-09-12T01:28:47.291819+00:00",
    "chars": 277,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "839-osu-tex-preview.txt",
+   "id": "2098589248060272917",
+   "url": "https://x.com/thenumberdesk/status/2098589248060272917",
+   "at": "2026-09-12T01:47:21.456179+00:00",
+   "chars": 257,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
