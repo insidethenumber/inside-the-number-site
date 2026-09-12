@@ -85,3 +85,19 @@
   Content-Disposition: attachment; filename="itn-the-push.mp4"
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300
+
+/reel7.mp4
+  Content-Disposition: attachment
+  Access-Control-Allow-Origin: *
+
+/reel8.mp4
+  Content-Disposition: attachment
+  Access-Control-Allow-Origin: *
+
+/reel9.mp4
+  Content-Disposition: attachment
+  Access-Control-Allow-Origin: *
+
+/reel10.mp4
+  Content-Disposition: attachment
+  Access-Control-Allow-Origin: *
