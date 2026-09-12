@@ -100,7 +100,8 @@
   "845-osu-tex-free-pick.txt",
   "846-frozen-number-explainer.txt",
   "847-ndsu-air-force.txt",
-  "848-saturday-close.txt"
+  "848-saturday-close.txt",
+  "849-ufc-prelims-live.txt"
  ],
  "history": [
   {
@@ -1085,6 +1086,18 @@
    "chars": 185,
    "had_link": false,
    "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "849-ufc-prelims-live.txt",
+   "id": "2098881869563461745",
+   "url": "https://x.com/thenumberdesk/status/2098881869563461745",
+   "at": "2026-09-12T21:10:07.968975+00:00",
+   "chars": 276,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
    "est_cost": 0.015
   }
  ]
