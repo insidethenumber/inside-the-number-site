@@ -67,7 +67,12 @@ def queue(st):
 # Wed Sep 9 - Chuck: "let's hammer X for NFL content and a little CFB, MLB".
 # Four morning slots already burned on the Patriots-Seahawks build-up, so these
 # run the afternoon and evening into the 7:20 CT kickoff and past it.
-SLOTS_CT = [(8, 30), (11, 0), (13, 30), (15, 0), (16, 30), (18, 0), (19, 30), (21, 0), (22, 30)]
+# Sep 12 2026, Chuck: hammer X on Saturdays. Every 30 min, 11:00-22:30 CT.
+# NOTE: this is a VOLUME CAP, not a timetable — post_queue posts the next
+# unsent file whenever a slot is owed, so a queue loaded the night before
+# drains into the evening (that happened Sep 11). Load same-day, or the
+# pacing you wrote into the copy will not be the pacing X sees.
+SLOTS_CT = [(h, m) for h in range(11, 23) for m in (0, 30)] + [(10, 30)]
 
 
 # Sep 9 2026: Chuck went to the profile, saw five things in a row with no
@@ -181,19 +186,31 @@ def main():
     # Sep 2 2026: every text-only post we sent got 8-36 views; the competitor
     # posts Chuck pulled all carried an image. Images are the default now, so
     # the queue looks for one rather than needing to be told.
+    # Sep 12 2026: .mp4/.mov now ride along too, via chunked upload. Video is
+    # the format X pushes hardest and we already render 1080x1920 reels.
     image = None
-    for ext in (".png", ".jpg", ".jpeg", ".gif"):
+    for ext in (".mp4", ".mov", ".png", ".jpg", ".jpeg", ".gif"):
         cand = os.path.join(POSTS, os.path.splitext(name)[0] + ext)
         if os.path.exists(cand):
             image = cand
             break
+    is_video = bool(image) and os.path.splitext(image)[1].lower() in (".mp4", ".mov")
+
+    # A sidecar `<stem>.quote` holding a tweet URL turns this into a quote-post.
+    # Quoting borrows the reach of whatever we are quoting, which is the only
+    # free distribution available to an account this size.
+    quote_of = None
+    qf = os.path.join(POSTS, os.path.splitext(name)[0] + ".quote")
+    if os.path.exists(qf):
+        quote_of = open(qf).read().strip()
 
     n = len(text)
     has_link = "http://" in text or "https://" in text
     cost = 0.20 if has_link else 0.015
     tags, mentions = discovery_tags(text)
     print(f"--- next: {name} ({n} chars, {'link' if has_link else 'no link'}, "
-          f"{'image' if image else 'NO IMAGE'}, "
+          f"{('video' if is_video else 'image') if image else 'NO IMAGE'}"
+          f"{', QUOTE-POST' if quote_of else ''}, "
           f"{len(tags)} hashtag(s), {len(mentions)} tag(s), est ${cost:.3f}) ---")
     print(text)
     print("-" * 50)
@@ -208,9 +225,11 @@ def main():
         return
 
     body = {"text": text}
+    if quote_of:
+        body["quote_tweet_id"] = poster.reply_id(quote_of)
     if image:
-        body["media"] = {"media_ids": [poster.upload_media(image, creds())]}
-    else:
+        body["media"] = {"media_ids": [poster.upload_any(image, creds())]}
+    elif not quote_of:
         print("::warning title=X post has no image::"
               f"{name} went out as text only. Cards get more reach — see scripts/cards.py.")
     status, payload = poster.call("POST", poster.API_POST, creds(), body)
@@ -227,6 +246,8 @@ def main():
             "chars": n,
             "had_link": has_link,
             "had_image": bool(image),
+            "had_video": is_video,
+            "quote_of": quote_of,
             "est_cost": cost,
         })
         save_state(st)

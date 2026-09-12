@@ -171,6 +171,130 @@ def upload_media(path, creds):
     return mid
 
 
+API_RT   = "https://api.x.com/2/users/{uid}/retweets"
+
+# Video needs CHUNKED upload: INIT -> APPEND(n) -> FINALIZE -> poll STATUS.
+# The simple one-shot upload above is images only. Added Sep 12, 2026 so the
+# 1080x1920 reels we already render can go to X, where video outreaches a
+# static card by a wide margin.
+#
+# OAUTH GOTCHA, and it is the whole reason this is fiddly: OAuth 1.0a signs
+# URL QUERY parameters but NOT multipart body fields. So every control param
+# (command, media_id, segment_index) goes in the QUERY STRING where it gets
+# signed, and only the raw bytes ride in the multipart body. Putting command
+# in the body instead is the classic 401 here.
+
+CHUNK = 4 * 1024 * 1024          # 4MB — X's per-APPEND ceiling is 5MB
+VIDEO_MAX = 512 * 1024 * 1024
+
+
+def _media_call(creds, query, body=None, content_type=None, method="POST"):
+    url = API_MEDIA + "?" + urllib.parse.urlencode(query)
+    headers = {"Authorization": oauth_header(method, API_MEDIA, creds, query=query)}
+    if content_type:
+        headers["Content-Type"] = content_type
+    req = urllib.request.Request(url, data=body, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            raw = r.read().decode() or "{}"
+            return r.status, (json.loads(raw) if raw.strip().startswith("{") else raw)
+    except urllib.error.HTTPError as e:
+        raise SystemExit(f"MEDIA {query.get('command')} FAILED (HTTP {e.code}): {e.read().decode()[:300]}")
+
+
+def upload_video(path, creds, media_category="tweet_video"):
+    """Chunked-upload a video (or big GIF) and return its media_id_string."""
+    if not os.path.exists(path):
+        raise SystemExit(f"ERROR: no such video: {path}")
+    size = os.path.getsize(path)
+    if size > VIDEO_MAX:
+        raise SystemExit(f"ERROR: {path} is {size/1e6:.0f}MB, over X's 512MB video limit.")
+    ext = os.path.splitext(path)[1].lower()
+    mime = {".mp4": "video/mp4", ".mov": "video/quicktime", ".gif": "image/gif"}.get(ext)
+    if not mime:
+        raise SystemExit(f"ERROR: {ext} is not a video type X accepts (use .mp4/.mov).")
+    if ext == ".gif":
+        media_category = "tweet_gif"
+
+    _, init = _media_call(creds, {"command": "INIT", "total_bytes": str(size),
+                                  "media_type": mime, "media_category": media_category})
+    mid = init.get("media_id_string")
+    if not mid:
+        raise SystemExit(f"INIT gave no media_id: {str(init)[:200]}")
+    print(f"INIT {os.path.basename(path)} ({size/1e6:.1f}MB, {media_category}) -> {mid}")
+
+    with open(path, "rb") as fh:
+        seg = 0
+        while True:
+            chunk = fh.read(CHUNK)
+            if not chunk:
+                break
+            boundary = "----itn" + _secrets.token_hex(12)
+            body = b"".join([
+                f"--{boundary}\r\n".encode(),
+                b'Content-Disposition: form-data; name="media"; filename="blob"\r\n',
+                b"Content-Type: application/octet-stream\r\n\r\n",
+                chunk,
+                f"\r\n--{boundary}--\r\n".encode(),
+            ])
+            _media_call(creds,
+                        {"command": "APPEND", "media_id": mid, "segment_index": str(seg)},
+                        body=body,
+                        content_type=f"multipart/form-data; boundary={boundary}")
+            print(f"  APPEND segment {seg} ({len(chunk)/1e6:.1f}MB)")
+            seg += 1
+
+    _, fin = _media_call(creds, {"command": "FINALIZE", "media_id": mid})
+
+    # X transcodes asynchronously. Poll until it says succeeded, or give up —
+    # bounded, per the anti-hang rules in DAILY_MORNING_PROMPT.md.
+    info = fin.get("processing_info")
+    waited = 0
+    while info and info.get("state") in ("pending", "in_progress"):
+        secs = min(int(info.get("check_after_secs", 5)), 15)
+        if waited + secs > 180:
+            raise SystemExit(f"ERROR: {path} still transcoding after 180s. Not posting.")
+        time.sleep(secs); waited += secs
+        _, st = _media_call(creds, {"command": "STATUS", "media_id": mid}, method="GET")
+        info = st.get("processing_info")
+        print(f"  transcoding... {info.get('state') if info else 'done'} ({waited}s)")
+    if info and info.get("state") == "failed":
+        raise SystemExit(f"TRANSCODE FAILED: {str(info.get('error'))[:200]}")
+    print(f"video ready -> media_id {mid}")
+    return mid
+
+
+def upload_any(path, creds):
+    """Route to the right uploader by extension and size."""
+    ext = os.path.splitext(path)[1].lower()
+    if ext in (".mp4", ".mov"):
+        return upload_video(path, creds)
+    if ext == ".gif" and os.path.getsize(path) > 5 * 1024 * 1024:
+        return upload_video(path, creds, "tweet_gif")
+    return upload_media(path, creds)
+
+
+def my_user_id(creds):
+    st, me = call("GET", API_ME, creds)
+    uid = (me or {}).get("data", {}).get("id")
+    if not uid:
+        raise SystemExit(f"could not read own user id (HTTP {st}): {str(me)[:200]}")
+    return uid
+
+
+def retweet(tweet_id, creds):
+    """Plain repost, no comment. For a quote-post use --quote instead."""
+    uid = my_user_id(creds)
+    st, out = call("POST", API_RT.format(uid=uid), creds, {"tweet_id": reply_id(tweet_id)})
+    if st == 200 and (out or {}).get("data", {}).get("retweeted"):
+        print(f"reposted {reply_id(tweet_id)}")
+        return True
+    if st == 403 and "already" in str(out).lower():
+        print("already reposted — nothing to do")
+        return True
+    raise SystemExit(f"REPOST FAILED (HTTP {st}): {str(out)[:300]}")
+
+
 def explain(status, payload):
     """Turn an HTTP status into something actionable at a glance."""
     if status in (401,):
@@ -215,6 +339,12 @@ def main():
     ap.add_argument("--file", help="read the post body from a text file")
     ap.add_argument("--image", metavar="PATH",
                     help="attach an image (PNG/JPG/GIF, under 5MB)")
+    ap.add_argument("--video", metavar="PATH",
+                    help="attach an .mp4/.mov (chunked upload, transcode wait)")
+    ap.add_argument("--quote", metavar="TWEET_ID_OR_URL",
+                    help="quote-post that tweet with your text as the comment")
+    ap.add_argument("--retweet", metavar="TWEET_ID_OR_URL",
+                    help="plain repost, no comment. Ignores --text.")
     ap.add_argument("--reply-to", metavar="TWEET_ID_OR_URL",
                     help="post this as a reply to that tweet")
     ap.add_argument("--dry-run", action="store_true", help="print, don't send")
@@ -222,6 +352,10 @@ def main():
     a = ap.parse_args()
 
     creds = load_secrets()
+
+    if a.retweet:
+        retweet(a.retweet, creds)
+        return
 
     if a.verify:
         status, payload = call("GET", API_ME, creds)
@@ -267,7 +401,11 @@ def main():
 
     body = {"text": a.text}
     if a.image:
-        body["media"] = {"media_ids": [upload_media(a.image, creds)]}
+        body["media"] = {"media_ids": [upload_any(a.image, creds)]}
+    if a.video:
+        body["media"] = {"media_ids": [upload_video(a.video, creds)]}
+    if a.quote:
+        body["quote_tweet_id"] = reply_id(a.quote)
     if a.reply_to:
         body["reply"] = {"in_reply_to_tweet_id": reply_id(a.reply_to)}
 
