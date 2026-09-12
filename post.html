@@ -45,6 +45,43 @@ footer{color:#5d6672;font-size:11px;text-align:center;margin-top:26px;line-heigh
   <button class="btn ghost" onclick="cp('c6',this)">Copy caption</button>
 </div>
 
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>Ohio State at Texas</h2>
+  <p class="meta">Reel · The total rose two points and the over got cheaper. 7.6s</p>
+  <a class="btn primary" href="/reel7.mp4">⬇︎ Save video</a>
+  <pre id="c7">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c7',this)">Copy caption</button>
+</div>
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>The Floor</h2>
+  <p class="meta">Reel · 41.5 never moved. The price did. 7.6s</p>
+  <a class="btn primary" href="/reel8.mp4">⬇︎ Save video</a>
+  <pre id="c8">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c8',this)">Copy caption</button>
+</div>
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>Expensive, Not Safe</h2>
+  <p class="meta">Reel · What -825 actually costs you. 7.6s</p>
+  <a class="btn primary" href="/reel9.mp4">⬇︎ Save video</a>
+  <pre id="c9">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c9',this)">Copy caption</button>
+</div>
+
+<div class="card">
+  <span class="tag">READY NOW</span>
+  <h2>The Leverage</h2>
+  <p class="meta">Reel · McConkey at 3.7% owned. 7.6s</p>
+  <a class="btn primary" href="/reel10.mp4">⬇︎ Save video</a>
+  <pre id="c10">LOADING</pre>
+  <button class="btn ghost" onclick="cp('c10',this)">Copy caption</button>
+</div>
+
 <div class="card">
   <h2>Posting it — on the Mac</h2>
   <p class="meta">No phone, no Photos, no AirDrop. Instagram's web uploader takes Reels directly.</p>
@@ -75,6 +112,10 @@ async function load(id,url){
   catch(e){document.getElementById(id).textContent='Could not load '+url;}
 }
 load('c5','/r5.txt'); load('c6','/r6.txt');
+load('c7','/r7.txt');
+load('c8','/r8.txt');
+load('c9','/r9.txt');
+load('c10','/r10.txt');
 function cp(id,btn){
   const t=document.getElementById(id).textContent;
   const done=()=>{const o=btn.textContent;btn.textContent='✓ Copied';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1600);};
