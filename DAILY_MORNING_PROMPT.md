@@ -1,5 +1,42 @@
 **READ NORTH_STAR.md FIRST.** The goal is traffic → subscribers → passive income. Every task must put a new human in front of the site or newsletter; building for its own sake waits.
 
+**ANTI-HANG RULES — added Sep 11, 2026. These bind every scheduled task, and they
+outrank anything below that conflicts with them.**
+
+On Fri Sep 11 four task sessions fired exactly on time and never finished: the
+weekday newsletter, the X morning scan, and the DFS task (which somehow spawned
+two sessions from one cron fire). They ran for five hours. Nothing shipped — no
+newsletter, no DFS card, no commits — and because they held the runner, every
+task scheduled after 8:09 AM was starved and never ran at all. One jam, a whole
+day of silence.
+
+A time budget does not save you from this, because you never reach the clock to
+check it. So:
+
+1. **Run `date` at the start of EVERY numbered step.** Not once at the top of the
+   run — every step. A stalled run has no other way to notice it is late.
+2. **No unbounded loops, ever.** Any scroll-to-accumulate, poll-until-ready, or
+   retry loop needs BOTH a hard iteration cap (12 is plenty) and a wall-clock
+   deadline. When either trips, stop and use what you have. The DFS task hung for
+   five hours inside exactly this kind of loop, walking a 423-row table.
+3. **Two strikes on any single check.** If a page, fetch or script fails twice,
+   stop, write down what is missing, and move on. There is never a third attempt.
+4. **A wedged browser tab is fixed by closing it, not by waiting.** If script
+   injection times out or a page stops responding, close the tab and open a fresh
+   one. That has worked every time it has been tried; waiting never has.
+5. **Keep any single bash call small.** Clone → edit → verify → commit → push
+   belongs in one call, because the filesystem does not survive between calls.
+   Nothing else does. Never fold board research or asset generation into it.
+6. **Shipping beats polish.** Past the deadline in your own prompt, stop building
+   and publish what exists. A plain issue that sends beats a perfect one that
+   does not.
+7. **If a DRAFT_<today>.md exists in the repo, read it first.** It is pre-staged
+   research, written to let you skip the board survey — the single largest hang
+   surface in the routine. Verify the few numbers it names; do not re-survey the
+   whole board. Delete it in the same push that ships the issue.
+
+---
+
 # Inside the Number — daily morning routine
 
 > **ACCOUNTS: every Google surface uses `insidethenumber.itn@gmail.com`. Never
