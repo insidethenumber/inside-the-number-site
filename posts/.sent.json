@@ -103,7 +103,8 @@
   "848-saturday-close.txt",
   "849-ufc-prelims-live.txt",
   "850-ufc-moreno-coinflip.txt",
-  "851-early-parlay.txt"
+  "851-early-parlay.txt",
+  "852-ucf-pitt-fivepoint.txt"
  ],
  "history": [
   {
@@ -1120,6 +1121,18 @@
    "url": "https://x.com/thenumberdesk/status/2098890909806907645",
    "at": "2026-09-12T21:46:03.236658+00:00",
    "chars": 273,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "852-ucf-pitt-fivepoint.txt",
+   "id": "2098896920936698034",
+   "url": "https://x.com/thenumberdesk/status/2098896920936698034",
+   "at": "2026-09-12T22:09:56.379539+00:00",
+   "chars": 252,
    "had_link": false,
    "had_image": false,
    "had_video": false,
