@@ -1,0 +1,64 @@
+# Independent newsletter watchdog.
+#
+# WHY THIS EXISTS. On Fri Sep 11, 2026 four scheduled-task sessions fired on
+# time and hung. Nothing shipped. The 6:45 AM health report and the 9:10 AM
+# newsletter safety net both failed to notice — because they run on the same
+# scheduler that was jammed. A watchdog that shares fate with the thing it
+# watches is not a watchdog.
+#
+# This one runs on GitHub's infrastructure. It does not care whether the
+# desktop app is running, asleep, or wedged. It answers one question: did a
+# newsletter actually get logged today? If not, the job FAILS, and GitHub
+# emails Chuck. That email is the alarm.
+#
+# It checks SEND_LOG.md rather than the beehiiv API because that needs no
+# secret and no network beyond the checkout — fewer things that can break the
+# alarm itself. STEP 9 of both newsletter tasks appends a dated row; a task
+# that hangs never reaches STEP 9, so a missing row IS the signal.
+#
+# NOTE ON DST: crons below are UTC and assume CDT (UTC-5). After Nov 1, 2026
+# the US falls back to CST (UTC-6) and these fire an hour earlier in local
+# terms — still well after both send deadlines, so it stays correct. Revisit
+# only if the send times themselves change.
+
+name: send-watchdog
+
+on:
+  schedule:
+    - cron: "30 13 * * 0,6"   # 8:30 AM CDT Sat/Sun — 45 min after the 7:45 send
+    - cron: "45 15 * * 1-5"   # 10:45 AM CDT Mon-Fri — 45 min after the 10:00 send
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Did today's newsletter get logged?
+        run: |
+          python3 - <<'PY'
+          import datetime, sys, zoneinfo, pathlib
+
+          ct    = zoneinfo.ZoneInfo("America/Chicago")
+          today = datetime.datetime.now(ct)
+          # SEND_LOG headings look like: "## Fri Sep 11, 2026 — ..."
+          # Match on the date portion only, so wording changes do not break it.
+          stamp = f"{today.strftime('%b')} {today.day}, {today.year}"
+
+          log = pathlib.Path("SEND_LOG.md")
+          if not log.exists():
+              print("::error::SEND_LOG.md is missing from the repo entirely.")
+              sys.exit(1)
+
+          text = log.read_text(encoding="utf-8", errors="replace")
+          if stamp in text:
+              print(f"OK — SEND_LOG.md has an entry for {stamp}.")
+              sys.exit(0)
+
+          print(f"::error::No SEND_LOG.md entry for {stamp}. "
+                f"The newsletter task either never ran or never finished. "
+                f"Check for hung sessions in the Claude app sidebar, then "
+                f"send manually. Runbook: SEND_LOG.md, Sep 11 2026 entry.")
+          sys.exit(1)
+          PY
