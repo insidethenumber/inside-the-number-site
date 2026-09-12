@@ -71,3 +71,13 @@
 !itn-git-credential.sh
 !thanks.html
 !confirm.html
+
+# Reels 7-10 (Sep 12) — allowlist so they deploy without -f
+!reel7.mp4
+!reel8.mp4
+!reel9.mp4
+!reel10.mp4
+!r7.txt
+!r8.txt
+!r9.txt
+!r10.txt
