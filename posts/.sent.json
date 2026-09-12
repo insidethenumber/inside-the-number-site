@@ -88,7 +88,8 @@
   "833-famu-mia-blowout.txt",
   "834-dfs-lock-reminder.txt",
   "835-rams-kickoff.txt",
-  "836-dfs-core-plays.txt"
+  "836-dfs-core-plays.txt",
+  "837-mizzou-closed.txt"
  ],
  "history": [
   {
@@ -953,6 +954,16 @@
    "chars": 270,
    "had_link": false,
    "had_image": true,
+   "est_cost": 0.015
+  },
+  {
+   "file": "837-mizzou-closed.txt",
+   "id": "2098579674389742005",
+   "url": "https://x.com/thenumberdesk/status/2098579674389742005",
+   "at": "2026-09-12T01:09:18.922488+00:00",
+   "chars": 279,
+   "had_link": false,
+   "had_image": false,
    "est_cost": 0.015
   }
  ]
