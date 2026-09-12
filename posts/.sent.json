@@ -108,7 +108,8 @@
   "853-alabama-kentucky.txt",
   "854-grasso-fiorot.txt",
   "855-osu-tex-total.txt",
-  "856-iowa-floor.txt"
+  "856-iowa-floor.txt",
+  "857-late-parlay.txt"
  ],
  "history": [
   {
@@ -1185,6 +1186,18 @@
    "url": "https://x.com/thenumberdesk/status/2098916592637575335",
    "at": "2026-09-12T23:28:06.487199+00:00",
    "chars": 276,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "857-late-parlay.txt",
+   "id": "2098920949751967785",
+   "url": "https://x.com/thenumberdesk/status/2098920949751967785",
+   "at": "2026-09-12T23:45:25.310513+00:00",
+   "chars": 262,
    "had_link": false,
    "had_image": false,
    "had_video": false,
