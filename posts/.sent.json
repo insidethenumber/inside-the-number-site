@@ -97,7 +97,8 @@
   "842-ariz-byu-biggest-move.txt",
   "843-ucf-pitt-five-points.txt",
   "844-isu-iowa-floor.txt",
-  "845-osu-tex-free-pick.txt"
+  "845-osu-tex-free-pick.txt",
+  "846-frozen-number-explainer.txt"
  ],
  "history": [
   {
@@ -1050,6 +1051,16 @@
    "url": "https://x.com/thenumberdesk/status/2098791300128493849",
    "at": "2026-09-12T15:10:14.421152+00:00",
    "chars": 272,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "846-frozen-number-explainer.txt",
+   "id": "2098806557249094037",
+   "url": "https://x.com/thenumberdesk/status/2098806557249094037",
+   "at": "2026-09-12T16:10:51.986278+00:00",
+   "chars": 273,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
