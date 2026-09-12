@@ -421,3 +421,72 @@ mine exists. It must be killed, not waited out.
 
 Repo is clean as of 1:23 PM: no commits after 42b36e6, and Beehiiv has exactly one
 post today. Nothing has been clobbered yet.
+
+---
+
+## Sat Sep 12, 2026 — weekend run (itn-daily-weekend)
+
+Target: 7:45 AM CT. Started 6:15 AM CT off the DRAFT_2026-09-12.md pre-staged
+by Friday evening's session. Re-pulled the three named games plus the biggest
+move and the number-to-know from ESPN's live odds (one CFB call, one MLB call,
+one UFC call, one golf check) instead of a full board survey.
+
+**Numbers that had moved since the draft was written (used the fresh ones):**
+- Arizona at BYU: draft claimed the price never moved (-108/-112 both ends).
+  Live pull showed it had — over -108 to -115, under -112 to -105. Flipped
+  the pick from Under 48.5 to **Over 48.5** since the true price (51.1%
+  over / 48.9% under) no longer supported the under.
+- Pirates at Cubs: draft claimed the over moved -105 to -111. Live pull
+  showed the total totally flat (9/9, over -105/-105, under -115/-115, no
+  movement at all). Flipped the pick from Over 9 to **Under 9** on the true
+  price split (51.1% under / 48.9% over) instead of a movement narrative
+  that wasn't there.
+- UCF at Pittsburgh (biggest move): draft said 51.5 -> 56.5 (+5). Live pull
+  said 51.5 -> 55.5 (+4). Used the corrected number throughout (index.html,
+  cfb.html, the newsletter).
+- Iowa State at Iowa (number to know) and the Ohio State-Texas free pick
+  matched the draft exactly — no changes needed there.
+
+**Audit: CFB 2 (Ohio State-Texas, Arizona-BYU) · MLB 1 (Pirates-Cubs) ·
+totals 3 · moneylines 0 · lead = football (Ohio State-Texas, No. 1 vs No. 4,
+CFB Saturday) ✓.** No UFC or PGA pick — UFC's Noche card and PGA both listed
+on the board with no bet attached; PGA has no event this week (next start
+9/17), UFC card started too late in the day to add real value over the
+existing football-first lead and the quota was already met.
+
+**Image gate (the recurring failure point) — passed clean this time, after
+one hiccup.** newsletter_assets.py produced all 4 images (header/pick/move/
+number) and issue.html on the first run; pushed and confirmed all 4 return
+200 from insidethenumber.com before touching Beehiiv. In the editor, the
+first ClipboardEvent paste onto a duplicated (non-empty) post produced
+duplicate content — the whole new issue pasted, but the OLD Friday issue's
+header image and body survived underneath it, and the very first image
+block doubled. `document.execCommand('selectAll')` plus a native `Cmd+A` both
+failed to select image-block atom nodes cleanly enough to remove them via
+Backspace. What worked: a DOM Range via `range.selectNodeContents(pm)` +
+`document.execCommand('delete')`, repeated 3x in a loop until the editor was
+provably empty (innerText length 0, 0 children), THEN pasting once. That
+produced exactly 4 images, all uploaded to beehiiv's own CDN
+(beehiiv-images-production.s3.amazonaws.com), zero leftover text from the
+old issue, and each of the five section headers appearing exactly once.
+Recorded here so the next run tries the Range-loop first instead of
+Cmd+A/execCommand('selectAll') on its own.
+
+**Thumbnail:** left blank. Tried uploading assets/newsletter/2026-09-12/
+header.jpg straight to the Web step's `input[name=thumbnail]` via a
+fetch-to-File-to-dispatch(change), same technique that works for the body
+images — it did not take (dropzone stayed empty after a few seconds' wait).
+Did not chase it further; an empty thumbnail is a smaller problem than the
+Sep 10 issue where a stale one shipped with the wrong date in it.
+
+**Title:** "The Total at Ohio State-Texas Rose 2 Points. The Price Says Fade
+It." Subtitle set by real typing (not the value-setter), confirmed the
+Subject line and Preview text on the Email step synced automatically.
+Byline: ITN Desk only, no personal account attached.
+
+**Scheduled:** confirmed via the modal's echo ("Sep 12, 2026 7:45 AM CDT")
+and again after a full page reload on /posts ("Scheduled for Sat, Sep 12,
+2026 7:45 AM CDT"). Test email sent to insidethenumber.itn@gmail.com before
+scheduling; did not wait for it to land.
+
+Total run time: 6:15 AM start to 6:37 AM scheduled, well inside budget.
