@@ -98,7 +98,8 @@
   "843-ucf-pitt-five-points.txt",
   "844-isu-iowa-floor.txt",
   "845-osu-tex-free-pick.txt",
-  "846-frozen-number-explainer.txt"
+  "846-frozen-number-explainer.txt",
+  "847-ndsu-air-force.txt"
  ],
  "history": [
   {
@@ -1061,6 +1062,16 @@
    "url": "https://x.com/thenumberdesk/status/2098806557249094037",
    "at": "2026-09-12T16:10:51.986278+00:00",
    "chars": 273,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "847-ndsu-air-force.txt",
+   "id": "2098841887646027780",
+   "url": "https://x.com/thenumberdesk/status/2098841887646027780",
+   "at": "2026-09-12T18:31:15.419048+00:00",
+   "chars": 254,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
