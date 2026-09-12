@@ -490,3 +490,9 @@ and again after a full page reload on /posts ("Scheduled for Sat, Sep 12,
 scheduling; did not wait for it to land.
 
 Total run time: 6:15 AM start to 6:37 AM scheduled, well inside budget.
+
+**Post-flight verification, Sep 12, 2026 ~8:14 AM CT:** Confirmed via
+/posts listing — top post "The Total at Ohio State-Texas Rose 2 Points.
+The Price Says Fade It." shows status Published, "Published on Sat, Sep
+12, 2026 7:45 AM CDT." On time, matches the scheduled time confirmed by
+the morning run. No action needed.
