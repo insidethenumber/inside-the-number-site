@@ -89,7 +89,8 @@
   "834-dfs-lock-reminder.txt",
   "835-rams-kickoff.txt",
   "836-dfs-core-plays.txt",
-  "837-mizzou-closed.txt"
+  "837-mizzou-closed.txt",
+  "838-iowa-frozen-number.txt"
  ],
  "history": [
   {
@@ -962,6 +963,16 @@
    "url": "https://x.com/thenumberdesk/status/2098579674389742005",
    "at": "2026-09-12T01:09:18.922488+00:00",
    "chars": 279,
+   "had_link": false,
+   "had_image": false,
+   "est_cost": 0.015
+  },
+  {
+   "file": "838-iowa-frozen-number.txt",
+   "id": "2098584574938771588",
+   "url": "https://x.com/thenumberdesk/status/2098584574938771588",
+   "at": "2026-09-12T01:28:47.291819+00:00",
+   "chars": 277,
    "had_link": false,
    "had_image": false,
    "est_cost": 0.015
