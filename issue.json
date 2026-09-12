@@ -1,0 +1,66 @@
+{
+  "date_line": "Saturday, September 12",
+  "subtitle": "Saturday's board moved on totals, not sides — and in two of three spots, the true price still disagrees with where the number landed.",
+  "title": "The Total at Ohio State-Texas Rose 2 Points. The Price Says Fade It.",
+  "free": {
+    "pick": "Under 49.5 — Ohio State at Texas",
+    "price": "-110",
+    "start": "6:30 PM CT / 7:30 PM ET, ABC",
+    "body": [
+      "No. 1 Ohio State at No. 4 Texas is the game of the day, and Texas is -1.5 — the market openly cannot separate them.",
+      "The number worth arguing with is the total. It opened 47.5 and is 49.5, two points higher — but the over got cheaper making that climb, -115 to -110.",
+      "When a number rises while the price on that same side falls, the number has outrun the money that pushed it there.",
+      "That's a fade, not a follow."
+    ],
+    "beats": "What beats it: two offenses this good turning a coin-flip game into a track meet, which is exactly what those two points of movement were betting on."
+  },
+  "also": [
+    {
+      "pick": "Over 48.5 — Arizona at BYU",
+      "price": "-115",
+      "start": "2:30 PM CT / 3:30 PM ET",
+      "body": "The total opened 51.5 and fell to 48.5, but the price moved with it — the over got seven cents more expensive (-108 to -115) while the under got seven cents cheaper (-112 to -105). Work out the true price on each side and the over still comes out ahead, 51.1% to 48.9%."
+    },
+    {
+      "pick": "Under 9 — Pirates at Cubs",
+      "price": "-115",
+      "start": "1:20 PM CT / 2:20 PM ET",
+      "body": "The total hasn't moved all week — 9 at the open, 9 now — and neither has the price, -105 over and -115 under since the market opened. Work out the true price anyway and the split isn't even: 51.1% under to 48.9% over."
+    }
+  ],
+  "price_legs": [
+    {"league": "cfb", "abbr": "TEX", "pick": "Under 49.5", "price": "-110", "be": "52.4%", "fair": "50.0%", "note": "Total rose 2 as the over got cheaper"},
+    {"league": "cfb", "abbr": "BYU", "pick": "Over 48.5", "price": "-115", "be": "53.5%", "fair": "51.1%", "note": "Total fell 3; true price still favors the over"},
+    {"league": "mlb", "abbr": "CHC", "pick": "Under 9", "price": "-115", "be": "53.5%", "fair": "51.1%", "note": "Flat line and flat price all week"}
+  ],
+  "price_headline": "Three prices, and what the market's true number says about each.",
+  "price_tail": "Saturday's board moved on totals, not sides — the price didn't always come along for the ride.",
+  "move": {
+    "away": "UCF",
+    "home": "PITT",
+    "open": "51.5",
+    "now": "55.5",
+    "headline": "UCF AT PITTSBURGH",
+    "sub": "Four points added to the total overnight, with the price barely moving.",
+    "body": "UCF at Pittsburgh opened at 51.5 and is now 55.5 — the largest total move anywhere on Saturday's board — while the over price crept just two cents, -108 to -110. A four-point move on a nearly frozen price usually means the number is catching up to something the market already knew, not chasing new money in real time. If the cause is public by kickoff — a change at quarterback, a wind report — it'll be visible before the 3:30 PM ET snap; if not, the honest read is that the number moved and the reason never surfaced."
+  },
+  "number": {
+    "value": "41.5",
+    "body": "Iowa State at Iowa carries the lowest total on Saturday's board, and it hasn't moved an inch all week — 41.5 at the open, 41.5 now. The under price has, though: -110 to -118. When a total is already at the floor, the market stops moving the number and starts moving the price instead."
+  },
+  "market": "Eight cents of under money on a total that never moved is the same signal as a two-point line move somewhere else — it's just showing up in the only place left for it to show up. When a number is capped, at the floor, at a round total, or anywhere the book won't cross, the price becomes the only place left to watch. Reading it is the same skill either way: which side just got more expensive to bet, and by how much.",
+  "board": [
+    {"game": "Ohio State at Texas", "line": "TEX -1.5, o/u 49.5"},
+    {"game": "Arizona at BYU", "line": "BYU -7.5, o/u 48.5"},
+    {"game": "UCF at Pittsburgh", "line": "PITT -7, o/u 55.5"},
+    {"game": "Iowa State at Iowa", "line": "IOWA -14, o/u 41.5"},
+    {"game": "Oklahoma at Michigan", "line": "OU -5.5, o/u 43.5"},
+    {"game": "Alabama at Kentucky", "line": "ALA -10, o/u 48.5"},
+    {"game": "Pirates at Cubs", "line": "CHC -126, o/u 9"},
+    {"game": "Rockies at Tigers", "line": "DET -175, o/u 8.5"},
+    {"game": "Mets at Yankees", "line": "NYY -186, o/u 8"},
+    {"game": "Guardians at Twins", "line": "MIN -112, o/u 9"},
+    {"game": "Noche UFC: Silva vs. Delgado", "line": "Main card, 5:00 PM ET — no lines on the card today"}
+  ],
+  "membership": "Every pick, every day, free at insidethenumber.com."
+}
