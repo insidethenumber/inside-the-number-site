@@ -897,15 +897,15 @@
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
   const todaysGames = [
-    { league:'CFB', away:{code:'194', name:'Ohio State'}, home:{code:'251', name:'Texas'}, time:'7:30 PM ET', pick:'Under 49.5', conf:3, free:true,
-      hook:'Total rose. The over got cheaper.',
-      why:'No. 1 at No. 4, and Texas is -1.5 \u2014 the market cannot separate them. The total is the live argument: it opened 47.5 and is 49.5, but the over got cheaper climbing, -115 to -110. A number that rises while the price on its own side falls has outrun the money that pushed it. What beats it: two offenses this good turning a coin-flip game into a shootout, which is exactly what the two points of total movement were betting on.' },
-    { league:'CFB', away:{code:'12', name:'Arizona'}, home:{code:'252', name:'BYU'}, time:'3:30 PM ET', pick:'Over 48.5', conf:3, free:false,
-      hook:'Three points off, math still leans over',
-      why:'The total opened 51.5 and is 48.5 \u2014 a three-point drop. The price moved with it: the over got seven cents more expensive, -108 to -115, while the under got seven cents cheaper, -112 to -105. Run both through the no-vig math and the over still comes out ahead, 51.1% to 48.9% \u2014 the number fell three points, but the market\u2019s own math says it fell further than the true price justifies.' },
-    { league:'MLB', away:{code:'pit', name:'Pirates'}, home:{code:'chc', name:'Cubs'}, time:'2:20 PM ET', pick:'Under 9', conf:2, free:false,
-      hook:'Flat line, uneven math underneath',
-      why:'The total has not moved all week \u2014 9 at the open, 9 now \u2014 and neither has the price: -105 over, -115 under, same as when the market opened. Run it through the no-vig math anyway and the split is not even, 51.1% under to 48.9% over. The number is frozen; the math underneath it is not neutral.' }
+    { league:'NFL', away:{code:'wsh', name:'Commanders'}, home:{code:'phi', name:'Eagles'}, time:'4:25 PM ET', pick:'Under 44.5', conf:3, free:true,
+      hook:'Number down two, under got pricier',
+      why:'The total opened 46.5 and is 44.5 \u2014 two points down \u2014 and the under is now the expensive side at -115. A number moving toward the under while the price on that same side ALSO rises is the cleanest signal a total gives you: the money and the number agree. Most total moves have one going each way. What beats it: Philadelphia at home is capable of covering 44.5 by itself, and a division game can turn into a track meet regardless of what the market thought on Saturday.' },
+    { league:'NFL', away:{code:'chi', name:'Bears'}, home:{code:'car', name:'Panthers'}, time:'1:00 PM ET', pick:'Over 47.5', conf:3, free:false,
+      hook:'Three points up, price never moved',
+      why:'Opened 44.5, now 47.5 \u2014 the largest total move anywhere on the Week 2 board. The price sat at -110 both ways the entire trip. The book walked the number three full points and never had to charge anyone for it, which is a market that is confident rather than one balancing tickets.' },
+    { league:'NFL', away:{code:'bal', name:'Ravens'}, home:{code:'ind', name:'Colts'}, time:'1:00 PM ET', pick:'Under 48.5', conf:2, free:false,
+      hook:'Under went from -110 to -118',
+      why:'The total came down a point, 49.5 to 48.5, and the under got materially more expensive on the way \u2014 -110 to -118, with the over now a cheap -102. Eight cents of price movement on a one-point number move means the money arrived faster than the board adjusted.' }
   ];
   // Set Thu Sep 10, ~12:30 PM CT (Beehiiv session was signed out for the
   // 8:00 AM main routine window; this run rebuilt everything once the
@@ -1129,11 +1129,11 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Sat, Sep 12</div>
-        <div class="potd-sport">CFB</div>
-        <div class="potd-matchup" id="potd-matchup">Ohio State Buckeyes @ Texas Longhorns</div>
-        <div class="potd-line">THE PICK: Under 49.5 &middot; 7:30 PM ET, Darrell K Royal&ndash;Texas Memorial Stadium</div>
-        <p class="potd-reasoning">No. 1 Ohio State at No. 4 Texas is the game of the day, and Texas is &minus;1.5 &mdash; the market openly cannot separate them. The number worth arguing with is the total. It opened 47.5 and is 49.5, two points higher &mdash; but the over got <i>cheaper</i> making that climb, &minus;115 to &minus;110. When a number rises while the price on that same side falls, the number has outrun the money that pushed it there; the book raised it further than the betting justified and then had to discount it to keep both sides honest. That is a fade, not a follow. What beats it: two offenses this good turning a coin-flip game into a track meet, which is precisely what those two points of movement were betting on. Odds via DraftKings, read at 7:10 PM CT Friday &mdash; check the number before you take it.</p>
+        <div class="potd-date">Sun, Sep 13</div>
+        <div class="potd-sport">NFL</div>
+        <div class="potd-matchup" id="potd-matchup">Washington Commanders @ Philadelphia Eagles</div>
+        <div class="potd-line">THE PICK: Under 44.5 &middot; 4:25 PM ET, Lincoln Financial Field</div>
+        <p class="potd-reasoning">Washington at Philadelphia is the cleanest number on the Week 2 board. The total opened 46.5 and sits at 44.5 &mdash; two points down &mdash; and the under is now the <i>expensive</i> side at &minus;115, up from &minus;110. That combination is rarer than it sounds. Most totals move one way while the price on that side moves the other, which tells you the number ran past the money that pushed it. Here they agree: the board walked the number toward the under and then charged more for it anyway, which is what a market does when it is confident rather than when it is balancing tickets. What beats it: Philadelphia at home can clear 44.5 without much help, and a division game that turns into a shootout makes this look silly regardless of what the number did on Saturday. Odds via DraftKings, read at 10:05 AM CT &mdash; check the number before you take it.</p>
       </div>
       <div class="potd-cta">
         <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
