@@ -10,3 +10,15 @@
 
 /record    /games.html   301
 /record.html    /games.html   301
+
+# Sep 13 2026: Search Console shows us ranking for "kelly criterion calculator"
+# (32 impressions/mo) pointing at /kelly-criterion-calculator — which 404s,
+# because the page lives at /kelly-calculator. Every visitor that query ever
+# sent us hit a dead page. Same for the other long-form names people type.
+# RELATIVE PATHS ONLY — an absolute URL here breaks every deploy (Aug 20).
+/kelly-criterion-calculator    /kelly-calculator.html    301
+/no-vig-fair-odds-calculator   /no-vig-calculator.html   301
+/no-vig-odds-calculator        /no-vig-calculator.html   301
+/ev-calculator                 /expected-value-calculator.html   301
+/implied-probability-calculator /break-even-calculator.html   301
+/juice-calculator              /vig-calculator.html      301
