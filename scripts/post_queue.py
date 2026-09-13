@@ -72,7 +72,10 @@ def queue(st):
 # unsent file whenever a slot is owed, so a queue loaded the night before
 # drains into the evening (that happened Sep 11). Load same-day, or the
 # pacing you wrote into the copy will not be the pacing X sees.
-SLOTS_CT = [(h, m) for h in range(11, 23) for m in (0, 30)] + [(10, 30)]
+# Sep 13: first slot was 10:30, so nothing posted between 8:47pm Sat and
+# 10:30am Sun while the NFL board was already live. Start at 7:00 on game
+# days. Slots are a VOLUME CAP, not a timetable.
+SLOTS_CT = [(h, m) for h in range(7, 23) for m in (0, 30)]
 
 
 # Sep 9 2026: Chuck went to the profile, saw five things in a row with no
