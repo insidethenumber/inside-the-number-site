@@ -113,7 +113,8 @@
   "858-dfs-sunday-tease.txt",
   "859-key-numbers-reel.txt",
   "860-osu-tex-total.txt",
-  "861-iowa-floor.txt"
+  "861-iowa-floor.txt",
+  "862-ufc-favorite.txt"
  ],
  "history": [
   {
@@ -1250,6 +1251,18 @@
    "url": "https://x.com/thenumberdesk/status/2098942119759012132",
    "at": "2026-09-13T01:09:32.610469+00:00",
    "chars": 194,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "862-ufc-favorite.txt",
+   "id": "2098947265872207929",
+   "url": "https://x.com/thenumberdesk/status/2098947265872207929",
+   "at": "2026-09-13T01:29:59.539564+00:00",
+   "chars": 197,
    "had_link": false,
    "had_image": false,
    "had_video": false,
