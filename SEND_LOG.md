@@ -496,3 +496,13 @@ Total run time: 6:15 AM start to 6:37 AM scheduled, well inside budget.
 The Price Says Fade It." shows status Published, "Published on Sat, Sep
 12, 2026 7:45 AM CDT." On time, matches the scheduled time confirmed by
 the morning run. No action needed.
+
+## Sun Sep 13, 2026 — post-flight verification (itn-deadline-check-weekend)
+
+Main routine (`itn-daily-weekend`) appears to have completed unattended: no
+prose section for today was found in this log when the post-flight check ran
+(~9:16 AM CT), so this entry is written by the safety net alone. Confirmed via
+`app.beehiiv.com/posts` — top post "Baltimore-Indy's Total Fell 2 Points, and
+Got Cheaper Doing It" shows status Published, "Published on Sun, Sep 13, 2026
+7:45 AM CDT" — exactly on the 7:45 AM target, 0 min late. No recovery action
+needed; nothing re-sent.
