@@ -1,0 +1,69 @@
+# Independent SITE freshness watchdog.
+#
+# WHY THIS EXISTS. On Sunday Sep 13, 2026 the newsletter sent on time at 7:45
+# with the correct NFL picks while insidethenumber.com still showed Saturday's
+# college football card. It stayed wrong until 10:15, when Chuck found it. The
+# 6:45 health check had already run and passed — because it ran BEFORE the
+# newsletter task finished, so a stale site looked normal to it.
+#
+# Every in-app check shares fate with the thing it watches: scheduled tasks
+# only run while the desktop app is open, and a hung task looks identical to a
+# healthy one. This runs on GitHub. It does not care whether the app is open,
+# asleep, or wedged.
+#
+# It asks one question: does the live homepage show TODAY's date? If not, the
+# job fails and GitHub emails Chuck. That email is the alarm.
+#
+# DST: crons are UTC and assume CDT (UTC-5). After Nov 1 these fire an hour
+# earlier locally — still after both send windows, so it stays correct.
+
+name: site-watchdog
+
+on:
+  schedule:
+    - cron: "30 13 * * 0,6"   #  8:30 AM CDT Sat/Sun — 45 min after the 7:45 send
+    - cron: "45 15 * * 1-5"   # 10:45 AM CDT Mon-Fri — 45 min after the 10:00 send
+    - cron: "0 19 * * *"      #  2:00 PM CDT daily — afternoon sweep, catches a mid-day regression
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is the live homepage showing today?
+        run: |
+          python3 - <<'PY'
+          import datetime, re, sys, urllib.request, zoneinfo
+
+          ct    = zoneinfo.ZoneInfo("America/Chicago")
+          today = datetime.datetime.now(ct)
+
+          # The card renders server-side as e.g. <div class="potd-date">Sun, Sep 13</div>
+          expected = f"{today.strftime('%a')}, {today.strftime('%b')} {today.day}"
+
+          url = f"https://insidethenumber.com/?cb={int(today.timestamp())}"
+          req = urllib.request.Request(url, headers={"User-Agent": "itn-site-watchdog"})
+          try:
+              html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+          except Exception as e:
+              # A fetch failure is not proof the site is stale. Do not cry wolf —
+              # a false alarm trains everyone to ignore the real one.
+              print(f"::warning::Could not reach the site ({e}). Not failing on this.")
+              sys.exit(0)
+
+          m = re.search(r'class="potd-date"[^>]*>([^<]+)<', html)
+          if not m:
+              print("::error::potd-date is missing from the homepage entirely. "
+                    "The Pick of the Day card may be broken.")
+              sys.exit(1)
+
+          shown = m.group(1).strip()
+          if shown == expected:
+              print(f"OK — homepage shows {shown}.")
+              sys.exit(0)
+
+          print(f"::error::STALE SITE. Homepage shows '{shown}', expected '{expected}'. "
+                f"The daily task did not update index.html. Fix the card and push. "
+                f"Runbook: the Step 4 site gate in itn-daily-weekday / itn-daily-weekend.")
+          sys.exit(1)
+          PY
