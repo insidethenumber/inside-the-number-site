@@ -1,451 +1,11 @@
 {
- "generated_utc": "2026-09-13T16:54:53.162024+00:00",
+ "generated_utc": "2026-09-13T19:31:13.530448+00:00",
  "slate_date": "2026-09-13",
  "slate_label": "Sun, Sep 13",
  "non_mlb_available": [
   "NFL"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401816918",
-   "short": "LAA @ WSH",
-   "start": "2026-09-13T17:35Z",
-   "detail": "9/13 - 1:35 PM EDT",
-   "venue": "Nationals Park",
-   "away": {
-    "abbr": "LAA",
-    "name": "Angels",
-    "record": "56-92"
-   },
-   "home": {
-    "abbr": "WSH",
-    "name": "Nationals",
-    "record": "69-81"
-   },
-   "total": "o9.5",
-   "over_odds": "-101",
-   "under_odds": "-119",
-   "spread": "+1.5",
-   "ml_away": "+114",
-   "ml_home": "-138",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+109",
-    "ml_home": "-131",
-    "spread": "+1.5",
-    "total": "o9",
-    "over_odds": "-108",
-    "under_odds": "-112"
-   },
-   "true_away": 44.6,
-   "true_home": 55.4,
-   "hold": 4.71,
-   "be_over": 50.2,
-   "be_under": 54.3,
-   "be_ml_away": 46.7,
-   "be_ml_home": 58.0
-  },
-  {
-   "league": "MLB",
-   "id": "401816924",
-   "short": "NYM @ NYY",
-   "start": "2026-09-13T17:35Z",
-   "detail": "9/13 - 1:35 PM EDT",
-   "venue": "Yankee Stadium",
-   "away": {
-    "abbr": "NYM",
-    "name": "Mets",
-    "record": "69-79"
-   },
-   "home": {
-    "abbr": "NYY",
-    "name": "Yankees",
-    "record": "85-63"
-   },
-   "total": "o8",
-   "over_odds": "-109",
-   "under_odds": "-110",
-   "spread": "+1.5",
-   "ml_away": "+152",
-   "ml_home": "-185",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+152",
-    "ml_home": "-185",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-105",
-    "under_odds": "-115"
-   },
-   "true_away": 37.9,
-   "true_home": 62.1,
-   "hold": 4.59,
-   "be_over": 52.2,
-   "be_under": 52.4,
-   "be_ml_away": 39.7,
-   "be_ml_home": 64.9
-  },
-  {
-   "league": "MLB",
-   "id": "401816925",
-   "short": "PHI @ ATL",
-   "start": "2026-09-13T17:35Z",
-   "detail": "9/13 - 1:35 PM EDT",
-   "venue": "Truist Park",
-   "away": {
-    "abbr": "PHI",
-    "name": "Phillies",
-    "record": "82-67"
-   },
-   "home": {
-    "abbr": "ATL",
-    "name": "Braves",
-    "record": "88-61"
-   },
-   "total": "o9.5",
-   "over_odds": "+100",
-   "under_odds": "-120",
-   "spread": "+1.5",
-   "ml_away": "+109",
-   "ml_home": "-131",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+105",
-    "ml_home": "-126",
-    "spread": "+1.5",
-    "total": "o9",
-    "over_odds": "-105",
-    "under_odds": "-115"
-   },
-   "true_away": 45.8,
-   "true_home": 54.2,
-   "hold": 4.56,
-   "be_over": 50.0,
-   "be_under": 54.5,
-   "be_ml_away": 47.8,
-   "be_ml_home": 56.7
-  },
-  {
-   "league": "MLB",
-   "id": "401816919",
-   "short": "BAL @ TOR",
-   "start": "2026-09-13T17:37Z",
-   "detail": "9/13 - 1:37 PM EDT",
-   "venue": "Rogers Centre",
-   "away": {
-    "abbr": "BAL",
-    "name": "Orioles",
-    "record": "72-77"
-   },
-   "home": {
-    "abbr": "TOR",
-    "name": "Blue Jays",
-    "record": "74-75"
-   },
-   "total": "o7",
-   "over_odds": "-120",
-   "under_odds": "-101",
-   "spread": "+1.5",
-   "ml_away": "+127",
-   "ml_home": "-154",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+123",
-    "ml_home": "-149",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "+102",
-    "under_odds": "-122"
-   },
-   "true_away": 42.1,
-   "true_home": 57.9,
-   "hold": 4.68,
-   "be_over": 54.5,
-   "be_under": 50.2,
-   "be_ml_away": 44.1,
-   "be_ml_home": 60.6
-  },
-  {
-   "league": "MLB",
-   "id": "401816921",
-   "short": "HOU @ TB",
-   "start": "2026-09-13T17:40Z",
-   "detail": "9/13 - 1:40 PM EDT",
-   "venue": "Tropicana Field",
-   "away": {
-    "abbr": "HOU",
-    "name": "Astros",
-    "record": "75-74"
-   },
-   "home": {
-    "abbr": "TB",
-    "name": "Rays",
-    "record": "89-59"
-   },
-   "total": "o8",
-   "over_odds": "-103",
-   "under_odds": "-116",
-   "spread": "+1.5",
-   "ml_away": "+110",
-   "ml_home": "-133",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+119",
-    "ml_home": "-143",
-    "spread": "+1.5",
-    "total": "o8",
-    "over_odds": "-102",
-    "under_odds": "-118"
-   },
-   "true_away": 45.5,
-   "true_home": 54.5,
-   "hold": 4.7,
-   "be_over": 50.7,
-   "be_under": 53.7,
-   "be_ml_away": 47.6,
-   "be_ml_home": 57.1
-  },
-  {
-   "league": "MLB",
-   "id": "401816923",
-   "short": "LAD @ MIA",
-   "start": "2026-09-13T17:40Z",
-   "detail": "9/13 - 1:40 PM EDT",
-   "venue": "loanDepot park",
-   "away": {
-    "abbr": "LAD",
-    "name": "Dodgers",
-    "record": "90-58"
-   },
-   "home": {
-    "abbr": "MIA",
-    "name": "Marlins",
-    "record": "73-76"
-   },
-   "total": "o8.5",
-   "over_odds": "-103",
-   "under_odds": "-117",
-   "spread": "-1.5",
-   "ml_away": "-142",
-   "ml_home": "+118",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-155",
-    "ml_home": "+128",
-    "spread": "-1.5",
-    "total": "o8",
-    "over_odds": "-120",
-    "under_odds": "+100"
-   },
-   "true_away": 56.1,
-   "true_home": 43.9,
-   "hold": 4.55,
-   "be_over": 50.7,
-   "be_under": 53.9,
-   "be_ml_away": 58.7,
-   "be_ml_home": 45.9
-  },
-  {
-   "league": "MLB",
-   "id": "401816927",
-   "short": "CIN @ MIL",
-   "start": "2026-09-13T18:10Z",
-   "detail": "9/13 - 2:10 PM EDT",
-   "venue": "American Family Field",
-   "away": {
-    "abbr": "CIN",
-    "name": "Reds",
-    "record": "69-79"
-   },
-   "home": {
-    "abbr": "MIL",
-    "name": "Brewers",
-    "record": "93-56"
-   },
-   "total": "o8",
-   "over_odds": "-112",
-   "under_odds": "-107",
-   "spread": "+1.5",
-   "ml_away": "+169",
-   "ml_home": "-206",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+170",
-    "ml_home": "-207",
-    "spread": "+1.5",
-    "total": "o8",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 35.6,
-   "true_home": 64.4,
-   "hold": 4.49,
-   "be_over": 52.8,
-   "be_under": 51.7,
-   "be_ml_away": 37.2,
-   "be_ml_home": 67.3
-  },
-  {
-   "league": "MLB",
-   "id": "401816928",
-   "short": "CLE @ MIN",
-   "start": "2026-09-13T18:10Z",
-   "detail": "9/13 - 2:10 PM EDT",
-   "venue": "Target Field",
-   "away": {
-    "abbr": "CLE",
-    "name": "Guardians",
-    "record": "75-74"
-   },
-   "home": {
-    "abbr": "MIN",
-    "name": "Twins",
-    "record": "70-78"
-   },
-   "total": "o8",
-   "over_odds": "-103",
-   "under_odds": "-117",
-   "spread": "+1.5",
-   "ml_away": "+104",
-   "ml_home": "-126",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+114",
-    "ml_home": "-137",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-118",
-    "under_odds": "-102"
-   },
-   "true_away": 46.8,
-   "true_home": 53.2,
-   "hold": 4.77,
-   "be_over": 50.7,
-   "be_under": 53.9,
-   "be_ml_away": 49.0,
-   "be_ml_home": 55.8
-  },
-  {
-   "league": "MLB",
-   "id": "401816926",
-   "short": "CHW @ STL",
-   "start": "2026-09-13T18:15Z",
-   "detail": "9/13 - 2:15 PM EDT",
-   "venue": "Busch Stadium",
-   "away": {
-    "abbr": "CHW",
-    "name": "White Sox",
-    "record": "76-72"
-   },
-   "home": {
-    "abbr": "STL",
-    "name": "Cardinals",
-    "record": "73-76"
-   },
-   "total": "o8.5",
-   "over_odds": "-119",
-   "under_odds": "-102",
-   "spread": "-1.5",
-   "ml_away": "-114",
-   "ml_home": "-105",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-137",
-    "ml_home": "+114",
-    "spread": "-1.5",
-    "total": "o8",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 51.0,
-   "true_home": 49.0,
-   "hold": 4.49,
-   "be_over": 54.3,
-   "be_under": 50.5,
-   "be_ml_away": 53.3,
-   "be_ml_home": 51.2
-  },
-  {
-   "league": "MLB",
-   "id": "401816929",
-   "short": "PIT @ CHC",
-   "start": "2026-09-13T18:20Z",
-   "detail": "9/13 - 2:20 PM EDT",
-   "venue": "Wrigley Field",
-   "away": {
-    "abbr": "PIT",
-    "name": "Pirates",
-    "record": "74-75"
-   },
-   "home": {
-    "abbr": "CHC",
-    "name": "Cubs",
-    "record": "83-66"
-   },
-   "total": "o7",
-   "over_odds": "-110",
-   "under_odds": "-110",
-   "spread": "+1.5",
-   "ml_away": "+138",
-   "ml_home": "-167",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+123",
-    "ml_home": "-149",
-    "spread": "+1.5",
-    "total": "o6.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 40.2,
-   "true_home": 59.8,
-   "hold": 4.56,
-   "be_over": 52.4,
-   "be_under": 52.4,
-   "be_ml_away": 42.0,
-   "be_ml_home": 62.5
-  },
-  {
-   "league": "MLB",
-   "id": "401816922",
-   "short": "KC @ BOS",
-   "start": "2026-09-13T19:05Z",
-   "detail": "9/13 - 3:05 PM EDT",
-   "venue": "Fenway Park",
-   "away": {
-    "abbr": "KC",
-    "name": "Royals",
-    "record": "66-83"
-   },
-   "home": {
-    "abbr": "BOS",
-    "name": "Red Sox",
-    "record": "81-68"
-   },
-   "total": "o7.5",
-   "over_odds": "+101",
-   "under_odds": "-122",
-   "spread": "+1.5",
-   "ml_away": "+158",
-   "ml_home": "-192",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+149",
-    "ml_home": "-181",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-105",
-    "under_odds": "-115"
-   },
-   "true_away": 37.1,
-   "true_home": 62.9,
-   "hold": 4.51,
-   "be_over": 49.8,
-   "be_under": 55.0,
-   "be_ml_away": 38.8,
-   "be_ml_home": 65.8
-  },
   {
    "league": "MLB",
    "id": "401816931",
@@ -464,8 +24,8 @@
     "record": "60-89"
    },
    "total": "o9",
-   "over_odds": "-112",
-   "under_odds": "-107",
+   "over_odds": "-106",
+   "under_odds": "-113",
    "spread": "-1.5",
    "ml_away": "-134",
    "ml_home": "+111",
@@ -481,8 +41,8 @@
    "true_away": 54.7,
    "true_home": 45.3,
    "hold": 4.66,
-   "be_over": 52.8,
-   "be_under": 51.7,
+   "be_over": 51.5,
+   "be_under": 53.1,
    "be_ml_away": 57.3,
    "be_ml_home": 47.4
   },
@@ -504,7 +64,7 @@
     "record": "79-70"
    },
    "total": "o8",
-   "over_odds": "-114",
+   "over_odds": "-115",
    "under_odds": "-105",
    "spread": "+1.5",
    "ml_away": "+109",
@@ -521,7 +81,7 @@
    "true_away": 45.8,
    "true_home": 54.2,
    "hold": 4.56,
-   "be_over": 53.3,
+   "be_over": 53.5,
    "be_under": 51.2,
    "be_ml_away": 47.8,
    "be_ml_home": 56.7
@@ -544,11 +104,11 @@
     "record": "62-87"
    },
    "total": "o7.5",
-   "over_odds": "-102",
-   "under_odds": "-118",
+   "over_odds": "+104",
+   "under_odds": "-126",
    "spread": "-1.5",
-   "ml_away": "-131",
-   "ml_home": "+109",
+   "ml_away": "-143",
+   "ml_home": "+119",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-126",
@@ -558,333 +118,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 54.2,
-   "true_home": 45.8,
-   "hold": 4.56,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 56.7,
-   "be_ml_home": 47.8
-  },
-  {
-   "league": "NFL",
-   "id": "401872925",
-   "short": "TB @ CIN",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Paycor Stadium",
-   "away": {
-    "abbr": "TB",
-    "name": "Buccaneers",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "CIN",
-    "name": "Bengals",
-    "record": "0-0"
-   },
-   "total": "o50.5",
-   "over_odds": "-108",
-   "under_odds": "-112",
-   "spread": "+3.5",
-   "ml_away": "+170",
-   "ml_home": "-205",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+164",
-    "ml_home": "-198",
-    "spread": "+3.5",
-    "total": "o50.5",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 35.5,
-   "true_home": 64.5,
-   "hold": 4.25,
-   "be_over": 51.9,
-   "be_under": 52.8,
-   "be_ml_away": 37.0,
-   "be_ml_home": 67.2
-  },
-  {
-   "league": "NFL",
-   "id": "401872923",
-   "short": "NO @ DET",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Ford Field",
-   "away": {
-    "abbr": "NO",
-    "name": "Saints",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "DET",
-    "name": "Lions",
-    "record": "0-0"
-   },
-   "total": "o49.5",
-   "over_odds": "-115",
-   "under_odds": "-105",
-   "spread": "+7",
-   "ml_away": "+260",
-   "ml_home": "-325",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+260",
-    "ml_home": "-325",
-    "spread": "+7",
-    "total": "o48.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 26.6,
-   "true_home": 73.4,
-   "hold": 4.25,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 27.8,
-   "be_ml_home": 76.5
-  },
-  {
-   "league": "NFL",
-   "id": "401872924",
-   "short": "NYJ @ TEN",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Nissan Stadium",
-   "away": {
-    "abbr": "NYJ",
-    "name": "Jets",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "TEN",
-    "name": "Titans",
-    "record": "0-0"
-   },
-   "total": "o39.5",
-   "over_odds": "-110",
-   "under_odds": "-110",
-   "spread": "+1.5",
-   "ml_away": "-102",
-   "ml_home": "-118",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+142",
-    "ml_home": "-170",
-    "spread": "+3",
-    "total": "o39.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 48.3,
-   "true_home": 51.7,
-   "hold": 4.62,
-   "be_over": 52.4,
-   "be_under": 52.4,
-   "be_ml_away": 50.5,
-   "be_ml_home": 54.1
-  },
-  {
-   "league": "NFL",
-   "id": "401872659",
-   "short": "BAL @ IND",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Lucas Oil Stadium",
-   "away": {
-    "abbr": "BAL",
-    "name": "Ravens",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "IND",
-    "name": "Colts",
-    "record": "0-0"
-   },
-   "total": "o48.5",
-   "over_odds": "-102",
-   "under_odds": "-118",
-   "spread": "-3",
-   "ml_away": "-162",
-   "ml_home": "+136",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-185",
-    "ml_home": "+154",
-    "spread": "-3.5",
-    "total": "o49.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 59.3,
-   "true_home": 40.7,
-   "hold": 4.2,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 61.8,
-   "be_ml_home": 42.4
-  },
-  {
-   "league": "NFL",
-   "id": "401872658",
-   "short": "ATL @ PIT",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Acrisure Stadium",
-   "away": {
-    "abbr": "ATL",
-    "name": "Falcons",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "PIT",
-    "name": "Steelers",
-    "record": "0-0"
-   },
-   "total": "o40.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
-   "spread": "+6.5",
-   "ml_away": "+240",
-   "ml_home": "-298",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+145",
-    "ml_home": "-175",
-    "spread": "+3",
-    "total": "o42.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 28.2,
-   "true_home": 71.8,
-   "hold": 4.29,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 29.4,
-   "be_ml_home": 74.9
-  },
-  {
-   "league": "NFL",
-   "id": "401872661",
-   "short": "CHI @ CAR",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Bank of America Stadium",
-   "away": {
-    "abbr": "CHI",
-    "name": "Bears",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "CAR",
-    "name": "Panthers",
-    "record": "0-0"
-   },
-   "total": "o47.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
-   "spread": "-3",
-   "ml_away": "-166",
-   "ml_home": "+140",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-135",
-    "ml_home": "+114",
-    "spread": "-2.5",
-    "total": "o44.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 60.0,
-   "true_home": 40.0,
-   "hold": 4.07,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 62.4,
-   "be_ml_home": 41.7
-  },
-  {
-   "league": "NFL",
-   "id": "401872922",
-   "short": "CLE @ JAX",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "EverBank Stadium",
-   "away": {
-    "abbr": "CLE",
-    "name": "Browns",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "JAX",
-    "name": "Jaguars",
-    "record": "0-0"
-   },
-   "total": "o40.5",
-   "over_odds": "-102",
-   "under_odds": "-118",
-   "spread": "+8.5",
-   "ml_away": "+360",
-   "ml_home": "-470",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+230",
-    "ml_home": "-285",
-    "spread": "+7",
-    "total": "o40.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 20.9,
-   "true_home": 79.1,
-   "hold": 4.2,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 21.7,
-   "be_ml_home": 82.5
-  },
-  {
-   "league": "NFL",
-   "id": "401872660",
-   "short": "BUF @ HOU",
-   "start": "2026-09-13T17:00Z",
-   "detail": "9/13 - 1:00 PM EDT",
-   "venue": "Reliant Stadium",
-   "away": {
-    "abbr": "BUF",
-    "name": "Bills",
-    "record": "0-0"
-   },
-   "home": {
-    "abbr": "HOU",
-    "name": "Texans",
-    "record": "0-0"
-   },
-   "total": "o44.5",
-   "over_odds": "-110",
-   "under_odds": "-110",
-   "spread": "-1.5",
-   "ml_away": "-112",
-   "ml_home": "-108",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-112",
-    "ml_home": "-108",
-    "spread": "-1.5",
-    "total": "o45.5",
-    "over_odds": "-105",
-    "under_odds": "-115"
-   },
-   "true_away": 50.4,
-   "true_home": 49.6,
-   "hold": 4.75,
-   "be_over": 52.4,
-   "be_under": 52.4,
-   "be_ml_away": 52.8,
-   "be_ml_home": 51.9
+   "true_away": 56.3,
+   "true_home": 43.7,
+   "hold": 4.51,
+   "be_over": 49.0,
+   "be_under": 55.8,
+   "be_ml_away": 58.8,
+   "be_ml_home": 45.7
   },
   {
    "league": "NFL",
@@ -944,8 +184,8 @@
     "record": "0-0"
    },
    "total": "o46.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-102",
+   "under_odds": "-118",
    "spread": "+1.5",
    "ml_away": "+110",
    "ml_home": "-130",
@@ -961,8 +201,8 @@
    "true_away": 45.7,
    "true_home": 54.3,
    "hold": 4.14,
-   "be_over": 51.2,
-   "be_under": 53.5,
+   "be_over": 50.5,
+   "be_under": 54.1,
    "be_ml_away": 47.6,
    "be_ml_home": 56.5
   },
@@ -987,8 +227,8 @@
    "over_odds": "-105",
    "under_odds": "-115",
    "spread": "+6",
-   "ml_away": "+215",
-   "ml_home": "-265",
+   "ml_away": "+210",
+   "ml_home": "-258",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+195",
@@ -998,13 +238,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 30.4,
-   "true_home": 69.6,
-   "hold": 4.35,
+   "true_away": 30.9,
+   "true_home": 69.1,
+   "hold": 4.33,
    "be_over": 51.2,
    "be_under": 53.5,
-   "be_ml_away": 31.7,
-   "be_ml_home": 72.6
+   "be_ml_away": 32.3,
+   "be_ml_home": 72.1
   },
   {
    "league": "NFL",
@@ -1024,11 +264,11 @@
     "record": "0-0"
    },
    "total": "o47.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-102",
+   "under_odds": "-118",
    "spread": "+9.5",
-   "ml_away": "+380",
-   "ml_home": "-500",
+   "ml_away": "+360",
+   "ml_home": "-470",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+470",
@@ -1038,13 +278,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 20.0,
-   "true_home": 80.0,
-   "hold": 4.17,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 20.8,
-   "be_ml_home": 83.3
+   "true_away": 20.9,
+   "true_home": 79.1,
+   "hold": 4.2,
+   "be_over": 50.5,
+   "be_under": 54.1,
+   "be_ml_away": 21.7,
+   "be_ml_home": 82.5
   },
   {
    "league": "NFL",
