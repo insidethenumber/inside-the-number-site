@@ -126,7 +126,8 @@
   "871-phi-wsh-down.txt",
   "872-lac-riser.txt",
   "873-dal-nyg-frozen.txt",
-  "874-nfl-board-link.txt"
+  "874-nfl-board-link.txt",
+  "875-subscribe-honest.txt"
  ],
  "history": [
   {
@@ -1419,6 +1420,18 @@
    "url": "https://x.com/thenumberdesk/status/2099204685282656667",
    "at": "2026-09-13T18:32:53.136334+00:00",
    "chars": 220,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "875-subscribe-honest.txt",
+   "id": "2099208781662138662",
+   "url": "https://x.com/thenumberdesk/status/2099208781662138662",
+   "at": "2026-09-13T18:49:09.793986+00:00",
+   "chars": 274,
    "had_link": false,
    "had_image": false,
    "had_video": false,
