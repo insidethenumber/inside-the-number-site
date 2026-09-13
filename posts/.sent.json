@@ -124,7 +124,8 @@
   "869-cle-jax-split.txt",
   "870-gb-min-late.txt",
   "871-phi-wsh-down.txt",
-  "872-lac-riser.txt"
+  "872-lac-riser.txt",
+  "873-dal-nyg-frozen.txt"
  ],
  "history": [
   {
@@ -1393,6 +1394,18 @@
    "url": "https://x.com/thenumberdesk/status/2099192916812165308",
    "at": "2026-09-13T17:46:07.300651+00:00",
    "chars": 252,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "873-dal-nyg-frozen.txt",
+   "id": "2099199507346985209",
+   "url": "https://x.com/thenumberdesk/status/2099199507346985209",
+   "at": "2026-09-13T18:12:18.597782+00:00",
+   "chars": 257,
    "had_link": false,
    "had_image": false,
    "had_video": false,
