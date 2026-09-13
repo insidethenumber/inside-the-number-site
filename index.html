@@ -530,23 +530,6 @@
   }
   .section-lead { font-size: 15px; color: var(--mid); max-width: 520px; line-height: 1.8; margin-top: 14px; font-weight: 300; }
 
-  /* ── GLASS CARD GRID (shared by What You Get + Best Bets) ── */
-  .glass-grid { display: grid; gap: 14px; }
-  .glass-grid.three { grid-template-columns: repeat(3, 1fr); }
-  .glass-grid.eight { grid-template-columns: repeat(4, 1fr); }
-  .glass-card {
-    background: rgba(255,255,255,0.035);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 16px;
-    padding: 26px 24px;
-    border-top: 3px solid var(--accent, var(--green));
-  }
-  .glass-card .what-num { font-family: 'Barlow Condensed', sans-serif; font-size: 56px; font-weight: 900; color: var(--border-lit); line-height: 1; margin-bottom: 16px; }
-  .glass-card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--white); margin-bottom: 10px; }
-  .glass-card p { font-size: 13.5px; color: var(--mid); line-height: 1.7; }
-  .glass-card .what-tag { display: inline-block; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; border-top: 1px solid var(--border-lit); padding-top: 12px; width: 100%; }
-
   /* best-bets mini cards */
   .bb-card { padding: 20px; }
   .bb-card .sport { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
@@ -554,20 +537,6 @@
   .bb-card .conf { color: var(--muted); font-size: 11px; font-family: 'IBM Plex Mono', monospace; }
   .conf-high { --accent: var(--green); } .conf-medium { --accent: var(--blue); } .conf-low { --accent: var(--muted); }
 
-  /* ── TEAM ── */
-  .team { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .team-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 28px 22px; }
-  .team-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--black); border: 1px solid var(--border-lit); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; position: relative; }
-  .team-avatar svg { width: 100%; height: 100%; }
-  .team-avatar-initials { position: absolute; bottom: 3px; right: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--black); border: 1px solid var(--border-lit); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 8px; color: var(--green); }
-  .team-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 4px; }
-  .team-role { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
-  .team-desc { font-size: 13px; color: var(--mid); line-height: 1.7; }
-  .team-record {
-    margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--green);
-    letter-spacing: 0.04em; border-top: 1px solid var(--border); padding-top: 12px;
-  }
   .article-byline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
   .article-byline strong { color: var(--mid); font-weight: 600; }
 
@@ -619,16 +588,6 @@
   .price-card.featured .price-btn { background: linear-gradient(90deg, var(--green), var(--blue)); color: var(--black); }
   .price-btn:hover { opacity: 0.82; }
 
-  /* ── ABOUT / PHILOSOPHY ── */
-  .philosophy { background: var(--black); }
-  .phil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
-  .phil-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .phil-stat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 30px 22px; }
-  .phil-stat .big { font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 900; background: linear-gradient(100deg, var(--green), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1; margin-bottom: 6px; }
-  .phil-stat .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.5; }
-  .phil-text p { font-size: 15px; color: var(--mid); line-height: 1.85; margin-bottom: 18px; font-weight: 300; }
-  .phil-text strong { color: var(--white); font-weight: 600; }
-
   /* ── NEWSLETTER SIGNUP ── */
   .signup { background: linear-gradient(100deg, var(--green), var(--blue)); }
   .signup-inner { max-width: 700px; margin: 0 auto; text-align: center; padding: 80px 48px; }
@@ -673,9 +632,8 @@
        leaving them inset 48px while every other section sat at 20px */
     .potd-section { padding: 60px 20px 20px; }
     footer { padding: 40px 20px; }
-    .glass-grid.three, .glass-grid.eight, .pricing-grid, .team-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
     .sample-grid { grid-template-columns: 1fr; }
-    .phil-grid { grid-template-columns: 1fr; gap: 40px; }
     .signup-inner { padding: 60px 20px; }
     .signup-form { flex-direction: column; }
     .signup-form input { border-right: 2px solid rgba(0,0,0,0.2); border-bottom: none; border-radius: 26px 26px 0 0; }
@@ -683,7 +641,7 @@
     footer { flex-direction: column; gap: 20px; text-align: center; }
   }
   @media (max-width: 600px) {
-    .glass-grid.three, .glass-grid.eight, .pricing-grid, .team-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
 
     /* Grid/flex children default to min-width:auto and refuse to shrink below
        their min-content width. The 4-across stat strip had a 386px floor, which
@@ -1590,141 +1548,62 @@
   })();
 </script>
 
-<!-- WHAT YOU GET -->
+<!-- HOW IT WORKS — single merged section.
+     Replaced three separate sections on Sep 13, 2026 (What You Get /
+     How We Work / The Philosophy). Together they ran 4,214px — 5.2 phone
+     screens, 30% of the homepage — to say what fits in one screen.
+     Keeps id="analysis" because every other page's nav links to it. -->
+<style>
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .how-item { display: flex; gap: 14px; align-items: flex-start;
+              border-top: 1px solid var(--border-lit); padding-top: 18px; }
+  .how-n { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green);
+           letter-spacing: 0.14em; flex-shrink: 0; padding-top: 4px; }
+  .how-item h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 800;
+                 text-transform: uppercase; letter-spacing: 0.02em; color: var(--white);
+                 margin: 0 0 7px; line-height: 1.12; }
+  .how-item p { font-size: 13.5px; color: var(--mid); line-height: 1.65; margin: 0; }
+  .how-foot { margin-top: 30px; font-size: 14px; color: var(--mid); line-height: 1.7; }
+  .how-foot a { color: var(--green); text-decoration: none; font-weight: 600; }
+  .how-foot a:hover { text-decoration: underline; }
+  @media (max-width: 900px) {
+    .how-grid { grid-template-columns: 1fr; gap: 0; }
+    .how-item { padding: 16px 0; }
+    #analysis .section-header { margin-bottom: 26px; }
+  }
+</style>
 <section class="section" id="analysis">
+  <span id="about"></span><span id="team"></span>
   <div class="section-inner">
     <div class="section-header">
-      <p class="eyebrow">What You Get</p>
-      <h2 class="section-title">No fluff. No filler.<br/>Just the work.</h2>
-      <p class="section-lead">Every piece of content is built on real data — line movement, public vs. sharp money, situational trends, and model outputs. We show the reasoning, not just the pick.</p>
+      <p class="eyebrow">How This Works</p>
+      <h2 class="section-title">Same three numbers.<br/>Every game.</h2>
+      <p class="section-lead">No faces, no touts, no black box. Just the market read the same way every day — and all of it is checkable before you trust any of it.</p>
     </div>
-    <div class="glass-grid three">
-      <div class="glass-card" style="--accent: var(--green);">
-        <div class="what-num">01</div>
-        <h3>Daily Picks & Analysis</h3>
-        <p>Every game we play comes with a full breakdown — why the line moved, where the money is, and what the model says. You see exactly how we think.</p>
-        <span class="what-tag">8 sports · Published daily during season</span>
-      </div>
-      <div class="glass-card" style="--accent: var(--blue);">
-        <div class="what-num">02</div>
-        <h3>Weekly Deep Dives</h3>
-        <p>One game or one trend, broken down completely. Injury impact, weather, referee tendencies, stadium factors — the variables casual bettors ignore.</p>
-        <span class="what-tag">Every Thursday · Members only for full version</span>
-      </div>
-      <div class="glass-card" style="--accent: var(--gold);">
-        <div class="what-num">03</div>
-        <h3>Trend & Data Reports</h3>
-        <p>Season-long patterns. Which teams beat the spread at home after a loss. How division games move lines differently. The patterns that repeat.</p>
-        <span class="what-tag">Monthly reports · Fully documented methodology</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TEAM -->
-<section class="section team" id="team">
-  <div class="section-inner">
-    <div class="section-header">
-      <p class="eyebrow">How We Work</p>
-      <h2 class="section-title">One process.<br/>Not a black box.</h2>
-      <p class="section-lead">We stay anonymous as a brand — no faces, no personal pitches, no stable of touts. What we show instead is the method, applied the same way every single day, on every game on the board.</p>
-    </div>
-    <div class="team-grid">
-      <div class="team-card">
-        <div class="team-avatar">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <rect width="64" height="64" fill="var(--dark)"/>
-            <rect x="12" y="38" width="8" height="16" fill="var(--green)" opacity="0.9"/>
-            <rect x="24" y="28" width="8" height="26" fill="var(--green)"/>
-            <rect x="36" y="18" width="8" height="36" fill="var(--green)" opacity="0.7"/>
-            <rect x="48" y="10" width="8" height="44" fill="var(--green)" opacity="0.5"/>
-          </svg>
-          <div class="team-avatar-initials">01</div>
-        </div>
-        <div class="team-name">Line Movement</div>
-        <div class="team-role">Where the number went</div>
-        <div class="team-desc">Every market opens somewhere and closes somewhere else. We track the gap between the two, because the direction a number moves says more than the number itself.</div>
-        <div class="team-record">Live on this page — open vs current</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <rect width="64" height="64" fill="var(--dark)"/>
-            <circle cx="16" cy="46" r="4" fill="var(--green)"/>
-            <circle cx="28" cy="30" r="4" fill="var(--green)" opacity="0.85"/>
-            <circle cx="40" cy="40" r="4" fill="var(--green)" opacity="0.6"/>
-            <circle cx="50" cy="20" r="4" fill="var(--green)" opacity="0.4"/>
-            <path d="M16 46 L28 30 L40 40 L50 20" stroke="var(--border-lit)" stroke-width="1.5" fill="none"/>
-          </svg>
-          <div class="team-avatar-initials">02</div>
-        </div>
-        <div class="team-name">Situational Trends</div>
-        <div class="team-role">What the box score misses</div>
-        <div class="team-desc">Bullpen usage, rest and travel, pitcher handedness, pace, weather, home/away splits. The variables that move outcomes but rarely move headlines.</div>
-        <div class="team-record">Applied to every game we track</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <rect width="64" height="64" fill="var(--dark)"/>
-            <circle cx="32" cy="32" r="22" stroke="var(--green)" stroke-width="1.5" fill="none" opacity="0.35"/>
-            <circle cx="32" cy="32" r="15" stroke="var(--green)" stroke-width="1.5" fill="none" opacity="0.6"/>
-            <circle cx="32" cy="32" r="8" fill="var(--green)"/>
-          </svg>
-          <div class="team-avatar-initials">03</div>
-        </div>
-        <div class="team-name">The True Price</div>
-        <div class="team-role">What the market really thinks</div>
-        <div class="team-desc">Both sides of a line always add up to more than 100% — that surplus is what the book keeps. Take it out and you get what the market actually thinks, which is the number worth arguing with.</div>
-        <div class="team-record">Shown on every matchup card</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <rect width="64" height="64" fill="var(--dark)"/>
-            <line x1="14" y1="14" x2="32" y2="32" stroke="var(--border-lit)" stroke-width="1.5"/>
-            <line x1="50" y1="14" x2="32" y2="32" stroke="var(--border-lit)" stroke-width="1.5"/>
-            <line x1="14" y1="50" x2="32" y2="32" stroke="var(--border-lit)" stroke-width="1.5"/>
-            <line x1="50" y1="50" x2="32" y2="32" stroke="var(--border-lit)" stroke-width="1.5"/>
-            <circle cx="14" cy="14" r="4" fill="var(--green)" opacity="0.6"/>
-            <circle cx="50" cy="14" r="4" fill="var(--green)" opacity="0.6"/>
-            <circle cx="14" cy="50" r="4" fill="var(--green)" opacity="0.6"/>
-            <circle cx="50" cy="50" r="4" fill="var(--green)" opacity="0.6"/>
-            <circle cx="32" cy="32" r="6" fill="var(--green)"/>
-          </svg>
-          <div class="team-avatar-initials">04</div>
-        </div>
-        <div class="team-name">Stated Sides &amp; Numbers</div>
-        <div class="team-role">The part most sites skip</div>
-        <div class="team-desc">Every call names a real side and a real number, published before the game starts. No vague leans, no "value on the under somewhere," no pick you can only interpret after you know the result.</div>
-        <div class="team-record"><a href="games" style="color:var(--green);text-decoration:none;">See today's board →</a></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PHILOSOPHY -->
-<section class="section philosophy" id="about">
-  <div class="section-inner">
-    <div class="phil-grid">
-      <div>
-        <p class="eyebrow">The Philosophy</p>
-        <h2 class="section-title">Built on data.<br/>Not opinions.</h2>
-        <div class="phil-text">
-          <p>Inside the Number was built on a simple premise: <strong>most bettors lose because they react to narratives instead of numbers.</strong> The media tells a story. The public bets the story. The line moves. And sharp money fades the public. Our small team tracks that gap every day, across eight sports, so you don't have to.</p>
-          <p>Every pick we publish is backed by a documented process — historical ATS trends, line movement tracking, situational factors, and a consistent model. We're not guessing. We're finding spots where <strong>the number tells a different story than the headline.</strong></p>
-          <p>The market data is free and always will be — the line, where it moved, and the true price underneath it. That much you can check for yourself. What we sell is the read on top of it: the projection, the edge, and the bet.</p>
+    <div class="how-grid">
+      <div class="how-item">
+        <span class="how-n">01</span>
+        <div>
+          <h3>Where the line came from</h3>
+          <p>Every number opens somewhere and sits somewhere else now. The direction it moved says more than the number itself — so we show both, live, on every game.</p>
         </div>
       </div>
-      <div>
-        <div class="phil-stats">
-          <div class="phil-stat"><div class="big">Every</div><div class="lbl">Game on the board, priced at its true number</div></div>
-          <div class="phil-stat"><div class="big">8</div><div class="lbl">Sports covered — dawn slate to primetime</div></div>
-          <div class="phil-stat"><div class="big">Daily</div><div class="lbl">One free pick every day, reasoning shown</div></div>
-          <div class="phil-stat"><div class="big">3-4</div><div class="lbl">Picks a day — we pass on everything else</div></div>
+      <div class="how-item">
+        <span class="how-n">02</span>
+        <div>
+          <h3>The true price</h3>
+          <p>Both sides of a line always add up to more than 100%. That surplus is the book's cut. Take it out and you get what the market actually thinks.</p>
+        </div>
+      </div>
+      <div class="how-item">
+        <span class="how-n">03</span>
+        <div>
+          <h3>A real side, a real number</h3>
+          <p>Every pick names one, posted before kickoff. No vague leans, no "value on the under somewhere," nothing you can only interpret after the result.</p>
         </div>
       </div>
     </div>
+    <p class="how-foot">The whole board is free — every line, every move, every true price. <a href="games">See today's games →</a></p>
   </div>
 </section>
 
