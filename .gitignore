@@ -87,3 +87,7 @@
 !posts/*.mp4
 !posts/*.mov
 !posts/*.quote
+
+# Lead magnets — must deploy without -f
+!assets/downloads/
+!assets/downloads/*

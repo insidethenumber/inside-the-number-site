@@ -101,3 +101,7 @@
 /reel10.mp4
   Content-Disposition: attachment
   Access-Control-Allow-Origin: *
+
+/assets/downloads/*
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
