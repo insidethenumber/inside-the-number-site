@@ -81,3 +81,9 @@
 !r8.txt
 !r9.txt
 !r10.txt
+
+# Sep 13 2026: posts/*.mp4 were silently dropped by the `*` allowlist, so
+# five video posts went out as text only. Media beside a post must deploy.
+!posts/*.mp4
+!posts/*.mov
+!posts/*.quote
