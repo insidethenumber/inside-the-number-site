@@ -111,7 +111,8 @@
   "856-iowa-floor.txt",
   "857-late-parlay.txt",
   "858-dfs-sunday-tease.txt",
-  "859-key-numbers-reel.txt"
+  "859-key-numbers-reel.txt",
+  "860-osu-tex-total.txt"
  ],
  "history": [
   {
@@ -1224,6 +1225,18 @@
    "url": "https://x.com/thenumberdesk/status/2098934385336635440",
    "at": "2026-09-13T00:38:48.592478+00:00",
    "chars": 248,
+   "had_link": false,
+   "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "860-osu-tex-total.txt",
+   "id": "2098938190983819752",
+   "url": "https://x.com/thenumberdesk/status/2098938190983819752",
+   "at": "2026-09-13T00:53:55.920975+00:00",
+   "chars": 212,
    "had_link": false,
    "had_image": false,
    "had_video": false,
