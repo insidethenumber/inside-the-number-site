@@ -195,6 +195,36 @@
       "team": "BAL",
       "pos": "RB"
     },
+    "nfl/4426338": {
+      "id": "4426338",
+      "name": "Bo Nix",
+      "team": "DEN",
+      "pos": "QB"
+    },
+    "nfl/3139477": {
+      "id": "3139477",
+      "name": "Patrick Mahomes",
+      "team": "KC",
+      "pos": "QB"
+    },
+    "nfl/4567048": {
+      "id": "4567048",
+      "name": "Kenneth Walker III",
+      "team": "KC",
+      "pos": "RB"
+    },
+    "nfl/4372016": {
+      "id": "4372016",
+      "name": "Jaylen Waddle",
+      "team": "DEN",
+      "pos": "WR"
+    },
+    "nfl/4428331": {
+      "id": "4428331",
+      "name": "Rashee Rice",
+      "team": "KC",
+      "pos": "WR"
+    },
     "college-football/5121169": {
       "id": "5121169",
       "name": "Darian Mensah",
