@@ -193,6 +193,36 @@
       "name": "Derrick Henry",
       "team": "BAL",
       "pos": "RB"
+    },
+    {
+      "id": "4426338",
+      "name": "Bo Nix",
+      "team": "DEN",
+      "pos": "QB"
+    },
+    {
+      "id": "3139477",
+      "name": "Patrick Mahomes",
+      "team": "KC",
+      "pos": "QB"
+    },
+    {
+      "id": "4567048",
+      "name": "Kenneth Walker III",
+      "team": "KC",
+      "pos": "RB"
+    },
+    {
+      "id": "4372016",
+      "name": "Jaylen Waddle",
+      "team": "DEN",
+      "pos": "WR"
+    },
+    {
+      "id": "4428331",
+      "name": "Rashee Rice",
+      "team": "KC",
+      "pos": "WR"
     }
   ],
   "college-football": [
