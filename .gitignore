@@ -68,7 +68,9 @@
 !data/
 !data/*.json
 !posts/.sent.json
-!itn-git-credential.sh
+# itn-git-credential.sh is deliberately NOT allowlisted: it was being served
+# publicly at /itn-git-credential.sh, advertising the secrets filename and the
+# GITHUB_PAT variable name to anyone who looked. Removed Sep 13, 2026.
 !thanks.html
 !confirm.html
 
