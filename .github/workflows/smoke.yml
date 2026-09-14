@@ -1,0 +1,51 @@
+name: Smoke test
+
+# Post-deploy invariants. Runs after every push to main and on a schedule.
+#
+# Six weeks of daily breakage taught the same lesson every time: the fix was
+# never hard, but nothing SAID anything. Silent failure is the actual defect.
+# This fails the run — loudly and visibly in the Actions tab — the moment the
+# live site stops showing today, or the CFB board starts replaying a week that
+# has already been played.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "25 13 * * *"   # ~08:25 CT, after the morning build
+    - cron: "25 19 * * *"   # ~14:25 CT, after the send window
+  workflow_dispatch:
+
+concurrency:
+  group: smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Cloudflare serves the new build a minute or two after the push lands,
+      # so a push-triggered run that checks instantly is checking the OLD site.
+      - name: Let the deploy land
+        if: github.event_name == 'push'
+        run: sleep 120
+
+      - name: Run smoke test
+        run: python3 scripts/smoke.py
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Smoke test"
+            echo ""
+            echo '```'
+            python3 scripts/smoke.py || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

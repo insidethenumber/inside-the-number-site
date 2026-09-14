@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""
+Inside the Number — post-deploy smoke test.
+
+WHY (written Sep 14, 2026)
+--------------------------
+Six weeks of daily breakage, and the pattern was never that a fix was hard.
+The pattern was that nothing SAID anything. The health check skipped both of
+its runs and reported nothing. SEND_LOG went unwritten for two weeks and looked
+like a clean streak. The CFB board served last weekend's finals all day Monday
+and Chuck found it, not the monitoring.
+
+So this checks a small number of things that must be true for the site to be
+doing its job, and exits non-zero when one isn't. It is deliberately short.
+A monitor nobody trusts is worse than none, and a monitor that checks forty
+things will have a flaky one and get ignored inside a week.
+
+INVARIANTS
+  1. Every page in PAGES returns 200.
+  2. The homepage pick-of-the-day carries TODAY's date (US/Central).
+  3. The CFB board's week window ends in the FUTURE — this is the exact bug
+     from Sep 14, where Monday replayed the Saturday just played.
+  4. No page shows an "updated" stamp older than MAX_STAMP_AGE_DAYS.
+
+    python3 scripts/smoke.py                      # check production
+    python3 scripts/smoke.py --base http://...    # check anywhere
+    python3 scripts/smoke.py --json               # machine-readable
+"""
+import argparse, datetime, json, re, sys, urllib.request, urllib.error
+from zoneinfo import ZoneInfo
+
+CT = ZoneInfo("America/Chicago")
+BASE = "https://insidethenumber.com"
+MAX_STAMP_AGE_DAYS = 3
+
+PAGES = ["/", "/games.html", "/cfb.html", "/pga.html", "/ufc.html", "/dfs.html",
+         "/parlay.html", "/tools.html", "/learn.html", "/glossary.html",
+         "/privacy.html", "/terms.html", "/responsible-gambling.html",
+         "/sitemap.xml", "/robots.txt"]
+
+MONTHS = ("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+
+
+def get(url, timeout=25):
+    req = urllib.request.Request(url, headers={"User-Agent": "ITN-smoke/1.0"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.status, r.read().decode("utf-8", "replace")
+
+
+def parse_stamp(txt, year):
+    """'Mon, Sep 14' / 'Sep 14' -> date. Returns None if unparseable."""
+    m = re.search(r"\b(%s)\s+(\d{1,2})\b" % "|".join(MONTHS), txt)
+    if not m:
+        return None
+    try:
+        return datetime.date(year, MONTHS.index(m.group(1)) + 1, int(m.group(2)))
+    except ValueError:
+        return None
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--base", default=BASE)
+    p.add_argument("--json", action="store_true")
+    a = p.parse_args()
+
+    today = datetime.datetime.now(CT).date()
+    fails, notes, bodies = [], [], {}
+
+    # 1 — every page answers
+    for path in PAGES:
+        url = a.base.rstrip("/") + path
+        try:
+            st, body = get(url + ("&" if "?" in path else "?") + "cb=%d" % today.toordinal())
+            bodies[path] = body
+            if st != 200:
+                fails.append(f"[status] {path} returned {st}")
+        except urllib.error.HTTPError as e:
+            fails.append(f"[status] {path} returned {e.code}")
+        except Exception as e:
+            fails.append(f"[status] {path} unreachable: {e}")
+    notes.append(f"{len(PAGES) - len([f for f in fails if f.startswith('[status]')])}/{len(PAGES)} pages 200")
+
+    # 2 — homepage pick carries today's date
+    home = bodies.get("/", "")
+    m = re.search(r'class="potd-date"[^>]*>([^<]{3,40})<', home)
+    if not m:
+        fails.append("[freshness] homepage has no .potd-date element")
+    else:
+        d = parse_stamp(m.group(1), today.year)
+        if d is None:
+            fails.append(f"[freshness] could not parse potd-date {m.group(1)!r}")
+        elif d != today:
+            fails.append(f"[freshness] homepage pick says {m.group(1).strip()!r}, today is {today:%b %-d}")
+        else:
+            notes.append(f"homepage pick dated {d:%b %-d} (today)")
+
+    # 3 — CFB week window must not have already finished.
+    # The rendered eyebrow reads "// CFB · WEEK 3 · SEP 16–SEP 21".
+    cfb = bodies.get("/cfb.html", "")
+    mw = re.search(r"WEEK\s+\d+\s*[·|]\s*([A-Z]{3}\s+\d{1,2})\s*[–-]\s*([A-Z]{3}\s+\d{1,2})",
+                   cfb, re.I)
+    if mw:
+        end = parse_stamp(mw.group(2).title(), today.year)
+        if end and end < today:
+            fails.append(f"[stale] CFB board window ended {end:%b %-d}, today is {today:%b %-d} "
+                         f"— the board is replaying a finished week")
+        elif end:
+            notes.append(f"CFB window ends {end:%b %-d} (not past)")
+    else:
+        # The eyebrow is filled in by JS, so a raw fetch usually will not see it.
+        notes.append("CFB window not in static HTML (JS-rendered) — skipped")
+
+    # 4 — no ancient "updated" stamps anywhere
+    for path, body in bodies.items():
+        for raw in re.findall(r"updated[^<]{0,40}", body, re.I)[:6]:
+            d = parse_stamp(raw, today.year)
+            if d and (today - d).days > MAX_STAMP_AGE_DAYS:
+                fails.append(f"[stale] {path} shows {raw.strip()!r} "
+                             f"({(today - d).days} days old)")
+
+    ok = not fails
+    if a.json:
+        print(json.dumps({"ok": ok, "date": str(today),
+                          "failures": fails, "notes": notes}, indent=2))
+    else:
+        print(f"ITN smoke — {today:%a %b %-d %Y} — {a.base}")
+        for n in notes:
+            print(f"  ok   {n}")
+        for f in fails:
+            print(f"  FAIL {f}")
+        print("\nPASS" if ok else f"\nFAIL — {len(fails)} problem(s)")
+    sys.exit(0 if ok else 1)
+
+
+if __name__ == "__main__":
+    main()

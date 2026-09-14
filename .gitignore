@@ -1,112 +1,42 @@
-*
-!.gitignore
-!index.html
-!tools.html
-!dfs.html
-!post.html
-!learn.html
-!pga.html
-!cfb.html
-!nfl.html
-!parlay-calculator.html
-!odds-converter.html
-!no-vig-calculator.html
-!kelly-calculator.html
-!expected-value-calculator.html
-!glossary.html
-!vig-calculator.html
-!break-even-calculator.html
-!edge-calculator.html
-!hedge-calculator.html
-!bankroll-drawdown-calculator.html
-!g/
-!g/*.html
-!g/sitemap-games.xml
-!ufc.html
-!games.html
-!wrangler.jsonc
-!.assetsignore
-!og-image.png
-!favicon.ico
-!favicon.png
-!favicon-48.png
-!favicon-96.png
-!favicon-144.png
-!favicon-192.png
-!favicon-512.png
-!apple-touch-icon.png
-!site.webmanifest
-!_headers
-!_redirects
-!privacy.html
-!terms.html
-!responsible-gambling.html
-!404.html
-!sitemap.xml
-!robots.txt
-!social/itn-avatar.png
-!social/itn-x-header.png
-!social/itn-instagram-square.png
-!social/itn-instagram-story.png
-!social/itn-discord-banner.png
-!post_to_x.py
-!MARKETING_X.md
-!make_cards.py
-!posts/
-!posts/*.txt
-!posts/*.png
-!posts/*.jpg
-!X_LAUNCH_POSTS.md
-!itn_logo.py
-!logo_variants.py
-!make_x_header.py
-!.github/
-!.github/workflows/
-!.github/workflows/*.yml
-!scripts/
-!scripts/*.py
-!data/
-!data/*.json
-!posts/.sent.json
-# itn-git-credential.sh is deliberately NOT allowlisted: it was being served
-# publicly at /itn-git-credential.sh, advertising the secrets filename and the
-# GITHUB_PAT variable name to anyone who looked. Removed Sep 13, 2026.
-!thanks.html
-!confirm.html
+# Denylist, not an allowlist.  Rewritten Sep 14, 2026.
+#
+# This file used to open with a bare `*` and then re-admit ~110 paths one at a
+# time.  That inverted arrangement broke the same way five separate times, and
+# always silently: a new file or directory simply never got committed, the
+# deploy looked fine, and the missing asset surfaced later as a 404.  The trap
+# has a second edge — git will not descend into an excluded DIRECTORY, so
+# `!assets/downloads/` did nothing until `!assets/` un-ignored the parent.
+# Nobody can be expected to remember that at 1am.
+#
+# So: ignore the handful of things that genuinely must not be committed, and
+# track everything else by default.  A new page, card, script or asset is now
+# committed because it exists, not because someone remembered to add a line.
+#
+# NOTE: this governs what is TRACKED.  What is SERVED publicly is governed
+# separately by .assetsignore — ops docs are committed but never published.
 
-# Reels 7-10 (Sep 12) — allowlist so they deploy without -f
-!reel7.mp4
-!reel8.mp4
-!reel9.mp4
-!reel10.mp4
-!r7.txt
-!r8.txt
-!r9.txt
-!r10.txt
+# ---- secrets: never, under any circumstances ----
+itn-secrets.env
+itn-git-credential.sh
+*.pem
+*.key
+.env
+.env.*
 
-# Sep 13 2026: posts/*.mp4 were silently dropped by the `*` allowlist, so
-# five video posts went out as text only. Media beside a post must deploy.
-!posts/*.mp4
-!posts/*.mov
-!posts/*.quote
+# ---- private, must never reach the public site ----
+# The pick ledger is the only record of real performance and is deliberately
+# not public.  Keeping it out of git keeps it off the deploy entirely.
+PICK_LEDGER.md
 
-# Lead magnets + IG images — must deploy without -f.
-# NOTE: with a leading `*` git will not descend into an excluded DIRECTORY, so
-# every level needs its own ! entry. `!assets/downloads/` alone does nothing
-# unless `!assets/` un-ignores the parent first.
-!assets/
-!assets/downloads/
-!assets/downloads/*
+# ---- build artifacts regenerated every run ----
+issue.json
 
-!assets/ig/
-!assets/ig/*.png
-!assets/dfs/
-!assets/dfs/*
-!ig/
-!ig/*.txt
-!ig/*.png
-!ig/*.jpg
-!ig/.sent.json
-!assets/headshots/
-!assets/headshots/*
-!assets/headshots/*/*
+# ---- local noise ----
+__pycache__/
+*.py[cod]
+.DS_Store
+*.log
+node_modules/
+.venv/
+venv/
+.pytest_cache/
