@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-14T14:29:49.054309+00:00",
+ "generated_utc": "2026-09-14T16:57:34.568948+00:00",
  "slate_date": "2026-09-14",
  "slate_label": "Mon, Sep 14",
  "non_mlb_available": [
@@ -24,11 +24,11 @@
     "record": "76-74"
    },
    "total": "o7",
-   "over_odds": "-102",
-   "under_odds": "-118",
+   "over_odds": "-101",
+   "under_odds": "-119",
    "spread": "+1.5",
-   "ml_away": "+128",
-   "ml_home": "-155",
+   "ml_away": "+129",
+   "ml_home": "-156",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+113",
@@ -38,13 +38,13 @@
     "over_odds": "+100",
     "under_odds": "-120"
    },
-   "true_away": 41.9,
-   "true_home": 58.1,
-   "hold": 4.64,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 43.9,
-   "be_ml_home": 60.8
+   "true_away": 41.7,
+   "true_home": 58.3,
+   "hold": 4.61,
+   "be_over": 50.2,
+   "be_under": 54.3,
+   "be_ml_away": 43.7,
+   "be_ml_home": 60.9
   },
   {
    "league": "MLB",
@@ -64,11 +64,11 @@
     "record": "70-79"
    },
    "total": "o7.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-108",
+   "under_odds": "-111",
    "spread": "-1.5",
-   "ml_away": "-221",
-   "ml_home": "+180",
+   "ml_away": "-220",
+   "ml_home": "+179",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-207",
@@ -78,13 +78,13 @@
     "over_odds": "-108",
     "under_odds": "-112"
    },
-   "true_away": 65.8,
-   "true_home": 34.2,
-   "hold": 4.56,
-   "be_over": 51.2,
-   "be_under": 53.5,
+   "true_away": 65.7,
+   "true_home": 34.3,
+   "hold": 4.59,
+   "be_over": 51.9,
+   "be_under": 52.6,
    "be_ml_away": 68.8,
-   "be_ml_home": 35.7
+   "be_ml_home": 35.8
   },
   {
    "league": "MLB",
@@ -104,7 +104,7 @@
     "record": "75-75"
    },
    "total": "o7.5",
-   "over_odds": "-110",
+   "over_odds": "-109",
    "under_odds": "-110",
    "spread": "+1.5",
    "ml_away": "+114",
@@ -121,7 +121,7 @@
    "true_away": 44.6,
    "true_home": 55.4,
    "hold": 4.71,
-   "be_over": 52.4,
+   "be_over": 52.2,
    "be_under": 52.4,
    "be_ml_away": 46.7,
    "be_ml_home": 58.0
@@ -146,7 +146,7 @@
    "total": "o8",
    "over_odds": "-105",
    "under_odds": "-114",
-   "spread": "+1.5",
+   "spread": "-1.5",
    "ml_away": "+103",
    "ml_home": "-124",
    "provider": "DraftKings",
@@ -184,8 +184,8 @@
     "record": "83-67"
    },
    "total": "o9.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-107",
+   "under_odds": "-112",
    "spread": "+1.5",
    "ml_away": "+113",
    "ml_home": "-136",
@@ -201,8 +201,8 @@
    "true_away": 44.9,
    "true_home": 55.1,
    "hold": 4.58,
-   "be_over": 51.2,
-   "be_under": 53.5,
+   "be_over": 51.7,
+   "be_under": 52.8,
    "be_ml_away": 46.9,
    "be_ml_home": 57.6
   },
@@ -224,8 +224,8 @@
     "record": "70-79"
    },
    "total": "o8",
-   "over_odds": "-112",
-   "under_odds": "-108",
+   "over_odds": "-116",
+   "under_odds": "-104",
    "spread": "-1.5",
    "ml_away": "-126",
    "ml_home": "+105",
@@ -241,8 +241,8 @@
    "true_away": 53.3,
    "true_home": 46.7,
    "hold": 4.53,
-   "be_over": 52.8,
-   "be_under": 51.9,
+   "be_over": 53.7,
+   "be_under": 51.0,
    "be_ml_away": 55.8,
    "be_ml_home": 48.8
   },
@@ -263,12 +263,12 @@
     "name": "Cardinals",
     "record": "74-76"
    },
-   "total": "o7.5",
-   "over_odds": "-118",
-   "under_odds": "-102",
+   "total": "o8",
+   "over_odds": "-102",
+   "under_odds": "-118",
    "spread": "+1.5",
-   "ml_away": "+119",
-   "ml_home": "-143",
+   "ml_away": "+122",
+   "ml_home": "-148",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+113",
@@ -278,13 +278,13 @@
     "over_odds": "-119",
     "under_odds": "-101"
    },
-   "true_away": 43.7,
-   "true_home": 56.3,
-   "hold": 4.51,
-   "be_over": 54.1,
-   "be_under": 50.5,
-   "be_ml_away": 45.7,
-   "be_ml_home": 58.8
+   "true_away": 43.0,
+   "true_home": 57.0,
+   "hold": 4.72,
+   "be_over": 50.5,
+   "be_under": 54.1,
+   "be_ml_away": 45.0,
+   "be_ml_home": 59.7
   },
   {
    "league": "MLB",
@@ -305,7 +305,7 @@
    },
    "total": "o11",
    "over_odds": "-109",
-   "under_odds": "-111",
+   "under_odds": "-110",
    "spread": "-1.5",
    "ml_away": "-208",
    "ml_home": "+170",
@@ -322,7 +322,7 @@
    "true_home": 35.4,
    "hold": 4.57,
    "be_over": 52.2,
-   "be_under": 52.6,
+   "be_under": 52.4,
    "be_ml_away": 67.5,
    "be_ml_home": 37.0
   },
@@ -344,11 +344,11 @@
     "record": "56-93"
    },
    "total": "o7.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-107",
+   "under_odds": "-113",
    "spread": "-1.5",
-   "ml_away": "-112",
-   "ml_home": "-108",
+   "ml_away": "-114",
+   "ml_home": "-106",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-118",
@@ -358,13 +358,13 @@
     "over_odds": "-102",
     "under_odds": "-118"
    },
-   "true_away": 50.4,
-   "true_home": 49.6,
-   "hold": 4.75,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 52.8,
-   "be_ml_home": 51.9
+   "true_away": 50.9,
+   "true_home": 49.1,
+   "hold": 4.73,
+   "be_over": 51.7,
+   "be_under": 53.1,
+   "be_ml_away": 53.3,
+   "be_ml_home": 51.5
   },
   {
    "league": "MLB",
@@ -383,9 +383,9 @@
     "name": "Diamondbacks",
     "record": "79-71"
    },
-   "total": "o8",
-   "over_odds": "-108",
-   "under_odds": "-112",
+   "total": "o8.5",
+   "over_odds": "-106",
+   "under_odds": "-114",
    "spread": "+1.5",
    "ml_away": "+110",
    "ml_home": "-132",
@@ -401,8 +401,8 @@
    "true_away": 45.6,
    "true_home": 54.4,
    "hold": 4.52,
-   "be_over": 51.9,
-   "be_under": 52.8,
+   "be_over": 51.5,
+   "be_under": 53.3,
    "be_ml_away": 47.6,
    "be_ml_home": 56.9
   },
@@ -429,7 +429,7 @@
    "spread": "+2.5",
    "ml_away": "+110",
    "ml_home": "-130",
-   "provider": "DraftKings",
+   "provider": "Draft Kings",
    "open": {
     "ml_away": "+130",
     "ml_home": "-155",
