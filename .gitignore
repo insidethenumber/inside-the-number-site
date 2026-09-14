@@ -90,6 +90,13 @@
 !posts/*.mov
 !posts/*.quote
 
-# Lead magnets — must deploy without -f
+# Lead magnets + IG images — must deploy without -f.
+# NOTE: with a leading `*` git will not descend into an excluded DIRECTORY, so
+# every level needs its own ! entry. `!assets/downloads/` alone does nothing
+# unless `!assets/` un-ignores the parent first.
+!assets/
 !assets/downloads/
 !assets/downloads/*
+
+!assets/ig/
+!assets/ig/*.png
