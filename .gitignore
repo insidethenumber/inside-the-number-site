@@ -100,3 +100,8 @@
 
 !assets/ig/
 !assets/ig/*.png
+!assets/dfs/
+!assets/dfs/*
+!assets/headshots/
+!assets/headshots/*
+!assets/headshots/*/*
