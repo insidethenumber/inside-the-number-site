@@ -322,13 +322,18 @@
   <div class="pick" id="our-pick">
     <div class="pick-tag">★ Our pick on this card</div>
         <!-- PICK:START — replaced by the daily routine. Keep these markers. -->
-    <div class="pick-conf" style="margin-bottom:14px">No college pick today &middot; updated <b>11:45 AM CT, Monday Sep 14</b>.</div>
+    <div class="pick-conf" style="margin-bottom:14px">No college pick yet &middot; Week 3 board is up &middot; updated <b>Monday, Sep 14</b>.</div>
 
-    <div class="pick-line">COLLEGE FOOTBALL DOES NOT PLAY MONDAYS. NEXT BOARD GOES UP THURSDAY.</div>
+    <div class="pick-line">TWO RANKED-VS-RANKED GAMES SATURDAY. BOTH INSIDE A FIELD GOAL.</div>
 
-    <p>There is no CFB pick here today &mdash; the sport is off. The board below refreshes itself from the live feed and will fill back in as Thursday&rsquo;s games are posted.</p>
+    <p>Week 3 is live on the board below. Of the 71 games on the card, exactly two put a ranked team against a ranked team and price it inside three points:</p>
 
-    <p><b>Today&rsquo;s card is Monday Night Football.</b> One NFL game, Denver at Kansas City: the total opened 42.5 and is 43.5 now while the spread never moved off Kansas City -2.5, open to now. The free pick and the full slate are on the <a href="/" style="color:#00d084">front page</a>.</p>
+    <p><b>#16 SMU at #23 Louisville</b> &mdash; Louisville -1.5, total 59.5, 2:30 PM CT on ESPN2.<br/>
+    <b>#7 LSU at #8 Ole Miss</b> &mdash; LSU -3, total 59.5, 6:30 PM CT on ABC.</p>
+
+    <p>Everything else with a ranked team in it is priced at double digits. Georgia is -25.5 at Arkansas, Texas is -30.5 against UTSA, Michigan is -35.5 against UTEP. Those are not games, they are paydays for the home athletic department.</p>
+
+    <p><b>No pick yet, and that is deliberate.</b> It is Monday. These numbers will move all week, and a pick written five days early is a pick written against a price nobody can still get. Ours goes up Friday, once the market has told us what it actually thinks.</p>
     <!-- PICK:END -->
   </div>
 
@@ -428,15 +433,24 @@
   // moment Saturday ended, so a Sunday visitor got Sep 10-14 (next week) with
   // yesterday bolted on. A football week runs Thu -> Mon, so on Sunday and
   // Monday the week we are IN is the one whose Saturday just passed.
-  function targetSaturday(){
+  // Chuck, Mon Sep 14: "you need to update the college football board, that's
+  // old news at this point." He was right — the page read WEEK 2 / SEP 9-14 and
+  // listed Thursday and Friday FINALs all day Monday. The Sep 6 rule above is
+  // still correct for Sunday, but holding it through Monday means every Monday
+  // the board is a day-old rerun. Calendar arithmetic alone cannot tell the
+  // difference between "Labor Day game still to come" and "week is over", so
+  // load() now rolls forward once every game in the held window is FINAL, and
+  // this takes an offset so it can ask for the following Saturday.
+  function targetSaturday(advanceDays){
     var d=new Date(), day=d.getDay();          // 0 Sun … 6 Sat
     if(day===0){ d.setDate(d.getDate()-1); }   // Sunday  -> yesterday
     else if(day===1){ d.setDate(d.getDate()-2); } // Monday -> Saturday
     else { d.setDate(d.getDate()+(6-day)); }   // Tue-Sat -> this Saturday
+    if(advanceDays){ d.setDate(d.getDate()+advanceDays); }
     return d;
   }
-  function weekWindow(){
-    var sat=targetSaturday();
+  function weekWindow(advanceDays){
+    var sat=targetSaturday(advanceDays);
     var from=new Date(sat); from.setDate(sat.getDate()-3);  // Wed, catches Thu openers
     var to=new Date(sat);   to.setDate(sat.getDate()+2);    // Mon, catches Labor Day
     return {from:from,to:to,sat:sat};
@@ -572,10 +586,33 @@
     GAMES=[];
     var W=weekWindow(), d=W.sat;
     try{
-      var r=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(W.from)+'-'+ymd(W.to)+'&groups=80&limit=300');
-      if(!r.ok) throw new Error(r.status);
-      var j=await r.json();
-      (j.events||[]).forEach(function(ev){
+      var fetchWeek=async function(win){
+        var rr=await fetch('https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates='+ymd(win.from)+'-'+ymd(win.to)+'&groups=80&limit=300');
+        if(!rr.ok) throw new Error(rr.status);
+        return await rr.json();
+      };
+      var j=await fetchWeek(W);
+      var evs=j.events||[];
+
+      // Roll forward when the held week is actually over, not when the
+      // calendar says so. On Sunday and Monday targetSaturday() deliberately
+      // looks BACK at the Saturday just played (right while games are still
+      // being played and graded). But once every game in that window is FINAL
+      // there is nothing left to show, and a visitor wants the weekend coming
+      // up. A Labor Day game still scheduled keeps state !== 'post', so the
+      // holiday case the Sep 6 rule protected still works.
+      var dow=new Date().getDay();
+      var allDone=evs.length>0 && evs.every(function(ev){
+        var st=(ev.status&&ev.status.type)||{};
+        return st.state==='post';
+      });
+      if((dow===0||dow===1) && allDone){
+        W=weekWindow(7); d=W.sat;
+        j=await fetchWeek(W);
+        evs=j.events||[];
+      }
+
+      evs.forEach(function(ev){
         var c=ev.competitions&&ev.competitions[0]; if(!c) return;
         var A=c.competitors.find(function(x){return x.homeAway==='away';});
         var H=c.competitors.find(function(x){return x.homeAway==='home';});
