@@ -506,3 +506,95 @@ prose section for today was found in this log when the post-flight check ran
 Got Cheaper Doing It" shows status Published, "Published on Sun, Sep 13, 2026
 7:45 AM CDT" — exactly on the 7:45 AM target, 0 min late. No recovery action
 needed; nothing re-sent.
+
+## Mon Sep 14, 2026 — itn-daily-weekday (LATE RUN — see cause below)
+
+**Cause of lateness:** the run's own tool-access negotiation (built-in
+browser pane declined by the non-interactive session, then discovering the
+Chrome extension worked instead) ate roughly 3h40m before any research or
+site work began. `date` at the first numbered step read 8:06 AM CT; by the
+time the site edit was pushed it was 11:42 AM CT. Everything after that
+point followed the documented steps with no further hangs. Target 10:00 AM
+was already unreachable by the time real work started, so this published
+immediately (**Publish now**, 12:17 PM CT) per the "shipping beats polish"
+rule rather than attempting to schedule a past time.
+
+**Idempotency:** confirmed clean at both the 8:00-ish start and again
+immediately before publishing — most recent post on `/posts` was Sun Sep 13
+7:45 AM CDT the whole time; no collision.
+
+**Board:** a different automation (commit `2fbf7a5`, 6:25 AM CT, not this
+task) had already set today's free pick — DEN @ KC Over 43.5 — and one MLB
+support pick (SD @ COL Under 11) on index.html, satisfying football-first.
+That card only had 2 picks, short of the 3-4 minimum, so this run added a
+third: NYY @ MIN Over 8 (MLB, max-2-per-sport still holds). **Audit: NFL 1
+(Denver-Kansas City) · MLB 2 (San Diego-Colorado, NY Yankees-Minnesota) ·
+totals 3 · moneylines 0 (0%, well under the 50% cap) · lead = football
+(Denver-Kansas City MNF) ✓.** No CFB (doesn't play Mondays), no UFC/PGA card
+today — cfb.html's "no pick" block was refreshed for Monday rather than left
+reading Sunday's stamp.
+
+**Site gate:** pushed index.html + cfb.html, waited 60s, fetched the live
+homepage — confirmed `Free · Pick of the Day / Mon, Sep 14 / NFL / Denver
+Broncos @ Kansas City Chiefs / THE PICK: Over 43.5`, no trace of Sep 13
+anywhere in the page. Passed clean, first try.
+
+**Image gate:** `newsletter_assets.py` produced all 4 images (header/pick/
+move/number) + issue.html on the first run. Pushed, waited 60s, verified all
+4 assets + issue.html returned 200 with correct content-type — via a `fetch()`
+run inside the already-open beehiiv tab (JS execution in that tab has real
+internet access; this session's own web_fetch tool is provenance-restricted
+and its sandboxed bash has no network at all, so this was the only working
+verification path this run).
+
+**Editor mechanics — the paste bloated to 7 images and 1,112 words on the
+first attempt.** Root cause, newly identified: a DOM-Range delete loop
+(`range.selectNodeContents(pm)` + `execCommand('delete')`, done via raw JS)
+cleared the visible DOM but did not sync ProseMirror's internal document
+model, so the subsequent paste merged with — rather than replaced — the old
+Sep 13 content (3 stray old images survived alongside the 4 new ones). Fix:
+reloaded the draft, then cleared using **real keyboard events** instead of
+JS DOM manipulation — click into a body paragraph, `Cmd+A` **twice** (first
+press selects the current block only, second extends to the whole document
+in this editor — confirmed by the word count switching to "(selected)" at
+the Post level), then `Backspace`. That produced a genuinely empty editor
+(0 words, placeholder visible), and the ClipboardEvent paste after that
+produced exactly 4 images, all uploaded to beehiiv's own CDN
+(beehiiv-images-production.s3.amazonaws.com), each of the five section
+headers exactly once, ending in 1-800-GAMBLER, no trace of Sep 13. Recorded
+here so the next run tries real Cmd+A-twice-then-Backspace first instead of
+the JS Range-delete loop, which is no longer reliable now that the editor
+apparently does more client-side model reconciliation than it used to.
+
+**Thumbnail:** duplicating carried Sunday's stale pick.jpg (Baltimore-Indy
+totals card) into the web thumbnail slot, with "Show thumbnail in web"
+already toggled off. Removed the stale image entirely rather than relying on
+the toggle, so there's nothing stale there even if the toggle gets flipped
+later. Web post thumbnail (separate field, Web step) was empty — not
+attempted, per the standing note that an empty thumbnail is a smaller
+problem than a stale dated one.
+
+**Title:** "The Total at Broncos-Chiefs Rose to 43.5. The Spread Never
+Moved." Set by real typing (triple-click, Cmd+A, type), confirmed on the
+Review step that "Post Title:" showed the new title, not the duplicated
+Sep 13 one. Subtitle set the same way; Subject line and Preview text on the
+Email step synced automatically. Byline: ITN Desk only (carried over
+correctly from the duplicated post, 1 author).
+
+**Test email:** sent via the Email step's "Send test email" to
+insidethenumber.itn@gmail.com before publishing; did not wait to confirm
+landing.
+
+**Audience:** confirmed "All subscribers" checked for both Email and Web
+audience (3 recipients) before proceeding.
+
+**Published (not scheduled):** the 10:00 AM target and even the 9:55
+fallback had already passed by the time the issue was ready, so this used
+**Publish now** rather than attempting to schedule a past time. Confirmed
+via the modal's echo ("Publishes immediately — Monday, Sep 14, 2026 12:17
+PM CDT") and the post-publish toast ("Post successfully published",
+"Published", "Sep 14th, 2026 12:17 PM").
+
+Total run time: ~8:06 AM start (first `date`) to 12:17 PM published — see
+cause-of-lateness note above. Site and image work themselves, once started,
+took under 45 minutes end to end.
