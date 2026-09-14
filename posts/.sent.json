@@ -140,7 +140,8 @@
   "885-fourth-quarter.txt",
   "886-link-games.txt",
   "887-subscribe-honest.txt",
-  "888-pga-biltmore-overround.txt"
+  "888-pga-biltmore-overround.txt",
+  "0000a-dfs-den-kc-fanduel.txt"
  ],
  "history": [
   {
@@ -1601,6 +1602,18 @@
    "url": "https://x.com/thenumberdesk/status/2099576664279965929",
    "at": "2026-09-14T19:10:59.890992+00:00",
    "chars": 259,
+   "had_link": false,
+   "had_image": true,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "0000a-dfs-den-kc-fanduel.txt",
+   "id": "2099596802282381341",
+   "url": "https://x.com/thenumberdesk/status/2099596802282381341",
+   "at": "2026-09-14T20:31:01.218992+00:00",
+   "chars": 275,
    "had_link": false,
    "had_image": true,
    "had_video": false,
