@@ -25,8 +25,15 @@ on:
   #      STATUS_SCHEDULED, so a finished card can no longer be published as
   #      shoppable odds. --allow-finished is required to override.
   # The guard runs BEFORE the odds call, so a stale window costs no credit.
-  schedule:
-    - cron: "0 13 * * *"   # 08:00 CT daily through fight week
+  # SCHEDULE DISABLED Sep 14 2026. Noche UFC (Sep 12) is fought. The generator
+  # correctly refuses to publish a finished card, so this cron failed every
+  # morning Sep 13 and Sep 14 and emailed Chuck each time. A watchdog that
+  # cries wolf daily trains you to ignore it, which is worse than no watchdog.
+  #
+  # TO RE-ENABLE for the next numbered card: uncomment the cron below and
+  # point --start/--end at that card's window. Until then run it by hand from
+  # the Actions tab (workflow_dispatch stays live).
+  #   - cron: "0 13 * * *"   # 08:00 CT daily through fight week
   workflow_dispatch:
 
 concurrency:
