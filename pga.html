@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PGA Odds: Biltmore Championship Win Chances | Inside the Number</title>
-<meta name="description" content="Every PGA outright price turned into a plain win chance, with the book&#39;s cut taken out. Biltmore Championship, Arden NC, September 17-20 &mdash; live outright board with win chances."/>
+<title>PGA Odds: Biltmore Championship Outright Board | Inside the Number</title>
+<meta name="description" content="Every PGA outright price for the Biltmore Championship turned into a plain win chance, with the book's cut taken out and shown as one number. Arden, NC, September 17-20."/>
 <link rel="canonical" href="https://insidethenumber.com/pga"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -13,8 +13,8 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/pga"/>
-<meta property="og:title" content="PGA odds: Biltmore Championship win chances — Inside the Number"/>
-<meta property="og:description" content="Every outright price turned into a plain win chance. Biltmore Championship, September 17-20."/>
+<meta property="og:title" content="PGA odds: Biltmore Championship outright board — Inside the Number"/>
+<meta property="og:description" content="Every outright price turned into a plain win chance, book's cut stripped out. Biltmore Championship, September 17-20."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
@@ -77,10 +77,6 @@
   @media (max-width:560px){ .board td.o5, .board th.o5 { display:none; } }
 
   .strip { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0 26px; }
-  /* Two-up variant. This used to be an inline style, which outranks the
-     media query below — so the pair stayed side by side on a phone and
-     squeezed "Scottie Scheffler +320" onto two lines. As a class it can
-     be overridden at 640px like everything else. */
   .strip-2 { grid-template-columns:repeat(2,1fr); }
   .chip { background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:13px 15px; }
   .chip .l { font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--muted);
@@ -125,6 +121,9 @@
   footer { border-top:1px solid var(--border); padding:26px 24px 34px; text-align:center; }
   .foot-d { font-size:11px; color:var(--muted); max-width:640px; margin:0 auto 8px; }
   .foot-c { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
+  .board-h { margin:36px 0 12px; }
+  .board-h h2 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; }
+  .board-note { font-size:12px; color:var(--muted); margin-top:6px; max-width:640px; }
   @media (max-width:640px) {
     nav { padding:0 18px; } .nav-links { display:none; } .nav-hamburger { display:flex; }
     .strip, .strip-2 { grid-template-columns:1fr; }
@@ -146,15 +145,6 @@
   body.menu-open { overflow:hidden; }
 </style>
 <style id="nav-fit">
-/* ── NAV FIT (added Aug 31 2026) ──────────────────────────────────────────
-   The nav links needed ~770-850px of room but several pages only swapped to
-   the hamburger at 640px, so between roughly 640px and 850px the links
-   crowded the logo and ran off the right edge. Two fixes:
-   1) a compact tier that tightens the nav well before it can ever collide,
-   2) one shared hamburger breakpoint (900px) on every page.
-   Net effect: the nav needs ~580px at its tightest but switches to the menu
-   at 900px, so there is ~320px of slack instead of ~11px. That slack matters
-   because link widths shift with the webfont, browser zoom and OS text size. */
 @media (max-width:1150px){
   nav{padding-left:20px !important;padding-right:20px !important}
   .nav-links{gap:16px !important}
@@ -214,43 +204,72 @@
   </div>
 <div class="wrap">
   <div class="eyebrow">// PGA</div>
-  <h1>Golf<br/><span>the odds and the win chances.</span></h1>
-  <p class="sub">Every outright price on the board turned into a plain win chance, with what the book keeps shown next to it. Next on the schedule: the <strong>Biltmore Championship</strong> in Arden, North Carolina, September 17&ndash;20.</p>
-  <div class="stamp">Outright prices read from DraftKings <strong>Mon, Sep 14 2026, 8:42 AM ET</strong> &middot; top 15 of the board &middot; nothing here is a pick. Check the <a href="games" style="color:inherit">games board</a> for everything priced today.</div>
+  <h1>PGA Odds<br/><span>Biltmore Championship, outright board.</span></h1>
+  <p class="sub">The Cliffs at Walnut Cove &mdash; Arden, North Carolina. September 17&ndash;20. First tee shots go off Thursday morning; this is the field priced to win the whole thing, four rounds, stroke play.</p>
+  <div class="stamp">Board updated <strong>Monday, September 14, 2026</strong>. Prices from DraftKings Sportsbook, will move all week. Nothing here is a pick &mdash; check the <a href="games" style="color:inherit">games board</a> for everything priced today.</div>
 
-  <table class="board">
-    <thead><tr><th>Golfer</th><th>To win</th><th>Win chance</th><th class="o5">Top 5</th><th class="o5">Top 10</th></tr></thead>
+  <div class="strip strip-2">
+    <div class="chip">
+      <div class="l">Field priced</div>
+      <div class="v">128 golfers</div>
+      <div class="s">full outright market</div>
+    </div>
+    <div class="chip">
+      <div class="l">What the book keeps</div>
+      <div class="v" style="color:var(--gold)">47&cent; per $1</div>
+      <div class="s">field prices at 147%</div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-tag">The number that matters</div>
+    <div class="pick-line">This field prices at <b>147%</b>.</div>
+    <div class="pick-conf">32 was BMW Championship overround &middot; this is 15 points worse</div>
+    <p>Add up the raw implied win chance of every golfer in the field and it does not land on 100%
+      &mdash; it lands on <b>147%</b>. That extra 47 points is the book's built-in edge, sitting in the
+      price before a single tee shot is struck. It is bigger here than in most outright markets
+      because a 128-man field means 128 separate cuts stacked on top of each other. The table
+      below shows both numbers for the top 20 prices: the raw price the book is offering, and
+      the fair win chance once that cut is stripped back out.</p>
+  </div>
+
+  <div class="board-h"><h2>Top 20 Outright Prices</h2></div>
+  <table>
+    <thead>
+      <tr><th>Player</th><th>Price</th><th>Raw Implied</th><th>Fair (No Vig)</th></tr>
+    </thead>
     <tbody>
-<tr><td class="g">Jackson Koivun</td><td class="o">+1325</td><td class="p"><span class="bar" style="width:100%"></span><b>7.0%</b></td><td class="o5">+280</td><td class="o5">+144</td></tr>
-<tr><td class="g">Jacob Bridgeman</td><td class="o">+1800</td><td class="p"><span class="bar" style="width:75%"></span><b>5.3%</b></td><td class="o5">+370</td><td class="o5">+186</td></tr>
-<tr><td class="g">Benjamin James</td><td class="o">+2450</td><td class="p"><span class="bar" style="width:56%"></span><b>3.9%</b></td><td class="o5">+470</td><td class="o5">+230</td></tr>
-<tr><td class="g">Doug Ghim</td><td class="o">+2500</td><td class="p"><span class="bar" style="width:55%"></span><b>3.8%</b></td><td class="o5">+480</td><td class="o5">+235</td></tr>
-<tr><td class="g">Davis Thompson</td><td class="o">+2800</td><td class="p"><span class="bar" style="width:49%"></span><b>3.4%</b></td><td class="o5">+520</td><td class="o5">+260</td></tr>
-<tr><td class="g">Corey Conners</td><td class="o">+2900</td><td class="p"><span class="bar" style="width:48%"></span><b>3.3%</b></td><td class="o5">+540</td><td class="o5">+265</td></tr>
-<tr><td class="g">J.T. Poston</td><td class="o">+3000</td><td class="p"><span class="bar" style="width:46%"></span><b>3.2%</b></td><td class="o5">+560</td><td class="o5">+270</td></tr>
-<tr><td class="g">Rasmus Hojgaard</td><td class="o">+3000</td><td class="p"><span class="bar" style="width:46%"></span><b>3.2%</b></td><td class="o5">+580</td><td class="o5">+290</td></tr>
-<tr><td class="g">Marco Penge</td><td class="o">+3200</td><td class="p"><span class="bar" style="width:43%"></span><b>3.0%</b></td><td class="o5">+620</td><td class="o5">+310</td></tr>
-<tr><td class="g">Mac Meissner</td><td class="o">+3400</td><td class="p"><span class="bar" style="width:41%"></span><b>2.9%</b></td><td class="o5">+620</td><td class="o5">+300</td></tr>
-<tr><td class="g">Eric Cole</td><td class="o">+3500</td><td class="p"><span class="bar" style="width:40%"></span><b>2.8%</b></td><td class="o5">+640</td><td class="o5">+315</td></tr>
-<tr><td class="g">Beau Hossler</td><td class="o">+3600</td><td class="p"><span class="bar" style="width:39%"></span><b>2.7%</b></td><td class="o5">+640</td><td class="o5">+310</td></tr>
-<tr><td class="g">Kevin Yu</td><td class="o">+3600</td><td class="p"><span class="bar" style="width:39%"></span><b>2.7%</b></td><td class="o5">+650</td><td class="o5">+320</td></tr>
-<tr><td class="g">Blades Brown</td><td class="o">+3800</td><td class="p"><span class="bar" style="width:37%"></span><b>2.6%</b></td><td class="o5">+690</td><td class="o5">+335</td></tr>
-<tr><td class="g">Ryo Hisatsune</td><td class="o">+3800</td><td class="p"><span class="bar" style="width:37%"></span><b>2.6%</b></td><td class="o5">+670</td><td class="o5">+320</td></tr>
+      <tr class="hl"><td>Jackson Koivun</td><td class="od">+1325</td><td class="im">7.02%</td><td class="tr">4.79%</td></tr>
+<tr><td>Jacob Bridgeman</td><td class="od">+1850</td><td class="im">5.13%</td><td class="tr">3.50%</td></tr>
+<tr><td>Benjamin James</td><td class="od">+2450</td><td class="im">3.92%</td><td class="tr">2.67%</td></tr>
+<tr><td>Doug Ghim</td><td class="od">+2500</td><td class="im">3.85%</td><td class="tr">2.62%</td></tr>
+<tr><td>Davis Thompson</td><td class="od">+2800</td><td class="im">3.45%</td><td class="tr">2.35%</td></tr>
+<tr><td>Corey Conners</td><td class="od">+2900</td><td class="im">3.33%</td><td class="tr">2.27%</td></tr>
+<tr><td>J.T. Poston</td><td class="od">+3000</td><td class="im">3.23%</td><td class="tr">2.20%</td></tr>
+<tr><td>Rasmus Hojgaard</td><td class="od">+3000</td><td class="im">3.23%</td><td class="tr">2.20%</td></tr>
+<tr><td>Marco Penge</td><td class="od">+3200</td><td class="im">3.03%</td><td class="tr">2.07%</td></tr>
+<tr><td>Mac Meissner</td><td class="od">+3400</td><td class="im">2.86%</td><td class="tr">1.95%</td></tr>
+<tr><td>Eric Cole</td><td class="od">+3500</td><td class="im">2.78%</td><td class="tr">1.89%</td></tr>
+<tr><td>Beau Hossler</td><td class="od">+3600</td><td class="im">2.70%</td><td class="tr">1.84%</td></tr>
+<tr><td>Kevin Yu</td><td class="od">+3600</td><td class="im">2.70%</td><td class="tr">1.84%</td></tr>
+<tr><td>Blades Brown</td><td class="od">+3800</td><td class="im">2.56%</td><td class="tr">1.75%</td></tr>
+<tr><td>Ryo Hisatsune</td><td class="od">+3800</td><td class="im">2.56%</td><td class="tr">1.75%</td></tr>
+<tr><td>Keita Nakajima</td><td class="od">+3900</td><td class="im">2.50%</td><td class="tr">1.70%</td></tr>
+<tr><td>Jackson Suber</td><td class="od">+4100</td><td class="im">2.38%</td><td class="tr">1.62%</td></tr>
+<tr><td>Pierceson Coody</td><td class="od">+4200</td><td class="im">2.33%</td><td class="tr">1.59%</td></tr>
+<tr><td>John Keefer</td><td class="od">+4300</td><td class="im">2.27%</td><td class="tr">1.55%</td></tr>
+<tr><td>Michael Kim</td><td class="od">+4400</td><td class="im">2.22%</td><td class="tr">1.52%</td></tr>
     </tbody>
   </table>
+  <div class="board-note">Raw implied = 100 &divide; (100 + price), what the price alone says the win
+    chance is. Fair = that number divided by the field's total (147%), so the whole field's fair
+    chances add to 100%. Jackson Koivun is the favorite at +1325 (7.02% raw, 4.79% fair) &mdash; even
+    the favorite is not expected to win four times out of five, or really at all most weeks.</div>
 
-  <div class="cut"><b>What the board is really telling you.</b> Add up the win chances above and you get
-    <b>52.5%</b> &mdash; from fifteen players, in a field of roughly a hundred and fifty. A fair book adds to
-    100%. Everything over that is the house&rsquo;s cut, and on a golf outright market it is the widest cut in
-    mainstream betting: fifteen names here already account for more than half of a number that should cover
-    the entire field. That is not a knock on these prices, it is what an outright market is. It is also why
-    the honest version of &ldquo;who wins&rdquo; is <b>7.0% for the favourite</b> &mdash; Jackson Koivun misses
-    better than nine times out of ten.</div>
-
-  <p class="expl"><b>How to read this.</b> Win chance is the market's honest opinion of each
-    player once the bookmaker's cut is taken out &mdash; the whole field adds up to 100%. Betting a golfer
-    to win outright is the longest of long games: even the favorite misses four times out of
-    five. Fun-sized stakes only.</p>
+  <p class="expl"><b>How to read this page.</b> Win chance is the market's honest opinion of each
+    player once the bookmaker's cut is taken out &mdash; the whole field then adds up to 100%. Betting a
+    golfer to win outright is the longest of long games: even the favorite misses far more often
+    than he hits. Fun-sized stakes only.</p>
 
   <div class="cta"><b>Every line, explained &mdash; what the market actually thinks.</b> In your inbox every morning.<br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
