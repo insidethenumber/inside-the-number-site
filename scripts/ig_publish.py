@@ -218,9 +218,21 @@ def main():
             formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--dry-run", action="store_true", help="show what's next, publish nothing")
     p.add_argument("--status", action="store_true", help="queue health")
+    p.add_argument("--verify", action="store_true",
+                   help="prove the credential works against Meta without posting")
     p.add_argument("--public-base", default=SITE,
                    help="origin the image is served from (default insidethenumber.com)")
     a = p.parse_args()
+
+    if a.verify:
+        # Confirms the runner can reach Meta AND that the token/id pair is
+        # good, without creating a container or publishing anything. This is
+        # the half of the pipeline that broke on Sep 14, so it is worth being
+        # able to test it on its own.
+        token, uid = creds()
+        me = _api(uid, {"fields": "username,account_type", "access_token": token})
+        print(f"OK token valid — @{me.get('username')} ({me.get('account_type')}) id={me.get('id')}")
+        return
 
     st = load_state()
     slug, txt, img = next_item(st)

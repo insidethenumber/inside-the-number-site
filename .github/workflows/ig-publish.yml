@@ -23,6 +23,11 @@ on:
   schedule:
     - cron: "*/20 13-23 * * *"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Validate only — verify the token and check the queue, publish nothing'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -90,7 +95,13 @@ jobs:
             echo "::error title=Instagram secrets missing::Add IG_ACCESS_TOKEN and IG_BUSINESS_ACCOUNT_ID under Settings > Secrets and variables > Actions."
             exit 1
           fi
-          python3 scripts/ig_publish.py
+          python3 scripts/ig_publish.py --verify
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "dry_run: validating only, nothing will be published"
+            python3 scripts/ig_publish.py --dry-run
+          else
+            python3 scripts/ig_publish.py
+          fi
 
       - name: Record what went out
         if: steps.q.outputs.go == 'true'
