@@ -102,6 +102,11 @@
 !assets/ig/*.png
 !assets/dfs/
 !assets/dfs/*
+!ig/
+!ig/*.txt
+!ig/*.png
+!ig/*.jpg
+!ig/.sent.json
 !assets/headshots/
 !assets/headshots/*
 !assets/headshots/*/*

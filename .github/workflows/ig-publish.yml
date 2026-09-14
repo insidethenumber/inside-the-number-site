@@ -1,0 +1,116 @@
+name: Instagram publish
+
+# Instagram posting, on GitHub's servers — same shape as x-posts.yml.
+#
+# Built Sep 14, 2026, after Instagram had to be posted by hand on a deadline.
+# The Meta setup was never the problem: the token was valid, the app was fine.
+# The problem was that the token lived on a machine with no route to Meta, so
+# using it meant handing it to a browser, and that hand-off is not dependable.
+#
+# A GitHub runner has real outbound network and reads the token from Secrets,
+# so no credential ever passes through a browser and nobody has to be logged in.
+#
+# Queue: ig/<slug>.txt + ig/<slug>.png  ->  copied to assets/ig/ for a public
+# URL (Meta fetches the image itself, it cannot be uploaded as bytes) -> publish.
+
+on:
+  push:
+    paths:
+      - 'ig/**'
+  # Poll rather than trusting a single cron to land — same lesson x-posts.yml
+  # learned in August. A dropped trigger is covered twenty minutes later, and
+  # volume is gated by the SENT STATE, not the clock, so extra wake-ups are free.
+  schedule:
+    - cron: "*/20 13-23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Two runs publishing at once would double-post and corrupt the queue state.
+  group: ig-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Pillow (aspect-ratio guard)
+        run: pip install --quiet Pillow
+
+      - name: Anything queued?
+        id: q
+        run: |
+          python3 scripts/ig_publish.py --status | tee /tmp/status.txt
+          if grep -q "queue is empty" /tmp/status.txt; then
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The image has to be at a public URL before Meta will take it, so the
+      # queue image is copied into assets/ig/ and pushed FIRST. ig_publish.py
+      # then blocks until that URL returns 200 rather than publishing blind.
+      - name: Stage image for public serving
+        if: steps.q.outputs.go == 'true'
+        run: |
+          slug=$(python3 scripts/ig_publish.py --status | sed -n 's/.*next: \(.*\)\.txt/\1/p')
+          [ -n "$slug" ] || { echo "no slug"; exit 1; }
+          mkdir -p assets/ig
+          for ext in png jpg jpeg; do
+            if [ -f "ig/$slug.$ext" ]; then cp "ig/$slug.$ext" "assets/ig/$slug.$ext"; fi
+          done
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          # .gitignore is an allowlist headed by a bare "*", so force the add.
+          git add -f assets/ig
+          if git diff --cached --quiet; then
+            echo "image already staged"
+          else
+            git commit -m "IG: stage $slug for publishing [skip ci]"
+            git pull --rebase --autostash
+            git push
+          fi
+
+      - name: Publish
+        if: steps.q.outputs.go == 'true'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_BUSINESS_ACCOUNT_ID: ${{ secrets.IG_BUSINESS_ACCOUNT_ID }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ] || [ -z "$IG_BUSINESS_ACCOUNT_ID" ]; then
+            echo "::error title=Instagram secrets missing::Add IG_ACCESS_TOKEN and IG_BUSINESS_ACCOUNT_ID under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          python3 scripts/ig_publish.py
+
+      - name: Record what went out
+        if: steps.q.outputs.go == 'true'
+        run: |
+          git config user.name  "ITN Desk"
+          git config user.email "desk@insidethenumber.com"
+          git add -f ig/.sent.json
+          if git diff --cached --quiet; then
+            echo "no state change"
+          else
+            git commit -m "IG: published [skip ci]"
+            git pull --rebase --autostash
+            git push
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Instagram publish"
+            echo ""
+            cat /tmp/status.txt 2>/dev/null || echo "queue not read"
+          } >> "$GITHUB_STEP_SUMMARY"
