@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>PGA Odds: Biltmore Championship Win Chances | Inside the Number</title>
-<meta name="description" content="Every PGA outright price turned into a plain win chance, with the book&#39;s cut taken out. Biltmore Championship, Arden NC, September 17-20 — outright board goes up Monday."/>
+<meta name="description" content="Every PGA outright price turned into a plain win chance, with the book&#39;s cut taken out. Biltmore Championship, Arden NC, September 17-20 &mdash; live outright board with win chances."/>
 <link rel="canonical" href="https://insidethenumber.com/pga"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -57,6 +57,25 @@
   .sub { color:var(--mid); font-weight:300; margin:14px 0 6px; max-width:660px; }
   .stamp { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-bottom:26px; }
   .stamp a { color:var(--muted); }
+
+  .board { width:100%; border-collapse:collapse; margin:26px 0 8px; font-size:14px; }
+  .board th { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--muted); text-align:right; padding:0 8px 10px;
+    border-bottom:1px solid var(--border-lit); font-weight:500; }
+  .board th:first-child { text-align:left; }
+  .board td { padding:11px 8px; border-bottom:1px solid var(--border); text-align:right; }
+  .board td.g { text-align:left; color:var(--white); font-weight:600; }
+  .board td.o { font-family:'IBM Plex Mono',monospace; color:var(--green); }
+  .board td.o5 { font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:12.5px; }
+  .board td.p { position:relative; font-family:'IBM Plex Mono',monospace; color:var(--white); min-width:96px; }
+  .board td.p .bar { position:absolute; left:8px; top:50%; transform:translateY(-50%);
+    height:20px; background:var(--green-dim); border-left:2px solid var(--green); z-index:0; }
+  .board td.p b { position:relative; z-index:1; font-weight:500; }
+  .cut { background:var(--surface-1); border:1px solid var(--border-lit); border-left:3px solid var(--gold);
+    border-radius:10px; padding:16px 18px; margin:22px 0; font-size:14px; color:var(--mid); }
+  .cut b { color:var(--white); }
+  @media (max-width:560px){ .board td.o5, .board th.o5 { display:none; } }
+
   .strip { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0 26px; }
   /* Two-up variant. This used to be an inline style, which outranks the
      media query below — so the pair stayed side by side on a phone and
@@ -197,9 +216,38 @@
   <div class="eyebrow">// PGA</div>
   <h1>Golf<br/><span>the odds and the win chances.</span></h1>
   <p class="sub">Every outright price on the board turned into a plain win chance, with what the book keeps shown next to it. Next on the schedule: the <strong>Biltmore Championship</strong> in Arden, North Carolina, September 17&ndash;20.</p>
-  <div class="stamp">The outright board goes up <strong>Monday, September 14</strong>, once the prices are posted. Nothing here is a pick. Check the <a href="games" style="color:inherit">games board</a> for everything priced today.</div>
+  <div class="stamp">Outright prices read from DraftKings <strong>Mon, Sep 14 2026, 8:42 AM ET</strong> &middot; top 15 of the board &middot; nothing here is a pick. Check the <a href="games" style="color:inherit">games board</a> for everything priced today.</div>
 
-  <p class="expl"><b>How to read this page when it is live.</b> Win chance is the market's honest opinion of each
+  <table class="board">
+    <thead><tr><th>Golfer</th><th>To win</th><th>Win chance</th><th class="o5">Top 5</th><th class="o5">Top 10</th></tr></thead>
+    <tbody>
+<tr><td class="g">Jackson Koivun</td><td class="o">+1325</td><td class="p"><span class="bar" style="width:100%"></span><b>7.0%</b></td><td class="o5">+280</td><td class="o5">+144</td></tr>
+<tr><td class="g">Jacob Bridgeman</td><td class="o">+1800</td><td class="p"><span class="bar" style="width:75%"></span><b>5.3%</b></td><td class="o5">+370</td><td class="o5">+186</td></tr>
+<tr><td class="g">Benjamin James</td><td class="o">+2450</td><td class="p"><span class="bar" style="width:56%"></span><b>3.9%</b></td><td class="o5">+470</td><td class="o5">+230</td></tr>
+<tr><td class="g">Doug Ghim</td><td class="o">+2500</td><td class="p"><span class="bar" style="width:55%"></span><b>3.8%</b></td><td class="o5">+480</td><td class="o5">+235</td></tr>
+<tr><td class="g">Davis Thompson</td><td class="o">+2800</td><td class="p"><span class="bar" style="width:49%"></span><b>3.4%</b></td><td class="o5">+520</td><td class="o5">+260</td></tr>
+<tr><td class="g">Corey Conners</td><td class="o">+2900</td><td class="p"><span class="bar" style="width:48%"></span><b>3.3%</b></td><td class="o5">+540</td><td class="o5">+265</td></tr>
+<tr><td class="g">J.T. Poston</td><td class="o">+3000</td><td class="p"><span class="bar" style="width:46%"></span><b>3.2%</b></td><td class="o5">+560</td><td class="o5">+270</td></tr>
+<tr><td class="g">Rasmus Hojgaard</td><td class="o">+3000</td><td class="p"><span class="bar" style="width:46%"></span><b>3.2%</b></td><td class="o5">+580</td><td class="o5">+290</td></tr>
+<tr><td class="g">Marco Penge</td><td class="o">+3200</td><td class="p"><span class="bar" style="width:43%"></span><b>3.0%</b></td><td class="o5">+620</td><td class="o5">+310</td></tr>
+<tr><td class="g">Mac Meissner</td><td class="o">+3400</td><td class="p"><span class="bar" style="width:41%"></span><b>2.9%</b></td><td class="o5">+620</td><td class="o5">+300</td></tr>
+<tr><td class="g">Eric Cole</td><td class="o">+3500</td><td class="p"><span class="bar" style="width:40%"></span><b>2.8%</b></td><td class="o5">+640</td><td class="o5">+315</td></tr>
+<tr><td class="g">Beau Hossler</td><td class="o">+3600</td><td class="p"><span class="bar" style="width:39%"></span><b>2.7%</b></td><td class="o5">+640</td><td class="o5">+310</td></tr>
+<tr><td class="g">Kevin Yu</td><td class="o">+3600</td><td class="p"><span class="bar" style="width:39%"></span><b>2.7%</b></td><td class="o5">+650</td><td class="o5">+320</td></tr>
+<tr><td class="g">Blades Brown</td><td class="o">+3800</td><td class="p"><span class="bar" style="width:37%"></span><b>2.6%</b></td><td class="o5">+690</td><td class="o5">+335</td></tr>
+<tr><td class="g">Ryo Hisatsune</td><td class="o">+3800</td><td class="p"><span class="bar" style="width:37%"></span><b>2.6%</b></td><td class="o5">+670</td><td class="o5">+320</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cut"><b>What the board is really telling you.</b> Add up the win chances above and you get
+    <b>52.5%</b> &mdash; from fifteen players, in a field of roughly a hundred and fifty. A fair book adds to
+    100%. Everything over that is the house&rsquo;s cut, and on a golf outright market it is the widest cut in
+    mainstream betting: fifteen names here already account for more than half of a number that should cover
+    the entire field. That is not a knock on these prices, it is what an outright market is. It is also why
+    the honest version of &ldquo;who wins&rdquo; is <b>7.0% for the favourite</b> &mdash; Jackson Koivun misses
+    better than nine times out of ten.</div>
+
+  <p class="expl"><b>How to read this.</b> Win chance is the market's honest opinion of each
     player once the bookmaker's cut is taken out &mdash; the whole field adds up to 100%. Betting a golfer
     to win outright is the longest of long games: even the favorite misses four times out of
     five. Fun-sized stakes only.</p>
