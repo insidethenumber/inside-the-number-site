@@ -139,7 +139,8 @@
   "884-nyymin-frozen.txt",
   "885-fourth-quarter.txt",
   "886-link-games.txt",
-  "887-subscribe-honest.txt"
+  "887-subscribe-honest.txt",
+  "888-pga-biltmore-overround.txt"
  ],
  "history": [
   {
@@ -1590,6 +1591,18 @@
    "chars": 240,
    "had_link": false,
    "had_image": false,
+   "had_video": false,
+   "quote_of": null,
+   "est_cost": 0.015
+  },
+  {
+   "file": "888-pga-biltmore-overround.txt",
+   "id": "2099576664279965929",
+   "url": "https://x.com/thenumberdesk/status/2099576664279965929",
+   "at": "2026-09-14T19:10:59.890992+00:00",
+   "chars": 259,
+   "had_link": false,
+   "had_image": true,
    "had_video": false,
    "quote_of": null,
    "est_cost": 0.015
