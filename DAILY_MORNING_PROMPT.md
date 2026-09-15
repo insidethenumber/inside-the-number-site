@@ -1,339 +1,180 @@
-**READ NORTH_STAR.md FIRST.** The goal is traffic → subscribers → passive income. Every task must put a new human in front of the site or newsletter; building for its own sake waits.
+> ## ⚠️ PIVOT NOTICE — Sep 15, 2026, supersedes everything below
+>
+> Per `DECISION-ANONYMOUS-TOOLS-PIVOT-2026-09-14.md`, Inside the Number no
+> longer sells picks. **There is no ITN Pro, no $17.99/mo tier, no paid
+> picks product, and no daily "stated side and number."** The site's job is
+> live odds, line movement, the no-vig true price, and the key numbers —
+> free, on every game, on every board. The newsletter's job is the same
+> thing in your inbox, not a pick.
+>
+> This also retires **record.html**, which the Aug 22 banner below already
+> said was deleted — it still is (confirmed against the live repo tree,
+> Sep 15). Every instruction below that references logging a result, a
+> win/loss record, ROI, units, or linking to `/record` is dead. So is every
+> reference to `inside_the_number.html` — that file does not exist in the
+> live repo either; the live homepage is `index.html`, full stop.
+>
+> **What the daily routine is now:** research the board (all covered
+> sports), make sure CFB and NFL are current and dated, write a no-vig/
+> line-movement read of what's interesting today, and — only if Chuck has
+> separately approved it — draft the newsletter around that. No forced
+> side. No performance claims. See "The routine" below for the full
+> replacement, and "Stale-content hard stop" for the check that keeps this
+> from ever again showing yesterday's board on today's date.
+>
+> **Social posting stays paused** unless Chuck separately approves it in
+> writing for that day. See the dedicated section near the end. This
+> overrides anything below or in `x-posts.yml`/`ig-publish.yml`/
+> `reply-ammo.yml` that assumes posting is on by default.
 
-**ANTI-HANG RULES — added Sep 11, 2026. These bind every scheduled task, and they
-outrank anything below that conflicts with them.**
+---
 
-On Fri Sep 11 four task sessions fired exactly on time and never finished: the
-weekday newsletter, the X morning scan, and the DFS task (which somehow spawned
-two sessions from one cron fire). They ran for five hours. Nothing shipped — no
-newsletter, no DFS card, no commits — and because they held the runner, every
-task scheduled after 8:09 AM was starved and never ran at all. One jam, a whole
-day of silence.
+**READ NORTH_STAR.md FIRST.** The goal is traffic → subscribers → passive
+income. Every task must put a new human in front of the site or newsletter;
+building for its own sake waits.
 
-A time budget does not save you from this, because you never reach the clock to
-check it. So:
+**ANTI-HANG RULES — still in force, unchanged by the pivot. They bind every
+scheduled task and outrank anything below that conflicts with them.**
 
-1. **Run `date` at the start of EVERY numbered step.** Not once at the top of the
-   run — every step. A stalled run has no other way to notice it is late.
-2. **No unbounded loops, ever.** Any scroll-to-accumulate, poll-until-ready, or
-   retry loop needs BOTH a hard iteration cap (12 is plenty) and a wall-clock
-   deadline. When either trips, stop and use what you have. The DFS task hung for
-   five hours inside exactly this kind of loop, walking a 423-row table.
-3. **Two strikes on any single check.** If a page, fetch or script fails twice,
-   stop, write down what is missing, and move on. There is never a third attempt.
-4. **A wedged browser tab is fixed by closing it, not by waiting.** If script
-   injection times out or a page stops responding, close the tab and open a fresh
-   one. That has worked every time it has been tried; waiting never has.
-5. **Keep any single bash call small.** Clone → edit → verify → commit → push
-   belongs in one call, because the filesystem does not survive between calls.
-   Nothing else does. Never fold board research or asset generation into it.
-6. **Shipping beats polish.** Past the deadline in your own prompt, stop building
-   and publish what exists. A plain issue that sends beats a perfect one that
-   does not.
-7. **If a DRAFT_<today>.md exists in the repo, read it first.** It is pre-staged
-   research, written to let you skip the board survey — the single largest hang
-   surface in the routine. Verify the few numbers it names; do not re-survey the
-   whole board. Delete it in the same push that ships the issue.
+1. **Run `date` at the start of EVERY numbered step.** A stalled run has no
+   other way to notice it is late.
+2. **No unbounded loops, ever.** Any scroll-to-accumulate, poll-until-ready,
+   or retry loop needs both a hard iteration cap (12 is plenty) and a
+   wall-clock deadline.
+3. **Two strikes on any single check.** If a page, fetch, or script fails
+   twice, stop, write down what is missing, and move on.
+4. **A wedged browser tab is fixed by closing it, not by waiting.**
+5. **Keep any single bash call small.** Clone → edit → verify → commit →
+   push belongs in one call; the filesystem does not survive between calls.
+6. **Shipping beats polish.** Past the deadline, stop building and publish
+   what exists — accurate and dated beats complete.
+7. **If a DRAFT_<today>.md exists in the repo, read it first.**
 
 ---
 
 # Inside the Number — daily morning routine
 
-> **ACCOUNTS: every Google surface uses `insidethenumber.itn@gmail.com`. Never
-> another account. Check the avatar top-right before any signed-in action.
-> See ACCOUNTS.md.**
+> **ACCOUNTS: every Google surface uses `insidethenumber.itn@gmail.com`.
+> Never another account. Check the avatar top-right before any signed-in
+> action. See ACCOUNTS.md.**
 
-Send this to Claude each morning (Cowork, same project folder) to kick off the day's picks and Beehiiv draft. Copy the block below as-is, or the shorthand version once we've got a rhythm going.
+> **Beehiiv: stay on the publishing path.** The daily run (when newsletter
+> sending is separately approved — see "Social posting stays paused") needs
+> exactly two areas — `app.beehiiv.com/posts` (check nothing is already
+> published) and `app.beehiiv.com/posts/new` (write and publish). Do not
+> open Automations, Settings, Billing, or Design.
+>
+> **Beehiiv plan:** Launch (free, up to 2,500 subscribers). Publishing and
+> email delivery are included.
 
----
-
-> ## ⚠️ READ FIRST — the public record was retired on Aug 22, 2026
->
-> **`record.html` has been deleted.** Record is gone from the nav on every
-> page, `/record` and `/record.html` now 301-redirect to `games.html`, and
-> there is no longer a results-grading step in any routine.
->
-> **Everything below this banner that refers to grading picks, logging
-> results, updating `record.html`, or linking to a public record is DEAD.
-> Ignore it.** It is kept only so the reasoning behind the old design is
-> still legible. Do not recreate the file, do not add a win/loss tally, ROI,
-> units or win rate anywhere on the site or in the newsletter.
->
-> The business model changed with it: the market data (line, movement, no-vig
-> true price) stays free on every game; the projection, edge, stated bet and
-> written breakdown become **ITN Pro at $17.99/mo — a founding rate for early
-> subscribers, locked in even after the price goes up later** (set Aug 31
-> 2026, was $19.99/mo). Free tier also carries sportsbook affiliate links.
->
-> **Beehiiv: stay on the publishing path.** The daily run needs exactly two
-> areas — `app.beehiiv.com/posts` (to check nothing is already published) and
-> `app.beehiiv.com/posts/new` (to write and publish). Do not open Automations,
-> Settings, Billing or Design, and never create anything in them. On Aug 23 a
-> run left an empty draft in Automations at 8:12 AM, six minutes after the
-> send. Harmless that time, but Settings and Billing are not places to wander
-> into unattended.
->
-> **Beehiiv plan note (Aug 23, 2026):** the Max free trial ends Aug 24. The
-> account reverts to **Launch (free, up to 2,500 subscribers)**. Publishing
-> and email delivery are included in Launch, so the daily send is unaffected.
-> What lapses is Automations, paid subscriptions and branding removal — none
-> of which the daily routine uses.
->
-> **The four scheduled task prompts are authoritative.** Where this file
-> disagrees with them on anything — timing, grading, newsletter format, pick
-> selection — the task prompt wins.
-
-> **Note:** the copy/paste block below is the original Aug 17 version, kept
-> for reference. Where it conflicts with the dated rule sections further down
-> (newsletter format, byline, slate updates, repo health), **the later sections
-> win** — they reflect fixes made after real failures.
-
-## The Prompt (copy/paste this)
+## The routine (copy/paste this)
 
 ```
-Morning. Run today's Inside the Number routine:
+Morning. Run today's Inside the Number board update:
 
-1. Check final scores for yesterday's picks and log the real results
-   (win/loss/push) on record.html and update the Today's Slate /
-   Pick of the Day sections on the site — no exceptions, log every
-   pick regardless of outcome. When adding entries to the `picks`
-   array in record.html, always include the `odds` field (the
-   American odds as a number, e.g. 124 or -150) for any pick graded
-   W or L — the summary cards (record, ROI, win rate) are now
-   auto-computed from this data via computeSummary(), so don't
-   hand-edit those numbers directly (fixed Aug 19 to remove that
-   manual, error-prone step).
+1. Run `date`. Confirm today's actual date before doing anything else —
+   every timestamp written to the site this run must match it.
 
-2. Research and select 3-4 real games for today/tonight. Pull live odds
-   directly from sportsbook/odds pages (not just search summaries) for
-   accuracy. For each game give me: matchup, current line, an explicit
-   stated pick (no hedging — a real side and number, e.g. "Baltimore
-   +1.5"), brief reasoning, and a confidence level (High/Medium/Low).
+2. Survey the whole board across every covered sport before writing
+   anything: MLB, NFL, CFB, NBA, CBB, NHL, UFC, PGA. (The WNBA stays
+   excluded — Chuck's call, unchanged by this pivot.) Pull live odds
+   directly from sportsbook/odds pages, not just search summaries.
 
-   **SELECTION RULES — these are hard constraints, added Aug 22, 2026.**
-   See "Diversification mandate" below for the full reasoning. In short:
+3. For CFB and NFL specifically (football-first priority while football
+   traffic is active): confirm the current week/slate, the current lines,
+   and which numbers have moved since they opened. Write this as
+   board-reading, not a pick — the no-vig true price on each side, the
+   key numbers (3, 7, 10 for football), and what a line move of a given
+   size tends to mean. No stated side. No "our pick." No confidence
+   rating.
 
-   - **Survey the WHOLE board first.** Check every in-season sport before
-     choosing anything: MLB, NFL (including preseason), CFB, NBA, CBB,
-     NHL, UFC/MMA, PGA. Do not start with MLB and stop there.
-   - **Max 2 picks from any one sport per day.**
-   - **If a non-MLB sport has a card today, at least one pick must come
-     from it.** A ten-game NFL preseason slate or a UFC card is not
-     optional to cover.
-   - **No more than half of a day's picks may be moneylines.** The rest
-     must be spreads, totals, or props.
-   - If a rule genuinely cannot be met (e.g. MLB is the only sport in
-     season), say so explicitly in the run summary to Chuck. Do not
-     silently ignore it.
+4. Update `cfb.html` and `nfl.html` between their existing
+   `<!-- PICK:START -->...<!-- PICK:END -->` markers (keep the markers —
+   other tooling depends on them existing) with today's board read in the
+   voice above. Every block you write must carry a visible, correct
+   date/timestamp (the page's `<div class="stamp">` or equivalent) —
+   never leave yesterday's date live under today's copy.
 
-3. Pick one of today's games as the free "Pick of the Day" for the
-   newsletter and site. Update the Pick of the Day card and Today's
-   Slate widget on inside_the_number.html with today's real games.
+5. BEFORE pushing, run the stale-content check below. If it fails, STOP —
+   do not push a page that still shows a prior day's date or slate in
+   user-visible text.
 
-3b. IMPORTANT — push the live site after editing the HTML files.
-    Editing inside_the_number.html / record.html / tools.html only
-    changes local files; the public site (insidethenumber.com — a
-    real purchased domain as of Aug 19, connected via Cloudflare
-    Custom Domain to the same edge-report Worker; the old
-    edge-report.insidethenumber-itn.workers.dev URL still works too
-    but insidethenumber.com is the one to actually share) is
-    connected to a GitHub repo (insidethenumber/inside-the-number-site) with
-    Cloudflare auto-deploy on every push to main — no manual upload
-    needed anymore. After editing the HTML files, run:
-      cd "/Users/chuckwhite/Documents/Claude/Projects/Inside the Number"
-      cp inside_the_number.html index.html
-      git add index.html tools.html record.html
-      git commit -m "Daily update: <short description>"
-      git push origin main
-    Cloudflare picks up the push automatically and rebuilds within
-    ~30-60 seconds. No drag-and-drop, no flagging Chuck for a manual
-    step — this is fully automated now (fixed Aug 19, after the site
-    briefly went stale from a missed redeploy step).
+6. Push the live site after editing. Editing files locally only changes
+   local copies; the public site (insidethenumber.com, Cloudflare
+   auto-deploy on push to `main`) is a separate step:
 
-4. Draft the full Beehiiv post: subject line (2-3 options), preview
-   text, subtitle, and full body. Format: intro hook, today's free
-   pick as the lead, a trend/story angle, what's coming up, one
-   linked line pointing to the public record, disclaimer.
-   NO results recap, NO win/loss count, NO season record or ROI —
-   see "Newsletter format rules" below. Byline is ITN Desk.
-   Use Claude in Chrome to open Beehiiv and build the draft there.
+     rm -rf /tmp/itn && git clone -q https://github.com/insidethenumber/inside-the-number-site.git /tmp/itn
+     cd /tmp/itn
+     # edit index.html / cfb.html / nfl.html / games.html here — never in the shared Documents folder
+     git add index.html cfb.html nfl.html games.html
+     git commit -m "Board update: <short description>"
+     git push origin main
 
-5. Message me a short summary of what's in today's draft and picks
-   so I can review before you send. Don't publish until I reply
-   "send."
+   Cloudflare picks up the push automatically, rebuilds within ~30-60s.
+   Never run git in the shared project folder — see "Repo health" below.
+
+7. Newsletter draft is OPTIONAL and requires Chuck's standing or
+   same-day approval — see "Social posting stays paused." If approved:
+   draft a plain board-read email (today's most interesting line moves,
+   the no-vig math on 2-3 games, what to watch) — no "today's free pick,"
+   no membership pitch, no record link (record.html does not exist).
+   Byline "ITN Desk." Message Chuck a short summary; do not send until he
+   replies "send."
 ```
 
-**Note on auto-send:** the manual "wait for my send" rule above applies
-when *this* prompt is pasted in chat by hand. The recurring scheduled
-tasks (itn-daily-weekday, itn-daily-weekend) are a separate, standing
-setup — Chuck gave advance permission for those to research, update
-the site, and publish/send the newsletter fully automatically with no
-check-in. Those tasks have their own self-contained prompts (not this
-file) that spell this out explicitly, and **those prompts are
-authoritative** — where this reference doc disagrees with them on
-timing, newsletter format or pick selection, the task prompt wins. If
-asked to run this routine ad hoc in chat, default to the manual "wait
-for send" behavior above unless told otherwise.
+**Note on automation:** the scheduled tasks `itn-daily-weekday` /
+`itn-daily-weekend` are a separate, standing setup with their own
+self-contained prompts. **Those prompts are authoritative** where they
+disagree with this reference doc — but as of this pivot, if those task
+prompts still describe ITN Pro, a stated pick, or a record link, they are
+themselves out of date and need the same correction described here before
+they next run unattended. This patch does not edit those task prompts
+directly (not in the repo `DAILY_MORNING_PROMPT.md` covers) — flagged in
+the accompanying report as a follow-up.
 
-**SEND TIMES — fixed, rewritten Sep 2, 2026 (Chuck: "super consistent
-on a daily basis").** The issue is built and then SCHEDULED in Beehiiv
-for a fixed clock time; it is never "published whenever the run
-finishes" any more.
-- Weekdays (Mon-Fri, non-holiday): task starts 8:00 AM CT, newsletter
-  scheduled to send at **10:00 AM CT**. Safety net at 9:10 (pre-flight:
-  recovery if nothing is scheduled) and 10:10 (post-flight: verify + log).
-- Weekends and holidays: task fires daily at 6:15 AM CT but only runs
-  Sat/Sun/holidays, newsletter scheduled to send at **7:45 AM CT**.
-  Safety net at 7:10 (pre-flight) and 8:10 (post-flight).
-- Holiday list lives in the task prompts (US federal holidays plus the
-  day after Thanksgiving and Christmas Eve, through Labor Day 2027).
-- Beehiiv scheduling: Review → "Schedule" → "Pick a specific time" →
-  type e.g. `today at 10:00am` → it resolves to "Sep 2, 2026 10:00 AM
-  CDT" → confirm → verify Scheduled status on /posts.
+## Stale-content hard stop (added Sep 15, 2026 — required, not optional)
 
-*History:* before Sep 2 the weekday task started 10:06 and targeted
-1:00 PM, and the weekend task started 8:06 and targeted 9:30 AM; sends
-actually landed anywhere from 7:13 AM to 4:01 PM, and the weekday task
-failed to complete unattended on 7 of 7 weekdays Aug 24 - Sep 2.
+Before any push in step 6 above, run this check. It exists because
+`cfb.html` sat showing "updated Monday, Sep 14... No pick yet" through all
+of Tuesday, Sep 15 — the routine simply hadn't run yet, and nothing caught
+it before a visitor did.
 
-**Reliability safeguards (added Aug 20, 2026 after a missed 1pm send):**
-On Aug 20 the weekday routine got stuck in an unbounded retry loop
-verifying the Cloudflare deploy after pushing the site update, and
-never reached the drafting/sending step — the newsletter simply never
-went out, silently, for hours. Three fixes are now baked into the
-scheduled tasks themselves (not just this reference doc):
-1. *Bounded deploy verification* — the routine checks the live site
-   at most once after pushing, then moves on regardless. It never
-   loops on a stale-cache fetch again.
-2. *Idempotency check* — every run (including recovery runs) checks
-   Beehiiv for an existing post dated today before drafting anything,
-   so a re-trigger can never cause a duplicate send.
-3. *Deadline safety net* — two scheduled tasks,
-   itn-deadline-check-weekday (9:10 + 10:10 AM CT Mon-Fri) and
-   itn-deadline-check-weekend (7:10 + 8:10 AM CT, Sat/Sun/holidays),
-   check whether that day's newsletter is scheduled and then went out. If not, they run a recovery
-   send themselves and always message Chuck explaining what happened.
-   If everything went fine, they do nothing and stay silent.
-
-**Stale-game rule (also added Aug 20):** before finalizing which game
-is "today's free pick," the routine now checks the real current time
-against every tracked game's actual start time. If the featured game
-(or any tracked game) has already started, it's never presented as a
-forward-looking bettable pick — it gets graded next-day instead, and
-the next still-upcoming game becomes the featured pick. This came up
-for real on Aug 20 when a delayed send meant the original Pick of the
-Day's game had already gone final.
-
-If running this routine manually in chat and something is taking a
-while (site not reflecting a change, odds hard to confirm), apply the
-same discipline: don't retry the same check more than once or twice —
-move on, note the uncertainty, and keep the deadline.
-
-## HOW TO UPDATE THE SLATE (changed Aug 20, 2026 — read this first)
-
-**The Today's Slate and ticker HTML no longer exist as hand-edited blocks.**
-Both are rendered by JavaScript from a single array near the top of
-`inside_the_number.html`:
-
-```js
-const todaysGames = [
-  { league:'MLB', away:{code:'tor', name:'Blue Jays'}, home:{code:'tb', name:'Rays'},
-    time:'1:10 PM ET', pick:'Tampa Bay ML (-172)', conf:4, free:true,
-    hook:'The better arm at a short price',
-    why:'Two to three sentences of real reasoning. What the market is missing, and why the number is wrong.' },
-  ...
-];
+```
+for f in index.html cfb.html games.html nfl.html; do
+  # 1. Extract whatever this page uses for its freshness timestamp
+  #    (class="stamp", class="potd-date", or equivalent) and confirm it
+  #    parses to TODAY's date, not any other day.
+  # 2. Grep the page's user-visible board/pick region for weekday names
+  #    or dates that do not match today (e.g. yesterday's or last
+  #    Saturday's weekday name appearing where today's should be).
+  # 3. If either check fails: STOP. Do not push. Write down exactly
+  #    which file/section is stale and say so in the run summary to
+  #    Chuck instead of pushing anyway.
+done
 ```
 
-To update the day's games, **edit that array only**. The top ticker, Today's
-Slate, and the Pick of the Day headline all render from it, so they can never
-drift apart again (they did on Aug 20 — the site featured one game while the
-newsletter featured another).
+Two strikes, same as the anti-hang rules: if a freshness check itself
+can't be completed (page unreachable, markup changed shape), that also
+counts as a failure — stop and report, don't assume it's fine and push.
 
-Field notes:
+This check is independent of `.github/workflows/site-watchdog.yml`, which
+only verifies `index.html`'s `potd-date`. This step is the routine's own
+responsibility for `cfb.html`, `nfl.html`, and `games.html` too, since the
+watchdog does not cover them.
 
-- `code` is the **ESPN team slug**, lowercase. Logos resolve to
-  `https://a.espncdn.com/i/teamlogos/<league>/500/<code>.png`.
-  Verified MLB slugs include: `tor tb tex wsh ath kc nyy bal mia phi stl cin
-  det pit laa hou`. If unsure of a slug, load the URL and confirm it returns an
-  image before shipping — a wrong slug renders a broken image on the homepage.
-- `conf` is filled stars out of 5: **4 = High, 3 = Medium, 2 = Low.**
-- `free: true` marks the Pick of the Day. Exactly one game should have it, and
-  it **must** be the same game featured as the free pick in the newsletter.
-- **`hook` and `why` are required on every game (added Aug 22, 2026).**
-  - `hook` — one short line, roughly 4-7 words, always visible on the card.
-    It's the angle in a phrase: "The better arm at plus money", "Live dog at
-    home", "Heavy chalk, but the gap is real". Not a restatement of the pick.
-  - `why` — 2-3 sentences, hidden behind the card's "Why this pick" toggle.
-    Say what the market is missing and why the number is wrong. Name the
-    starter, the trend, the situational edge — something concrete and
-    checkable, not "value here".
-  - Both are optional in the code and degrade gracefully, so a card without
-    them still renders. **Do not rely on that.** The trust bar promises
-    "Reasoning shown on every call"; a slate card with a pick and no reasoning
-    makes the homepage contradict itself, which is exactly the gap these
-    fields were added to close.
-  - Watch the apostrophes. The array uses single-quoted strings, so write
-    `’` for a curly apostrophe or escape a straight one. An unescaped `'`
-    breaks the array and blanks the entire slate and ticker.
-- There is no longer a `seasonRecord` variable — the homepage stopped
-  displaying a win/loss record on Aug 21. Don't reintroduce one.
+## Social posting stays paused
 
-The Pick of the Day card's date, sport, line and reasoning text are still
-plain HTML and still need editing by hand — only the matchup headline with the
-logos is auto-generated.
+`x-posts.yml`, `ig-publish.yml`, and `reply-ammo.yml` exist in this repo
+and may still run on their own schedules. **Per
+`DECISION-ANONYMOUS-TOOLS-PIVOT-2026-09-14.md`, no automated public social
+posting, content publishing, or site self-repair happens until Chuck gives
+narrow, explicit, same-day (or clearly time-boxed) approval.** The daily
+morning routine does not trigger, queue, or approve any social post as
+a side effect of updating the board. If a scheduled social workflow fires
+on its own, that is a separate compliance question from this routine, not
+something this prompt authorizes.
 
-## The odds window — capture in the morning (added Aug 20, 2026)
-
-**ESPN removes a game's odds object the moment it starts.** Verified: by late
-evening every game on the slate returned `hasOdds: false`. Whatever isn't
-recorded before first pitch is gone from the feed for good.
-
-So when researching each morning, write the numbers into the `todaysGames`
-array while they're still available — the opening line, the current line, and
-the odds on our stated side. The homepage's no-vig win probability and line
-movement panels only populate for upcoming games, which is correct, but it
-means anything missed in the morning can't be backfilled in the evening.
-
-Worth building toward: capturing the no-vig probability at pick time lets us
-eventually publish **closing line value** — whether our number beat the close.
-That's the most credible metric in this industry and much harder to fake than
-a win rate. See COMPETITOR_RESEARCH.md.
-
-## Newsletter format rules (changed Aug 21, 2026)
-
-**The newsletter no longer recaps results.** Do not include a "Hits & Misses"
-section, yesterday's win/loss count, the running season record, ROI, units, or
-any per-pick loss narration. Not in the body, not in the subject line, not in
-the preview text.
-
-Reasoning: a daily email that opens with a scoreboard trains readers to judge
-the whole product on the last 24 hours, and a run of losing days visible in the
-inbox is a reliable way to lose subscribers. Anyone who wants results can open
-the public record.
-
-What replaces it: **one plain linked line near the foot** — "Every pick we
-publish is logged at insidethenumber.com/record". The record stays one click
-away, so nothing is being hidden; the email just isn't about it.
-
-Order: hook → today's free pick (the lead) → a trend or story angle → what's
-coming → membership pitch → record link → disclaimer.
-
-**record.html itself does not change.** It stays complete, accurate and public,
-including every loss. The editorial decision is about what belongs in an email,
-not about what gets published.
-
-**Byline: always "ITN Desk" — never Chuck's name.** The publication is
-anonymous by design. In the Beehiiv editor, use the "Authors" control beneath
-the post title and select the guest author **ITN Desk**. Remove Chuck's
-personal account from the author list if it's attached by default.
-
-"ITN Desk" is a collective masthead — the same convention The Economist and
-wire services use. It implies a working desk without inventing a named person,
-which is the line we hold: group attribution is fine, a fabricated individual
-is not.
-
-## Repo health — ALWAYS work from a fresh clone (rewritten Aug 25, 2026)
+## Repo health — ALWAYS work from a fresh clone (unchanged, still correct)
 
 **Never run git in the shared project folder. Clone, work, push, discard.**
 
@@ -344,285 +185,119 @@ cd /tmp/itn
 # edit, commit, push from here — never from the Documents folder
 ```
 
-### Why — the actual cause, finally diagnosed Aug 25
+Two different git clients writing the same working copy at once (a
+scheduled task on Chuck's Mac, a Cowork session through a mount) is what
+caused the Aug 25 lock collisions — not a stale lock file. A fresh clone
+has no other writer and cannot collide. If a scheduled run is in flight,
+don't push to the shared folder — check `lastRunAt` before assuming a task
+has stalled.
 
-For five days this was blamed on stale lock files, and the "fix" each time was
-to delete `.git/*.lock` and retry. On Aug 23 git's own background maintenance
-was disabled (`gc.auto=0`, `maintenance.auto=false`) on the theory that it was
-spawning the concurrent process. It recurred the next day anyway.
+## Reliability safeguards (unchanged by the pivot)
 
-The real cause is simpler: **two different git clients were writing the same
-working copy at the same time.** The scheduled task runs git on Chuck's Mac;
-a Cowork session runs git on the same folder through a mount. When both are
-active, one takes `index.lock` or `HEAD.lock` and the other dies on it — and
-`rm -f` fails because the *other* process legitimately holds it.
+1. *Bounded deploy verification* — check the live site at most once after
+   pushing, then move on regardless. Never loop on a stale-cache fetch.
+2. *Idempotency check* — before drafting a newsletter (when approved),
+   check Beehiiv for an existing post dated today, so a re-trigger can't
+   cause a duplicate send.
+3. *Deadline safety net* — scheduled check tasks confirm the board update
+   actually happened and, separately, whether an approved newsletter went
+   out; if not, they message Chuck rather than silently doing nothing.
 
-Aug 25 is the clearest example. The task started at 10:06:43 and began its git
-work. Between 10:13 and 10:40 a session pushed six commits to the same folder.
-The task ended up wedged mid-rebase and the 1:17pm safety net had to log around
-it. Nothing was corrupt and no lock was "stale" — the two writers simply
-collided, and the run that lost was the unattended one.
+## Event pages — cfb.html and nfl.html specifically
 
-That also means the old advice made it worse: deleting a lock another process
-is actively holding is how you get a half-finished rebase instead of a clean
-failure.
+These are standalone pages built to rank in Google, and each carries a
+board-read block between `<!-- PICK:START -->` / `<!-- PICK:END -->`
+markers — **keep the markers**, other tooling (and this routine) depends
+on them existing. Nothing updates these pages automatically; every update
+to date has been placed by hand or by the routine above.
 
-A fresh clone has no other writer. It cannot collide, so there is nothing to
-clear. Ninety seconds on a clone beats losing the send — and unlike the lock
-dance, it works every time.
+**Every time you touch one of these blocks:**
+- Match the existing voice: the key number(s) in bold, the no-vig read,
+  and what moved and why — never a stated side or a confidence rating.
+- Update the page's date/timestamp element in the same edit. A dated
+  freshness claim that's wrong is worse than no claim at all — that's
+  exactly how "updated Monday" was still live Tuesday afternoon.
+- If there's nothing new to say (bye weeks, no games), say that plainly
+  with today's date attached, rather than leaving a prior day's text up
+  unchanged.
 
-**Corollary for whoever is at the keyboard:** if a scheduled run is in flight,
-don't push to the shared folder. Check `lastRunAt` before assuming a task
-hasn't started. On Aug 25 the task *had* started, looked idle for ninety
-seconds, and got overwritten by someone who concluded it had failed.
+## Site consistency rules (updated Sep 15, 2026 for the pivot)
 
-## Event pages carry their own pick — update them (added Aug 25, 2026)
+**1. No confidence stars, no stated side, anywhere on the site.** The old
+5-star confidence scale described a pick's conviction; there is no pick to
+rate. If you find confidence stars anywhere, that's leftover picks-era
+markup — flag it, don't reintroduce it.
 
-`cfb.html`, `ufc.html` and `pga.html` are standalone pages built to rank in
-Google, and each one shows a pick. **They are separate from the daily card on
-index.html and nothing updates them automatically.** Every pick on those pages
-to date was placed by hand.
+**2. No win/loss record, win rate, ROI, or units anywhere on the site or
+newsletter.** This was already the rule as of Aug 20, 2026, and remains
+true for an added reason now: **record.html does not exist in the live
+repo.** Do not link to `/record` or `insidethenumber.com/record` anywhere
+— in the site, in the newsletter, or in social copy. If you find a link to
+it, that's a dead link from before the pivot; flag it for removal in a
+future site patch (this routine edits `cfb.html`/`nfl.html`/`index.html`
+board content only, not link cleanup sitewide).
 
-**On any Saturday during college football season**, after the day's card is set:
-if one of the picks is a CFB game, write it into `cfb.html` as well. The block
-is marked so this is a mechanical replacement — swap everything between:
+**3. Board content must be internally consistent.** If `index.html` and
+`cfb.html`/`nfl.html` describe the same game differently (different line,
+different date), that's the same class of bug as the old "site pick ≠
+newsletter pick" drift — fix it before pushing, don't ship the
+inconsistency.
 
-```
-<!-- PICK:START — replaced by the Saturday routine. Keep these markers. -->
-<!-- PICK:END -->
-```
+## Newsletter format (when sending is separately approved — see "Social
+posting stays paused")
 
-Keep the markers. Match the existing voice: the pick and price in bold, two or
-three sentences of reasoning, and the honest case against it. Same standard as
-the newsletter — every number verified before it goes in.
+Order: hook → today's most interesting board read (the lead, not "the
+free pick") → a trend or line-movement story → what's coming → disclaimer.
+**No results recap. No win/loss count. No season record, ROI, or units.
+No membership pitch — there is no paid tier.** No link to `/record` — it
+does not exist.
 
-**If no CFB pick made the card, say so in that block rather than leaving the
-"not posted yet" placeholder up.** The page currently promises a pick on
-Saturday morning; a promise with nothing behind it is worse than no promise.
-That is exactly how a stale claim ends up live — three queued X posts were
-deleted on Aug 25 for saying things that had quietly stopped being true.
+**Byline: always "ITN Desk" — never Chuck's name.** Use the "Authors"
+control beneath the post title and select the guest author **ITN Desk**.
+Remove Chuck's personal account from the author list if attached by
+default.
 
-Also update `<div class="stamp">` on the page with the date the lines were
-re-checked, so the freshness claim stays honest.
+## Diversification mandate — RETIRED (was Aug 22, 2026; no longer
+applicable)
 
-## Site consistency rules (added Aug 20, 2026)
+This section used to govern which sports a **pick** could come from and in
+what mix (max 2 per sport, 50% moneyline cap, etc.). There is no pick
+being selected anymore, so the mandate itself no longer applies. Kept here,
+struck through in spirit, only so the sport-coverage list survives: **the
+site still covers exactly MLB, NFL, CFB, NBA, CBB, NHL, UFC, PGA, and the
+WNBA remains explicitly excluded** (Chuck's call, Aug 24 2026) — that part
+of the old rule is about scope, not about picks, and still holds for what
+the board-read may reference.
 
-These apply to every run — automated or manual. They exist because the site
-drifted out of sync with its own data.
+## Visuals — needs a follow-up pass, not covered by this patch
 
-**1. Confidence is always a 5-star scale.** Filled + empty stars, then the word:
-
-```
-★★★★★ High    ★★★★☆ High    ★★★☆☆ Medium    ★★☆☆☆ Low
-```
-
-Use this everywhere confidence appears — Today's Slate rows and sidebar pick
-cards. Don't write bare `★★★` or `★★★★` without the empty stars; the scale is
-unreadable when the denominator is missing.
-
-**2. The homepage does NOT display a win/loss record or win-rate %.**
-*(Changed Aug 20, 2026 — read carefully, this reverses an earlier rule.)*
-
-The hero stat strip and philosophy stats now describe what the operation does
-— "Daily / Live / 100% / 8 Sports" — rather than how it's performing. Do not
-put a record, a win rate, an ROI figure or a units total back on the homepage
-without Chuck explicitly asking for it.
-
-Reasoning, so this doesn't get quietly undone:
-
-- A small sample in the hero undersells the site early on.
-- A bare percentage is worse than a raw record, because it hides the sample
-  size while implying there is a meaningful one. "57% win rate" off seven
-  picks is indistinguishable from a coin flip, and displaying a win rate
-  without its denominator is the signature move of the touts this brand is
-  positioned against.
-- The complete record — with every row, so the denominator is self-evident —
-  lives on record.html, one click away, and is linked from the hero strip and
-  the ticker.
-
-record.html itself must stay fully accurate and completely up to date. That
-page is the product. Nothing there gets softened, rounded or omitted.
-
-Revisit featuring headline numbers once the sample is large enough to mean
-something (a few hundred picks, not a few dozen).
-
-**3. Site Pick of the Day must equal the newsletter's free pick.** They drifted
-apart on Aug 20 and it confuses readers.
+The pre-pivot newsletter visuals pipeline (`scripts/parlay_cards.py`,
+`scripts/viz.py ticker`, the "THE FREE PICK" static card) is built around
+a pick that no longer exists. **This patch does not rewrite the visuals
+pipeline** — task scope here is the routine's picks-language and
+stale-content problem, not the image scripts. If newsletter sending is
+approved before the visuals pipeline is updated, either skip images for
+that issue or adapt `viz.py ticker` to illustrate a line move without
+"THE FREE PICK" framing. Flagged as a remaining risk in the report.
 
 ## Shorthand version (once we're in a rhythm)
 
 ```
-Set up today's picks and draft.
+Run today's board update. No pick, no ITN Pro, no record link.
 ```
 
 ---
 
 ## Notes on using this well
 
-- **Timing:** Research is most accurate close to when you'll actually publish, since lines move during the day. If there's a big gap between sending this prompt and publishing, ask for a quick line recheck first.
-- **Sport filtering:** If you only want picks from specific sports on a given day (e.g. skip UFC/PGA), say so in the prompt.
-- **The final send is always your call.** Per how this is set up, drafts get built and queued automatically, but nothing goes out until you reply "send" to the daily summary — that step doesn't go away.
-- **No pick, ever, without an explicit side and number stated.** This was a real mistake in Issue #1 — the routine above is written specifically to prevent it from happening again.
-- **Every result gets logged, win or lose.** The whole value of the public record is that nothing gets cherry-picked or quietly dropped.
-
----
-
-## Diversification mandate (added Aug 22, 2026)
-
-**The problem this fixes.** As of Aug 22, 2026, every pick ever published
-was MLB — 14 of 14 — and 13 of those 14 were moneylines. Not one spread,
-total, or prop. Not one other sport. On Aug 22 alone the routine ignored
-ten NFL preseason games and a full UFC Fight Night card in Sacramento
-(Hernandez vs. Rodrigues) to publish a single MLB moneyline.
-
-**Why it matters, beyond looking repetitive.** MLB moneylines on -140 to
--190 favorites are among the most efficiently priced markets in North
-American sport: enormous handle, sharp money, tight closing lines. That is
-the hardest place on the board to find an edge. Preseason NFL is close to
-the opposite — low limits, and totals that hinge on information the market
-prices poorly, like how long starters actually play and how a coach plans
-to use series two and three. UFC props and totals are similarly thin.
-
-So the concentration wasn't just monotonous, it was pointing the operation
-at the toughest water available. A publication whose whole pitch is "the
-number doesn't lie" cannot only ever bet the most efficient number on the
-board.
-
-**Covered leagues — the hard list.**
-
-The site covers exactly these: **MLB, NFL, CFB, NBA, CBB, NHL, UFC, PGA.**
-
-Nothing outside that list may be surveyed, picked, referenced, or added to a
-scoreboard feed. **The WNBA is explicitly excluded** — Chuck's call, Aug 24
-2026, and it is not a close one. On Aug 24 the routine not only picked a WNBA
-game, it made it the free Pick of the Day and added WNBA feeds to index.html
-and games.html that had not existed before. All of that was reversed the same
-day. Do not reintroduce it, and do not treat "it was the only non-MLB card
-today" as a reason to — see rule 3 below, which yields rather than reaching
-for an excluded league.
-
-**The rules.**
-
-1. Survey every in-season **covered** sport before selecting. MLB is not the
-   default, but neither is "any sport with a game on".
-2. Maximum 2 picks from any single sport per day.
-3. If any non-MLB **covered** sport has a card that day, at least one pick
-   must come from it. If the only alternative to MLB is an excluded league,
-   this rule does not apply — publish the MLB card and say so in the run
-   summary. Rule 5 covers this; an excluded league is never the escape hatch.
-4. Maximum 50% of a day's picks may be moneylines. Spreads, totals and
-   props make up the rest.
-5. If a constraint genuinely can't be satisfied, state that plainly in the
-   run summary rather than quietly reverting to an all-MLB-moneyline card.
-
-**What this is not.** This is not a license to force a pick in a sport
-where there's no read, purely to fill a quota. Betting a spread blind to
-look sophisticated is worse than passing. The point is that the survey has
-to happen first — the edge is usually not in the MLB moneyline, and the
-old instruction never even asked the routine to look elsewhere.
-
-## Visuals in the newsletter — ONE COMMAND (Sep 5, 2026, supersedes the section below)
-
-The Sep 5 7:45 issue went out with zero images. Root cause: the task prompt said
-"paste text/plain" and never mentioned images. The fix is mechanical, not a
-reminder:
-
-    python3 scripts/newsletter_assets.py --issue issue.json --date YYYY-MM-DD \
-        --out-dir assets/newsletter/YYYY-MM-DD
-
-writes header.jpg, pick.jpg, move.gif (skipped when nothing moved), number.jpg
-AND issue.html — the full body with the <img> tags already in place. Paste
-issue.html as text/html into a fresh duplicate; verify
-`document.querySelectorAll('.ProseMirror img').length >= 3` before scheduling.
-Spec shape: docs/newsletter-issue-example.json. The two task prompts
-(itn-daily-weekday / itn-daily-weekend) carry these exact steps and win over
-this file where they differ.
-
-## Visuals in the newsletter (added Sep 4, 2026 — Chuck asked for GIFs/graphics)
-
-**Every issue carries exactly two images. No more, no fewer.** More than two
-slows the load, trips spam filters, and turns the Morning Board into a brochure.
-
-### The two slots
-
-1. **THE FREE PICK — a static card.** Build with
-   `python3 scripts/parlay_cards.py --out-dir /tmp/nl --spec spec.json --only price`
-   (or `slip` when the issue leads with a multi-leg ticket). The card carries the
-   price, the de-vigged fair number and the break-even; the copy carries the take.
-
-2. **BIGGEST OVERNIGHT MOVE — an animated GIF.** This is the one that makes the
-   email feel alive, and it is the thing we do that nobody else does:
-   `python3 scripts/viz.py ticker --out /tmp/nl/move.gif --left <open> --right <now> \
-      --headline "AWAY AT HOME" --sub "<one line on what moved>"`
-   Writes both `.gif` and `.mp4`; the newsletter uses the **.gif**.
-
-### Email rules — these are not optional
-
-- **Outlook (Windows desktop) renders only the FIRST FRAME of a GIF.** The
-  ticker's frame one already shows the headline, the opening number, and OPEN /
-  NOW labelled at both ends of the track, so a frozen frame still tells the whole
-  story. If you build any other animation, hold that standard: **frame one must
-  work as a still.**
-- Keep each GIF **under 1 MB** (the ticker lands around 190 KB at 800px wide).
-- **Alt text on both images, always** — many clients block images by default and
-  a meaningful share of readers will only ever see the alt text. Write it as a
-  sentence that carries the number: "Miami opened -21.5 at Stanford and is -24.5
-  now," not "line movement chart."
-- Never put a number in an image that is not also in the text. The image is a
-  reinforcement, never the only place a fact lives.
-
-### Hosting — our own domain, not a third party
-
-Commit the files to `assets/newsletter/<YYYY-MM-DD>/` in the same push as the
-site update. Cloudflare then serves them at
-`https://insidethenumber.com/assets/newsletter/<YYYY-MM-DD>/<file>`, which is
-what you paste into the Beehiiv image block. Reasons: the URL is on our domain,
-it never expires, it costs nothing, and it survives any connector going away.
-Do not hotlink GIPHY or any third-party CDN in email.
-
-### Beehiiv mechanics
-
-In the editor, insert an Image block and give it the public URL above, then fill
-the alt text field. Place the static card directly under the free pick's
-reasoning, and the ticker GIF directly under the BIGGEST OVERNIGHT MOVE heading.
-Send yourself the test email and confirm both images render before scheduling —
-a broken image in an email cannot be fixed after it sends.
-
-### When to skip
-
-If the board genuinely did not move (no game moved half a point), skip the GIF
-rather than animate a non-event, and say "the board barely moved overnight" in
-the text as the format already requires. One image is better than one honest
-image plus one dishonest one.
-
-### Beehiiv image mechanics — PROVEN Sep 4, 2026, follow exactly
-
-Tested end to end on a real draft. Do not improvise around this; the UI paths
-that look obvious do not work.
-
-**Insert images by pasting HTML into the body, not by hunting for an image
-button.** After duplicating and opening `/posts/<id>/edit`, focus `.ProseMirror`,
-`document.execCommand('selectAll')`, then dispatch a synthetic paste whose
-DataTransfer carries **`text/html`** containing the whole issue including
-`<img src="https://insidethenumber.com/assets/newsletter/<date>/<file>"
-alt="...">` tags. ProseMirror converts them to real image blocks. Verify with
-`document.querySelectorAll('.ProseMirror img').length` — expect 2.
-
-**The post title will NOT save via the React value setter.** Setting
-`.editor-title-textarea` programmatically updates the tab title and looks
-correct, but the Review step still shows the OLD duplicated title with " (1)".
-Set the title by **real typing**: triple-click the title, `cmd+a`, then type.
-Confirm on the Review step that "Post Title:" is the new title before scheduling.
-
-**Subject line is separate and does not follow the title.** On the Email step it
-snapshots the duplicated post's title. Set it explicitly (the input whose value
-still contains yesterday's headline) and re-check on Review.
-
-**Send a test before scheduling.** On the Email step, click the button whose text
-is exactly "Send test email" — it fires immediately to the account owner and the
-page shows "Test email sent". Confirm both images render in that inbox before
-scheduling. A broken image cannot be fixed after a send.
-
-**Push assets BEFORE building the issue.** Commit to
-`assets/newsletter/<date>/`, push, wait ~60s for Cloudflare, then confirm each
-URL returns 200 with the right content-type before pasting it into Beehiiv.
+- **Timing:** research is most accurate close to when the board update
+  actually goes live, since lines move during the day.
+- **Sport filtering:** if you only want specific sports covered on a given
+  day, say so in the prompt.
+- **The final send (if newsletter sending is approved for that day) is
+  always Chuck's call.** Nothing goes out until he replies "send."
+- **No forced side, ever.** If the board doesn't justify saying anything
+  interesting about a game, say that plainly instead of manufacturing a
+  take.
+- **The stale-content check is not optional.** Skipping it to save time is
+  exactly how the Sep 15 incident happened.

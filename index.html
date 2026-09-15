@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Inside the Number — Free Sports Betting Picks, Predictions &amp; True Odds Daily</title>
-<meta name="description" content="Every line, explained. What the market actually thinks on every game — live odds, line movement and the true price, free — plus one free pick every day. Full analysis, best bets and parlays with ITN Pro. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
+<title>Inside the Number — Live Odds, Line Movement &amp; the No-Vig True Price | Every Game</title>
+<meta name="description" content="Every line, explained. What the market actually thinks on every game — live odds, line movement and the no-vig true price, free, on every board. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
 <link rel="canonical" href="https://insidethenumber.com/"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -26,7 +26,7 @@
     "height": 512
   },
   "image": "https://insidethenumber.com/og-image.png",
-  "description": "Every line, explained. What the market actually thinks on every game — live odds, line movement and the true price — plus one free pick every day.",
+  "description": "Every line, explained. What the market actually thinks on every game — live odds, line movement and the no-vig true price, on every board.",
   "sameAs": [
     "https://x.com/thenumberdesk",
     "https://insidethenumber.beehiiv.com/",
@@ -41,13 +41,13 @@
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/"/>
 <meta property="og:title" content="Inside the Number — The number doesn't lie."/>
-<meta property="og:description" content="Every line, explained. What the market actually thinks — live odds and the true price on every game, plus one free pick a day."/>
+<meta property="og:description" content="Every line, explained. What the market actually thinks — live odds and the no-vig true price on every game."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Inside the Number — The number doesn't lie."/>
-<meta name="twitter:description" content="Every line, explained. What the market actually thinks — live odds and the true price on every game, plus one free pick a day."/>
+<meta name="twitter:description" content="Every line, explained. What the market actually thinks — live odds and the no-vig true price on every game."/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
@@ -672,7 +672,7 @@
   "name": "Inside the Number",
   "alternateName": "ITN",
   "url": "https://insidethenumber.com/",
-  "description": "Every line, explained. What the market actually thinks — live odds, line movement and the real win probability on every game, plus one free pick every day.",
+  "description": "Every line, explained. What the market actually thinks — live odds, line movement and the real win probability on every game, on every board.",
   "publisher": {
     "@type": "Organization",
     "name": "Inside the Number",
@@ -854,17 +854,16 @@
                      PGA outright was the free pick and the array had to be
                      left empty because every renderer assumed two teams —
                      which left the hero panel and the slate visibly blank. */
-  const todaysGames = [
-    { league:'NFL', away:{code:'den', name:'Broncos'}, home:{code:'kc', name:'Chiefs'}, time:'8:15 PM ET', pick:'Over 43.5', conf:3, free:true,
-      hook:'Total up a point, spread never moved',
-      why:'The total opened 42.5 and is 43.5 now. The spread opened Kansas City -2.5 and is still -2.5. Money moved the pace and left the winner alone, which is a narrower signal than a board where both numbers drift. Kansas City -135, Denver +114. What beats it: 43.5 is already a low number on a one-game slate the whole market is staring at, and a divisional game at Arrowhead can grind under it without anything odd happening.' },
-    { league:'MLB', away:{code:'sd', name:'Padres'}, home:{code:'col', name:'Rockies'}, time:'8:40 PM ET', pick:'Under 11', conf:2, free:false,
-      hook:'Coors number came DOWN half a point',
-      why:'Opened 11.5, now 11. A total shrinking at Coors Field is the part worth stopping on \u2014 that is the one park where the default assumption runs the other way, so the board taking a half point off means something arrived that outweighs the altitude. San Diego -187. What beats it: it is still Coors, 11 is a high bar to stay under, and one crooked inning ends it.' },
-    { league:'MLB', away:{code:'nyy', name:'Yankees'}, home:{code:'min', name:'Twins'}, time:'7:40 PM ET', pick:'Over 8', conf:3, free:false,
-      hook:'Total down, and the Over got cheaper',
-      why:'The total opened 8.5 and sits at 8, and the Over price moved from -118 to -112 \u2014 cheaper on the side a falling number should have made pricier. New York is -126, the heavier favorite on the board tonight, and a lineup that leads MLB in runs against a last-place staff can clear a below-average total on offense alone. What beats it: Target Field has played a shade cold for scoring the last two weeks, and 8 is still a real number to clear twice.' }
-  ];
+  /* EMPTIED — Sep 15, 2026, anonymous tools/education pivot.
+     This array used to carry the day's stated picks (pick / conf / free /
+     hook / why). Under DECISION-ANONYMOUS-TOOLS-PIVOT-2026-09-14.md the site
+     no longer states a side, a number or a confidence rating, so there is
+     nothing to put here. The renderer below already has a designed empty
+     path, so leaving this empty is the supported way to switch the board
+     presentation off — no renderer logic was changed.
+     Do NOT repopulate this with picks. The live market board lives on
+     games.html and is read from the feed, not hand-maintained here. */
+  const todaysGames = [];
 
   // Set Thu Sep 10, ~12:30 PM CT (Beehiiv session was signed out for the
   // 8:00 AM main routine window; this run rebuilt everything once the
@@ -950,13 +949,10 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </div>
     <ul class="nav-links">
-      <li><a href="#top" class="active">Home</a></li>
-      <li><a href="#analysis">Analysis</a></li>
-      <li><a href="#slate">Picks</a></li>
-      <li><a href="games">Games</a></li>
-      <li><a href="dfs">DFS</a></li>
+      <li><a href="cfb">College Football</a></li>
+      <li><a href="games">Scores</a></li>
       <li><a href="tools">Tools</a></li>
-      <li><a href="#pricing" class="nav-cta">Get Pro</a></li>
+      <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -965,13 +961,10 @@
 </div><!-- /wrapTop -->
 
 <div class="mobile-menu" id="mobileMenu">
-    <a href="#top">Home</a>
-    <a href="#analysis">Analysis</a>
-    <a href="#slate">Picks</a>
-    <a href="games">Games</a>
-    <a href="dfs">DFS</a>
+    <a href="cfb">College Football</a>
+    <a href="games">Scores</a>
     <a href="tools">Tools</a>
-    <a href="#pricing" class="nav-cta">Get Pro</a>
+    <a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
   </div>
 <script>
   (function(){
@@ -996,15 +989,15 @@
 <div class="hero">
   <div>
     <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
-    <p class="hero-sub"><b>Every line, explained — what the market actually thinks.</b> Live odds, line movement and the true price, not what you're charged to bet it. One free pick every day, across eight sports, all season.</p>
+    <p class="hero-sub"><b>Every line, explained — what the market actually thinks.</b> Live odds, line movement and the no-vig true price, not what you're charged to bet it. Free, on every game, across eight sports, all season.</p>
     <a href="#signup" class="btn-primary">Get Free Access →</a>
-    <a href="#slate" class="btn-ghost">See Today's Picks ↓</a>
+    <a href="#slate" class="btn-ghost">Read Today's Board ↓</a>
     <a class="stat-strip" href="games" title="See every game on today's board">
       <!-- These cells describe what the operation DOES, not how long it's
            been running. Deliberately no win/loss record or win-rate % here:
            a percentage without its denominator is the exact move this brand
            is positioned against. -->
-      <div class="stat-cell"><div class="n g">Daily</div><div class="l">Free Pick, Every Day</div></div>
+      <div class="stat-cell"><div class="n g">Free</div><div class="l">True Prices, Every Day</div></div>
       <div class="stat-cell"><div class="n b">Live</div><div class="l">Odds &amp; Line Movement</div></div>
       <div class="stat-cell"><div class="n g">True</div><div class="l">Prices, Every Game</div></div>
       <div class="stat-cell"><div class="n a">8</div><div class="l">Sports Covered</div></div>
@@ -1019,10 +1012,10 @@
       <div class="hp-k">Biggest line move today</div>
       <div class="hp-load">Reading today's numbers…</div>
     </a>
-    <!-- 2 · today's free pick -->
+    <!-- 2 · how to read the board -->
     <a class="hp-pick" id="hpPick" href="#pick-of-the-day">
-      <div class="hp-k">Today's free pick</div>
-      <div class="hp-load">—</div>
+      <div class="hp-k">Reading the board</div>
+      <div class="hp-load">No-vig price, key numbers, what moved →</div>
     </a>
     <!-- 3 · email. Three versions, each fixing the last:
          v1 was a decoy — a link styled to look like a form. Zero signups, ever.
@@ -1054,7 +1047,7 @@
   <div class="trust-inner">
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
-      <div><div class="t">A free pick every day</div><div class="s">No card, no trial</div></div>
+      <div><div class="t">The no-vig true price</div><div class="s">No card, no trial</div></div>
     </div>
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
@@ -1066,7 +1059,7 @@
     </div>
     <div class="trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
-      <div><div class="t">Reasoning shown on every call</div><div class="s">Not just a side and a number</div></div>
+      <div><div class="t">The math shown, not just the number</div><div class="s">Where the price came from, every time</div></div>
     </div>
   </div>
 </div>
@@ -1083,20 +1076,28 @@
      "Launching Soon" placeholder content below with the real pick.
      Nothing else in this block needs to change day to day.
      ═══════════════════════════════════════════════════════════ -->
+<!-- BOARD CHECK — replaced the Pick of the Day card, Sep 15 2026 (pivot).
+     .potd-date IS RETAINED DELIBERATELY. scripts/smoke.py (invariant 2) and
+     .github/workflows/site-watchdog.yml both require this element and parse
+     its text as a date; removing it makes both monitors fail permanently.
+     Its MEANING has changed: it is now "when the board was last read", not
+     "the date of a pick". Update it whenever the board is re-read.
+     The freshness guard near the end of this file makes an out-of-date stamp
+     visible to the visitor rather than letting it read as current. -->
 <section class="potd-section" id="pick-of-the-day">
   <div class="potd-inner">
     <div class="potd-card">
       <div>
-        <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-        <div class="potd-date">Mon, Sep 14</div>
-        <div class="potd-sport">NFL</div>
-        <div class="potd-matchup" id="potd-matchup">Denver Broncos @ Kansas City Chiefs</div>
-        <div class="potd-line">THE PICK: Over 43.5 &middot; 8:15 PM ET, Arrowhead Stadium</div>
-        <p class="potd-reasoning">Monday night is the entire football board, so this is the only NFL number in play. The total opened 42.5 and sits at 43.5 &mdash; a full point up &mdash; while the spread has not moved at all: Kansas City &minus;2.5 at open, &minus;2.5 now. That split is the whole read. When money moves a total and leaves the side alone, the market is repricing how the game gets played, not who wins it. A side and a total moving together usually means somebody’s outlook changed; a total moving by itself means the expected pace did. We’ll take the number the money walked toward. <i>What beats it:</i> 43.5 is a low number and the market clearly is not asleep on this game, so a divisional slog of field goals and punts at Arrowhead buries this without anything strange happening at all. Odds via DraftKings, read at 6:20 AM CT &mdash; check the number before you take it.</p>
+        <div class="potd-badge"><span class="dot"></span>Board check</div>
+        <div class="potd-date" id="potd-date">Tue, Sep 15</div>
+        <div class="potd-sport">Reading the number</div>
+        <div class="potd-matchup" id="potd-matchup">What the market is actually saying</div>
+        <div class="potd-line">No-vig true price &middot; key numbers &middot; line movement</div>
+        <p class="potd-reasoning">A posted line is two things at once: an estimate of the outcome, and the price you are charged for taking it. Strip the vig out and what is left is the market's true probability &mdash; the number worth comparing anything else against. In football the key numbers carry most of the weight: games land on <b>3</b> and <b>7</b> far more often than on any other margin, so a spread moving off 3 costs more than the half-point makes it look. And when a total moves while the spread sits still, the market is repricing how the game gets played, not who wins it. Every current price, and how far each has travelled since it opened, is on the <a href="games" style="color:inherit;text-decoration:underline">scores page</a>.</p>
       </div>
       <div class="potd-cta">
-        <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
-        <div class="potd-sub">Delivered daily by email · no card required</div>
+        <a href="no-vig-calculator#cheat-sheet" class="btn-primary">Get the No-Vig Cheat Sheet &rarr;</a>
+        <div class="potd-sub">One page &middot; free &middot; no card required</div>
       </div>
     </div>
   </div>
@@ -1122,9 +1123,9 @@
 <section class="section" style="padding-top:0;" id="slate">
   <div class="section-inner">
     <div class="section-header">
-      <p class="eyebrow">Every Game. Every Edge.</p>
-      <h2 class="section-title">Today's Slate</h2>
-      <p class="section-lead">Every game we're tracking today, in one place — posted each day, before anything starts.</p>
+      <p class="eyebrow">Every Game. Every Number.</p>
+      <h2 class="section-title">Reading The Board</h2>
+      <p class="section-lead">What the market is charging, what it has moved, and the true price underneath it — read from the live feed, not retyped by hand.</p>
     </div>
     <!-- Rendered from the todaysGames array at the top of this file.
          Live scores, team records and current moneylines are layered in
@@ -1166,9 +1167,10 @@
     if (!todaysGames.length) {
       // An honest empty state beats a heading with nothing under it. This is
       // what shows if a day's card genuinely isn't set yet.
-      slateEl.innerHTML = `<div class="panel-empty">Today's card isn't posted yet.
-        The full board with live prices is on the
-        <a href="games">games page</a> in the meantime.</div>`;
+      slateEl.innerHTML = `<div class="panel-empty">Every game, every number —
+        the full live board with current prices, line movement and the
+        true price under each one is on the
+        <a href="games">scores page</a>.</div>`;
       return;
     }
     slateEl.innerHTML = todaysGames.map((g, i) => {
@@ -1493,14 +1495,18 @@
       const next = todaysGames[0];
       if (next) { next.free = true; }
       else if (potd) {
+        /* NOTE: this fallback MUST keep a .potd-date element. smoke.py and
+           site-watchdog.yml both fail hard if it disappears from the page. */
+        const stamp = (document.getElementById('potd-date') || {}).textContent || '';
         potd.innerHTML = `<div class="potd-inner"><div class="potd-card"><div>
-          <div class="potd-badge"><span class="dot"></span>Free · Pick of the Day</div>
-          <div class="potd-matchup">Today's card is done.</div>
-          <p class="potd-reasoning">Every game we posted today has finished. Tomorrow's
-          pick goes out in the Morning Board before first kick — and the full board with
-          live prices is on the <a href="games">games page</a> right now.</p></div>
-          <div class="potd-cta"><a href="https://insidethenumber.beehiiv.com/subscribe"
-          target="_blank" rel="noopener" class="btn-primary">Get Tomorrow's Pick Free →</a>
+          <div class="potd-badge"><span class="dot"></span>Board check</div>
+          <div class="potd-date" id="potd-date">${stamp}</div>
+          <div class="potd-matchup">Every game on this board has finished.</div>
+          <p class="potd-reasoning">The live board — current prices, how far each number
+          has moved since it opened, and the true price underneath it — is on the
+          <a href="games">scores page</a> right now.</p></div>
+          <div class="potd-cta"><a href="no-vig-calculator#cheat-sheet"
+          class="btn-primary">Get the No-Vig Cheat Sheet &rarr;</a>
           </div></div></div>`;
       }
     }
@@ -1608,67 +1614,11 @@
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="section pricing" id="pricing">
-  <div class="section-inner">
-    <div class="section-header">
-      <p class="eyebrow">Access</p>
-      <h2 class="section-title">The market is free.<br/>The read costs $17.99.</h2>
-      <p class="section-lead">Every line, every move, every true price — open to everyone. The projection, the edge and the bet are what you pay for. $149 a year if you'd rather not think about it monthly.</p>
-    </div>
-    <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <div class="price-card">
-        <span class="price-badge">Always free</span>
-        <h3>Free</h3>
-        <div class="price-amount">$0</div>
-        <p class="price-period">no card, no trial</p>
-        <ul class="price-features">
-          <li>One free pick every day, with the reasoning</li>
-          <li>Every game on the board, all eight sports</li>
-          <li>Live odds, line movement and true prices</li>
-          <li>What each book is really charging you</li>
-          <li>Weekly NFL DFS core plays</li>
-          <li>Ten betting calculators, no signup</li>
-        </ul>
-        <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" class="price-btn">Subscribe free</a>
-      </div>
-      <div class="price-card featured">
-        <span class="price-badge">ITN Pro</span>
-        <h3>Pro</h3>
-        <div class="price-amount">$17.99</div>
-        <p class="price-period">per month · cancel anytime</p>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2px 0 10px;">Founding rate — locked in for early subscribers, even after it goes up</p>
-        <div class="price-annual">
-          <span class="pa-k">or</span>
-          <span class="pa-v">$149</span>
-          <span class="pa-k">a year — save $67</span>
-        </div>
-        <ul class="price-features">
-          <li>Everything in Free</li>
-          <li>Our projection and edge on every game</li>
-          <li>The stated bet, number and confidence</li>
-          <li>Full written breakdown per contest</li>
-          <li>Best bets and parlays</li>
-          <li>Full DFS lineup builds, leverage and ownership reads</li>
-          <li>UFC card breakdowns, fight by fight</li>
-          <li>PGA preview Tuesday, re-priced after the Friday cut</li>
-        </ul>
-        <a href="#signup" class="price-btn">Join the waitlist</a>
-      </div>
-    </div>
-
-    <div style="margin:26px 0 0;padding:22px 26px;background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;">What stays free, permanently</div>
-      <p style="font-size:14px;color:var(--mid);line-height:1.8;margin:0;">The numbers on this site are facts about the market, not opinions — the line, where it opened, how far it moved, and the true price underneath it. That stays open to everyone, on every game, whether you pay us or not. You should be able to check our work before you buy any of it.</p>
-    </div>
-  </div>
-</section>
-
 <!-- SIGNUP -->
 <section class="signup" id="signup">
   <div class="signup-inner">
     <h2>Get the free Morning Board.</h2>
-    <p>Want the numbers before the games start? The site shows one pick a day. The Morning Board has all of them — every side we take, with the reasoning, in your inbox before anything starts. No credit card. No spam.</p>
+    <p>Want the numbers before the games start? The Morning Board is the day's card read out loud — what moved overnight, which numbers are sitting on 3 and 7, and the true price under each one. Plus the No-Vig Cheat Sheet when you join. No credit card. No spam.</p>
     <!-- Inline Beehiiv subscribe form — signup completes right here, no redirect.
          Replaced the old outbound link Aug 29 2026: analytics showed people clicking
          and dying on the external hop. -->
@@ -1676,26 +1626,8 @@
       <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
     </div>
     <p class="signup-note" style="margin-top:2px"><a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" style="color:rgba(0,0,0,0.55);">Form not loading? Subscribe here instead →</a></p>
-    <p class="signup-note" id="signup-msg">The board, the tools and one pick a day stay free on the site. The rest of the card is subscribers only.</p>
+    <p class="signup-note" id="signup-msg">The board, the true prices and all ten calculators stay free on the site — no account, no gate.</p>
     <p class="signup-note" style="margin-top:2px;font-weight:600;">After you subscribe, check your inbox (and spam folder) for a confirmation email — you're not signed up until you click the link in it.</p>
-
-    <!-- Pro block. The nav CTA and the pricing card's waitlist button both
-         land here, so the paid option has to be present at the bottom of the
-         page too — otherwise those clicks arrive at a free-only signup and
-         the offer disappears. Dark card on the bright gradient for contrast. -->
-    <div class="signup-pro">
-      <div class="sp-k">Or go Pro</div>
-      <div class="sp-founding" style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin:2px 0 8px;">Founding rate for early subscribers</div>
-      <div class="sp-row">
-        <div class="sp-price"><b>$17.99</b><span>/mo</span></div>
-        <div class="sp-or">or</div>
-        <div class="sp-price"><b>$149</b><span>/year</span></div>
-        <div class="sp-save">save $67</div>
-      </div>
-      <p class="sp-copy">Our projection and edge on every game, the stated bet with confidence, best bets and parlays, full DFS builds, UFC card breakdowns and the PGA preview.</p>
-      <a href="#pricing" class="sp-btn">See what's in Pro →</a>
-      <div class="sp-note">Not open yet — the free list gets first access when it is.</div>
-    </div>
   </div>
 </section>
 
@@ -1898,12 +1830,12 @@
   const pk=document.getElementById('hpPick');
   if(g && g.solo){
     // Solo pick: no two-team logo line. Name the event, then the bet.
-    pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+    pk.innerHTML=`<div class="hp-k">Reading the board</div>
       <div class="game">${g.event||''}</div>
       <div class="side">${g.pick||''}</div>
       ${g.hook?`<div class="hook">${g.hook}</div>`:''}`;
   } else if(g){
-    pk.innerHTML=`<div class="hp-k">Today's free pick</div>
+    pk.innerHTML=`<div class="hp-k">Reading the board</div>
     <div class="game"><img class="hp-logo" src="${logo(g.league,g.away.code)}" alt="${g.away.name}" loading="lazy"/>${g.away.name}
       <span class="at">@</span><img class="hp-logo" src="${logo(g.league,g.home.code)}" alt="${g.home.name}" loading="lazy"/>${g.home.name}</div>
     <div class="side">${g.pick||''}</div>
@@ -1912,5 +1844,95 @@
 })();
 </script>
 
+<script>
+/* BOARD FRESHNESS GUARD — added Sep 15, 2026.
+   The board stamp in #pick-of-the-day is written by hand / by the daily
+   routine, so it is the one element on this page that can silently go stale —
+   which is exactly what happened on Sep 14/15. Monitors catch it server-side
+   for Chuck; this catches it client-side for the visitor, so nobody reads an
+   old reading as if it were current. Purely additive: it never hides content
+   and never fabricates a date. */
+(function(){
+  try{
+    var el = document.getElementById('potd-date');
+    if(!el) return;
+    var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var m = /([A-Za-z]{3})\s+(\d{1,2})/.exec(el.textContent || '');
+    if(!m) return;
+    var mi = MON.indexOf(m[1]);
+    if(mi < 0) return;
+    var now = new Date(new Date().toLocaleString('en-US', {timeZone:'America/Chicago'}));
+    var stamped = new Date(now.getFullYear(), mi, parseInt(m[2], 10));
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if(isNaN(stamped.getTime()) || stamped.getTime() === today.getTime()) return;
+    var card = el.closest('.potd-card');
+    if(!card || !card.firstElementChild) return;
+    var note = document.createElement('div');
+    note.className = 'potd-sub';
+    note.style.cssText = 'margin-top:12px;font-weight:600';
+    note.innerHTML = 'This reading is not from today. The live board is on the ' +
+      '<a href="games" style="color:inherit;text-decoration:underline">scores page</a>.';
+    card.firstElementChild.appendChild(note);
+  }catch(e){ /* never let the guard break the page */ }
+})();
+</script>
+
+
+<!-- ═══ ITN measurement helper — added Sep 15 2026 (Block S3) ═══
+     First-party only. No cookies, no third-party calls, nothing transmitted.
+     Everything below runs in, and stays in, this browser.
+       1. Private internal-traffic flag. Open any page with ?itn_internal=1 to
+          mark this browser as the owner's; ?itn_internal=0 clears it. The
+          parameter is removed from the address bar at once. No UI, ever.
+       2. First-touch source capture: utm_source / utm_medium / utm_campaign
+          from the landing URL, kept 30 days, so a signup on a later page still
+          records how the visitor first arrived.
+       3. Passes that source into the Beehiiv subscribe form and the hosted
+          subscribe link, so the subscriber's Acquisition Details in Beehiiv
+          show it. A flagged browser is labelled source=internal, medium=test,
+          so owner/test signups can be excluded from every count.
+     For visitors with no UTM and no flag this script changes nothing on the
+     page. The Cloudflare Web Analytics beacon below runs only after this helper
+     and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  try{
+    var LS=window.localStorage, q=new URLSearchParams(location.search), touched=false;
+    /* 1 · internal flag */
+    if(q.has('itn_internal')){
+      if(q.get('itn_internal')==='1') LS.setItem('itn_internal','1'); else LS.removeItem('itn_internal');
+      q.delete('itn_internal'); touched=true;
+    }
+    var internal=(LS.getItem('itn_internal')==='1');
+    /* 2 · first-touch UTM, 30 days */
+    var stored=null; try{ stored=JSON.parse(LS.getItem('itn_utm')||'null'); }catch(e){ stored=null; }
+    var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);
+    if(q.get('utm_source')&&!fresh){
+      stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};
+      LS.setItem('itn_utm',JSON.stringify(stored)); fresh=true;
+    }
+    if(touched){ history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash); }
+    /* 3 · pass source to Beehiiv (only when there is a source to pass) */
+    var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);
+    if(src){
+      var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');
+      var add=function(el,attr){ var v=el.getAttribute(attr)||''; if(v.indexOf('utm_source=')<0) el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs); };
+      document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){ add(f,'src'); });
+      document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){ add(a,'href'); });
+    }
+    window.__itnInternal=internal;
+  }catch(e){ /* measurement must never break the page */ }
+})();
+</script>
+<!-- Cloudflare Web Analytics — manual beacon (Block S3B, Sep 15 2026).
+     Loaded here, AFTER the measurement helper above, so window.__itnInternal is
+     already set. A browser flagged with ?itn_internal=1 never loads the beacon,
+     so owner/test visits are not reported. Automatic injection is OFF in the
+     Cloudflare dashboard ("Enable with JS Snippet installation"), so this is the
+     only copy of the beacon on the page. Token = the site's public Web Analytics
+     site token (same value Cloudflare embeds in every auto-injected page). -->
+<script>
+(function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();
+</script>
 </body>
 </html>

@@ -243,38 +243,32 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </a>
     <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="index.html#analysis">Analysis</a></li>
-      <li><a href="index.html#slate">Picks</a></li>
-      <li><a href="games">Games</a></li>
-      <li><a href="dfs">DFS</a></li>
+      <li><a href="cfb">College Football</a></li>
+      <li><a href="games">Scores</a></li>
       <li><a href="tools">Tools</a></li>
-      <li><a href="index.html#pricing" class="nav-cta">Get Pro</a></li>
+      <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
     </ul>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-    <a href="/">Home</a>
-    <a href="index.html#analysis">Analysis</a>
-    <a href="index.html#slate">Picks</a>
-    <a href="games">Games</a>
-    <a href="dfs">DFS</a>
+    <a href="cfb">College Football</a>
+    <a href="games">Scores</a>
     <a href="tools">Tools</a>
-    <a href="index.html#pricing" class="nav-cta">Get Pro</a>
+    <a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
   </div>
 <div class="tk-wrap">
   <div class="tk-badge">&#10003; You're subscribed</div>
-  <h1 class="tk-h1">You're in.<br/><span>First pick lands tomorrow.</span></h1>
-  <p class="tk-lede">Every line, explained &mdash; what the market actually thinks, the side, and what beats it,
-    before anything starts. One free pick every day. No card, no upsell, no 47-leg parlay.</p>
+  <h1 class="tk-h1">You're in.<br/><span>Check your inbox for the cheat sheet.</span></h1>
+  <p class="tk-lede">Every line, explained &mdash; what the market actually thinks, what moved, and why.
+    The No-Vig Cheat Sheet is on its way. No card, no upsell, no picks pitch.</p>
 
   <div class="tk-next">
     <h2>What happens next</h2>
     <div class="tk-step"><div class="tk-n">1</div><div><b>You're confirmed.</b> Your first email
-      arrives with the next pick we publish &mdash; weekends early morning, weekdays late
-      morning.</div></div>
+      delivers the No-Vig Cheat Sheet. After that, expect the board &mdash; weekends early
+      morning, weekdays late morning.</div></div>
     <div class="tk-step"><div class="tk-n">2</div><div><b>Check your spam folder</b> if nothing
       shows up. We're a new sender, so the first one sometimes lands there &mdash; moving it to your
       inbox once fixes it for good.</div></div>
@@ -303,6 +297,63 @@
     b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
     m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
   })();
+</script>
+
+<!-- ═══ ITN measurement helper — added Sep 15 2026 (Block S3) ═══
+     First-party only. No cookies, no third-party calls, nothing transmitted.
+     Everything below runs in, and stays in, this browser.
+       1. Private internal-traffic flag. Open any page with ?itn_internal=1 to
+          mark this browser as the owner's; ?itn_internal=0 clears it. The
+          parameter is removed from the address bar at once. No UI, ever.
+       2. First-touch source capture: utm_source / utm_medium / utm_campaign
+          from the landing URL, kept 30 days, so a signup on a later page still
+          records how the visitor first arrived.
+       3. Passes that source into the Beehiiv subscribe form and the hosted
+          subscribe link, so the subscriber's Acquisition Details in Beehiiv
+          show it. A flagged browser is labelled source=internal, medium=test,
+          so owner/test signups can be excluded from every count.
+     For visitors with no UTM and no flag this script changes nothing on the
+     page. The Cloudflare Web Analytics beacon below runs only after this helper
+     and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  try{
+    var LS=window.localStorage, q=new URLSearchParams(location.search), touched=false;
+    /* 1 · internal flag */
+    if(q.has('itn_internal')){
+      if(q.get('itn_internal')==='1') LS.setItem('itn_internal','1'); else LS.removeItem('itn_internal');
+      q.delete('itn_internal'); touched=true;
+    }
+    var internal=(LS.getItem('itn_internal')==='1');
+    /* 2 · first-touch UTM, 30 days */
+    var stored=null; try{ stored=JSON.parse(LS.getItem('itn_utm')||'null'); }catch(e){ stored=null; }
+    var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);
+    if(q.get('utm_source')&&!fresh){
+      stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};
+      LS.setItem('itn_utm',JSON.stringify(stored)); fresh=true;
+    }
+    if(touched){ history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash); }
+    /* 3 · pass source to Beehiiv (only when there is a source to pass) */
+    var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);
+    if(src){
+      var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');
+      var add=function(el,attr){ var v=el.getAttribute(attr)||''; if(v.indexOf('utm_source=')<0) el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs); };
+      document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){ add(f,'src'); });
+      document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){ add(a,'href'); });
+    }
+    window.__itnInternal=internal;
+  }catch(e){ /* measurement must never break the page */ }
+})();
+</script>
+<!-- Cloudflare Web Analytics — manual beacon (Block S3B, Sep 15 2026).
+     Loaded here, AFTER the measurement helper above, so window.__itnInternal is
+     already set. A browser flagged with ?itn_internal=1 never loads the beacon,
+     so owner/test visits are not reported. Automatic injection is OFF in the
+     Cloudflare dashboard ("Enable with JS Snippet installation"), so this is the
+     only copy of the beacon on the page. Token = the site's public Web Analytics
+     site token (same value Cloudflare embeds in every auto-injected page). -->
+<script>
+(function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();
 </script>
 </body>
 </html>

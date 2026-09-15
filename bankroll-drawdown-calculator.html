@@ -94,13 +94,8 @@ p.x a{color:var(--green);text-decoration:none}
     <p style="font-size:12px;opacity:.7;margin-top:6px">Check your inbox (and spam) to confirm &mdash;
     you&rsquo;re not signed up until you click the link.</p>
   </div>
-    <p>We take a side on three or four games a day and send every one to
-    subscribers with the reasoning, before anything starts. <b>One is free on
-    the homepage. The rest only go out by email.</b> No card, no spam.</p>
-    <a class="go" href="/#signup">Get every pick free →</a>
-  </div>
   <div class="foot">Inside the Number · <a rel="me" style="color:var(--green)" href="https://x.com/thenumberdesk">@thenumberdesk</a> · every game priced at what the market really
-  thinks · <a href="/">free pick daily</a> · 21+ only. If gambling stops being fun,
+  thinks · <a href="/">the board daily</a> · 21+ only. If gambling stops being fun,
   call 1-800-GAMBLER.</div>
 </div>
 <script>
@@ -126,6 +121,63 @@ function calc(){
     +`A run this long is routine even for a bettor winning 55% long term.`);
 }
 document.addEventListener('input',calc);calc();
+</script>
+
+<!-- ═══ ITN measurement helper — added Sep 15 2026 (Block S3) ═══
+     First-party only. No cookies, no third-party calls, nothing transmitted.
+     Everything below runs in, and stays in, this browser.
+       1. Private internal-traffic flag. Open any page with ?itn_internal=1 to
+          mark this browser as the owner's; ?itn_internal=0 clears it. The
+          parameter is removed from the address bar at once. No UI, ever.
+       2. First-touch source capture: utm_source / utm_medium / utm_campaign
+          from the landing URL, kept 30 days, so a signup on a later page still
+          records how the visitor first arrived.
+       3. Passes that source into the Beehiiv subscribe form and the hosted
+          subscribe link, so the subscriber's Acquisition Details in Beehiiv
+          show it. A flagged browser is labelled source=internal, medium=test,
+          so owner/test signups can be excluded from every count.
+     For visitors with no UTM and no flag this script changes nothing on the
+     page. The Cloudflare Web Analytics beacon below runs only after this helper
+     and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  try{
+    var LS=window.localStorage, q=new URLSearchParams(location.search), touched=false;
+    /* 1 · internal flag */
+    if(q.has('itn_internal')){
+      if(q.get('itn_internal')==='1') LS.setItem('itn_internal','1'); else LS.removeItem('itn_internal');
+      q.delete('itn_internal'); touched=true;
+    }
+    var internal=(LS.getItem('itn_internal')==='1');
+    /* 2 · first-touch UTM, 30 days */
+    var stored=null; try{ stored=JSON.parse(LS.getItem('itn_utm')||'null'); }catch(e){ stored=null; }
+    var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);
+    if(q.get('utm_source')&&!fresh){
+      stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};
+      LS.setItem('itn_utm',JSON.stringify(stored)); fresh=true;
+    }
+    if(touched){ history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash); }
+    /* 3 · pass source to Beehiiv (only when there is a source to pass) */
+    var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);
+    if(src){
+      var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');
+      var add=function(el,attr){ var v=el.getAttribute(attr)||''; if(v.indexOf('utm_source=')<0) el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs); };
+      document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){ add(f,'src'); });
+      document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){ add(a,'href'); });
+    }
+    window.__itnInternal=internal;
+  }catch(e){ /* measurement must never break the page */ }
+})();
+</script>
+<!-- Cloudflare Web Analytics — manual beacon (Block S3B, Sep 15 2026).
+     Loaded here, AFTER the measurement helper above, so window.__itnInternal is
+     already set. A browser flagged with ?itn_internal=1 never loads the beacon,
+     so owner/test visits are not reported. Automatic injection is OFF in the
+     Cloudflare dashboard ("Enable with JS Snippet installation"), so this is the
+     only copy of the beacon on the page. Token = the site's public Web Analytics
+     site token (same value Cloudflare embeds in every auto-injected page). -->
+<script>
+(function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();
 </script>
 </body>
 </html>
