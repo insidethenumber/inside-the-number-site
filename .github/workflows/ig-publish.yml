@@ -13,15 +13,31 @@ name: Instagram publish
 # Queue: ig/<slug>.txt + ig/<slug>.png  ->  copied to assets/ig/ for a public
 # URL (Meta fetches the image itself, it cannot be uploaded as bytes) -> publish.
 
+# ── INSTAGRAM PUBLISHING PAUSED — Sep 14, 2026, architect reset ──────────────
+# Chuck authorised pausing all public publishing during the 30-day validation
+# reset. Both AUTOMATIC triggers are commented out below so nothing can publish
+# on its own. This specifically prevents the queued ig/2026-09-14-ci-proof.*
+# item — an unreviewed internal test card — from self-publishing to the live
+# @insidethenumber account at the next scheduled wake-up (~08:00 CT Sep 15).
+#
+# The queued files are deliberately LEFT IN PLACE. Nothing in ig/ is deleted.
+#
+# Note both triggers had to go: the cron is the obvious one, but `push` on
+# 'ig/**' is a second automatic publish path — any future commit touching the
+# queue would have fired a real publish.
+#
+# workflow_dispatch stays live so the workflow can still be run deliberately
+# under a written work order. To restore automatic publishing, uncomment the
+# `push:` and `schedule:` blocks below.
 on:
-  push:
-    paths:
-      - 'ig/**'
+  # push:
+  #   paths:
+  #     - 'ig/**'
   # Poll rather than trusting a single cron to land — same lesson x-posts.yml
   # learned in August. A dropped trigger is covered twenty minutes later, and
   # volume is gated by the SENT STATE, not the clock, so extra wake-ups are free.
-  schedule:
-    - cron: "*/20 13-23 * * *"
+  # schedule:
+  #   - cron: "*/20 13-23 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
