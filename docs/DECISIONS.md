@@ -17,18 +17,26 @@ through and date the reversal.
 
 ## Standing orders (Chuck's calls)
 
+- **2026-09-15 · X scheduled posting paused again (confirmed).** `x-posts.yml`'s
+  `schedule` trigger commented out, commit `e0365fa`, mirroring Instagram's
+  pause (`3f3a5e1`, same reset). Confirmed by Chuck, not merely provisional —
+  his standing instruction is that public/social publishing stays paused
+  while the project is restructured under the Sep 14 architect reset.
+  `workflow_dispatch` remains available for a deliberate, work-ordered manual
+  post. Full record: `docs/DECISION-X-POSTING-PAUSE-2026-09-15.md`.
 - **2026-09-02 · X was OFF until new rules were written.** `itn-x-engagement-hourly`
   disabled; `x-posts.yml` schedule removed (manual-only). Superseded below.
-- **2026-09-05 · X is BACK ON.** Chuck lifted the pause verbally over the Sep 5-6
+- ~~**2026-09-05 · X is BACK ON.**~~ **Reversed 2026-09-15 — see entry below.**
+  ~~Chuck lifted the pause verbally over the Sep 5-6
   weekend and has directed posting, queue timing and cadence himself since
   ("get X posts out", "run these every 45 minutes", "slow down a little on the
   posting to X"). `itn-x-engagement-hourly` and the `x-posts.yml` cron are both
   running again. This entry exists because the Sep 7 growth report correctly
   flagged the account posting against a standing order that was still on the
-  books — the order was lifted, the doc just was not updated. The operating
-  rules Chuck has stated since, which stand until he changes them: nothing
-  posts without a graphic or GIF; no likes, no reposts; no AI photos, real
-  images only; remove or re-grade a pick once its game is over; no public
+  books — the order was lifted, the doc just was not updated.~~ The operating
+  rules Chuck has stated since, which still apply whenever X posting resumes:
+  nothing posts without a graphic or GIF; no likes, no reposts; no AI photos,
+  real images only; remove or re-grade a pick once its game is over; no public
   win/loss record, ROI or units. Written §4.6 approval is still open.
 - **2026-09-02 · Log every session** to `docs/sessions/YYYY-MM-DD.md`. What
   was done, what broke, what was fixed, what is unverified. Chuck should never
@@ -147,6 +155,21 @@ through and date the reversal.
   7:10 / 8:10. Chuck must keep the Mac awake at 6:15.
 - Slate data: GitHub Action at 6:41 / 9:17 / 11:47 AM / 2:23 PM CT.
 - Holidays are listed in the task prompts; the weekend task owns them.
+
+## 2026-09-15 — X scheduled posting paused (confirmed)
+
+`x-posts.yml`'s automatic `schedule` trigger was commented out in commit
+`e0365fa`, pausing X's scheduled posting the same way Instagram's was paused
+(`3f3a5e1`) under the Sep 14 architect reset's "existing social posting
+remains manual/off" language and `DISTRIBUTION-PLAN.md`'s explicit
+recommendation to kill scheduled X posts. This reverses the Sep 5 "X is BACK
+ON" standing order above (struck through, not deleted, per this file's own
+rule). Chuck confirmed the pause as his standing instruction — public/social
+publishing stays off while the project is restructured — so this is recorded
+here as decided, not provisional. `workflow_dispatch` still allows a
+deliberate manual post under a written work order. Full decision record,
+including how to reverse it if a future channel plan calls for resuming:
+`docs/DECISION-X-POSTING-PAUSE-2026-09-15.md`.
 
 ## Sep 4, 2026 — /parlay page, and results on the CFB board
 
