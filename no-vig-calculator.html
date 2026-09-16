@@ -52,6 +52,16 @@ p.x b{color:var(--white)}
 .faq{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;margin:12px 0}
 .faq h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.02em;margin:0 0 6px}
 .faq p{font-size:14px;color:var(--mid);font-weight:300;margin:0;max-width:60ch;line-height:1.55}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.mini-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.mini-card .k{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--green);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+.mini-card .v{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--white);font-weight:600;margin-bottom:4px}
+.mini-card p{font-size:13.5px;color:var(--mid);font-weight:300;margin:0;line-height:1.5}
+.steps{counter-reset:step;margin:14px 0 4px}
+.step{counter-increment:step;position:relative;padding:0 0 14px 34px;color:var(--mid);font-size:14px;font-weight:300;max-width:62ch}
+.step:before{content:counter(step);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--green);color:#050608;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center}
+.step b{color:var(--white);font-weight:600}
+@media(max-width:560px){.mini-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -87,6 +97,41 @@ p.x b{color:var(--white)}
   <p class="x">We publish this number automatically for
   <a style="color:var(--green)" href="/games">every game on the board</a>,
   every day.</p>
+
+  <h2>How to read the result</h2>
+  <p class="x">The calculator gives you two separate answers. The <b>book's margin</b>
+  tells you how expensive the market is. The <b>fair odds</b> tell you where the
+  same market would trade if the sportsbook's cut were removed.</p>
+  <div class="mini-grid">
+    <div class="mini-card">
+      <div class="k">Standard spread</div>
+      <div class="v">-110 / -110</div>
+      <p>Both sides imply 52.4%. Together that is 104.8%, so the hold is 4.8%.
+      Remove the vig and each side is a true 50%.</p>
+    </div>
+    <div class="mini-card">
+      <div class="k">Uneven moneyline</div>
+      <div class="v">-138 / +116</div>
+      <p>The favorite is not really as expensive as -138 once the margin is
+      stripped out. The calculator converts both sides into one fair market.</p>
+    </div>
+  </div>
+
+  <h2>What to do with no-vig odds</h2>
+  <div class="steps">
+    <div class="step"><b>Start with both sides.</b> A single price does not show the
+    hold. You need the favorite and the underdog, or the over and the under.</div>
+    <div class="step"><b>Remove the margin.</b> The calculator rescales both implied
+    probabilities so the market adds to exactly 100%.</div>
+    <div class="step"><b>Compare your number to the fair price.</b> If your own
+    estimate is stronger than the no-vig line, you may have an edge. If it only
+    beats the posted line by a little, the book's cut may be doing the work.</div>
+  </div>
+  <p class="x">This is why no-vig odds are the base layer for everything else on
+  Inside the Number. Line movement tells you where the market went. Key numbers
+  tell you which moves matter. No-vig pricing tells you what the market actually
+  thinks once the fee is gone.</p>
+
   <!-- ── FAQ ───────────────────────────────────────────────
        Visible copy for the FAQPage schema at the foot of this file. Google
        requires structured data to match content the visitor can see, so the
@@ -104,6 +149,14 @@ p.x b{color:var(--white)}
   <div class="faq">
     <h3>Why does the no-vig price matter?</h3>
     <p>It is the market's actual opinion with the fee stripped out. If your own estimate beats the fair price rather than the posted one, you have a real edge, not an accounting illusion.</p>
+  </div>
+  <div class="faq">
+    <h3>Is no-vig the same as implied probability?</h3>
+    <p>No. Implied probability is what one posted price says before adjustment. No-vig probability is the market after both sides are normalized back to 100%.</p>
+  </div>
+  <div class="faq">
+    <h3>Can I use this for spreads, totals, and moneylines?</h3>
+    <p>Yes. Any two-sided market works: spread, total, moneyline, puck line, run line, props, or anything else with prices on both sides.</p>
   </div>
   <div class="sub-cta" id="cheat-sheet">
     <div class="k">Take the cheat sheet</div>
