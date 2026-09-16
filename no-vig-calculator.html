@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is vig in sports betting?", "acceptedAnswer": {"@type": "Answer", "text": "Vig (or hold) is the sportsbook's built-in margin: the amount by which both sides' implied probabilities exceed 100%. At -110/-110 the total is 104.8%, so the vig is 4.8%."}}, {"@type": "Question", "name": "How do you remove the vig from odds?", "acceptedAnswer": {"@type": "Answer", "text": "Convert both sides to implied probabilities, add them, and divide each side by that total. The rescaled probabilities sum to 100% and convert back into fair odds."}}, {"@type": "Question", "name": "Why does the no-vig price matter?", "acceptedAnswer": {"@type": "Answer", "text": "It is the market's actual opinion with the fee stripped out. If your own estimate beats the fair price rather than the posted one, you have a real edge, not an accounting illusion."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is vig in sports betting?", "acceptedAnswer": {"@type": "Answer", "text": "Vig (or hold) is the sportsbook's built-in margin: the amount by which both sides' implied probabilities exceed 100%. At -110/-110 the total is 104.8%, so the vig is 4.8%."}}, {"@type": "Question", "name": "How do you remove the vig from odds?", "acceptedAnswer": {"@type": "Answer", "text": "Convert both sides to implied probabilities, add them, and divide each side by that total. The rescaled probabilities sum to 100% and convert back into fair odds."}}, {"@type": "Question", "name": "Why does the no-vig price matter?", "acceptedAnswer": {"@type": "Answer", "text": "It is the market's actual opinion with the fee stripped out. Comparing your own estimate against the fair price, rather than the posted one, is the only way to tell whether a number is genuinely better than what the market thinks."}}, {"@type": "Question", "name": "Is no-vig the same as implied probability?", "acceptedAnswer": {"@type": "Answer", "text": "No. Implied probability is what one posted price says before adjustment. No-vig probability is the market after both sides are normalized back to 100%."}}, {"@type": "Question", "name": "Can I use this for spreads, totals, and moneylines?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Any two-sided market works: spread, total, moneyline, puck line, run line, props, or anything else with prices on both sides."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://insidethenumber.com/tools"}, {"@type": "ListItem", "position": 3, "name": "No-Vig Calculator", "item": "https://insidethenumber.com/no-vig-calculator"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Barlow:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -62,6 +62,20 @@ p.x b{color:var(--white)}
 .step:before{content:counter(step);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--green);color:#050608;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center}
 .step b{color:var(--white);font-weight:600}
 @media(max-width:560px){.mini-grid{grid-template-columns:1fr}}
+.ex{background:var(--s1);border:1px solid var(--bd);border-left:3px solid var(--green);border-radius:10px;padding:15px 17px;margin:14px 0}
+.ex .lab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.ex h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--white);margin:0 0 8px}
+.ex p{font-size:13.5px;color:var(--mid);font-weight:300;line-height:1.6;margin:0 0 8px;max-width:60ch}
+.ex p:last-child{margin-bottom:0}
+.ex p b{color:var(--white)}
+.ex .calc{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--white);line-height:1.9;overflow-wrap:anywhere}
+ul.mist{margin:10px 0 0;padding-left:18px}
+ul.mist li{font-size:14px;color:var(--mid);font-weight:300;line-height:1.6;margin-bottom:9px;max-width:60ch}
+ul.mist li b{color:var(--white);font-weight:600}
+.rel{border-top:1px solid var(--bd);margin-top:30px;padding-top:16px}
+.rel .k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.rel a{display:inline-block;color:var(--green);text-decoration:none;font-size:13.5px;margin:0 16px 7px 0}
+.rel a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -106,8 +120,8 @@ p.x b{color:var(--white)}
     <div class="mini-card">
       <div class="k">Standard spread</div>
       <div class="v">-110 / -110</div>
-      <p>Both sides imply 52.4%. Together that is 104.8%, so the hold is 4.8%.
-      Remove the vig and each side is a true 50%.</p>
+      <p>Both sides imply 52.4%. Together that is 104.8%, so the margin is 4.8
+      points. Remove it and each side is a true 50%.</p>
     </div>
     <div class="mini-card">
       <div class="k">Uneven moneyline</div>
@@ -124,13 +138,76 @@ p.x b{color:var(--white)}
     <div class="step"><b>Remove the margin.</b> The calculator rescales both implied
     probabilities so the market adds to exactly 100%.</div>
     <div class="step"><b>Compare your number to the fair price.</b> If your own
-    estimate is stronger than the no-vig line, you may have an edge. If it only
-    beats the posted line by a little, the book's cut may be doing the work.</div>
+    estimate is stronger than the no-vig line, that gap is the price difference
+    worth paying attention to. If it only beats the posted line by a little, the
+    book's cut may be doing the work.</div>
   </div>
   <p class="x">This is why no-vig odds are the base layer for everything else on
   Inside the Number. Line movement tells you where the market went. Key numbers
   tell you which moves matter. No-vig pricing tells you what the market actually
   thinks once the fee is gone.</p>
+
+  <h2>Margin, overround and hold</h2>
+  <p class="x">There are two ways people quote the same fee, and the difference
+  is the most common source of confusion here. Two sides at -110 each imply
+  52.4%, so the market totals <b>104.8%</b>. The <b>overround</b> is the 4.8
+  percentage points above 100 — that is the figure the calculator above reports
+  as the book's margin. The <b>hold</b> is that same surplus as a share of the
+  whole market (4.8 &divide; 104.8), which comes to about <b>4.5%</b>.</p>
+  <p class="x">Neither is wrong; they answer slightly different questions. This
+  page uses the overround throughout, so that every number here agrees with the
+  tool at the top. If you are comparing two markets, make sure you know which
+  one the other source is quoting.</p>
+  <p class="x">Margin is not fixed. It tends to be thinnest on the biggest,
+  most-bet markets and widest where fewer people are betting and the book carries
+  more uncertainty — player props, exotics, three-way markets. That is a
+  statement about market structure, not a measured claim about any particular
+  sportsbook.</p>
+
+  <h2>Two worked examples</h2>
+
+  <div class="ex">
+    <div class="lab">Illustrative — not a real game</div>
+    <h3>A total priced -105 over, -115 under</h3>
+    <p class="calc">Over implied &nbsp;&nbsp;105 &divide; 205 = 51.2%<br>
+    Under implied &nbsp;115 &divide; 215 = 53.5%<br>
+    Market total &nbsp;&nbsp;104.7% — margin 4.7 points<br>
+    Fair over / under &nbsp;48.9% / 51.1%<br>
+    Fair odds &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+104 / -104</p>
+    <p>Unequal juice on a total is the market leaning before the number itself
+    moves. Here the under is the slightly favoured side at a total both sides
+    nominally share.</p>
+  </div>
+
+  <div class="ex">
+    <div class="lab">Illustrative — not a real game</div>
+    <h3>A heavy favourite at -400, underdog +300</h3>
+    <p class="calc">Favourite implied &nbsp;400 &divide; 500 = 80.0%<br>
+    Underdog implied &nbsp;&nbsp;100 &divide; 400 = 25.0%<br>
+    Market total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;105.0% — margin 5.0 points<br>
+    Fair favourite / dog &nbsp;76.2% / 23.8%<br>
+    Fair odds &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-320 / +320</p>
+    <p>The posted -400 implies 80%, but the market's honest opinion is
+    <b>76.2%</b>. Lopsided markets often carry <em>more</em> margin than even ones,
+    and it is invisible until you take it out.</p>
+  </div>
+
+  <h2>Common mistakes</h2>
+  <ul class="mist">
+    <li><b>Comparing your number to the posted price.</b> The posted price
+    includes the fee, so measuring against it makes every side look worse than
+    the market actually rates it. Compare against the fair price.</li>
+    <li><b>Mixing up overround and hold.</b> 4.8% and 4.5% can describe the same
+    -110/-110 market. Decide which one you mean before comparing two markets.</li>
+    <li><b>Assuming the fee is constant.</b> Main markets and player props are not
+    priced the same way, and the gap is larger than most people expect.</li>
+    <li><b>De-vigging an incomplete market.</b> The method needs every outcome.
+    Two of three legs in a three-way market rescales to a number that means
+    nothing.</li>
+    <li><b>Treating the fair price as a result.</b> It is the market's opinion
+    with the fee removed — a starting point for a comparison, not an answer, and
+    the market can be wrong.</li>
+  </ul>
 
   <!-- ── FAQ ───────────────────────────────────────────────
        Visible copy for the FAQPage schema at the foot of this file. Google
@@ -148,7 +225,7 @@ p.x b{color:var(--white)}
   </div>
   <div class="faq">
     <h3>Why does the no-vig price matter?</h3>
-    <p>It is the market's actual opinion with the fee stripped out. If your own estimate beats the fair price rather than the posted one, you have a real edge, not an accounting illusion.</p>
+    <p>It is the market's actual opinion with the fee stripped out. Comparing your own estimate against the fair price, rather than the posted one, is the only way to tell whether a number is genuinely better than what the market thinks.</p>
   </div>
   <div class="faq">
     <h3>Is no-vig the same as implied probability?</h3>
@@ -171,6 +248,17 @@ p.x b{color:var(--white)}
     <p>The same math applies to every NFL and college football line on the board &mdash;
     strip the vig, compare it to your own number, and you know within seconds whether a
     price is worth taking. <b>That's the whole method.</b> No picks pitch, no card.</p>
+  <div class="rel">
+    <div class="k">Related</div>
+    <a href="vig-calculator">Vig &amp; hold calculator</a>
+    <a href="odds-converter">Odds converter</a>
+    <a href="tools">All ten calculators</a>
+    <a href="nfl">NFL board</a>
+    <a href="cfb">College football board</a>
+    <a href="mlb-playoff-run-line">The run line in the playoffs</a>
+    <a href="nhl-puck-line-explained">The puck line explained</a>
+    <a href="learn">How to read a betting line</a>
+  </div>
   <div class="foot">Inside the Number · <a rel="me" style="color:var(--green)" href="https://x.com/thenumberdesk">@thenumberdesk</a> · every game priced at what the market really
   thinks · <a href="/">the board daily</a> · 21+ only. If gambling stops being fun,
   call 1-800-GAMBLER.</div>
