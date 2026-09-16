@@ -49,6 +49,9 @@ p.x b{color:var(--white)}
 .sub-cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}
 .sub-cta p b{color:var(--white);font-weight:600}
 .sub-cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
+.faq{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;margin:12px 0}
+.faq h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.02em;margin:0 0 6px}
+.faq p{font-size:14px;color:var(--mid);font-weight:300;margin:0;max-width:60ch;line-height:1.55}
 </style>
 </head>
 <body>
@@ -83,6 +86,24 @@ p.x b{color:var(--white)}
   margin stripped out, every game on
   <a style="color:var(--green)" href="/games">today's board</a> shows the
   no-vig win chance next to the posted price.</p>
+  <!-- ── FAQ ───────────────────────────────────────────────
+       Visible copy for the FAQPage schema at the foot of this file. Google
+       requires structured data to match content the visitor can see, so the
+       text below is byte-identical to the schema answers. No inline markup in
+       the answers — it would break that match. Edit both or neither. -->
+  <h2 id="faq">Frequently asked questions</h2>
+  <div class="faq">
+    <h3>How do you convert American odds to decimal?</h3>
+    <p>For positive odds: decimal = 1 + odds/100, so +150 becomes 2.50. For negative odds: decimal = 1 + 100/|odds|, so -110 becomes 1.909.</p>
+  </div>
+  <div class="faq">
+    <h3>What is implied probability?</h3>
+    <p>The win rate at which the bet breaks even: 1 divided by decimal odds. -110 implies 52.4%; +200 implies 33.3%.</p>
+  </div>
+  <div class="faq">
+    <h3>Why do both sides of a game add to more than 100%?</h3>
+    <p>The gap above 100% is the sportsbook's margin — often called vig or hold. It is the built-in cost of the bet.</p>
+  </div>
   <div class="sub-cta">
     <div class="k">Take the cheat sheet</div>
     <p>One page, free: the no-vig math, what every common price really costs you,

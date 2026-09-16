@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NFL Week 1 — Every Game, Every Number, the No-Vig True Price | Inside the Number</title>
-<meta name="description" content="Every NFL Week 1 game, Sept 9-14 2026, with the spread, the total, kickoff time and TV — from the season opener in Melbourne to Monday night at Arrowhead."/>
+<title>NFL Odds — Every Game, Every Number, the No-Vig True Price | Inside the Number</title>
+<meta name="description" content="Every NFL game on this week's board with the spread, where it opened, the total, kickoff time and TV — plus the fair price with the vig stripped out. Read live, never hand-typed."/>
 <link rel="canonical" href="https://insidethenumber.com/nfl"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -13,37 +13,11 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/nfl"/>
-<meta property="og:title" content="NFL Week 1 — every game, every number"/>
-<meta property="og:description" content="Sixteen games open the 2026 NFL season, from Wednesday night in Seattle to the Melbourne Cricket Ground on Thursday, ending at Arrowhead on Monday night."/>
+<meta property="og:title" content="NFL odds — every game, every number"/>
+<meta property="og:description" content="This week's NFL board, read live: spread, open-to-now movement, total, and the fair price with the vig removed."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
-<script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "SportsEvent",
-  "name": "NFL Week 1 2026",
-  "sport": "American Football",
-  "startDate": "2026-09-10",
-  "endDate": "2026-09-15",
-  "description": "The opening week of the 2026 NFL season: sixteen games, beginning in Melbourne and ending at Arrowhead.",
-  "location": {
-    "@type": "Place",
-    "name": "Multiple venues",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "US"
-    }
-  },
-  "organizer": {
-    "@type": "Organization",
-    "name": "NFL",
-    "sameAs": [
-      "https://x.com/thenumberdesk",
-      "https://insidethenumber.beehiiv.com/",
-      "https://github.com/insidethenumber"
-    ]
-  }
-}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://insidethenumber.com/"},{"@type":"ListItem","position":2,"name":"NFL","item":"https://insidethenumber.com/nfl"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -168,7 +142,40 @@
     table td.mu .vn { font-size:10px; }
     tr.note td { font-size:12.5px; }
   }
-</style>
+
+    /* ── live board ─────────────────────────────────────────────── */
+    #board { margin:6px 0 4px; }
+    .gm { border-top:1px solid rgba(255,255,255,.09); padding:15px 2px 14px;
+          display:grid; grid-template-columns:96px 1fr auto; gap:14px; align-items:baseline; }
+    .gm:first-child { border-top:0; }
+    .gm-t { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); line-height:1.4; }
+    .gm-m { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:800; color:var(--white); line-height:1.2; }
+    .gm-n { text-align:right; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:var(--white); white-space:nowrap; }
+    .gm-n .ou { display:block; font-weight:400; font-size:11.5px; color:var(--muted); margin-top:4px; }
+    .gm-open { color:var(--muted); font-weight:400; }
+    .gm-na { color:var(--muted); font-weight:400; font-size:12px; }
+    .gm-tags { grid-column:2/-1; margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
+    .tag { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.09em; text-transform:uppercase;
+           color:var(--muted); border:1px solid rgba(255,255,255,.14); border-radius:4px; padding:4px 6px; }
+    .tag.moved { color:var(--gold,#f0b232); border-color:rgba(240,178,50,.42); }
+    .tag.key   { color:var(--green); border-color:rgba(0,208,132,.42); }
+    .gm-f  { grid-column:2/-1; margin-top:8px; font-size:13px; color:var(--mid); line-height:1.5; }
+    .gm-sc { grid-column:2/-1; margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--mid); }
+    .gm-day { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+              color:var(--green); margin:24px 0 2px; padding-top:14px; border-top:1px solid var(--border); }
+    .gm-day:first-child { margin-top:4px; padding-top:0; border-top:0; }
+    .gm-empty { padding:22px 2px; color:var(--mid); font-size:14.5px; line-height:1.6; }
+    .gm-empty a { color:var(--green); }
+    @media(max-width:620px){
+      .gm { grid-template-columns:1fr; row-gap:5px; }
+      /* a 1fr track still has min-width:auto, so a nowrap child forces the grid
+         wider than the viewport. Both lines below are needed: without them the
+         numbers row pushed the page 77px past 390 and the total was cut off. */
+      .gm > * { min-width:0; }
+      .gm-n { text-align:left; white-space:normal; overflow-wrap:anywhere; }
+      .gm-tags,.gm-f,.gm-sc { grid-column:1/-1; }
+    }
+  </style>
 <style id="nav-fit">
 /* ── NAV FIT (added Aug 31 2026) ──────────────────────────────────────────
    The nav links needed ~770-850px of room but several pages only swapped to
@@ -215,7 +222,7 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </a>
     <ul class="nav-links">
-      <li><a href="cfb">College Football</a></li>
+      <li><a href="nfl" class="active">NFL</a></li><li><a href="cfb">College Football</a></li>
       <li><a href="games">Scores</a></li>
       <li><a href="tools">Tools</a></li>
       <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
@@ -225,185 +232,73 @@
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
+    <a href="nfl">NFL</a>
     <a href="cfb">College Football</a>
     <a href="games">Scores</a>
     <a href="tools">Tools</a>
     <a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
   </div>
 <div class="wrap">
-  <div class="eyebrow">// NFL · Sept 9–14 · Opening week</div>
-  <h1>NFL Week 1<br/><span>every game, every number.</span></h1>
+  <div class="eyebrow" id="eyebrow">// NFL · reading the board…</div>
+  <h1 id="wk">NFL<br/><span>every game, every number.</span></h1>
 
-  <p class="lede">Sixteen games open the 2026 NFL season, and the league is
-  not easing anyone in: it opens Wednesday night in Seattle with New England,
-  then goes straight to Australia on Thursday for San Francisco and the Rams at
-  the Melbourne Cricket Ground, on Netflix. The week closes at Arrowhead on
-  Monday night. Ten of the sixteen are inside a field goal and a
-  half. Here is the whole board.</p>
+  <p class="lede">Every game on this week's NFL board, read live: the spread and where it
+  opened, the total, kickoff in Central time, and the fair price with the sportsbook's
+  cut taken out. Nothing on this page is typed by hand, so nothing on it can quietly
+  go stale.</p>
 
-  <div class="stamp">Lines via ESPN as of Tue Aug 25 · Week 1 opens Thursday, Sept 10 — these numbers have moved since and will move again before kickoff</div>
+  <div class="stamp" id="stamp">Lines via ESPN · reading the board…</div>
 
   <div class="strip">
-    <div class="chip"><div class="l">The opener</div>
-      <div class="v">NE at SEA</div>
-      <div class="s">Thursday, Sept 10 · NBC</div></div>
-    <div class="chip"><div class="l">Coin flips</div>
-      <div class="v">10 of 16</div>
-      <div class="s">inside a field goal and a half</div></div>
-    <div class="chip"><div class="l">Biggest number</div>
-      <div class="v">LAC -10.5</div>
-      <div class="s">the only double-digit spread</div></div>
+    <div class="chip"><div class="l">First kickoff</div>
+      <div class="v" id="c-first">—</div>
+      <div class="s" id="c-first-s">&nbsp;</div></div>
+    <div class="chip"><div class="l">Biggest line move</div>
+      <div class="v" id="c-move">—</div>
+      <div class="s" id="c-move-s">&nbsp;</div></div>
+    <div class="chip"><div class="l">On a key number</div>
+      <div class="v" id="c-key">—</div>
+      <div class="s" id="c-key-s">&nbsp;</div></div>
   </div>
 
   <div class="pick" id="our-pick">
-    <div class="pick-tag">★ Our pick on this card</div>
-    <!-- PICK:START — replaced when the pick is made. Keep these markers. -->
-    <p><b>Not posted yet.</b> These lines were captured sixteen days before
-    kickoff and they will move — on injuries, on camp news, on money. Picking
-    now means picking a number that won't exist by September.</p>
-    <p>The pick goes up in the week of the games, at the price actually on the
-    board. Until then the honest read is below: which numbers look placed to
-    move, and which look done.</p>
-    <!-- PICK:END -->
-  </div>
-    <!-- PICK:START — replaced by the Saturday routine. Keep these markers. -->
-    <p><b>Not posted yet.</b> Every team on this page has played zero games this
-    season. There is no form, no current-year splits, and no injury picture that
-    has survived contact with an opponent — so there is nothing here we could
-    defend if you asked us why.</p>
-    <p>The pick goes up <b>Saturday morning</b>, once the lines have settled and
-    the lineups are known. If we have nothing worth saying even then, we will say
-    that instead of inventing something.</p>
+    <div class="pick-tag">How to read this board</div>
+    <!-- PICK:START — board-reading note. Hand-written, so it carries its own date.
+         No side, no rating, no recommendation. Keep these markers. -->
+    <p>Two numbers on each game are worth more than the rest. The first is <b>movement</b>:
+    where the spread opened against where it sits now. A game wears a <b>moved</b> tag once
+    that gap reaches half a point, because the market has revised its own opinion and told
+    you so in public.</p>
+    <p>The second is the <b>fair price</b> — the two-way market with the vig stripped out.
+    That is what the market actually thinks, as opposed to what you are charged to bet it.
+    <a href="no-vig-calculator">Work it yourself here</a>.</p>
     <!-- PICK:END -->
   </div>
 
-  <table>
-    <thead><tr><th>Kickoff (CT)</th><th>Matchup</th><th>Spread</th><th>Total</th></tr></thead>
-    <tr>
-      <td class="kick">Wed 7:20 PM<span class="tv">NBC</span></td>
-      <td class="mu"><b>New England</b> at <b>Seattle</b><span class="vn">Lumen Field</span></td>
-      <td class="num">—</td>
-      <td class="num">—</td>
-    </tr>
-    <tr class="note"><td colspan="4">The season opens on a Wednesday for the second year running. Number not posted here yet — we will fill it in rather than guess.</td></tr>
-    <tr>
-      <td class="kick">Thu 7:35 PM<span class="tv">Netflix</span></td>
-      <td class="mu"><b>San Francisco</b> at <b>LA Rams</b><span class="vn">Melbourne Cricket Ground</span></td>
-      <td class="num">LAR -3.5</td>
-      <td class="num">48.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The NFL's first game in Australia, and the spread has a curiosity: a true neutral site, 8,000 miles from both fanbases, and the Rams still get 3.5 — the number you'd give a home team. Somebody is paying for the word 'home'.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Tampa Bay</b> at <b>Cincinnati</b><span class="vn">Paycor Stadium</span></td>
-      <td class="num">CIN -3.5</td>
-      <td class="num">51.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Highest total of the week. The market expects both offenses to pick up where they left off.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>New Orleans</b> at <b>Detroit</b><span class="vn">Ford Field</span></td>
-      <td class="num">DET -7</td>
-      <td class="num">49.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">One of only three touchdown-plus spreads. Detroit at home is the week's biggest conventional favorite.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>NY Jets</b> at <b>Tennessee</b><span class="vn">Nissan Stadium</span></td>
-      <td class="num">TEN -3</td>
-      <td class="num">38.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Lowest total of the week by two full points. The market's least optimistic view of any pairing.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>Baltimore</b> at <b>Indianapolis</b><span class="vn">Lucas Oil Stadium</span></td>
-      <td class="num">BAL -3.5</td>
-      <td class="num">48.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">A road favorite laying more than three — the market saying the gap between these rosters survives the venue.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Atlanta</b> at <b>Pittsburgh</b><span class="vn">Acrisure Stadium</span></td>
-      <td class="num">PIT -3</td>
-      <td class="num">41.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Three points, at home, is the default setting. This line says the market can't split them on merit.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Chicago</b> at <b>Carolina</b><span class="vn">Bank of America Stadium</span></td>
-      <td class="num">CHI -2.5</td>
-      <td class="num">47.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">A road favorite at under three. Whatever the market thinks of Carolina, it isn't much.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>Cleveland</b> at <b>Jacksonville</b><span class="vn">EverBank Stadium</span></td>
-      <td class="num">JAX -7.5</td>
-      <td class="num">40.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The biggest number of the early window, on the quietest game of the early window.</td></tr>
-    <tr>
-      <td class="kick">Sun 12:00 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>Buffalo</b> at <b>Houston</b><span class="vn">NRG Stadium</span></td>
-      <td class="num">BUF -1.5</td>
-      <td class="num">44.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Two playoff teams and a line thinner than a field goal. Probably the best game of the 12 o'clock slate.</td></tr>
-    <tr>
-      <td class="kick">Sun 3:25 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Miami</b> at <b>Las Vegas</b><span class="vn">Allegiant Stadium</span></td>
-      <td class="num">LV -3.5</td>
-      <td class="num">40.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Vegas favored by more than home field is worth — a quiet statement about where the market has Miami.</td></tr>
-    <tr>
-      <td class="kick">Sun 3:25 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>Green Bay</b> at <b>Minnesota</b><span class="vn">U.S. Bank Stadium</span></td>
-      <td class="num">MIN -1.5</td>
-      <td class="num">45.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">A division game at a point and a half. These lines are the market admitting it doesn't know.</td></tr>
-    <tr>
-      <td class="kick">Sun 3:25 PM<span class="tv">FOX</span></td>
-      <td class="mu"><b>Washington</b> at <b>Philadelphia</b><span class="vn">Lincoln Financial Field</span></td>
-      <td class="num">PHI -4.5</td>
-      <td class="num">46.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Last season's NFC East runner-up gets 4.5 at home against the team that chased them.</td></tr>
-    <tr>
-      <td class="kick">Sun 3:25 PM<span class="tv">CBS</span></td>
-      <td class="mu"><b>Arizona</b> at <b>LA Chargers</b><span class="vn">SoFi Stadium</span></td>
-      <td class="num">LAC -10.5</td>
-      <td class="num">46.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The only double-digit spread of the week. Week 1 double digits have a long history of humbling people.</td></tr>
-    <tr>
-      <td class="kick">Sun 7:20 PM<span class="tv">NBC</span></td>
-      <td class="mu"><b>Dallas</b> at <b>NY Giants</b><span class="vn">MetLife Stadium</span></td>
-      <td class="num">DAL -2.5</td>
-      <td class="num">48.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">Sunday night is Dallas laying less than three on the road — a primetime slot the schedule makers clearly believe in.</td></tr>
-    <tr>
-      <td class="kick">Mon 7:15 PM<span class="tv">ESPN/ABC</span></td>
-      <td class="mu"><b>Denver</b> at <b>Kansas City</b><span class="vn">Arrowhead Stadium</span></td>
-      <td class="num">KC -3</td>
-      <td class="num">42.5</td>
-    </tr>
-    <tr class="note"><td colspan="4">The week ends where the AFC West always seems to: Arrowhead, at night, KC by a field goal.</td></tr>
-  </table>
+  <div id="board"><div class="gm-empty">Reading this week's numbers…</div></div>
 
-  <p class="lede" style="margin-top:26px">Ten of sixteen inside a field
-  goal and a half is unusually tight for an opening week, and it won't last —
-  these numbers have sixteen days of injuries, camp reports and money to absorb
-  before kickoff. We'll re-check every line the week of the games.</p>
+  <h2 class="expl-h">Why 3 and 7 matter more than the half-point suggests</h2>
+  <p class="lede">NFL games are scored in threes and sevens, so final margins pile up on
+  those numbers far more than on the ones either side of them. That is why a spread sitting
+  exactly on 3 or 7 is flagged above. Moving a line from 3 to 3.5 is not the same size of
+  change as moving it from 5 to 5.5 — the first crosses a margin that actually happens a
+  lot, and the price charged for that half-point reflects it. The same logic, in a smaller
+  way, applies to 6, 10 and 14.</p>
+  <p class="lede">A total moving while the spread holds still is a different statement.
+  It says the market changed its mind about <em>pace</em> — weather, tempo, expected
+  possessions — without changing its mind about who wins. Those two numbers move for
+  different reasons, and reading them separately is most of the skill.</p>
 
   <div class="sub-cta">
     <div class="k">Take the cheat sheet</div>
     <p>The no-vig math, the key numbers, and how to read a line move — one
     page, before kickoff. No card, no spam.</p>
     <a class="go" href="/no-vig-calculator#cheat-sheet">Get the cheat sheet →</a>
+    <p style="margin:14px 0 8px">Or have it sent to you, with the weekend board every Friday. No card, no spam.</p>
+    <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
+    <p style="font-size:12px;opacity:.7;margin-top:6px">Check your inbox (and spam) to confirm &mdash; you&rsquo;re not signed up until you click the link.</p>
   </div>
+</div><!-- /.wrap -->
 <footer>
   <div class="foot-d">For entertainment purposes only. Inside the Number does not facilitate
     gambling. Odds are as published on the date shown and will move. Please gamble responsibly.</div>
@@ -434,6 +329,153 @@
      For visitors with no UTM and no flag this script changes nothing on the
      page. The Cloudflare Web Analytics beacon below runs only after this helper
      and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  var SB='https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard';
+  var board=document.getElementById('board');
+  if(!board) return;
+
+  function two(n){return n<10?'0'+n:''+n;}
+  function ct(iso){return new Date(iso).toLocaleTimeString('en-US',{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'});}
+  function dayLong(iso){return new Date(iso).toLocaleDateString('en-US',{timeZone:'America/Chicago',weekday:'long',month:'short',day:'numeric'});}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function sgn(n){return (n>0?'+':'')+n;}
+  function num(v){ if(v==null) return null; var m=String(v).match(/-?\d+(\.\d+)?/); return m?Number(m[0]):null; }
+  function imp(am){am=Number(am); if(!am) return null; return am>0?100/(am+100):(-am)/((-am)+100);}
+  function noVig(a,b){var pa=imp(a),pb=imp(b); if(pa==null||pb==null) return null;
+    var s=pa+pb; if(!s) return null; return {away:pa/s,home:pb/s,hold:(s-1)/s};}
+  function pct(p){return (p*100).toFixed(1)+'%';}
+
+  function parseGames(j){
+    return (j.events||[]).map(function(ev){
+      var c=(ev.competitions||[])[0]; if(!c) return null;
+      var cs=c.competitors||[];
+      var A=null,H=null;
+      for(var i=0;i<cs.length;i++){ if(cs[i].homeAway==='away')A=cs[i]; if(cs[i].homeAway==='home')H=cs[i]; }
+      if(!A||!H) return null;
+      var o=(c.odds||[])[0]||{};
+      var ps=(o.pointSpread&&o.pointSpread.home)||{}, tv=(o.total&&o.total.over)||{}, ml=o.moneyline||{};
+      var line = num(ps.close&&ps.close.line); if(line==null) line=num(o.spread);
+      var openL= num(ps.open&&ps.open.line);
+      var tot  = num(tv.close&&tv.close.line); if(tot==null) tot=num(o.overUnder);
+      var openT= num(tv.open&&tv.open.line);
+      var fair = noVig(ml.away&&ml.away.close&&ml.away.close.odds, ml.home&&ml.home.close&&ml.home.close.odds);
+      return {iso:ev.date, ts:new Date(ev.date).getTime(),
+        state:((ev.status||{}).type||{}).state||'pre',
+        away:A.team.shortDisplayName||A.team.displayName, awayAb:A.team.abbreviation, awayScore:A.score,
+        home:H.team.shortDisplayName||H.team.displayName, homeAb:H.team.abbreviation, homeScore:H.score,
+        line:line, openLine:openL, move:(line!=null&&openL!=null)?+(line-openL).toFixed(1):null,
+        total:tot, openTotal:openT, fair:fair,
+        tv:((c.broadcasts||[])[0]&&(c.broadcasts||[])[0].names)?c.broadcasts[0].names.join(', '):null,
+        key:(line!=null&&(Math.abs(line)===3||Math.abs(line)===7))};
+    }).filter(Boolean).sort(function(a,b){return a.ts-b.ts;});
+  }
+
+  /* spread shown from the favourite's side, which is how people say it */
+  function spreadText(g){
+    if(g.line==null) return '<span class="gm-na">spread not posted yet</span>';
+    var fav = g.line<0 ? g.homeAb : g.awayAb, n = g.line<0 ? g.line : -g.line;
+    var s='<b>'+esc(fav)+' '+sgn(n)+'</b>';
+    if(g.openLine!=null && g.move){
+      var ofav = g.openLine<0 ? g.homeAb : g.awayAb, on = g.openLine<0 ? g.openLine : -g.openLine;
+      s+=' <span class="gm-open">opened '+esc(ofav)+' '+sgn(on)+'</span>';
+    }
+    return s;
+  }
+
+  function render(games){
+    if(!games.length){
+      board.innerHTML='<div class="gm-empty">No NFL games are on the board in this window. '
+        +'The live multi-sport board is on the <a href="games">scores page</a>.</div>';
+      return;
+    }
+    var html='', lastDay=null;
+    games.forEach(function(g){
+      var d=dayLong(g.iso);
+      if(d!==lastDay){ html+='<div class="gm-day">'+esc(d)+'</div>'; lastDay=d; }
+      var tags='';
+      if(g.move && Math.abs(g.move)>=0.5) tags+='<span class="tag moved">moved '+Math.abs(g.move)+'</span>';
+      if(g.key) tags+='<span class="tag key">on 3 or 7</span>';
+      var tot = g.total==null ? '' : 'Total '+g.total
+        + (g.openTotal!=null && g.openTotal!==g.total ? ' <span class="gm-open">opened '+g.openTotal+'</span>' : '');
+      var fair = g.fair ? '<div class="gm-f">Fair price with the vig removed &mdash; '
+          +esc(g.awayAb)+' '+pct(g.fair.away)+' / '+esc(g.homeAb)+' '+pct(g.fair.home)
+          +' <span class="gm-open">book hold '+(g.fair.hold*100).toFixed(1)+'%</span></div>' : '';
+      var sc = (g.state==='post'||g.state==='in')
+        ? '<div class="gm-sc">'+esc(g.awayAb)+' '+esc(g.awayScore)+' &ndash; '+esc(g.homeAb)+' '+esc(g.homeScore)
+          +' <span class="gm-open">'+(g.state==='post'?'final':'live')+'</span></div>' : '';
+      html+='<div class="gm">'
+        +'<div class="gm-t">'+esc(ct(g.iso))+' CT'+(g.tv?' &middot; '+esc(g.tv):'')+'</div>'
+        +'<div class="gm-m">'+esc(g.away)+' at '+esc(g.home)+'</div>'
+        +'<div class="gm-n">'+spreadText(g)+(tot?' &middot; '+tot:'')+'</div>'
+        +(tags?'<div class="gm-tags">'+tags+'</div>':'')+fair+sc+'</div>';
+    });
+    board.innerHTML=html;
+  }
+
+  function chips(games,wk){
+    var pre=games.filter(function(g){return g.state==='pre';});
+    var first=pre[0]||games[0];
+    if(first){
+      document.getElementById('c-first').textContent=ct(first.iso)+' CT';
+      document.getElementById('c-first-s').textContent=first.away+' at '+first.home;
+    }
+    var moved=games.filter(function(g){return g.move!=null && Math.abs(g.move)>=0.5;})
+                   .sort(function(a,b){return Math.abs(b.move)-Math.abs(a.move);});
+    if(moved.length){
+      var m=moved[0];
+      document.getElementById('c-move').textContent=m.awayAb+' at '+m.homeAb;
+      document.getElementById('c-move-s').textContent='moved '+Math.abs(m.move)+' point'+(Math.abs(m.move)===1?'':'s')+' since open';
+    } else {
+      document.getElementById('c-move').textContent='none yet';
+      document.getElementById('c-move-s').textContent='lines are where they opened';
+    }
+    var keys=games.filter(function(g){return g.key;});
+    document.getElementById('c-key').textContent=keys.length+(keys.length===1?' game':' games');
+    document.getElementById('c-key-s').textContent=keys.length?'sitting on 3 or 7':'nothing on a key number';
+  }
+
+  function fail(msg){
+    document.getElementById('stamp').textContent='Lines via ESPN · '+msg;
+    board.innerHTML='<div class="gm-empty">Could not read the board just now. '
+      +'The live multi-sport board is on the <a href="games">scores page</a>.</div>';
+  }
+
+  async function load(){
+    try{
+      var r0=await fetch(SB);
+      if(!r0.ok) throw new Error('HTTP '+r0.status);
+      var j0=await r0.json();
+      var wk=(j0.week&&j0.week.number)||null,
+          yr=(j0.season&&j0.season.year)||new Date().getFullYear(),
+          st=(j0.season&&j0.season.type)||2;
+      var j=j0;
+      if(wk){
+        var r1=await fetch(SB+'?week='+wk+'&seasontype='+st+'&dates='+yr);
+        if(r1.ok){ var j1=await r1.json(); if((j1.events||[]).length) j=j1; }
+      }
+      var games=parseGames(j);
+      if(!games.length){ fail('no games on the board'); return; }
+
+      var lab = wk ? 'Week '+wk : 'This week';
+      var d0=games[0].iso, d1=games[games.length-1].iso;
+      var span=new Date(d0).toLocaleDateString('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric'})
+        +'–'+new Date(d1).toLocaleDateString('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric'});
+      document.getElementById('eyebrow').textContent='// NFL · '+lab.toUpperCase()+' · '+span.toUpperCase();
+      document.getElementById('wk').innerHTML='NFL '+esc(lab)+'<br/><span>every game, every number.</span>';
+      document.title='NFL '+lab+' Odds — Every Game, Every Number, the No-Vig True Price | Inside the Number';
+      var now=new Date();
+      document.getElementById('stamp').textContent='Lines via ESPN · read '
+        +now.toLocaleTimeString('en-US',{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})+' CT, '
+        +now.toLocaleDateString('en-US',{timeZone:'America/Chicago',weekday:'short',month:'short',day:'numeric'});
+      chips(games,wk);
+      render(games);
+    }catch(e){ fail('feed unavailable'); }
+  }
+  load();
+})();
+</script>
+
 <script>
 (function(){
   try{

@@ -665,7 +665,24 @@
 
   .footer-disclaimer .lnk{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.3)}
   .footer-disclaimer .lnk:hover{border-bottom-color:var(--green)}
-</style>
+
+    /* ── weekend routing ─────────────────────────────────────────── */
+    .route { padding:52px 48px 8px; max-width:1180px; margin:0 auto; }
+    .route-h { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800;
+               letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin-bottom:6px; }
+    .route-s { color:var(--mid); font-size:15px; max-width:64ch; margin-bottom:22px; line-height:1.6; }
+    .route-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .route-card { display:block; text-decoration:none; background:var(--surface-1);
+                  border:1px solid var(--border); border-radius:14px; padding:18px 18px 16px; transition:border-color .15s; }
+    .route-card:hover { border-color:rgba(0,208,132,.45); }
+    .route-card .k { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.15em;
+                     text-transform:uppercase; color:var(--green); margin-bottom:8px; }
+    .route-card .t { font-family:'Barlow Condensed',sans-serif; font-size:21px; font-weight:800;
+                     color:var(--white); line-height:1.15; margin-bottom:6px; }
+    .route-card .d { font-size:13px; color:var(--mid); line-height:1.5; }
+    @media(max-width:1000px){ .route-grid{grid-template-columns:repeat(2,1fr);} .route{padding:40px 24px 4px;} }
+    @media(max-width:560px){ .route-grid{grid-template-columns:1fr;} }
+  </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -949,7 +966,7 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </div>
     <ul class="nav-links">
-      <li><a href="cfb">College Football</a></li>
+      <li><a href="nfl">NFL</a></li><li><a href="cfb">College Football</a></li>
       <li><a href="games">Scores</a></li>
       <li><a href="tools">Tools</a></li>
       <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
@@ -961,6 +978,7 @@
 </div><!-- /wrapTop -->
 
 <div class="mobile-menu" id="mobileMenu">
+    <a href="nfl">NFL</a>
     <a href="cfb">College Football</a>
     <a href="games">Scores</a>
     <a href="tools">Tools</a>
@@ -1084,12 +1102,42 @@
      "the date of a pick". Update it whenever the board is re-read.
      The freshness guard near the end of this file makes an out-of-date stamp
      visible to the visitor rather than letting it read as current. -->
+<!-- WEEKEND ROUTING -->
+<div class="route">
+  <div class="route-h">Start here</div>
+  <p class="route-s">Football is on the board and baseball is into its last fortnight before the
+  playoffs. Each of these reads the same way: what the number is, where it opened, and what it
+  looks like with the sportsbook's cut taken out.</p>
+  <div class="route-grid">
+    <a class="route-card" href="nfl">
+      <div class="k">This week</div>
+      <div class="t">NFL board</div>
+      <div class="d">Every game, the spread and where it opened, the total, and the fair price with the vig removed.</div>
+    </a>
+    <a class="route-card" href="cfb">
+      <div class="k">This week</div>
+      <div class="t">College football board</div>
+      <div class="d">The full Saturday card, ordered by kickoff, with the biggest line moves flagged.</div>
+    </a>
+    <a class="route-card" href="mlb-playoff-odds-explained">
+      <div class="k">Explainer</div>
+      <div class="t">How playoff odds work</div>
+      <div class="d">Game 1 lines, series prices, and why a short series moves so much harder than a regular-season game.</div>
+    </a>
+    <a class="route-card" href="no-vig-calculator">
+      <div class="k">Tool</div>
+      <div class="t">No-vig calculator</div>
+      <div class="d">Paste both sides of any market and see the fair price. The free cheat sheet lives here too.</div>
+    </a>
+  </div>
+</div>
+
 <section class="potd-section" id="pick-of-the-day">
   <div class="potd-inner">
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Board check</div>
-        <div class="potd-date" id="potd-date">Tue, Sep 15</div>
+        <div class="potd-date" id="potd-date">Wed, Sep 16</div>
         <div class="potd-sport">Reading the number</div>
         <div class="potd-matchup" id="potd-matchup">What the market is actually saying</div>
         <div class="potd-line">No-vig true price &middot; key numbers &middot; line movement</div>
@@ -1605,8 +1653,8 @@
       <div class="how-item">
         <span class="how-n">03</span>
         <div>
-          <h3>A real side, a real number</h3>
-          <p>Every pick names one, posted before kickoff. No vague leans, no "value on the under somewhere," nothing you can only interpret after the result.</p>
+          <h3>Read in public, before kickoff</h3>
+            <p>Where a number opened, where it sits now, and what it looks like with the vig removed — shown on the page while the games are still ahead, not explained afterwards.</p>
         </div>
       </div>
     </div>

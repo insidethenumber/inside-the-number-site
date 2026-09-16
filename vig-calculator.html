@@ -53,6 +53,9 @@ p.x a{color:var(--green);text-decoration:none}
 .sub-cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}
 .sub-cta p b{color:var(--white);font-weight:600}
 .sub-cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
+.faq{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;margin:12px 0}
+.faq h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase;color:var(--white);letter-spacing:.02em;margin:0 0 6px}
+.faq p{font-size:14px;color:var(--mid);font-weight:300;margin:0;max-width:60ch;line-height:1.55}
 </style>
 </head>
 <body>
@@ -81,6 +84,24 @@ p.x a{color:var(--green);text-decoration:none}
   <p class="x">We run these numbers on
   <a href="/games">every game on the board</a>, every day — or see
   <a href="/tools">all ten calculators</a> on one page.</p>
+  <!-- ── FAQ ───────────────────────────────────────────────
+       Visible copy for the FAQPage schema at the foot of this file. Google
+       requires structured data to match content the visitor can see, so the
+       text below is byte-identical to the schema answers. No inline markup in
+       the answers — it would break that match. Edit both or neither. -->
+  <h2 id="faq">Frequently asked questions</h2>
+  <div class="faq">
+    <h3>What is vig in sports betting?</h3>
+    <p>Vig — also called juice or hold — is the sportsbook's built-in margin: the amount by which both sides' implied probabilities exceed 100%. At -110/-110 the two sides total 104.76%, so the hold is 4.76%.</p>
+  </div>
+  <div class="faq">
+    <h3>What is a normal hold percentage?</h3>
+    <p>Standard two-way markets such as sides and totals run about 4-5%. Under 3% is a sharp price. Over 6% is expensive. Player props and futures are often far higher, sometimes 15-20% or more.</p>
+  </div>
+  <div class="faq">
+    <h3>How do you calculate the hold on a market?</h3>
+    <p>Convert each side's American odds to implied probability, add them together, and subtract 100%. For -110 and -110: 52.38% + 52.38% = 104.76%, so the hold is 4.76% before rounding.</p>
+  </div>
   <div class="sub-cta">
     <div class="k">Take the cheat sheet</div>
     <p>One page, free: both formulas, what every common price really costs you, the key numbers,
