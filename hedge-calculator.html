@@ -53,6 +53,13 @@ p.x a{color:var(--green);text-decoration:none}
 .sub-cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}
 .sub-cta p b{color:var(--white);font-weight:600}
 .sub-cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
+.faq{border-top:1px solid var(--bd);padding-top:14px;margin-top:14px}
+.faq h3{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;margin-bottom:5px}
+.faq p{font-size:14px;color:var(--mid);font-weight:300;line-height:1.55}
+.rel{margin:24px 0 10px;padding:16px 18px;border:1px solid var(--bd);border-radius:12px;background:rgba(255,255,255,.025)}
+.rel .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.rel a{display:inline-block;margin:0 10px 10px 0;color:var(--white);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35);font-size:14px}
+.rel a:hover{color:var(--green)}
 </style>
 </head>
 <body>
@@ -84,6 +91,22 @@ p.x a{color:var(--green);text-decoration:none}
   <p class="x">We run these numbers on
   <a href="/games">every game on the board</a>, every day — or see
   <a href="/tools">all ten calculators</a> on one page.</p>
+  <!-- Generator-owned page: M9 says build_calc_pages.py can overwrite
+       measurement/copy. Generator repair must emit visible FAQ and related
+       links, not schema-only FAQ. -->
+  <h2 id="faq">Frequently asked questions</h2>
+  <div class="faq">
+    <h3>How do you calculate a hedge bet?</h3>
+    <p>Work out the total return on the original ticket if it wins, then divide that figure by the decimal odds on the opposite side. The result is the stake that returns the same amount whichever way the event goes.</p>
+  </div>
+  <div class="faq">
+    <h3>Is hedging a bet always a good idea?</h3>
+    <p>No. Hedging always costs expected value in exchange for certainty. It is worth it when the amount at stake is large relative to your bankroll, and usually not worth it on small tickets where the variance does not matter.</p>
+  </div>
+  <div class="faq">
+    <h3>Can you hedge and still lose money?</h3>
+    <p>Yes. If the price on the other side has moved against you, the guaranteed figure can be less than your total risk. The hedge then caps the loss rather than locking in a profit.</p>
+  </div>
   <div class="sub-cta">
     <div class="k">Take the cheat sheet</div>
     <p>One page, free: both formulas, what every common price really costs you, the key numbers,
@@ -93,6 +116,15 @@ p.x a{color:var(--green);text-decoration:none}
     <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
     <p style="font-size:12px;opacity:.7;margin-top:6px">Check your inbox (and spam) to confirm &mdash;
     you&rsquo;re not signed up until you click the link.</p>
+  </div>
+  <div class="rel">
+    <div class="k">Related</div>
+    <a href="/nfl">NFL board</a>
+    <a href="/cfb">College football board</a>
+    <a href="/no-vig-calculator#cheat-sheet">Get the cheat sheet</a>
+    <a href="/bankroll-drawdown-calculator">Bankroll drawdown calculator</a>
+    <a href="/mlb-playoff-odds-explained">MLB playoff odds explained</a>
+    <a href="/tools">All tools</a>
   </div>
   <div class="foot">Inside the Number · <a rel="me" style="color:var(--green)" href="https://x.com/thenumberdesk">@thenumberdesk</a> · every game priced at what the market really
   thinks · <a href="/">the board daily</a> · 21+ only. If gambling stops being fun,

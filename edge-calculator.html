@@ -53,6 +53,13 @@ p.x a{color:var(--green);text-decoration:none}
 .sub-cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}
 .sub-cta p b{color:var(--white);font-weight:600}
 .sub-cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
+.faq{border-top:1px solid var(--bd);padding-top:14px;margin-top:14px}
+.faq h3{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;margin-bottom:5px}
+.faq p{font-size:14px;color:var(--mid);font-weight:300;line-height:1.55}
+.rel{margin:24px 0 10px;padding:16px 18px;border:1px solid var(--bd);border-radius:12px;background:rgba(255,255,255,.025)}
+.rel .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.rel a{display:inline-block;margin:0 10px 10px 0;color:var(--white);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35);font-size:14px}
+.rel a:hover{color:var(--green)}
 </style>
 </head>
 <body>
@@ -83,6 +90,22 @@ p.x a{color:var(--green);text-decoration:none}
   <p class="x">We run these numbers on
   <a href="/games">every game on the board</a>, every day — or see
   <a href="/tools">all ten calculators</a> on one page.</p>
+  <!-- Generator-owned page: M9 says build_calc_pages.py can overwrite
+       measurement/copy. Generator repair must emit visible FAQ and related
+       links, not schema-only FAQ. -->
+  <h2 id="faq">Frequently asked questions</h2>
+  <div class="faq">
+    <h3>How do you calculate your edge in sports betting?</h3>
+    <p>Remove the margin from the market by converting both sides to implied probability and dividing each by their total. Then subtract that fair probability from your own estimate. The difference, in percentage points, is your edge.</p>
+  </div>
+  <div class="faq">
+    <h3>What is a good edge in sports betting?</h3>
+    <p>One to three percentage points against the no-vig price is a real edge and enough to be profitable long term. Anything above five points is more often a modelling error or stale line than a genuine opportunity.</p>
+  </div>
+  <div class="faq">
+    <h3>Why compare against the no-vig price instead of the posted odds?</h3>
+    <p>The posted price includes the sportsbook's fee, so beating it slightly is not actually an edge. The no-vig price is the market's honest estimate, which is the only fair benchmark for your own number.</p>
+  </div>
   <div class="sub-cta">
     <div class="k">Take the cheat sheet</div>
     <p>One page, free: both formulas, what every common price really costs you, the key numbers,
@@ -92,6 +115,15 @@ p.x a{color:var(--green);text-decoration:none}
     <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
     <p style="font-size:12px;opacity:.7;margin-top:6px">Check your inbox (and spam) to confirm &mdash;
     you&rsquo;re not signed up until you click the link.</p>
+  </div>
+  <div class="rel">
+    <div class="k">Related</div>
+    <a href="/nfl">NFL board</a>
+    <a href="/cfb">College football board</a>
+    <a href="/no-vig-calculator#cheat-sheet">Get the cheat sheet</a>
+    <a href="/kelly-calculator">Kelly calculator</a>
+    <a href="/mlb-playoff-odds-explained">MLB playoff odds explained</a>
+    <a href="/tools">All tools</a>
   </div>
   <div class="foot">Inside the Number · <a rel="me" style="color:var(--green)" href="https://x.com/thenumberdesk">@thenumberdesk</a> · every game priced at what the market really
   thinks · <a href="/">the board daily</a> · 21+ only. If gambling stops being fun,
