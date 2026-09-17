@@ -1150,7 +1150,7 @@
         <div class="potd-sport">Reading the number</div>
         <div class="potd-matchup" id="potd-matchup">What the market is actually saying</div>
         <div class="potd-line">No-vig true price &middot; key numbers &middot; line movement</div>
-        <p class="potd-reasoning">A posted line is two things at once: an estimate of the outcome, and the price you are charged for taking it. Strip the vig out and what is left is the market's true probability &mdash; the number worth comparing anything else against. In football the key numbers carry most of the weight: games land on <b>3</b> and <b>7</b> far more often than on any other margin, so a spread moving off 3 costs more than the half-point makes it look. And when a total moves while the spread sits still, the market is repricing how the game gets played, not who wins it. Every current price, and how far each has travelled since it opened, is on the <a href="games" style="color:inherit;text-decoration:underline">scores page</a>.</p>
+        <p class="potd-reasoning">A posted line is two things at once: an estimate of the outcome, and the price you are charged for taking it. Strip the vig out and what is left is the market's true probability &mdash; the number worth comparing anything else against. In football the key numbers carry most of the weight: games land on <b>3</b> and <b>7</b> far more often than on any other margin, so a spread moving off 3 costs more than the half-point makes it look. And when a total moves while the spread sits still, the market is repricing how the game gets played, not who wins it. Every current price, and how far each has traveled since it opened, is on the <a href="games" style="color:inherit;text-decoration:underline">scores page</a>.</p>
       </div>
       <div class="potd-cta">
         <a href="no-vig-calculator#cheat-sheet" class="btn-primary">Get the No-Vig Cheat Sheet &rarr;</a>
@@ -1189,7 +1189,7 @@
          from ESPN's public feed at load time. -->
   <style>
   /* Solo pick card (golf outright / UFC bout): one competitor, so it gets a
-     single centred event line instead of the away-@-home logo row. */
+     single centered event line instead of the away-@-home logo row. */
   .mc-solo-body{display:block;padding:14px 16px 2px}
   .mc-solo-name{font-size:17px;font-weight:700;line-height:1.3}
   .panel-empty{padding:18px 20px;border:1px solid rgba(255,255,255,.10);
@@ -1834,7 +1834,37 @@
           ours:ours.has(`${a.team.abbreviation.toLowerCase()}|${h.team.abbreviation.toLowerCase()}`)};
       }).filter(Boolean);
     }catch(e){D[label]=[]}
-  })).then(paint);
+  })).then(()=>{ paint(); stampBoardRead(); });
+
+  /* BOARD STAMP — M26, Sep 17 2026.
+     #potd-date used to be typed by hand, which is how it ended up reading
+     "Wed, Sep 16" on the 17th while the board underneath it showed the 17th.
+     It is now written from the same round-trip that fills the ticker, so the
+     stamp means what its comment upstairs says it means: when the board was
+     last read.
+
+     Three deliberate constraints:
+       a) The element is NEVER removed or emptied. scripts/smoke.py
+          (invariant 2) and .github/workflows/site-watchdog.yml both parse its
+          text as a date; losing it breaks both monitors permanently.
+       b) It only writes when a league actually returned games. If every feed
+          is down we leave whatever is in the HTML and let the freshness guard
+          at the bottom of this file tell the visitor — better a visible stale
+          stamp than a fabricated fresh one.
+       c) It formats in America/Chicago, matching the guard's own clock, so a
+          late-evening read cannot stamp tomorrow and trip the guard against
+          itself. */
+  function stampBoardRead(){
+    try{
+      var el=document.getElementById('potd-date');
+      if(!el) return;
+      if(!Object.keys(D).some(function(k){return (D[k]||[]).length})) return;
+      el.textContent=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',
+        weekday:'short',month:'short',day:'numeric'}).format(new Date());
+      var stale=document.getElementById('potd-stale-note');
+      if(stale && stale.parentNode) stale.parentNode.removeChild(stale);
+    }catch(e){}
+  }
 })();
 </script>
 
@@ -1924,7 +1954,15 @@
 </script>
 
 <script>
-/* BOARD FRESHNESS GUARD — added Sep 15, 2026.
+/* BOARD FRESHNESS GUARD — added Sep 15, 2026. Note carries an id as of M26,
+   Sep 17 2026: this guard runs at parse time, while stampBoardRead() above
+   runs only after the league feeds answer. On a normal load the guard reads
+   the HTML's stamp first, and if that stamp is stale it appends this note a
+   fraction of a second before the stamp is corrected — leaving "not from
+   today" sitting next to today's date. stampBoardRead() removes the note by
+   this id once it has written a current stamp. If the feeds never answer,
+   nothing removes it and the visitor still gets the warning, which is the
+   behaviour this guard was built for.
    The board stamp in #pick-of-the-day is written by hand / by the daily
    routine, so it is the one element on this page that can silently go stale —
    which is exactly what happened on Sep 14/15. Monitors catch it server-side
@@ -1947,6 +1985,7 @@
     var card = el.closest('.potd-card');
     if(!card || !card.firstElementChild) return;
     var note = document.createElement('div');
+    note.id = 'potd-stale-note';
     note.className = 'potd-sub';
     note.style.cssText = 'margin-top:12px;font-weight:600';
     note.innerHTML = 'This reading is not from today. The live board is on the ' +

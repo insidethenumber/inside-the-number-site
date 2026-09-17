@@ -393,7 +393,7 @@
     }).filter(Boolean).sort(function(a,b){return a.ts-b.ts;});
   }
 
-  /* spread shown from the favourite's side, which is how people say it */
+  /* spread shown from the favorite's side, which is how people say it */
   function spreadText(g){
     if(g.line==null) return '<span class="gm-na">spread not posted yet</span>';
     var fav = g.line<0 ? g.homeAb : g.awayAb, n = g.line<0 ? g.line : -g.line;
