@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Inside the Number — Live Odds, Line Movement &amp; the No-Vig True Price | Every Game</title>
-<meta name="description" content="Every line, explained. What the market actually thinks on every game — live odds, line movement and the no-vig true price, free. Football, baseball and the live boards we can verify."/>
+<title>Inside the Number — Live Odds &amp; the No-Vig True Price</title>
+<meta name="description" content="Every line, explained. Live odds, line movement and the no-vig true price on every football and baseball game — free, no account, never a pick."/>
 <link rel="canonical" href="https://insidethenumber.com/"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -277,7 +277,7 @@
   .stat-cell:last-child { border-right: none; }
   .stat-cell .n { font-size: 24px; font-weight: 600; }
   .stat-cell .n.g { color: var(--green); } .stat-cell .n.a { color: var(--gold); } .stat-cell .n.b { color: var(--blue); }
-  .stat-cell .l { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+  .stat-cell .l { font-size: 9px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 
   /* ── TRUST BAR ── */
   .trust-bar {
@@ -749,7 +749,11 @@
   /* ── ESPN-style top scores strip ───────────────────────────── */
   .tb{background:#080a0e;border-bottom:1px solid var(--border);position:relative}
   .tb-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--muted);padding:8px 14px 0}
+    text-transform:uppercase;color:var(--mid);padding:8px 14px 0}
+  /* second label, for the ticker below the links — see the two-label note
+     in ITN-NEXT-FRONT-DOOR-AUDIT.md §G. Sits under a 1px border, so it
+     needs 1px less top padding than the first to sit on the same rhythm. */
+  .tb-label-live{padding-top:7px}
   .tb-leagues{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 14px;overflow-x:auto;scrollbar-width:none}
   .tb-leagues::-webkit-scrollbar{display:none}
   .tb-leagues a{color:#c9cfd8;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
@@ -867,6 +871,7 @@
 <div class="tb">
   <div class="tb-label">Start here</div>
   <div class="tb-leagues" id="tbL"></div>
+  <div class="tb-label tb-label-live">Live board</div>
   <div style="position:relative">
     <button class="tb-nav l" id="tbPrev" aria-label="Scroll left">‹</button>
     <div class="tb-scroll" id="tbS"></div>
@@ -1010,19 +1015,19 @@
 <div class="hero-wrap">
 <div class="hero">
   <div>
-    <h1>The Number<br/>Doesn't <span class="line-accent">Lie</span></h1>
-    <p class="hero-sub"><b>Every line, explained — what the market actually thinks.</b> Live odds, line movement and the no-vig true price, not what you're charged to bet it. Free market education for football, baseball and the live boards we can verify.</p>
-    <a href="#signup" class="btn-primary">Get Free Access →</a>
+    <h1>Every Line,<br/><span class="line-accent">Explained</span></h1>
+    <p class="hero-sub"><b>Live odds, line movement, and every price with the sportsbook's margin stripped out.</b> Free, no account, and never a pick — football, baseball and the boards we can verify.</p>
+    <a href="#signup" class="btn-primary">Get the Free Morning Board →</a>
     <a href="#slate" class="btn-ghost">Read Today's Board ↓</a>
     <a class="stat-strip" href="games" title="See every game on today's board">
       <!-- These cells describe what the operation DOES, not how long it's
            been running. Deliberately no win/loss record or win-rate % here:
            a percentage without its denominator is the exact move this brand
            is positioned against. -->
-      <div class="stat-cell"><div class="n g">Free</div><div class="l">True Prices, Every Day</div></div>
+      <div class="stat-cell"><div class="n g">Free</div><div class="l">No Account, No Paywall</div></div>
       <div class="stat-cell"><div class="n b">Live</div><div class="l">Odds &amp; Line Movement</div></div>
-      <div class="stat-cell"><div class="n g">True</div><div class="l">Prices, Every Game</div></div>
-      <div class="stat-cell"><div class="n a">Live</div><div class="l">Verified Boards</div></div>
+      <div class="stat-cell"><div class="n g">True</div><div class="l">Price on Every Game</div></div>
+      <div class="stat-cell"><div class="n a">0</div><div class="l">Picks. Ever.</div></div>
     </a>
   </div>
   <!-- Real line movement: opening number vs current, pulled live from ESPN's

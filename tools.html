@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Free Betting Calculators — Odds, No-Vig, EV, Kelly & Hedge | Inside the Number</title>
-<meta name="description" content="Ten free betting calculators: convert American, decimal and fractional odds, strip the vig for true probability, size bets with Kelly, work out expected value, hedge a live bet, and see the hold a book is taking. No signup."/>
+<title>Free Betting Calculators — Odds, No-Vig, EV & Kelly</title>
+<meta name="description" content="Ten free betting calculators: odds conversion, no-vig true prices, break-even win rate, expected value, Kelly staking, hedging and parlay math."/>
 <link rel="canonical" href="https://insidethenumber.com/tools"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -17,13 +17,13 @@
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/tools"/>
 <meta property="og:title" content="Free Betting Calculators — Inside the Number"/>
-<meta property="og:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Ten calculators, no signup."/>
+<meta property="og:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Ten calculators, no account."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Free Betting Calculators — Inside the Number"/>
-<meta name="twitter:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Ten calculators, no signup."/>
+<meta name="twitter:description" content="Odds conversion, no-vig fair prices, expected value, Kelly staking, hedging and book hold. Ten calculators, no account."/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
@@ -360,7 +360,7 @@
   <div class="header">
     <p class="eyebrow">// Free Tools</p>
     <h1>Do the math<br/><span>before you bet it.</span></h1>
-    <p class="lead">Ten calculators covering the math that actually decides whether a bet is worth making — converting prices, stripping out the bookmaker's margin, sizing a stake properly, and working out what you'd need to hit to break even. No signup, no account, nothing stored.</p>
+    <p class="lead">Ten calculators covering the math that actually decides whether a bet is worth making — converting prices, stripping out the bookmaker's margin, sizing a stake properly, and working out what you'd need to hit to break even. No account, nothing stored.</p>
     <div class="jump">
       <!-- Learn was folded out of the nav on Aug 22 — people arrive for lines,
            not lessons. The page keeps its URL and its search ranking; this is
@@ -371,6 +371,7 @@
       <a href="#value">Value &amp; Edge</a>
       <a href="#staking">Staking</a>
       <a href="#situational">Situational</a>
+      <a href="#signup">&darr; Free Morning Board</a>
     </div>
   </div>
 
@@ -580,11 +581,39 @@
   </div>
 </div>
 
-<section class="cta">
+<!-- Internal routing out of /tools. This page is the most internally-linked
+     page on the site and, until Sep 17 2026, linked onward to nothing —
+     a visitor who finished with a calculator had no next step except the
+     nav. Added per ITN-NEXT-FRONT-DOOR-AUDIT.md. -->
+<div style="max-width:820px;margin:52px auto 0;padding:0 20px;">
+  <p style="font-size:14px;line-height:1.8;color:var(--mid);text-align:center;margin:0;">
+    Putting these to work:
+    <a href="football-line-movement" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">how football lines move before kickoff</a> &middot;
+    <a href="mlb-playoffs" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">how to read MLB playoff odds</a> &middot;
+    <a href="ufc-331-odds" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">UFC 331 odds explained</a> &middot;
+    <a href="learn" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">how to read a betting line</a>
+  </p>
+</div>
+
+<section class="cta" id="signup">
   <div class="cta-inner">
     <h2>Read the board before you bet</h2>
     <p>The same math applied to real prices — no-vig probability, key numbers, and line movement explained plainly.</p>
-    <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Subscribe Free →</a>
+    <!-- Two deliberate differences from the homepage embed, both found by
+         rendering this at 390px before shipping:
+           background:#fff, not transparent. The homepage .signup section is
+           light, so a transparent form reads fine there. This .cta section
+           is a green-to-blue gradient, and the transparent form rendered as
+           an invisible rectangle — the email field was literally not there.
+           height:120px, not 340px. At this width Beehiiv lays the form out
+           inline (field + button on one row) instead of stacked. 340px left
+           ~220px of empty white below it. 120px fits the row and still
+           reserves room for Beehiiv's inline error/confirmation message. -->
+    <div style="max-width:520px;margin:0 auto;">
+      <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:120px;border:0;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.18);" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <p style="font-size:13px;line-height:1.6;color:rgba(0,0,0,0.6);margin:4px 0 0;">Check your inbox (and spam) to confirm &mdash; you are not signed up until you click the link.<br/>
+      <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener" style="display:inline;padding:0;background:none;color:rgba(0,0,0,0.75);font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;text-decoration:underline;">Form not loading? Subscribe here →</a></p>
   </div>
 </section>
 

@@ -174,4 +174,22 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+<url>
+    <loc>https://insidethenumber.com/football-line-movement</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://insidethenumber.com/mlb-playoffs</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://insidethenumber.com/ufc-331-odds</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
