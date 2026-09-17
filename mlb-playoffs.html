@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How to Read MLB Playoff Odds | Inside the Number</title>
+<meta name="description" content="A guide to MLB playoff moneylines, series prices, run lines, totals, bullpen pricing and no-vig implied probability for postseason baseball."/>
+<link rel="canonical" href="https://insidethenumber.com/mlb-playoffs"/>
+<meta name="theme-color" content="#050608"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"/>
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:url" content="https://insidethenumber.com/mlb-playoffs"/>
+<meta property="og:title" content="How to read MLB playoff odds"/>
+<meta property="og:description" content="Series prices, Game 1 lines, bullpen pricing, October totals and no-vig probability for postseason baseball."/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="How to read MLB playoff odds"/>
+<meta name="twitter:description" content="Why October prices behave differently — series length, bullpen leverage, and what a heavy favorite price is really claiming."/>
+<meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black:#050608; --dark:#0b0d11; --border:#1c2129; --border-lit:#2a2f3a;
+    --surface-1:#0e1116; --surface-2:#141821; --surface-3:#1a1f2a;
+    --green:#00d084;--green-deep:#007a4d; --green-dim:rgba(0,208,132,0.12); --blue:#3ba7ff; --red:#ff5c5c; --gold:#f0b429;
+    --white:#f0f2f5; --muted:#6b7280; --mid:#9ca3af;
+    --shadow-md:0 4px 14px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);
+    --r-sm:8px; --r-md:12px; --r-lg:18px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Barlow',sans-serif; background:var(--black); color:var(--white); line-height:1.6; overflow-x:hidden; }
+
+  /* ── AMBIENT BACKGROUND ─────────────────────────────────────────────────
+     Copied verbatim from learn.html. Painted on a fixed pseudo-element
+     rather than `background-attachment: fixed` on <body>, because fixed
+     attachment forces a full repaint on every scroll frame in several
+     mobile browsers and a composited fixed layer does not. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 100% 64px,
+      linear-gradient(90deg, rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 64px 100%,
+      radial-gradient(ellipse 65% 28% at 8% 10%,   rgba(0,208,132,0.38) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 94% 32%,  rgba(59,167,255,0.34) 0%, transparent 60%),
+      radial-gradient(ellipse 65% 28% at 14% 58%,  rgba(0,208,132,0.30) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 90% 80%,  rgba(59,167,255,0.29) 0%, transparent 60%);
+  }
+  @media (prefers-reduced-motion: reduce) { body::before { position: absolute; } }
+
+  nav { background:rgba(5,6,8,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+  .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .nav-logo-mark svg { width:100%; height:100%; display:block; }
+  .nav-name { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
+  .nav-name span { color:var(--green); }
+  .nav-links { display:flex; align-items:center; gap:28px; list-style:none; }
+  .nav-links a { color:#b6bdc8; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; }
+  .nav-links a:hover, .nav-links a.active { color:var(--green); }
+  .nav-hamburger { display:none; width:40px; height:40px; background:none; border:none; cursor:pointer; flex-direction:column; justify-content:center; align-items:center; gap:5px; z-index:200; padding:0; }
+  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform .25s,opacity .25s; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }
+  .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
+  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  body.menu-open { overflow:hidden; }
+
+  .shell { display:grid; grid-template-columns:230px 1fr; gap:52px; max-width:1180px; margin:0 auto; padding:0 48px; }
+  .toc { position:sticky; top:88px; align-self:start; padding:52px 0; }
+  .toc-label { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:14px; }
+  .toc a { display:block; font-size:13px; color:var(--mid); text-decoration:none; padding:7px 0 7px 12px; border-left:2px solid var(--border); transition:all .18s; }
+  .toc a:hover { color:var(--white); border-left-color:var(--border-lit); }
+  .toc a.on { color:var(--green); border-left-color:var(--green); }
+
+  .body { padding:52px 0 40px; min-width:0; }
+  .eyebrow { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px; }
+  h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(32px,4.4vw,54px); font-weight:900; text-transform:uppercase; line-height:0.99; margin-bottom:18px; }
+  h1 span { background:linear-gradient(100deg,var(--green),var(--blue)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .standfirst { font-size:16px; color:var(--mid); line-height:1.85; font-weight:300; max-width:660px; margin-bottom:14px; }
+
+  h2 { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; margin:54px 0 14px; scroll-margin-top:86px; }
+  h3 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; letter-spacing:0.03em; margin:30px 0 10px; color:var(--white); }
+  p { font-size:15px; color:var(--mid); line-height:1.85; margin-bottom:16px; max-width:660px; }
+  p strong { color:var(--white); font-weight:600; }
+  a.inline { color:var(--green); text-decoration:none; border-bottom:1px solid rgba(0,208,132,0.35); }
+  a.inline:hover { border-bottom-color:var(--green); }
+  ul.pts { list-style:none; margin:0 0 18px; max-width:660px; }
+  ul.pts li { font-size:15px; color:var(--mid); line-height:1.8; padding:7px 0 7px 20px; position:relative; }
+  ul.pts li::before { content:'—'; position:absolute; left:0; color:var(--green); }
+
+  .box { background:var(--surface-1); border:1px solid var(--border); border-left:3px solid var(--accent,var(--green)); border-radius:var(--r-md); padding:20px 24px; margin:24px 0; max-width:660px; }
+  .box .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.13em; text-transform:uppercase; color:var(--accent,var(--green)); margin-bottom:9px; }
+  .box p { margin-bottom:0; font-size:14px; }
+
+  table { width:100%; max-width:660px; border-collapse:collapse; margin:22px 0; background:var(--surface-1); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+  th { text-align:left; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:12px 16px; border-bottom:1px solid var(--border); }
+  td { padding:12px 16px; font-size:14px; color:var(--mid); border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:none; }
+  td.mono { font-family:'IBM Plex Mono',monospace; color:var(--white); white-space:nowrap; }
+  td .g { color:var(--green); } td .r { color:var(--red); }
+
+  .cta { background:linear-gradient(100deg,var(--green),var(--blue)); margin-top:70px; }
+  .cta-inner { max-width:700px; margin:0 auto; text-align:center; padding:66px 48px; }
+  .cta h2 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,4.2vw,46px); font-weight:900; text-transform:uppercase; color:var(--black); line-height:1; margin:0 0 14px; }
+  .cta p { font-size:15px; color:rgba(0,0,0,0.65); margin:0 auto 28px; max-width:520px; }
+  .cta a { display:inline-block; padding:15px 32px; background:var(--black); color:var(--green); font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; border-radius:26px; text-decoration:none; }
+
+  footer { background:var(--dark); border-top:1px solid var(--border); padding:38px 48px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .footer-brand { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; }
+  .footer-brand span { color:var(--green); }
+  .footer-disclaimer { font-size:11px; color:var(--muted); max-width:520px; text-align:center; line-height:1.6; }
+  .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:0.06em; }
+
+  /* ── EMAIL CAPTURE ─────────────────────────────────────────────────────
+     The Beehiiv form is embedded here rather than linked, so a visitor who
+     arrives from search does not have to make a second hop to
+     /no-vig-calculator#cheat-sheet to sign up. Sits on the dark surface,
+     which is what the form is styled for — the same placement /nfl and
+     /cfb use. Deliberately NOT inside the .cta gradient block: the form
+     renders for a dark background and would be unreadable on it. */
+  .signup { background:var(--surface-1); border:1px solid var(--border); border-left:3px solid var(--green); border-radius:var(--r-md); padding:22px 24px; margin:34px 0; max-width:660px; }
+  .signup .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.13em; text-transform:uppercase; color:var(--green); margin-bottom:9px; }
+  .signup h3 { margin:0 0 8px; }
+  .signup p { font-size:14px; margin-bottom:10px; }
+  .signup iframe { width:100%; height:340px; border:0; border-radius:14px; background:transparent; display:block; }
+  .signup .fine { font-size:12px; opacity:.7; margin:6px 0 0; }
+
+  /* Tables carry odds and can be wider than a phone. Let them scroll inside
+     their own box rather than pushing the page wide — the grid-overflow
+     lesson from the board pages. */
+  .scroller { max-width:660px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .scroller > table { margin:22px 0; min-width:420px; }
+
+  @media (max-width:980px){
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    .nav-hamburger { display:flex; }
+    .shell { grid-template-columns:1fr; gap:0; padding:0 20px; }
+    .toc { display:none; }
+    .cta-inner { padding:52px 20px; }
+    footer { flex-direction:column; text-align:center; padding:32px 20px; }
+  }
+
+  .footer-disclaimer .lnk{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.3)}
+  .footer-disclaimer .lnk:hover{border-bottom-color:var(--green)}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How are MLB playoff odds different from regular season odds?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Rotations shorten so aces pitch a larger share of innings, bullpens are used more aggressively because off days allow relievers to appear on consecutive days, and lineups are managed more tightly. The combined effect compresses run environments, which tightens games and lowers totals."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What are MLB series prices?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A series price is a single market on who wins the whole series, priced separately from the individual game lines. A team can be an underdog in one game and the favorite to win the series, because the two markets answer different questions."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why do MLB playoff totals get lower?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Better pitchers throw a larger share of the innings, bullpens are deployed earlier and more aggressively, and managers treat every inning as high leverage. Fewer expected runs means a lower number."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is the run line riskier in the playoffs?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Often yes. The run line is fixed at 1.5 runs and playoff games tend to be lower scoring, which makes one-run games more likely. A one-run win does not cover -1.5, so the same favorite is a worse bet at that number than in a typical regular season game."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is no-vig probability for baseball?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It is each side's implied probability after the sportsbook's margin is removed. A market posted at -250 and +215 sums to about 103.2%; dividing each side by that total gives roughly 69.2% and 30.8%, which converts back to fair prices near -225 and +225."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Should I bet heavy favorites in the playoffs?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "That is your decision, and this page does not make it. What is worth knowing is that a -250 price claims about a seven-in-ten win rate for one game, and baseball has the highest single-game variance of the major American sports. Convert the price and compare it to your own estimate before deciding."
+   }
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Read MLB Playoff Odds",
+  "description": "MLB playoff moneylines, series prices, run lines, totals, bullpen pricing and no-vig implied probability for postseason baseball.",
+  "author": {
+    "@type": "Organization",
+    "name": "Inside the Number",
+    "url": "https://insidethenumber.com/",
+    "sameAs": [
+      "https://x.com/thenumberdesk",
+      "https://insidethenumber.beehiiv.com/",
+      "https://github.com/insidethenumber"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Inside the Number",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://insidethenumber.com/favicon-512.png"
+    },
+    "sameAs": [
+      "https://x.com/thenumberdesk",
+      "https://insidethenumber.beehiiv.com/",
+      "https://github.com/insidethenumber"
+    ]
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://insidethenumber.com/mlb-playoffs"
+  },
+  "image": "https://insidethenumber.com/og-image.png",
+  "inLanguage": "en-US"
+}</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "Home",
+   "item": "https://insidethenumber.com/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Learn",
+   "item": "https://insidethenumber.com/learn"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "MLB playoffs",
+   "item": "https://insidethenumber.com/mlb-playoffs"
+  }
+ ]
+}
+</script>
+<style id="nav-fit">
+/* ── NAV FIT (added Aug 31 2026) ──────────────────────────────────────────
+   The nav links needed ~770-850px of room but several pages only swapped to
+   the hamburger at 640px, so between roughly 640px and 850px the links
+   crowded the logo and ran off the right edge. Two fixes:
+   1) a compact tier that tightens the nav well before it can ever collide,
+   2) one shared hamburger breakpoint (900px) on every page.
+   Net effect: the nav needs ~580px at its tightest but switches to the menu
+   at 900px, so there is ~320px of slack instead of ~11px. That slack matters
+   because link widths shift with the webfont, browser zoom and OS text size. */
+@media (max-width:1150px){
+  nav{padding-left:20px !important;padding-right:20px !important}
+  .nav-links{gap:16px !important}
+  .nav-links a{font-size:11.5px !important;letter-spacing:.04em !important}
+  .nav-name{font-size:17px !important}
+  .nav-logo-mark{width:34px !important;height:34px !important}
+}
+@media (max-width:900px){
+  .nav-links{display:none !important}
+  .nav-hamburger{display:flex !important}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
+            <stop offset="0%" stop-color="var(--white)"/><stop offset="35%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--green-deep)"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="118" height="118" rx="18" fill="var(--black)" stroke="var(--border-lit)" stroke-width="2"/><g transform="translate(-7.75,-1)">
+        <rect x="24" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="42" y="38" width="30" height="10" fill="var(--white)"/>
+        <rect x="52" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="80" y="38" width="10" height="46" fill="var(--white)"/>
+        <polygon points="80,38 90,38 111.5,84 101.5,84" fill="var(--white)"/>
+        <rect x="101.5" y="34" width="10" height="50" fill="url(#navLine)"/>
+        <polygon points="106.5,26 114.5,34 98.5,34" fill="url(#navLine)"/></g>
+      </svg>
+    </div>
+    <span class="nav-name">Inside <span>the</span> Number</span>
+  </a>
+    <ul class="nav-links">
+      <li><a href="nfl">NFL</a></li><li><a href="cfb">College Football</a></li>
+      <li><a href="games">Scores</a></li>
+      <li><a href="tools">Tools</a></li>
+      <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
+    </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="nfl">NFL</a>
+    <a href="cfb">College Football</a>
+    <a href="games">Scores</a>
+    <a href="tools">Tools</a>
+    <a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
+  </div>
+<script>
+  (function(){
+    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
+    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
+    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
+  })();
+</script>
+
+<div class="shell">
+  <aside class="toc">
+    <div class="toc-label">// On this page</div>
+    <a href="#tighten">Why October prices tighten</a>
+    <a href="#series">Game odds vs series odds</a>
+    <a href="#format">What the format does</a>
+    <a href="#bullpen">Bullpen pricing</a>
+    <a href="#runline">The run line</a>
+    <a href="#totals">Totals in October</a>
+    <a href="#novig">No-vig probability</a>
+    <a href="#favorites">Heavy favorites</a>
+    <a href="#explainers">The three markets</a>
+    <a href="#faq">Common questions</a>
+  </aside>
+
+  <main class="body">
+    <p class="eyebrow">// MLB · Postseason Pricing</p>
+    <h1>How to read<br/><span>MLB playoff odds.</span></h1>
+    <p class="standfirst">Postseason baseball is priced differently from the regular season. This page covers series prices against Game 1 lines, why bullpen usage moves a number more than most people expect, why totals drop in October, and how to convert any moneyline into the probability the market is actually claiming.</p>
+    <p class="standfirst" style="margin-top:6px"><a class="inline" href="mlb-playoff-odds-explained">Series prices explained →</a> &nbsp;&middot;&nbsp; <a class="inline" href="no-vig-calculator">Use the no-vig calculator →</a></p>
+
+    <h2 id="tighten">Playoff baseball prices tighten</h2>
+    <p>The Wild Card round opens <strong>Tuesday, September 29</strong> &mdash; four best-of-three series, every game played at the higher seed's ballpark, with Game 2 on September 30 and Game 3, if needed, on October 1.</p>
+    <p>Four things change at once, and they all push in the same direction.</p>
+    <ul class="pts">
+      <li><strong>Aces pitch more.</strong> A rotation that ran five deep in July runs two or three deep in October. The best starter takes a larger share of the innings and the gap between a team's best and fourth-best pitcher stops mattering.</li>
+      <li><strong>Rest changes usage.</strong> Off days between games let managers use their best relievers on consecutive days. A reliever who appeared in 65 regular-season games might appear in all three games of a Wild Card series.</li>
+      <li><strong>Lineups tighten.</strong> Platoon disadvantages get managed around, pinch-hitting is more aggressive, and the bottom of the order is shorter than it was in June.</li>
+      <li><strong>Managers act earlier.</strong> A starter who would finish the sixth in May gets pulled in the fifth in October with the game close.</li>
+    </ul>
+    <p>The combined effect is that <strong>run environments compress</strong> &mdash; fewer runs, tighter games, and totals that sit below where the same two teams would play in the regular season.</p>
+
+    <h2 id="series">Game odds vs series odds</h2>
+    <p>Two markets run on the same two teams at the same time, and they answer different questions.</p>
+    <p>The <strong>series price</strong> asks who wins the series. The <strong>Game 1 line</strong> asks who wins one baseball game tomorrow.</p>
+    <p>They can disagree, and the disagreement is informative rather than a mistake. A team can be the Game 1 underdog &mdash; because of one pitching matchup &mdash; and the series favorite, because of everything after Game 1.</p>
+    <p>In a best-of-three, a Game 1 loss is close to fatal: you must then win two straight. That is why Wild Card series prices move so violently overnight compared with a seven-game series. <a class="inline" href="mlb-playoff-odds-explained">Series prices and game lines, in full</a>.</p>
+
+    <h2 id="format">The format does more work than the talent gap</h2>
+    <p>A best-of-three is not a short best-of-seven. The arithmetic is worth seeing, because it is the single most important structural fact about Wild Card pricing.</p>
+    <p>Take a team that wins any one game against this opponent <strong>60%</strong> of the time &mdash; a large edge in baseball:</p>
+    <div class="scroller">
+      <table>
+        <tr><th>Format</th><th>That team's series win probability</th></tr>
+        <tr><td>Best-of-three</td><td class="mono">64.8%</td></tr>
+        <tr><td>Best-of-seven</td><td class="mono">71.0%</td></tr>
+      </table>
+    </div>
+    <p>Same teams, same per-game edge. Six points of series probability, purely from length.</p>
+    <div class="box" style="--accent:var(--blue)">
+      <div class="t">The takeaway</div>
+      <p><strong>The shorter the series, the more it protects the weaker team.</strong> Variance has less room to average out. A club that would be a heavy series favorite over seven games is a much softer one over three, and the prices reflect it.</p>
+    </div>
+
+    <h2 id="bullpen">Why bullpen pricing matters</h2>
+    <p>Most pricing attention goes to the starting pitchers, because they are the visible matchup. In October the bullpen frequently matters more &mdash; and it is the least visible thing on the board.</p>
+    <p>If a large share of every playoff game is thrown by relievers, and you do not know which relievers until it happens, then a meaningful part of the price is about arms nobody has named yet.</p>
+    <ul class="pts">
+      <li><strong>Three high-leverage relievers make a team stronger than its regular-season run differential suggests.</strong> The weak back of the bullpen gets hidden, and the middle innings effectively get shorter.</li>
+      <li><strong>One excellent reliever and a thin middle makes a team weaker than it looks.</strong> Across three games in four days, one arm cannot cover every high-leverage inning.</li>
+      <li><strong>Usage carries over.</strong> A closer who threw 30 pitches yesterday changes today's price, and that information often arrives after the opening number is posted.</li>
+    </ul>
+    <p>This is also the clearest reason totals tighten: better arms throwing a larger share of innings means fewer expected runs.</p>
+    <div class="box">
+      <div class="t">How to use this</div>
+      <p>A line moving with no change to the announced starters is frequently bullpen availability. That is context for reading a move &mdash; not a signal, and not something to act on automatically.</p>
+    </div>
+
+    <h2 id="runline">The run line in the playoffs</h2>
+    <p>Baseball's spread is fixed at 1.5 runs, so unlike a football spread the number never moves &mdash; <strong>the price carries all the information.</strong></p>
+    <p>October changes what that price should be. In a compressed run environment one-run games become more likely, and a one-run win does not cover &minus;1.5. So the same team, at the same true strength, is a worse bet at &minus;1.5 in a low-scoring playoff game than it would be in a July game against the same opponent.</p>
+    <p>That cuts both ways: +1.5 on the underdog is correspondingly more attractive, and correspondingly more expensive, for exactly the same reason. <a class="inline" href="mlb-playoff-run-line">How the run line works in the playoffs</a>.</p>
+
+    <h2 id="totals">Totals in October</h2>
+    <p>Better pitching across more of the game means fewer expected runs, which is why a matchup priced at 8.5 in July can open at 7 in October.</p>
+    <p>Weather matters more in late-season night games, and ballpark differences stay in the number. What changes is the baseline: the same two lineups facing better arms for more of the game. <a class="inline" href="mlb-playoff-totals">Why playoff totals drop</a>.</p>
+
+    <h2 id="novig">No-vig moneyline probability</h2>
+    <p>Every posted two-way market sums to more than 100%. The excess is the sportsbook's margin, and it is in the number before you see it.</p>
+    <div class="scroller">
+      <table>
+        <tr><th>&nbsp;</th><th>Posted</th><th>Implied</th></tr>
+        <tr><td>Favorite</td><td class="mono">&minus;250</td><td class="mono">71.4%</td></tr>
+        <tr><td>Underdog</td><td class="mono">+215</td><td class="mono">31.8%</td></tr>
+        <tr><td><strong>Total</strong></td><td class="mono">&nbsp;</td><td class="mono"><span class="r">103.2%</span></td></tr>
+      </table>
+    </div>
+    <p>Divide each side by that total and the margin comes out:</p>
+    <div class="scroller">
+      <table>
+        <tr><th>&nbsp;</th><th>Fair probability</th><th>Fair price</th></tr>
+        <tr><td>Favorite</td><td class="mono">69.2%</td><td class="mono"><span class="g">&minus;225</span></td></tr>
+        <tr><td>Underdog</td><td class="mono">30.8%</td><td class="mono"><span class="g">+225</span></td></tr>
+        <tr><td><strong>Total</strong></td><td class="mono"><span class="g">100%</span></td><td class="mono">&nbsp;</td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Illustrative &mdash; not a real game.</p>
+    <p><strong>&minus;225 / +225 is the market's opinion. &minus;250 / +215 is what you are charged to act on it.</strong></p>
+    <p><a class="inline" href="no-vig-calculator">Strip the vig from any two-way market</a> &nbsp;&middot;&nbsp; <a class="inline" href="odds-converter">Convert a single price to a probability</a> &nbsp;&middot;&nbsp; <a class="inline" href="glossary">Betting math glossary</a></p>
+
+    <h2 id="favorites">Heavy favorites can still be expensive</h2>
+    <p>Postseason baseball produces some of the largest moneylines of the year, and they deserve a second look before a reaction.</p>
+    <p>A &minus;250 favorite is a claim that this team wins roughly <strong>seven times in ten</strong>. Not that they are better &mdash; almost certainly they are &mdash; but that they win <em>this particular game</em> seven times out of ten.</p>
+    <p>Baseball has the highest single-game variance of the major American sports. One starting pitcher, a handful of scoring chances, a small number of decisive plays &mdash; the structure keeps even large talent gaps well short of certainty over nine innings.</p>
+    <div class="box" style="--accent:var(--gold)">
+      <div class="t">To be clear</div>
+      <p>This is not a recommendation to fade favorites. A &minus;250 that should be &minus;180 and a &minus;250 that should be &minus;300 look identical on the board. The point is only that a heavy price makes a strong claim, and the claim is checkable against your own estimate in about fifteen seconds.</p>
+    </div>
+    <p>The same logic runs in the opposite direction on series prices: over three games the format compresses the favorite's advantage, so a series price that looks like a formality often is not.</p>
+
+    <div class="signup" id="signup">
+      <div class="t">Free, every morning</div>
+      <h3>Get the Morning Board and the No-Vig Cheat Sheet</h3>
+      <p>One page, free: how to strip the vig out of any two-way market, what every common price really costs you, the key numbers, and how to read a line move in four cases. Plus the board in your inbox before first pitch.</p>
+      <p><strong>No picks pitch, no fake record, no spam.</strong></p>
+      <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
+      <p class="fine">Check your inbox (and spam) to confirm &mdash; you are not signed up until you click the link.</p>
+    </div>
+
+    <h2 id="explainers">The three markets, in detail</h2>
+    <ul class="pts">
+      <li><a class="inline" href="mlb-playoff-odds-explained">Series prices and game lines</a> &mdash; two markets on the same teams, and why a Game 1 loss moves a best-of-three so hard.</li>
+      <li><a class="inline" href="mlb-playoff-run-line">The run line</a> &mdash; always 1.5 runs, so the price does all the work.</li>
+      <li><a class="inline" href="mlb-playoff-totals">Playoff totals</a> &mdash; why the number drops in October, and how to tell a total moving from a price moving.</li>
+      <li><a class="inline" href="games">Today's board</a> &mdash; every game currently priced, with the vig stripped out.</li>
+    </ul>
+
+    <div class="box">
+      <div class="t">What this page does not do</div>
+      <p>No picks, no leans, no predictions about who advances. Everything above is about how a price is constructed and what it claims. What you do with that is your decision.</p>
+    </div>
+
+    <h2 id="faq">Common questions</h2>
+    <div class="box">
+      <h3>How are MLB playoff odds different from regular season odds?</h3>
+      <p>Rotations shorten so aces pitch a larger share of innings, bullpens are used more aggressively because off days allow relievers to appear on consecutive days, and lineups are managed more tightly. The combined effect compresses run environments, which tightens games and lowers totals.</p>
+    </div>
+    <div class="box">
+      <h3>What are MLB series prices?</h3>
+      <p>A series price is a single market on who wins the whole series, priced separately from the individual game lines. A team can be an underdog in one game and the favorite to win the series, because the two markets answer different questions.</p>
+    </div>
+    <div class="box">
+      <h3>Why do MLB playoff totals get lower?</h3>
+      <p>Better pitchers throw a larger share of the innings, bullpens are deployed earlier and more aggressively, and managers treat every inning as high leverage. Fewer expected runs means a lower number.</p>
+    </div>
+    <div class="box">
+      <h3>Is the run line riskier in the playoffs?</h3>
+      <p>Often yes. The run line is fixed at 1.5 runs and playoff games tend to be lower scoring, which makes one-run games more likely. A one-run win does not cover -1.5, so the same favorite is a worse bet at that number than in a typical regular season game.</p>
+    </div>
+    <div class="box">
+      <h3>What is no-vig probability for baseball?</h3>
+      <p>It is each side's implied probability after the sportsbook's margin is removed. A market posted at -250 and +215 sums to about 103.2%; dividing each side by that total gives roughly 69.2% and 30.8%, which converts back to fair prices near -225 and +225.</p>
+    </div>
+    <div class="box">
+      <h3>Should I bet heavy favorites in the playoffs?</h3>
+      <p>That is your decision, and this page does not make it. What is worth knowing is that a -250 price claims about a seven-in-ten win rate for one game, and baseball has the highest single-game variance of the major American sports. Convert the price and compare it to your own estimate before deciding.</p>
+    </div>
+  </main>
+</div>
+
+<section class="cta">
+  <div class="cta-inner">
+    <h2>See it on a live board</h2>
+    <p>Every game currently priced, with the moneyline, the total and the fair price with the vig taken out. Read live from the feed, nothing typed by hand.</p>
+    <a href="/games">Open today's board &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Inside <span>the</span> Number</div>
+  <div class="footer-disclaimer">For entertainment and educational purposes only. Inside the Number does not facilitate gambling and does not accept wagers. You must be 21+ (18+ in some states) to bet. If gambling stops being fun, call <strong>1-800-GAMBLER</strong> or the National Problem Gambling Helpline on <strong>1-800-522-4700</strong>.<br/>
+  <a class="lnk" href="privacy">Privacy</a> &middot; <a class="lnk" href="terms">Terms</a> &middot; <a class="lnk" href="responsible-gambling">Responsible Gambling</a> &middot; <a class="lnk" rel="me" href="https://x.com/thenumberdesk">Inside the Number on X &mdash; @thenumberdesk</a></div>
+  <div class="footer-copy">© 2026 ITN · Nashville, TN</div>
+</footer>
+
+<script>
+  /* Highlight the section currently in view in the sidebar contents. */
+  (function(){
+    const links = [...document.querySelectorAll('.toc a')];
+    const heads = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    if (!heads.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id));
+      });
+    }, { rootMargin: '-84px 0px -70% 0px', threshold: 0 });
+    heads.forEach(h => obs.observe(h));
+  })();
+</script>
+
+
+<!-- ═══ ITN measurement helper — added Sep 15 2026 (Block S3) ═══
+     First-party only. No cookies, no third-party calls, nothing transmitted.
+     Everything below runs in, and stays in, this browser.
+       1. Private internal-traffic flag. Open any page with ?itn_internal=1 to
+          mark this browser as the owner's; ?itn_internal=0 clears it. The
+          parameter is removed from the address bar at once. No UI, ever.
+       2. First-touch source capture: utm_source / utm_medium / utm_campaign
+          from the landing URL, kept 30 days, so a signup on a later page still
+          records how the visitor first arrived.
+       3. Passes that source into the Beehiiv subscribe form and the hosted
+          subscribe link, so the subscriber's Acquisition Details in Beehiiv
+          show it. A flagged browser is labelled source=internal, medium=test,
+          so owner/test signups can be excluded from every count.
+     For visitors with no UTM and no flag this script changes nothing on the
+     page. The Cloudflare Web Analytics beacon below runs only after this helper
+     and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  try{
+    var LS=window.localStorage, q=new URLSearchParams(location.search), touched=false;
+    /* 1 · internal flag */
+    if(q.has('itn_internal')){
+      if(q.get('itn_internal')==='1') LS.setItem('itn_internal','1'); else LS.removeItem('itn_internal');
+      q.delete('itn_internal'); touched=true;
+    }
+    var internal=(LS.getItem('itn_internal')==='1');
+    /* 2 · first-touch UTM, 30 days */
+    var stored=null; try{ stored=JSON.parse(LS.getItem('itn_utm')||'null'); }catch(e){ stored=null; }
+    var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);
+    if(q.get('utm_source')&&!fresh){
+      stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};
+      LS.setItem('itn_utm',JSON.stringify(stored)); fresh=true;
+    }
+    if(touched){ history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash); }
+    /* 3 · pass source to Beehiiv (only when there is a source to pass) */
+    var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);
+    if(src){
+      var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');
+      var add=function(el,attr){ var v=el.getAttribute(attr)||''; if(v.indexOf('utm_source=')<0) el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs); };
+      document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){ add(f,'src'); });
+      document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){ add(a,'href'); });
+    }
+    window.__itnInternal=internal;
+  }catch(e){ /* measurement must never break the page */ }
+})();
+</script>
+<!-- Cloudflare Web Analytics — manual beacon (Block S3B, Sep 15 2026).
+     Loaded here, AFTER the measurement helper above, so window.__itnInternal is
+     already set. A browser flagged with ?itn_internal=1 never loads the beacon,
+     so owner/test visits are not reported. Automatic injection is OFF in the
+     Cloudflare dashboard ("Enable with JS Snippet installation"), so this is the
+     only copy of the beacon on the page. Token = the site's public Web Analytics
+     site token (same value Cloudflare embeds in every auto-injected page). -->
+<script>
+(function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();
+</script>
+</body>
+</html>
