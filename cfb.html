@@ -269,6 +269,8 @@
   .qr li{color:var(--mid);font-size:14.5px;line-height:1.65;margin-bottom:7px}
   .qr li b{color:var(--white);font-weight:600}
   .qr-go{display:inline-block;margin-top:4px;font-size:13.5px;font-weight:600;color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.4)}
+
+  h2.pick-tag{margin-top:0;font-weight:inherit}
 </style>
 </head>
 <body>
@@ -336,7 +338,7 @@
   </div>
 
   <div class="pick" id="our-pick">
-    <div class="pick-tag">How to read this board</div>
+    <h2 class="pick-tag">How to read this board</h2>
     <!-- PICK:START — board-reading note. Hand-written, so it carries its own
          date. No side, no rating, no recommendation. Keep these markers. -->
     <p>Every line below is read live from the feed: where the number opened, where it
@@ -369,6 +371,20 @@
 
   <p class="lede" style="margin-top:26px" id="board-tail"></p>
   <p class="lede" style="margin-top:14px"><a href="football-line-movement">Why these numbers moved →</a></p>
+
+  <!-- READ NEXT — added M27. The three long guides were the most orphaned pages
+     on the site (ufc-331-odds had 2 body inbound links, football-line-movement 4,
+     mlb-playoffs 5) while /games and /no-vig-calculator had 23-24. Those guides are
+     the pages built to rank; this points existing internal equity at them. -->
+<div style="max-width:660px;margin:26px 0 6px;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mid);margin-bottom:9px">Read next</div>
+  <p style="font-size:14px;line-height:1.8;color:var(--mid);margin:0">
+    <a href="football-line-movement" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">How football lines move before kickoff</a> &middot;
+    <a href="no-vig-calculator" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">Strip the vig from any price</a> &middot;
+    <a href="games" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">Every sport on today’s board</a>
+  </p>
+  <p style="font-size:13px;line-height:1.7;color:var(--muted);margin:8px 0 0">Saturday’s numbers move more than any other slate. The guide explains what that movement is telling you.</p>
+</div>
 
   <div class="sub-cta" id="morning-board">
     <div class="k">Get the free Morning Board</div>
