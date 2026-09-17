@@ -1,7 +1,7 @@
 # Inside the Number — 7-day traffic sprint
 
 **Window:** Thu Sep 17 → Wed Sep 23, 2026
-**Branch:** `sprint-m27` @ `2c8dc65`, based on `origin/main` `fab7551`
+**Branch:** `release-m28` @ `2c8dc65`, based on `origin/main` `dd29053`
 **Deployment:** **BLOCKED** — see `docs/deployment-handoff.md`. Nothing in this sprint is live yet.
 
 This is the operating document. The other three are its parts:
@@ -19,7 +19,7 @@ This is the operating document. The other three are its parts:
 
 | | |
 |---|---|
-| Live site | Public since August, on `fab7551` |
+| Live site | Public since August, on `dd29053` |
 | Subscribers | **3 active.** 10 ever acquired, **7 churned** |
 | New subscribers, last 7 days | **0** |
 | Subscriber sources, all time | homepage embed ×2, homepage direct ×1 — **no guide page has ever converted anyone** |

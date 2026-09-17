@@ -1,6 +1,7 @@
 # SEO implementation report
 
-**Branch:** `sprint-m27` · **Base:** `origin/main` `dd29053` · **Date:** Sep 17, 2026
+**Branch:** `release-m28` · **Base:** `origin/main` `dd29053` · **Date:** Sep 17, 2026
+**Revalidated** against `dd29053` after production advanced. See the M28 section at the foot of this file.
 Only high-confidence, clearly justified fixes. No keyword pages, no thin articles, no new sports.
 
 ---
@@ -14,7 +15,7 @@ Only high-confidence, clearly justified fixes. No keyword pages, no thin article
 | `/games` | 81 → **49** | 172 → **139** | 24 | 0 | unchanged | ✅ |
 | `/football-line-movement` | 58 | 175 → **141** | **4 → 7** | 11 | Article+FAQPage | ✅ |
 | `/mlb-playoffs` | 48 | 140 | **5 → 8** | 11 | Article+FAQPage | ✅ |
-| `/ufc-331-odds` | 62 | 205 → **149** | **2 → 5** | 9 | Article+FAQPage | ✅ |
+| `/ufc-331-odds` | 62 → **58** | 205 → **149** | **2 → 5** | 9 | Article+FAQPage | ✅ |
 | `/no-vig-calculator` | 72 → **48** | 147 | 23 | 7 | FAQPage | ✅ |
 | `/tools` | 78 → **51** | 223 → **143** | 14 | 11 | SoftwareApplication+ItemList | ✅ |
 
@@ -107,3 +108,40 @@ I cannot submit these. Exact steps, in order, **after the release deploys**:
 ## What this report does not claim
 
 No ranking is promised. The competitive analysis in `PRODUCT-PROOF-REPORT.md` found at least nine free no-vig calculators from stronger domains and five established line-movement products, so **ranking for head terms is not a realistic 90-day outcome.** These fixes make the site technically correct and internally coherent. They do not manufacture authority, and no amount of on-page work will.
+
+
+---
+
+## M28 — revalidation against current production
+
+Production moved from `fab7551` to `dd29053` (the automated slate brief, `data/` only) after this report was first written. The release was rebased onto `dd29053` and every check re-run. Two real defects surfaced that the earlier passes had missed, both now fixed.
+
+### Defect 1 — `/ufc-331-odds` title was 62 characters
+
+Two past Google's ~60-character render width. Every other indexed title was already inside it.
+
+```
+before  UFC 331 Odds: How to Read Van vs Pantoja 2 | Inside the Number   (62)
+after   UFC 331 Odds: Reading Van vs Pantoja 2 | Inside the Number       (58)
+```
+
+The event number, both fighter names and the brand all survive. `/dfs` (72) and `/parlay` (79) were deliberately left long: both are `noindex,follow` and neither is in the sitemap, so Google never renders either title.
+
+### Defect 2 — seven British spellings in indexed copy
+
+The earlier US-English sweep covered five files. A sweep across all 34 found more, three of them in visible body copy on indexed pages:
+
+| Page | Before | After | Where |
+|---|---|---|---|
+| `/hedge-calculator` | behaviour | behavior | body copy |
+| `/no-vig-calculator` | Favourite implied | Favorite implied | worked example |
+| `/bankroll-drawdown-calculator` | neighbourhood | neighborhood | body copy |
+| `/edge-calculator` | modelling (×2) | modeling | body copy |
+| `/cfb`, `/games` | grey, greying | gray, graying | CSS comments |
+| 31 pages | labelled | labeled | measurement-helper comment |
+
+A full-vocabulary re-sweep (26 British forms) now returns zero across all 34 pages.
+
+### Everything else held
+
+Sitemap 29 unique entries, every URL resolving; every canonical self-referential and correct; `/parlay` and `/dfs` `noindex,follow` and absent from the sitemap; every indexed title ≤60 and description ≤155; guide inbound body links at 7 / 8 / 5 against a pre-M27 baseline of 4 / 5 / 2; all JSON-LD parsing; exactly one `h1` per page; every internal link resolving.

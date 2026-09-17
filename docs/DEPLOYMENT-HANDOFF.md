@@ -1,62 +1,84 @@
-# Deployment handoff
+# Deployment handoff — M28 revalidated release
 
-**Status: BLOCKED.** Production is `fab7551`. The tested release is `cc9bb25`; this sprint's work sits on top at `2c8dc65`.
+**Status: BLOCKED on owner authentication. Nothing has been pushed or deployed.**
 
-## What is waiting
+| | |
+|---|---|
+| **Production now** | `dd29053` — "Slate brief for 2026-09-17", ITN Desk, Sep 17 19:32 UTC |
+| **Production before** | `fab7551` |
+| **Release branch** | `release-m28`, rebased onto `dd29053`, linear, 20 commits ahead, 0 behind, clean tree |
+| **Release head** | see `RELEASE-HEAD.txt` beside this file — the guarded script checks it for you |
+| **Superseded** | `cc9bb25` / `sprint-m27`. The old bundle's base was `fab7551`; do not use `deploy-m26.sh` |
 
-| Branch | Commit | Contents |
-|---|---|---|
-| `sprint-m27` | **`2c8dc65`** | 13 commits on top of `origin/main` — the full M24–M26 release plus the M27 acquisition fixes |
+---
 
-The release is a clean fast-forward: `origin/main` is an ancestor, 0 commits behind, and nothing under `data/` is touched.
+## Why the previous deployment stopped, and why that was correct
 
-## Why Claude cannot push
+`deploy-m26.sh` compared `origin/main` against its expected base `fab7551`, found `dd29053`, and exited before touching anything. That guard did its job. Production had advanced by one commit — the automated slate brief — and merging a release tested against an older base without re-checking is exactly the failure the guard exists to prevent.
+
+## What actually changed in production between the two commits
 
 ```
-$ git push --dry-run origin HEAD:refs/heads/main
-fatal: could not read Username for 'https://github.com': No such device or address   (exit 128)
-
-GITHUB_TOKEN / GH_TOKEN / GITHUB_PAT ... unset
-gh cli ......... absent      credential.helper ... none
-~/.git-credentials / ~/.netrc / ~/.ssh ... absent
+$ git diff --name-status fab7551 dd29053
+M  data/brief-2026-09-17.json
+M  data/brief-latest.json
+A  data/snapshots/2026-09-17-1932.json
 ```
 
-`git fetch` and `git ls-remote` succeed, so this is an authentication gap, not a network one. Chuck **is** signed into github.com in Chrome as `insidethenumber` — but a browser session authenticates the web UI, not git, and GitHub's web interface has no way to receive a commit from elsewhere. Reconstructing 35 files by hand through the web editor would produce a different commit and discard the tested history, so it was not attempted.
+**Three files, all under `data/`. Zero non-data paths.** Author `ITN Desk <desk@insidethenumber.com>`, message "Slate brief for 2026-09-17" — the automated pipeline, nothing else. Nothing in the release needed to be reconsidered on the merits; it needed to be re-based and re-tested, which is what this release is.
 
-## Owner action
+## Slate data preservation — verified, not assumed
 
-Run on the Mac:
+```
+$ git diff --name-only dd29053 release-m28 -- data/
+(empty)
+```
+
+`data/` on the release branch is **byte-identical to production**. `brief-latest.json` still carries `slate_date: 2026-09-17`, and `data/snapshots/2026-09-17-1932.json` — the file production added — is present and untouched. `.github/`, `scripts/` and `wrangler.jsonc` are also byte-identical; this release changes site HTML and `sitemap.xml` only.
+
+The rebase applied 19 commits onto `dd29053` with **zero conflicts**, so no content decision — stale-versus-current — ever had to be made.
+
+---
+
+## How the release was verified against *this* base
+
+Live production was fetched and hashed route by route: all eight priority pages matched their `dd29053` blobs exactly, confirming the deployed site is current `main`. Each release page was then rebuilt in the browser from that live HTML using index-addressed chunks and SHA-256 compared against the committed file.
+
+| Route | Rebuild = committed bytes |
+|---|---|
+| `/` `/nfl` `/cfb` `/games` `/mlb-playoffs` `/ufc-331-odds` `/no-vig-calculator` `/tools` | **8 / 8 exact** |
+
+So every render below exercised the exact bytes in the release commit, not an approximation of them.
+
+---
+
+## Owner action — one command
 
 ```bash
-# if git asks for a login — browser flow, nothing typed into chat
-brew install gh && gh auth login        # GitHub.com → HTTPS → Login with a web browser
-
-cd ~/Desktop
-git clone https://github.com/insidethenumber/inside-the-number-site.git itn-deploy && cd itn-deploy
-git fetch "/Users/chuckwhite/Documents/Claude/Projects/Inside the Number/docs/ITN-M26-release.bundle" m24-front-door:rc
-git log --oneline main..rc     # expect 12 commits ending cc9bb25
-git merge --ff-only rc
-git push origin main
+chmod +x ~/Documents/Claude/Projects/"Inside the Number"/docs/deploy-m28.sh
+~/Documents/Claude/Projects/"Inside the Number"/docs/deploy-m28.sh
 ```
 
-`docs/deploy-m26.sh` in the project folder does exactly this with guardrails: it refuses if production moved, refuses if anything under `data/` would change, and asks once before pushing.
+It clones fresh (your project folder is **not** a git checkout — its `.git` was renamed to `.git-DETACHED-2026-09-10`), refuses to run if `origin/main` has moved off `dd29053`, refuses if the bundle head is not the expected commit, refuses if the diff touches `data/`, asks before pushing, and never forces. If production has advanced again, it will stop — that is the guard working, and the fix is another rebase, not a flag.
 
-**The M27 sprint commit `2c8dc65` is not in that bundle** — it was created after it. Either re-export from the sandbox, or apply `docs/ITN-M27-SPRINT.patch`.
+## Why Claude still cannot push
 
-## Verify after deploying
+```
+$ git push --dry-run origin release-m28:main
+fatal: could not read Username for 'https://github.com'
 
-| URL | Expect |
-|---|---|
-| `/` | H1 "Every Line, Explained" · board date = today · no "not from today" warning |
-| `/nfl` | Read-next block · `h2` present |
-| `/cfb` | Read-next block · first `h2` on the page |
-| `/mlb-playoffs` · `/ufc-331-odds` | 200, context row at 390px |
-| `/no-vig-calculator` | mobile row `← HOME / TOOLS / NO-VIG` · Read-next block |
-| `/sitemap.xml` | **29 entries**, including all three guides |
-| `/parlay` · `/dfs` | 200, and `noindex,follow` in the head |
+GITHUB_TOKEN / GH_TOKEN  unset      gh cli  absent
+credential.helper  none             ~/.netrc, ~/.ssh  absent
+$ git ls-remote origin -h refs/heads/main   ->   dd29053...   (read works)
+```
 
-## What this blocks
+Read succeeds, write does not: an authentication gap, not a network one. A browser session signs in the GitHub web UI, which has no mechanism to accept a commit produced elsewhere. Rebuilding 35 files through the web editor would create different commits and discard tested history, so it was not attempted, and no alternate path was improvised.
 
-Threshold 3 of the sprint — any Search Console impression on a new guide — **cannot pass while the live sitemap omits those three pages.** Days 1, 5 and 7 of the measurement plan read zero for a reason unrelated to the content.
+## After it deploys
 
-UFC 331 is Saturday. `/ufc-331-odds` is finished, tested and live, and Google has still never been told it exists.
+1. Wait 1–3 minutes for Cloudflare (`wrangler.jsonc`, Workers static assets — it builds from the repo on its own).
+2. Check `https://insidethenumber.com/sitemap.xml` shows **29** entries.
+3. Check the homepage board stamp reads **today**, with no "not from today" note.
+4. Tell Claude it is live; it will run the post-deploy verification before anything is called done.
+5. Search Console: resubmit the sitemap, request indexing for the three guides.
+6. Beehiiv: the publication description still says "one free pick every morning" while the site says "0 — Picks. Ever." Replacement copy is in `PRODUCT-PROOF-REPORT.md`. Owner-only; Claude has not touched Beehiiv settings.

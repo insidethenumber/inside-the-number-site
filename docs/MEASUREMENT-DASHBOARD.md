@@ -1,5 +1,8 @@
 # Measurement dashboard
 
+**Release:** `release-m28`, based on production `dd29053` · **Renamed from `measurement-dashboard.md` at the M28 gate.**
+**Measurement cannot start until the release deploys** — see the note at the foot of this file.
+
 **Window:** Thu Sep 17 → Wed Sep 23, 2026. Free tools only: Cloudflare Web Analytics, Google Search Console, Beehiiv.
 
 ---
@@ -163,3 +166,25 @@ Traffic arrives, nobody subscribes. **The diagnosis is step 2 vs step 3:**
 1. **The release is not deployed.** Threshold 3 fails for a reason unrelated to content, and Thursday/Monday/Wednesday measure nothing. Check this before blaming anything else.
 2. **Your own browsing is counted.** Use `?itn_internal=1`. A handful of your own views is a large fraction of this week's traffic.
 3. **Saturday distorts the week.** UFC 331 is the only genuine traffic event in the window. Expect `/ufc-331-odds` to win, and do not conclude event pages beat evergreen guides from one data point — the guides will still be earning impressions in December when that card is history.
+
+
+---
+
+## Gate note — what this dashboard cannot measure yet
+
+The release is built, rebased onto current production `dd29053`, and fully QA'd, but **not deployed**. Until it is:
+
+- **Goal 2 (first Search Console impression on a new guide) will fail for a reason that has nothing to do with content.** The live sitemap has 28 entries and omits `/football-line-movement`, `/mlb-playoffs` and `/ufc-331-odds`. Do not read that failure as a verdict on the guides.
+- Days 1, 5 and 7 of the sprint promote pages whose metadata changes are still unshipped, so their rows measure the old version.
+- `/cfb` (Friday) is the one promoted page that is fully live and fully verified today. It is the honest place to start.
+
+**Still outstanding and still corrupting every number in the tables above:** open the site with `?itn_internal=1` in every browser you use. This has now been raised across nine audits. With traffic this small, a handful of your own page views is a large fraction of the week.
+
+### Baseline, re-read Sep 17, 2026
+
+```
+Beehiiv          10 ever · 7 churned · 3 active · $0 · 0 new in 7 days
+Attribution      all 10 subscribers ever came through the homepage
+Live sitemap     28 entries (release: 29)
+Social posts     0 published
+```

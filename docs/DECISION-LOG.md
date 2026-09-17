@@ -75,3 +75,23 @@ Exactly three things:
 ### How this log gets closed
 
 **Oct 17, 2026.** Against the North Star: 50 organic visits to the three guides, and 10 subscribers who did not arrive via the homepage. Met → the freeze lifts and the next cycle is volume. Not met → §11 of the proof report, not another redesign.
+
+
+---
+
+## M28 entry — Thu Sep 17, 2026 (revalidation gate)
+
+**What happened.** Production advanced to `dd29053` while the release sat unpushed. The guarded deploy script refused to merge and exited. That refusal was correct and was not overridden.
+
+**What was done.** Rebased onto `dd29053`, zero conflicts, `data/` byte-identical to production, full QA re-run against the new base, eight routes rendered at 390px and 1280px from SHA-verified committed bytes.
+
+**Two fixes admitted under the freeze**, both inside the "correctness, not redesign" exception already written into this log:
+
+| Fix | Why it is not scope creep |
+|---|---|
+| `/ufc-331-odds` title 62 → 58 chars | An indexed title being truncated by Google is a defect in a shipped SEO change, not a new idea |
+| Seven British spellings across 34 pages | A standing instruction ("Use English US only"), previously applied to only five files |
+
+**One finding logged and deliberately NOT fixed.** Eight pages — `/cfb`, `/nfl`, `/games`, `/pga`, `/ufc`, `/thanks`, `/confirm`, `/post` — carry the responsible-gambling notice in their footer prose ("For entertainment purposes only… Please gamble responsibly") but do **not** link to `/responsible-gambling`, which the other 21 pages do. This is a real consistency gap. It is not in the stated release contents, the pages are compliant as they stand, and the freeze exists precisely to stop "while we're in there" edits. **Decision: defer to the next release. Not an emergency, not silently fixed.**
+
+**The freeze end date does not move.** Still **Sat Oct 17, 2026**. Revalidating a blocked release is not a new polish cycle and does not buy more polishing time.

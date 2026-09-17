@@ -181,3 +181,12 @@ In order of how much each would tell us:
 > **50 organic search visits to the three guide pages, and 10 newsletter subscribers who did not arrive via the homepage.**
 
 One is discovery, one is conversion, both are currently zero, and neither can be faked. If both are met by **October 17, 2026**, the wedge is real and the next 30 days are about volume. If neither is met, §11 applies.
+
+
+---
+
+## Verification status — Sep 17, 2026, M28 gate
+
+Every claim in this report was written against the release branch. As of this revalidation the branch is rebased onto current production `dd29053` and the eight priority routes have been rendered from bytes SHA-256-verified against the release commit.
+
+**What remains unverified, and will stay unverified until the release deploys:** every claim about how the *live* site behaves after this release. The live sitemap still lists 28 entries and still omits all three guides. Search Console has not been told those pages exist. **Launch readiness is not claimed here.** The competitive analysis, the wedge and the positioning statement are unaffected by the deploy — they are about the product, not the deployment — but the 30-day North Star (50 organic visits to the three guides, 10 non-homepage subscribers, judged **Oct 17, 2026**) cannot begin accruing until the sitemap ships.
