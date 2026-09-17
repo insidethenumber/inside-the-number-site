@@ -201,6 +201,18 @@
 <style id="mobile-context-style">
 .mobile-page-context{display:none}
 @media(max-width:900px){.mobile-page-context{display:flex;align-items:center;gap:12px;min-height:34px;padding:0 20px;border-bottom:1px solid var(--border, var(--bd));font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase}.mobile-page-context a{color:var(--green);text-decoration:none;font-weight:600}.mobile-page-context span{color:var(--muted, #6b7280)}.mobile-page-context span:before{content:'/';margin-right:12px;color:var(--muted, #6b7280)}}
+
+  /* Quick read — added M24 Phase 6. This page measured many 390px screens
+     deep on a phone with the signup block near the bottom; the block below
+     puts the useful part of the page in the first screen and gives one tap
+     down to the email form instead of a long scroll. Blue accent so it does
+     not read as a second call to action next to the green .sub-cta. */
+  .qr{margin:20px 0 6px;padding:16px 18px;border:1px solid rgba(59,167,255,.28);border-radius:12px;background:rgba(59,167,255,.05);max-width:660px}
+  .qr-t{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .qr ul{margin:0;padding-left:18px}
+  .qr li{color:var(--mid);font-size:14.5px;line-height:1.65;margin-bottom:7px}
+  .qr li b{color:var(--white);font-weight:600}
+  .qr-go{display:inline-block;margin-top:4px;font-size:13.5px;font-weight:600;color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.4)}
 </style>
 </head>
 <body>
@@ -246,6 +258,17 @@
   go stale.</p>
 
   <div class="stamp" id="stamp">Lines via ESPN · reading the board…</div>
+<div class="qr">
+  <div class="qr-t">Quick read &middot; 20 seconds</div>
+  <ul>
+    <li><b>Every game on this week's board</b> &mdash; spread, total, kickoff, and the fair price with the sportsbook's cut removed.</li>
+    <li><b>The fair price is the point.</b> Both sides of a market add up to more than 100%; strip that out and you get what the market actually thinks.</li>
+    <li><b>Watch 3 and 7.</b> More NFL games end on those margins than any other, so half-points across them cost the most.</li>
+    <li><b>No picks and no leans here.</b> Nothing on this page is typed by hand, so nothing on it can quietly go stale.</li>
+  </ul>
+  <a class="qr-go" href="#morning-board">Get the board by email each morning &rarr;</a>
+</div>
+
 
   <div class="strip">
     <div class="chip"><div class="l">First kickoff</div>
@@ -287,7 +310,7 @@
   possessions — without changing its mind about who wins. Those two numbers move for
   different reasons, and reading them separately is most of the skill. <a href="football-line-movement">Why these numbers moved →</a></p>
 
-  <div class="sub-cta">
+  <div class="sub-cta" id="morning-board">
     <div class="k">Take the cheat sheet</div>
     <p>The no-vig math, the key numbers, and how to read a line move — one
     page, before kickoff. No card, no spam.</p>

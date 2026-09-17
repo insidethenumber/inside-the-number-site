@@ -78,7 +78,19 @@ ul.mist li b{color:var(--white);font-weight:600}
 .rel a:hover{text-decoration:underline}
 </style>
 <style id="site-wide-navigation">
-  .compact-nav { min-height:56px; height:auto; gap:18px; }.compact-nav .brand { flex:0 0 auto; }.compact-nav .desktop-links { display:flex; align-items:center; justify-content:flex-end; gap:15px; margin-left:auto; }.compact-nav .desktop-links a { color:#b6bdc8; font-size:11px; font-weight:600; letter-spacing:.06em; }.compact-nav .desktop-links a:hover,.compact-nav .desktop-links .cta { color:var(--green); }.compact-nav .menu-button { display:none; width:40px; height:40px; background:transparent; border:1px solid var(--bd); border-radius:8px; padding:9px; margin:0 0 0 auto; }.compact-nav .menu-button span { display:block; height:2px; margin:4px 0; background:var(--white); }.compact-mobile-menu { position:fixed; inset:0; z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:30px; background:rgba(5,6,8,.98); backdrop-filter:blur(20px); opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }.compact-mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }.compact-mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }.compact-mobile-menu .cta { color:var(--green); }@media(max-width:900px){.compact-nav .desktop-links{display:none}.compact-nav .menu-button{display:block}}</style>
+  .compact-nav { min-height:56px; height:auto; gap:18px; }.compact-nav .brand { flex:0 0 auto; }.compact-nav .desktop-links { display:flex; align-items:center; justify-content:flex-end; gap:15px; margin-left:auto; }.compact-nav .desktop-links a { color:#b6bdc8; font-size:11px; font-weight:600; letter-spacing:.06em; }.compact-nav .desktop-links a:hover,.compact-nav .desktop-links .cta { color:var(--green); }.compact-nav .menu-button { display:none; width:40px; height:40px; background:transparent; border:1px solid var(--bd); border-radius:8px; padding:9px; margin:0 0 0 auto; }.compact-nav .menu-button span { display:block; height:2px; margin:4px 0; background:var(--white); }.compact-mobile-menu { position:fixed; inset:0; z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:30px; background:rgba(5,6,8,.98); backdrop-filter:blur(20px); opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }.compact-mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }.compact-mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }.compact-mobile-menu .cta { color:var(--green); }@media(max-width:900px){.compact-nav .desktop-links{display:none}.compact-nav .menu-button{display:block}}
+  /* Quick read — added M24 Phase 6. This page measured many 390px screens
+     deep on a phone with the signup block near the bottom; the block below
+     puts the useful part of the page in the first screen and gives one tap
+     down to the email form instead of a long scroll. Blue accent so it does
+     not read as a second call to action next to the green .sub-cta. */
+  .qr{margin:20px 0 6px;padding:16px 18px;border:1px solid rgba(59,167,255,.28);border-radius:12px;background:rgba(59,167,255,.05);max-width:660px}
+  .qr-t{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .qr ul{margin:0;padding-left:18px}
+  .qr li{color:var(--mid);font-size:14.5px;line-height:1.65;margin-bottom:7px}
+  .qr li b{color:var(--white);font-weight:600}
+  .qr-go{display:inline-block;margin-top:4px;font-size:13.5px;font-weight:600;color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.4)}
+</style>
 </head>
 <body>
 <nav class="compact-nav"><a class="brand" href="/">Inside <span>the</span> Number</a><div class="desktop-links"><a href="/">Home</a><a href="/nfl">NFL</a><a href="/cfb">CFB</a><a href="/ufc-331-odds">UFC</a><a href="/mlb-playoffs">MLB</a><a href="/games">Scores</a><a href="/tools">Tools</a><a class="cta" href="/no-vig-calculator#cheat-sheet">Cheat Sheet</a></div><button class="menu-button" id="compactMenuButton" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button></nav><div class="compact-mobile-menu" id="compactMobileMenu"><a href="/">Home</a><a href="/nfl">NFL</a><a href="/cfb">College Football</a><a href="/ufc-331-odds">UFC 331</a><a href="/mlb-playoffs">MLB Playoffs</a><a href="/games">Scores / Full Board</a><a href="/tools">Tools</a><a class="cta" href="/no-vig-calculator#cheat-sheet">Get the Cheat Sheet</a></div><script>(function(){const b=document.getElementById('compactMenuButton'),m=document.getElementById('compactMobileMenu');if(!b||!m)return;const close=()=>{m.classList.remove('open');b.setAttribute('aria-expanded','false')};b.addEventListener('click',()=>{const open=m.classList.toggle('open');b.setAttribute('aria-expanded',String(open))});m.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape')close()})})();</script>
@@ -86,6 +98,17 @@ ul.mist li b{color:var(--white);font-weight:600}
   <div class="eyebrow">// Tools · No-vig</div>
   <h1>No-Vig <span>Calculator</span></h1>
   <p class="sub">Enter both sides of a market. Out comes the book's cut, the fair price, and what the market really thinks.</p>
+<div class="qr">
+  <div class="qr-t">Quick read &middot; 20 seconds</div>
+  <ul>
+    <li><b>Enter both sides of a market.</b> The calculator converts each price to a probability, adds them, and divides the excess back out.</li>
+    <li><b>The excess is the margin.</b> Two sides at &minus;110 sum to 104.8%, so the book is holding 4.8% &mdash; the true price on both sides is +100.</li>
+    <li><b>Posted is not true.</b> The gap between the two is what you are charged to bet it, and it is on every market, not just lopsided ones.</li>
+    <li><b>Nothing here is a recommendation.</b> It converts a number you supply; it does not know who wins.</li>
+  </ul>
+  <a class="qr-go" href="#cheat-sheet">Get the free cheat sheet and Morning Board &rarr;</a>
+</div>
+
   <div class="tool">
     <div class="row">
       <div><label>Side A odds (American)</label><input type="number" id="a" value="-138" step="1"/></div>
