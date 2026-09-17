@@ -238,7 +238,7 @@
   .fmt{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.05em;margin-left:2px}
   /* Two-sided rows. Both teams must read with EQUAL weight — the old layout
      reused the title/value/sub chip, which rendered the away side bright
-     white and the home side in muted grey, making it look like we were
+     white and the home side in muted gray, making it look like we were
      flagging the away pitcher for some reason. */
   .mx-two{display:grid;grid-template-columns:34px 1fr auto;gap:7px 11px;align-items:center;margin-top:2px}
   .mx-ab{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--mid);letter-spacing:.04em}
@@ -248,7 +248,7 @@
     .mx-two{grid-template-columns:30px 1fr;gap:5px 9px}
     .mx-meta{grid-column:2;text-align:left;margin-top:-4px}
   }
-  /* "Why this pick" — the case for the play, in labelled rows, plus the
+  /* "Why this pick" — the case for the play, in labeled rows, plus the
      counter-case in its own red-edged box so it can't be mistaken for
      supporting evidence. */
   .why{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
@@ -1115,7 +1115,7 @@ const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
 function rail(sel){
   /* A league with nothing today shows a dash instead of a count. Leagues are
      deliberately NOT dimmed: the empty view is a real page — when the league
-     is back, plus what is live right now — so greying one out would read as
+     is back, plus what is live right now — so graying one out would read as
      broken rather than simply idle. */
   document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
@@ -2231,7 +2231,7 @@ function marketRead(){
        a category swap rather than a different code path. */
     if(isMLB){
       const ba=bat(g.a.ab), bh=bat(g.h.ab), ha=hr(g.a.ab), hh=hr(g.h.ab);
-      /* Labelled "season" to distinguish it from the last-15 hot/cold line in
+      /* Labeled "season" to distinguish it from the last-15 hot/cold line in
          The Read — two different windows on the same lineup. */
       if(ba&&bh) html+=two('Season leaders',
         [[g.a.ab, `${ba.name} ${ba.val}`, ha?`${ha.name} ${ha.val} HR`:''],
@@ -2330,7 +2330,7 @@ load();
           records how the visitor first arrived.
        3. Passes that source into the Beehiiv subscribe form and the hosted
           subscribe link, so the subscriber's Acquisition Details in Beehiiv
-          show it. A flagged browser is labelled source=internal, medium=test,
+          show it. A flagged browser is labeled source=internal, medium=test,
           so owner/test signups can be excluded from every count.
      For visitors with no UTM and no flag this script changes nothing on the
      page. The Cloudflare Web Analytics beacon below runs only after this helper
