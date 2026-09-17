@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Inside the Number — Live Odds, Line Movement &amp; the No-Vig True Price | Every Game</title>
-<meta name="description" content="Every line, explained. What the market actually thinks on every game — live odds, line movement and the no-vig true price, free, on every board. MLB, NFL, CFB, NBA, CBB, NHL, UFC and PGA."/>
+<meta name="description" content="Every line, explained. What the market actually thinks on every game — live odds, line movement and the no-vig true price, free. Football, baseball and the live boards we can verify."/>
 <link rel="canonical" href="https://insidethenumber.com/"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -748,12 +748,15 @@
 
   /* ── ESPN-style top scores strip ───────────────────────────── */
   .tb{background:#080a0e;border-bottom:1px solid var(--border);position:relative}
+  .tb-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);padding:8px 14px 0}
   .tb-leagues{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);padding:0 14px;overflow-x:auto;scrollbar-width:none}
   .tb-leagues::-webkit-scrollbar{display:none}
   .tb-leagues a{color:#c9cfd8;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:13.5px;
     font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
   .tb-leagues a:hover{color:var(--white)}
   .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
+  .tb-leagues a.tb-off{opacity:.72}
   .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
   .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
     letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
@@ -835,10 +838,23 @@
     padding:9px 15px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;
     letter-spacing:.04em;cursor:pointer;white-space:nowrap}
   .hp-fine{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:7px;letter-spacing:.04em}
+  .guides-inner{max-width:1180px;margin:0 auto;padding:34px 48px}
+  .guides-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--green);margin-bottom:14px}
+  .guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .guide{display:block;min-width:0;background:var(--surface-1);border:1px solid var(--border);
+    border-left:3px solid var(--green);border-radius:12px;padding:15px 17px;text-decoration:none}
+  .guide:hover{border-color:var(--border-lit)}
+  .guide b{display:block;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;color:var(--white);margin-bottom:5px}
+  .guide span{display:block;font-size:13.5px;color:var(--mid);line-height:1.55}
+  .guides-tail{font-size:13.5px;color:var(--mid);margin:14px 0 0}
+  .guides-tail .inline{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)}
   /* the "@" only makes sense when both teams sit on one line */
   .tg-sep{display:none}
 
   @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
+  @media(max-width:980px){.guides-inner{padding:26px 20px}}
 
   /* On a phone the league strip was a horizontal scroller, which meant UFC,
      PGA and "Full board" all sat off the right edge — invisible unless you
@@ -855,6 +871,7 @@
 
 <div id="wrapTop">
 <div class="tb">
+  <div class="tb-label">Live board</div>
   <div class="tb-leagues" id="tbL"></div>
   <div style="position:relative">
     <button class="tb-nav l" id="tbPrev" aria-label="Scroll left">‹</button>
@@ -1662,6 +1679,31 @@
   </div>
 </section>
 
+<section class="section guides">
+  <div class="guides-inner">
+    <div class="guides-label">// Guides for this week</div>
+    <div class="guides-grid">
+      <a class="guide" href="football-line-movement">
+        <b>How football lines move</b>
+        <span>What moves a spread, why 3 and 7 matter, and when a move is already gone.</span>
+      </a>
+      <a class="guide" href="mlb-playoffs">
+        <b>How to read MLB playoff odds</b>
+        <span>Series prices vs Game 1 lines, bullpen pricing, and October totals.</span>
+      </a>
+      <a class="guide" href="ufc-331-odds">
+        <b>UFC 331 odds explained</b>
+        <span>Turning fight prices into probability, and what a huge favorite really claims.</span>
+      </a>
+    </div>
+    <p class="guides-tail">
+      <a class="inline" href="no-vig-calculator">No-vig calculator</a> &nbsp;&middot;&nbsp;
+      <a class="inline" href="tools">All ten calculators</a> &nbsp;&middot;&nbsp;
+      <a class="inline" href="learn">How to read a betting line</a>
+    </p>
+  </div>
+</section>
+
 <!-- SIGNUP -->
 <section class="signup" id="signup">
   <div class="signup-inner">
@@ -1750,9 +1792,11 @@
         || String(x.date||'').localeCompare(String(y.date||''))));
   }
   function paint(){
+    const withGames=LEAGUES.filter(([l])=>(D[l]||[]).length);
+    const withoutGames=LEAGUES.filter(([l])=>!(D[l]||[]).length);
     document.getElementById('tbL').innerHTML=
-      LEAGUES.map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games?sport=${l}" data-l="${l}">${l}<span class="n">${n||'—'}</span></a>`;
+      withGames.concat(withoutGames).map(([l])=>{const n=(D[l]||[]).length;
+        return `<a href="games?sport=${l}" data-l="${l}"${n?'':' class="tb-off"'}>${l}<span class="n">${n||'—'}</span></a>`;
       }).join('')+`<a class="tb-all" href="games">Full board →</a>`;
     const g=allGames();
     document.getElementById('tbS').innerHTML=g.length

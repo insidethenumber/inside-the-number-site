@@ -145,6 +145,24 @@
   .scroller { max-width:660px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .scroller > table { margin:22px 0; min-width:420px; }
 
+  /* ── QUICK READ ────────────────────────────────────────────────────────
+     This page is ~1,400 words, which is right for search and wrong for a
+     phone. The quick-read box gives a visitor the whole point plus a next
+     action in about twenty seconds, without scrolling. It REPLACES the old
+     standfirst CTA line rather than sitting on top of it, so the page does
+     not get longer. Reuses .box and ul.pts; the CTA row is the only new
+     rule. No JS. */
+  .quick ul.pts { margin:0 0 12px; }
+  .quick ul.pts li { padding:4px 0 4px 18px; font-size:14px; line-height:1.6; }
+  .qcta { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; margin:0; max-width:none; }
+  .qcta a.pri { display:inline-block; padding:9px 16px; background:var(--green); color:var(--black);
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; letter-spacing:.06em;
+    text-transform:uppercase; border-radius:20px; text-decoration:none; }
+  .qcta a.pri:hover { background:var(--white); }
+  .qcta a.sec { font-size:13.5px; color:var(--green); text-decoration:none;
+    border-bottom:1px solid rgba(0,208,132,.35); }
+  .qcta a.sec:hover { border-bottom-color:var(--green); }
+
   @media (max-width:980px){
     nav { padding:0 20px; }
     .nav-links { display:none; }
@@ -367,7 +385,19 @@
     <p class="eyebrow">// Football · Line Movement</p>
     <h1>How football lines move<br/><span>before kickoff.</span></h1>
     <p class="standfirst">A line is a price, and prices move when the people paying them change their minds. This page explains what changed between the opener and the number on the board right now, why some of those moves matter far more than others, and how to compare what you are being charged with what the market actually thinks.</p>
-    <p class="standfirst" style="margin-top:6px"><a class="inline" href="no-vig-calculator">Use the no-vig calculator →</a> &nbsp;&middot;&nbsp; <a class="inline" href="#signup">Get the Morning Board →</a></p>
+    <div class="box quick" style="--accent:var(--blue)">
+      <div class="t">Quick read &middot; 20 seconds</div>
+      <ul class="pts">
+        <li>A line has two parts: <strong>the number</strong> and <strong>the price</strong>. Both move, and most people only watch one.</li>
+        <li>Key numbers &mdash; <strong>3 and 7</strong> &mdash; matter far more than an ordinary half-point.</li>
+        <li>A move you can see has <strong>already happened</strong>, so chasing it means buying at the worse number.</li>
+        <li>The <strong>no-vig price</strong> shows what the market thinks, as opposed to what you are charged.</li>
+      </ul>
+      <p class="qcta">
+        <a class="pri" href="no-vig-calculator">Use the no-vig calculator</a>
+        <a class="sec" href="nfl">Read today's NFL board &rarr;</a>
+      </p>
+    </div>
 
     <h2 id="price">The line and the price are not the same thing</h2>
     <p>Every football bet has two halves, and most people only watch one.</p>
@@ -553,7 +583,7 @@
           records how the visitor first arrived.
        3. Passes that source into the Beehiiv subscribe form and the hosted
           subscribe link, so the subscriber's Acquisition Details in Beehiiv
-          show it. A flagged browser is labelled source=internal, medium=test,
+          show it. A flagged browser is labeled source=internal, medium=test,
           so owner/test signups can be excluded from every count.
      For visitors with no UTM and no flag this script changes nothing on the
      page. The Cloudflare Web Analytics beacon below runs only after this helper

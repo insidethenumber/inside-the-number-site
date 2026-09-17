@@ -144,6 +144,21 @@
   .scroller { max-width:660px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .scroller > table { margin:22px 0; min-width:460px; }
 
+  /* ── QUICK READ ────────────────────────────────────────────────────────
+     Gives a phone visitor the whole point plus a next action in about
+     twenty seconds, above the live card table. Reuses .box and ul.pts; the
+     CTA row is the only new rule. No JS. */
+  .quick ul.pts { margin:0 0 12px; }
+  .quick ul.pts li { padding:4px 0 4px 18px; font-size:14px; line-height:1.6; }
+  .qcta { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; margin:0; max-width:none; }
+  .qcta a.pri { display:inline-block; padding:9px 16px; background:var(--green); color:var(--black);
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; letter-spacing:.06em;
+    text-transform:uppercase; border-radius:20px; text-decoration:none; }
+  .qcta a.pri:hover { background:var(--white); }
+  .qcta a.sec { font-size:13.5px; color:var(--green); text-decoration:none;
+    border-bottom:1px solid rgba(0,208,132,.35); }
+  .qcta a.sec:hover { border-bottom-color:var(--green); }
+
   /* Live card table */
   .stamp { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); letter-spacing:0.05em; margin:-8px 0 14px; }
   .loading { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); padding:18px 0; }
@@ -371,6 +386,20 @@
     <p class="standfirst"><strong>Crypto.com UFC 331: Van vs Pantoja 2</strong> is on <strong>Saturday, September 19, 2026</strong> at Crypto.com Arena in Los Angeles, streaming on Paramount+ in the United States. Early prelims start at 5:30 PM ET / 2:30 PM PT, prelims at 7 PM ET / 4 PM PT, and the main card at 9 PM ET / 6 PM PT.</p>
     <p class="standfirst">This page is <strong>educational only</strong>. It explains how to turn the prices on this card into probabilities, how to remove the sportsbook's margin, and what a very short favorite price is actually claiming. <strong>There are no picks, no predictions and no recommendations here.</strong></p>
 
+    <div class="box quick" style="--accent:var(--blue)">
+      <div class="t">Quick read &middot; 20 seconds</div>
+      <ul class="pts">
+        <li><strong>UFC 331 is Saturday, September 19, 2026</strong> at Crypto.com Arena, Los Angeles. Main card 9 PM ET / 6 PM PT.</li>
+        <li>Van vs Pantoja is a <strong>moneyline market</strong> &mdash; convert the price to a probability before anything else.</li>
+        <li>The <strong>no-vig price</strong> removes the sportsbook's margin and shows what the market actually thinks.</li>
+        <li><strong>Huge favorites can be likely and still expensive.</strong> A &minus;1800 price claims roughly 95%.</li>
+      </ul>
+      <p class="qcta">
+        <a class="pri" href="odds-converter">Use the odds converter</a>
+        <a class="sec" href="games">Today's board &rarr;</a>
+      </p>
+    </div>
+
     <h2 id="card">The card</h2>
     <p>Prices below are read live from the feed when the page loads. <strong>They move constantly</strong> &mdash; a fight card three days out can reprice several times a day, and anything quoted in the written sections further down is a snapshot from when this page was written.</p>
     <div id="board"><div class="loading">Reading the card&hellip;</div></div>
@@ -446,7 +475,7 @@
       <li><strong>Late news and withdrawals.</strong> Cards change. A bout can be pulled or replaced at short notice, and a short-notice replacement is priced with far less information than a full camp.</li>
       <li><strong>Thinner markets.</strong> Betting limits on an undercard bout are much lower than on an NFL game, so a smaller amount of money moves the number further.</li>
     </ul>
-    <p>The practical consequence is the one stated at the top of this page: <strong>any price written into prose goes stale quickly.</strong> The table at the top is read live from the feed; every figure in the sections above is labelled with the date it was taken.</p>
+    <p>The practical consequence is the one stated at the top of this page: <strong>any price written into prose goes stale quickly.</strong> The table at the top is read live from the feed; every figure in the sections above is labeled with the date it was taken.</p>
 
     <h2 id="tools">Use the tools</h2>
     <p>Three calculators cover everything on this page. None of them tells you what to bet.</p>
@@ -540,7 +569,7 @@
       sequential requests produced "Failed to fetch" on every one; small
       batches with a gap are reliable. Hence the batching below.
    3. Fight prices move fast. Every figure written into the prose above is
-      labelled with the date it was taken; only this table is live. If the
+      labeled with the date it was taken; only this table is live. If the
       feed fails, the table says so rather than showing a stale number.
    4. Two bugs were caught by testing this against the live feed before it
       shipped, and both are easy to reintroduce:
@@ -573,7 +602,7 @@
   function fail(){
     board.innerHTML='<div class="loading">The odds feed did not answer just now. '
       + 'Prices on this page are read live from ESPN at page load &mdash; try a refresh. '
-      + 'The worked examples below are labelled with the date they were taken. '
+      + 'The worked examples below are labeled with the date they were taken. '
       + '<a href="/no-vig-calculator">No-vig calculator</a> &middot; <a href="/games">Today\'s board</a></div>';
   }
 
@@ -669,7 +698,7 @@
           records how the visitor first arrived.
        3. Passes that source into the Beehiiv subscribe form and the hosted
           subscribe link, so the subscriber's Acquisition Details in Beehiiv
-          show it. A flagged browser is labelled source=internal, medium=test,
+          show it. A flagged browser is labeled source=internal, medium=test,
           so owner/test signups can be excluded from every count.
      For visitors with no UTM and no flag this script changes nothing on the
      page. The Cloudflare Web Analytics beacon below runs only after this helper
