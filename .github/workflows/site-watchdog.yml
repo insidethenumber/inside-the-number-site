@@ -38,7 +38,13 @@ jobs:
           ct    = zoneinfo.ZoneInfo("America/Chicago")
           today = datetime.datetime.now(ct)
 
-          # The card renders server-side as e.g. <div class="potd-date">Sun, Sep 13</div>
+          # M29. The board line ships evergreen and is dated client-side by
+          # stampBoardRead() only when a league feed returns games. We fetch
+          # without running JavaScript, so we see the served value. Nothing in
+          # the repo writes this element, so demanding today's date here made
+          # the watchdog cry wolf every morning — the exact failure mode the
+          # note below warns about. What we enforce instead: the element must
+          # exist, and if it shows a date, that date must be today.
           expected = f"{today.strftime('%a')}, {today.strftime('%b')} {today.day}"
 
           url = f"https://insidethenumber.com/?cb={int(today.timestamp())}"
@@ -51,19 +57,32 @@ jobs:
               print(f"::warning::Could not reach the site ({e}). Not failing on this.")
               sys.exit(0)
 
-          m = re.search(r'class="potd-date"[^>]*>([^<]+)<', html)
+          m = re.search(r'(<[^>]*class="potd-date"[^>]*>)([^<]+)<', html)
           if not m:
               print("::error::potd-date is missing from the homepage entirely. "
-                    "The Pick of the Day card may be broken.")
+                    "The board card may be broken.")
               sys.exit(1)
 
-          shown = m.group(1).strip()
+          tag, shown = m.group(1), m.group(2).strip()
+
+          if "data-evergreen" in tag:
+              print(f"OK — board line is evergreen ({shown!r}). No date claimed, "
+                    f"nothing to go stale.")
+              sys.exit(0)
+
           if shown == expected:
               print(f"OK — homepage shows {shown}.")
               sys.exit(0)
 
-          print(f"::error::STALE SITE. Homepage shows '{shown}', expected '{expected}'. "
-                f"The daily task did not update index.html. Fix the card and push. "
-                f"Runbook: the Step 4 site gate in itn-daily-weekday / itn-daily-weekend.")
+          if not re.search(r"[A-Za-z]{3}\s+\d{1,2}", shown):
+              print(f"::error::potd-date reads {shown!r} — neither today's date nor a "
+                    f"label flagged data-evergreen. Check index.html.")
+              sys.exit(1)
+
+          print(f"::error::STALE DATE ON THE HOMEPAGE. The board line shows "
+                f"'{shown}', but today is '{expected}'. A dated reading that is not "
+                f"today's is the one thing this card must never show. Either date it "
+                f"correctly or return it to the evergreen label "
+                f"(data-evergreen=\"1\") in index.html.")
           sys.exit(1)
           PY

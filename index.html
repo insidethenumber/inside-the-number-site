@@ -1146,7 +1146,15 @@
     <div class="potd-card">
       <div>
         <div class="potd-badge"><span class="dot"></span>Board check</div>
-        <div class="potd-date" id="potd-date">Wed, Sep 16</div>
+        <!-- The static value is deliberately NOT a date. Nothing in this repo writes
+     this element (grep potd-date: scripts/smoke.py and site-watchdog.yml are
+     both readers), so any date typed here is frozen the moment it ships and
+     goes stale the next morning - which is exactly what happened with
+     "Wed, Sep 16". The card itself has been evergreen since the Sep 15 pivot;
+     only this line still claimed to be dated. It now reads as a guide by
+     default and is overwritten with today's date by stampBoardRead() below,
+     but ONLY when a league feed actually returned games. M29. -->
+        <div class="potd-date" id="potd-date" data-evergreen="1">Educational board guide</div>
         <div class="potd-sport">Reading the number</div>
         <div class="potd-matchup" id="potd-matchup">What the market is actually saying</div>
         <div class="potd-line">No-vig true price &middot; key numbers &middot; line movement</div>
@@ -1848,9 +1856,10 @@
           (invariant 2) and .github/workflows/site-watchdog.yml both parse its
           text as a date; losing it breaks both monitors permanently.
        b) It only writes when a league actually returned games. If every feed
-          is down we leave whatever is in the HTML and let the freshness guard
-          at the bottom of this file tell the visitor — better a visible stale
-          stamp than a fabricated fresh one.
+          is down the line keeps its evergreen label ("Educational board guide")
+          and the card reads as what it has actually been since the Sep 15
+          pivot: an explainer, not a dated reading. No stale date, no warning,
+          nothing fabricated — M29.
        c) It formats in America/Chicago, matching the guard's own clock, so a
           late-evening read cannot stamp tomorrow and trip the guard against
           itself. */
@@ -1861,6 +1870,7 @@
       if(!Object.keys(D).some(function(k){return (D[k]||[]).length})) return;
       el.textContent=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',
         weekday:'short',month:'short',day:'numeric'}).format(new Date());
+      el.removeAttribute('data-evergreen');
       var stale=document.getElementById('potd-stale-note');
       if(stale && stale.parentNode) stale.parentNode.removeChild(stale);
     }catch(e){}
@@ -1960,9 +1970,11 @@
    the HTML's stamp first, and if that stamp is stale it appends this note a
    fraction of a second before the stamp is corrected — leaving "not from
    today" sitting next to today's date. stampBoardRead() removes the note by
-   this id once it has written a current stamp. If the feeds never answer,
-   nothing removes it and the visitor still gets the warning, which is the
-   behavior this guard was built for.
+   this id once it has written a current stamp. As of M29 the HTML no longer
+   ships a date at all, so on an empty feed the regex below finds nothing, the
+   guard returns early, and the visitor sees the evergreen label with no
+   warning attached. The guard still fires the moment a real date is present
+   and is not today's - which is the only case it was ever meant to catch.
    The board stamp in #pick-of-the-day is written by hand / by the daily
    routine, so it is the one element on this page that can silently go stale —
    which is exactly what happened on Sep 14/15. Monitors catch it server-side

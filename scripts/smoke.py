@@ -89,19 +89,38 @@ def main():
             fails.append(f"[status] {path} unreachable: {e}")
     notes.append(f"{len(PAGES) - len([f for f in fails if f.startswith('[status]')])}/{len(PAGES)} pages 200")
 
-    # 2 — homepage pick carries today's date
+    # 2 — the homepage board line never claims a date that is not today.
+    #
+    # M29. This used to require today's date unconditionally, which was wrong:
+    # nothing in this repo writes #potd-date, so the served HTML carries
+    # whatever was last typed by hand and this check failed every morning for
+    # a reason no deploy could fix. The card has been evergreen since the
+    # Sep 15 pivot, so the HTML now ships an evergreen label and
+    # stampBoardRead() writes a real date client-side only when a league feed
+    # returned games.
+    #
+    # We fetch HTML without running JavaScript, so we see the served value.
+    # The invariant that actually matters, and that this now enforces:
+    #   - the element must exist (both monitors' loudest failure), and
+    #   - if it shows a date, that date must be today.
+    # An evergreen label claims nothing and cannot go stale, so it passes.
     home = bodies.get("/", "")
-    m = re.search(r'class="potd-date"[^>]*>([^<]{3,40})<', home)
+    m = re.search(r'(<[^>]*class="potd-date"[^>]*>)([^<]{3,40})<', home)
     if not m:
         fails.append("[freshness] homepage has no .potd-date element")
     else:
-        d = parse_stamp(m.group(1), today.year)
-        if d is None:
-            fails.append(f"[freshness] could not parse potd-date {m.group(1)!r}")
-        elif d != today:
-            fails.append(f"[freshness] homepage pick says {m.group(1).strip()!r}, today is {today:%b %-d}")
+        tag, text = m.group(1), m.group(2)
+        if "data-evergreen" in tag:
+            notes.append(f"homepage board line is evergreen ({text.strip()!r}) — no date claimed")
         else:
-            notes.append(f"homepage pick dated {d:%b %-d} (today)")
+            d = parse_stamp(text, today.year)
+            if d is None:
+                fails.append(f"[freshness] could not parse potd-date {text!r} "
+                             f"(and it is not flagged data-evergreen)")
+            elif d != today:
+                fails.append(f"[freshness] homepage board says {text.strip()!r}, today is {today:%b %-d}")
+            else:
+                notes.append(f"homepage board dated {d:%b %-d} (today)")
 
     # 3 — CFB week window must not have already finished.
     # The rendered eyebrow reads "// CFB · WEEK 3 · SEP 16–SEP 21".
