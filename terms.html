@@ -192,6 +192,10 @@
   .nav-hamburger{display:flex !important}
 }
 </style>
+<style id="mobile-context-style">
+.mobile-page-context{display:none}
+@media(max-width:900px){.mobile-page-context{display:flex;align-items:center;gap:12px;min-height:34px;padding:0 20px;border-bottom:1px solid var(--border, var(--bd));font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase}.mobile-page-context a{color:var(--green);text-decoration:none;font-weight:600}.mobile-page-context span{color:var(--muted, #6b7280)}.mobile-page-context span:before{content:'/';margin-right:12px;color:var(--muted, #6b7280)}}
+</style>
 </head>
 <body>
 <nav>
@@ -222,6 +226,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div class="mobile-page-context"><a href="/">&larr; Home</a><span>Terms</span></div>
 <div class="mobile-menu" id="mobileMenu">
     <a href="/">Home</a><a href="nfl">NFL</a><a href="cfb">College Football</a><a href="ufc-331-odds">UFC 331</a><a href="mlb-playoffs">MLB Playoffs</a><a href="games">Scores / Full Board</a><a href="tools">Tools</a><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
   </div>
