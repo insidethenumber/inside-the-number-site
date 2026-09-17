@@ -140,3 +140,71 @@ Every hook was read from the live ESPN feed at **3:22 PM ET, Sep 17** and is mar
 3. The only work that continues unconditionally is the **daily loop** and **verification**.
 
 If the loop ran seven days and the thresholds in `measurement-dashboard.md` are not met, the answer is not a redesign. It is a different channel or a different topic — and the dashboard will say which.
+
+---
+
+# Per-day execution sheet
+
+Every day: **destination · audience question · target URL · CTA · same-day facts · X · Reddit · Instagram · internal link · UTM · success metric.**
+Full copy for X, Reddit and Instagram is in `social-distribution-kit.md`; slide layouts and the pre-publish checklist are in `SOCIAL-PUBLISHING-KIT.md`.
+
+**The experiment starts the day the release is live, not before.** Two of the seven destinations are absent from the live sitemap.
+
+### Day 1 — Thu Sep 17 · NFL
+- **Question** "What does the price next to the spread actually cost me?"
+- **URL** `/no-vig-calculator` · **CTA** Strip the vig on any market yourself
+- **Verify** BUF −5.5, total 54.5 **[VERIFY]**
+- **Internal link** `/nfl` intro → `/no-vig-calculator` on the words "true price"
+- **UTM** `…/no-vig-calculator?utm_source=x&utm_medium=social&utm_campaign=sprint1&utm_content=d1-novig`
+- **Metric** ≥1 click from `x.com` · **plus:** Search Console baseline recorded, sitemap resubmitted
+
+### Day 2 — Fri Sep 18 · College football
+- **Question** "Why does this blowout have no moneyline?"
+- **URL** `/cfb` · **CTA** Friday's full board, read live
+- **Verify** ORE −57.5, total 67.5, no moneyline posted **[VERIFY]**
+- **Internal link** `/cfb` board header → `/football-line-movement`
+- **UTM** `…/cfb?…&utm_content=d2-nomoneyline`
+- **Metric** `/cfb` Friday views ≥ last Friday
+
+### Day 3 — Sat Sep 19 · UFC
+- **Question** "What is this fight price actually claiming?"
+- **URL** `/ufc-331-odds` · **CTA** Every fight, priced the same way
+- **Verify** both main-event moneylines, twice; main event unchanged **[VERIFY]**
+- **Internal link** `/ufc` archive → `/ufc-331-odds`
+- **UTM** `…/ufc-331-odds?…&utm_content=d3-ufc331`
+- **Metric** `/ufc-331-odds` is the day's top page
+
+### Day 4 — Sun Sep 20 · NFL
+- **Question** "Why do people care so much about 3 and 7?"
+- **URL** `/football-line-movement` · **CTA** Why the numbers move
+- **Verify** **recount the board** — 2 of 16 on 7, 0 on 3, 10 between **[VERIFY]**
+- **Internal link** `/nfl` → `/football-line-movement#key-numbers`
+- **UTM** `…/football-line-movement?…&utm_content=d4-keynumbers`
+- **Metric** ≥1 visit with a `reddit.com` referrer
+
+### Day 5 — Mon Sep 21 · NFL
+- **Question** "How often do I actually need to be right?"
+- **URL** `/break-even-calculator` · **CTA** Check your own rate against your prices
+- **Verify** LAR −7, total 48.5 **[VERIFY]**
+- **Internal link** `/glossary` "break-even" and "vig" → their calculators
+- **UTM** `…/break-even-calculator?…&utm_content=d5-breakeven`
+- **Metric** weekly Search Console read — any impression on a new guide
+
+### Day 6 — Tue Sep 22 · MLB
+- **Question** "Why is this series priced so close when the teams aren't?"
+- **URL** `/mlb-playoffs` · **CTA** How postseason markets are built
+- **Verify** Wild Card still Tue Sep 29. **No team names** **[VERIFY]**
+- **Internal link** `/learn` explainer list → `/mlb-playoffs`
+- **UTM** `…/mlb-playoffs?…&utm_content=d6-series`
+- **Metric** ≥1 new subscriber vs the baseline of 3
+
+### Day 7 — Wed Sep 23 · Tools
+- **Question** "Why do parlays pay so much and hit so rarely?"
+- **URL** `/parlay-calculator` · **CTA** Run your own
+- **Verify** nothing external; confirm the calculator returns +596
+- **Internal link** `/tools` ↔ each calculator, made uniform
+- **UTM** `…/parlay-calculator?…&utm_content=d7-parlay`
+- **Metric** scorecard complete, next week's top two named
+
+### If a fact will not verify
+Post the **evergreen version** in `social-distribution-kit.md`, or skip the day. Days 1, 5 and 7 are pure arithmetic and always safe. **Never invent a schedule, odds, injury or matchup.**
