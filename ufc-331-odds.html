@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UFC 331 Odds: How to Read Van vs Pantoja 2 | Inside the Number</title>
+<meta name="description" content="How to read the UFC 331 odds for Van vs Pantoja 2 on September 19, 2026: moneylines turned into implied probability, the vig stripped out, and what a heavy favorite price actually claims. Educational only."/>
+<link rel="canonical" href="https://insidethenumber.com/ufc-331-odds"/>
+<meta name="theme-color" content="#050608"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"/>
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="Inside the Number"/>
+<meta property="og:url" content="https://insidethenumber.com/ufc-331-odds"/>
+<meta property="og:title" content="UFC 331 odds: how to read Van vs Pantoja 2"/>
+<meta property="og:description" content="Moneylines turned into probability, the vig stripped out, and what a heavy favorite price really claims. Educational only."/>
+<meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="UFC 331 odds: how to read Van vs Pantoja 2"/>
+<meta name="twitter:description" content="What the prices claim, and what they look like with the sportsbook's margin removed."/>
+<meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black:#050608; --dark:#0b0d11; --border:#1c2129; --border-lit:#2a2f3a;
+    --surface-1:#0e1116; --surface-2:#141821; --surface-3:#1a1f2a;
+    --green:#00d084;--green-deep:#007a4d; --green-dim:rgba(0,208,132,0.12); --blue:#3ba7ff; --red:#ff5c5c; --gold:#f0b429;
+    --white:#f0f2f5; --muted:#6b7280; --mid:#9ca3af;
+    --shadow-md:0 4px 14px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);
+    --r-sm:8px; --r-md:12px; --r-lg:18px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Barlow',sans-serif; background:var(--black); color:var(--white); line-height:1.6; overflow-x:hidden; }
+
+  /* ── AMBIENT BACKGROUND ─────────────────────────────────────────────────
+     Copied verbatim from learn.html. Painted on a fixed pseudo-element
+     rather than `background-attachment: fixed` on <body>, because fixed
+     attachment forces a full repaint on every scroll frame in several
+     mobile browsers and a composited fixed layer does not. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 100% 64px,
+      linear-gradient(90deg, rgba(255,255,255,0.11) 1px, transparent 1px) 0 0 / 64px 100%,
+      radial-gradient(ellipse 65% 28% at 8% 10%,   rgba(0,208,132,0.38) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 94% 32%,  rgba(59,167,255,0.34) 0%, transparent 60%),
+      radial-gradient(ellipse 65% 28% at 14% 58%,  rgba(0,208,132,0.30) 0%, transparent 62%),
+      radial-gradient(ellipse 58% 24% at 90% 80%,  rgba(59,167,255,0.29) 0%, transparent 60%);
+  }
+  @media (prefers-reduced-motion: reduce) { body::before { position: absolute; } }
+
+  nav { background:rgba(5,6,8,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:60px; position:sticky; top:0; z-index:100; }
+  .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-mark { width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .nav-logo-mark svg { width:100%; height:100%; display:block; }
+  .nav-name { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
+  .nav-name span { color:var(--green); }
+  .nav-links { display:flex; align-items:center; gap:28px; list-style:none; }
+  .nav-links a { color:#b6bdc8; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; }
+  .nav-links a:hover, .nav-links a.active { color:var(--green); }
+  .nav-hamburger { display:none; width:40px; height:40px; background:none; border:none; cursor:pointer; flex-direction:column; justify-content:center; align-items:center; gap:5px; z-index:200; padding:0; }
+  .nav-hamburger span { display:block; width:24px; height:2px; background:var(--white); transition:transform .25s,opacity .25s; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu { position:fixed; inset:0; background:rgba(5,6,8,0.98); backdrop-filter:blur(20px); z-index:150; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; opacity:0; pointer-events:none; transform:translateY(-12px); transition:opacity .25s,transform .25s; }
+  .mobile-menu.open { opacity:1; pointer-events:auto; transform:translateY(0); }
+  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-size:25px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  body.menu-open { overflow:hidden; }
+
+  .shell { display:grid; grid-template-columns:230px 1fr; gap:52px; max-width:1180px; margin:0 auto; padding:0 48px; }
+  .toc { position:sticky; top:88px; align-self:start; padding:52px 0; }
+  .toc-label { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:14px; }
+  .toc a { display:block; font-size:13px; color:var(--mid); text-decoration:none; padding:7px 0 7px 12px; border-left:2px solid var(--border); transition:all .18s; }
+  .toc a:hover { color:var(--white); border-left-color:var(--border-lit); }
+  .toc a.on { color:var(--green); border-left-color:var(--green); }
+
+  .body { padding:52px 0 40px; min-width:0; }
+  .eyebrow { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px; }
+  h1 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(32px,4.4vw,54px); font-weight:900; text-transform:uppercase; line-height:0.99; margin-bottom:18px; }
+  h1 span { background:linear-gradient(100deg,var(--green),var(--blue)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .standfirst { font-size:16px; color:var(--mid); line-height:1.85; font-weight:300; max-width:660px; margin-bottom:14px; }
+
+  h2 { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; margin:54px 0 14px; scroll-margin-top:86px; }
+  h3 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; letter-spacing:0.03em; margin:30px 0 10px; color:var(--white); }
+  p { font-size:15px; color:var(--mid); line-height:1.85; margin-bottom:16px; max-width:660px; }
+  p strong { color:var(--white); font-weight:600; }
+  a.inline { color:var(--green); text-decoration:none; border-bottom:1px solid rgba(0,208,132,0.35); }
+  a.inline:hover { border-bottom-color:var(--green); }
+  ul.pts { list-style:none; margin:0 0 18px; max-width:660px; }
+  ul.pts li { font-size:15px; color:var(--mid); line-height:1.8; padding:7px 0 7px 20px; position:relative; }
+  ul.pts li::before { content:'—'; position:absolute; left:0; color:var(--green); }
+
+  .box { background:var(--surface-1); border:1px solid var(--border); border-left:3px solid var(--accent,var(--green)); border-radius:var(--r-md); padding:20px 24px; margin:24px 0; max-width:660px; }
+  .box .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.13em; text-transform:uppercase; color:var(--accent,var(--green)); margin-bottom:9px; }
+  .box p { margin-bottom:0; font-size:14px; }
+
+  table { width:100%; max-width:660px; border-collapse:collapse; margin:22px 0; background:var(--surface-1); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+  th { text-align:left; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); padding:12px 16px; border-bottom:1px solid var(--border); }
+  td { padding:12px 16px; font-size:14px; color:var(--mid); border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:none; }
+  td.mono { font-family:'IBM Plex Mono',monospace; color:var(--white); white-space:nowrap; }
+  td .g { color:var(--green); } td .r { color:var(--red); }
+
+  .cta { background:linear-gradient(100deg,var(--green),var(--blue)); margin-top:70px; }
+  .cta-inner { max-width:700px; margin:0 auto; text-align:center; padding:66px 48px; }
+  .cta h2 { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,4.2vw,46px); font-weight:900; text-transform:uppercase; color:var(--black); line-height:1; margin:0 0 14px; }
+  .cta p { font-size:15px; color:rgba(0,0,0,0.65); margin:0 auto 28px; max-width:520px; }
+  .cta a { display:inline-block; padding:15px 32px; background:var(--black); color:var(--green); font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; border-radius:26px; text-decoration:none; }
+
+  footer { background:var(--dark); border-top:1px solid var(--border); padding:38px 48px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .footer-brand { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; }
+  .footer-brand span { color:var(--green); }
+  .footer-disclaimer { font-size:11px; color:var(--muted); max-width:520px; text-align:center; line-height:1.6; }
+  .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:0.06em; }
+
+  /* ── EMAIL CAPTURE ─────────────────────────────────────────────────────
+     Beehiiv form embedded rather than linked, so a search visitor does not
+     need a second hop to /no-vig-calculator#cheat-sheet. Sits on the dark
+     surface, which is what the form is styled for — the same placement
+     /nfl and /cfb use. Deliberately NOT inside the .cta gradient block:
+     the form renders for a dark background. */
+  .signup { background:var(--surface-1); border:1px solid var(--border); border-left:3px solid var(--green); border-radius:var(--r-md); padding:22px 24px; margin:34px 0; max-width:660px; }
+  .signup .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.13em; text-transform:uppercase; color:var(--green); margin-bottom:9px; }
+  .signup h3 { margin:0 0 8px; }
+  .signup p { font-size:14px; margin-bottom:10px; }
+  .signup iframe { width:100%; height:340px; border:0; border-radius:14px; background:transparent; display:block; }
+  .signup .fine { font-size:12px; opacity:.7; margin:6px 0 0; }
+
+  /* Odds tables can be wider than a phone. Scroll inside their own box
+     rather than pushing the page wide — the grid-overflow lesson from the
+     board pages. */
+  .scroller { max-width:660px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .scroller > table { margin:22px 0; min-width:460px; }
+
+  /* Live card table */
+  .stamp { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); letter-spacing:0.05em; margin:-8px 0 14px; }
+  .loading { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); padding:18px 0; }
+  .seg { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--green); padding-top:18px; }
+
+  @media (max-width:980px){
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    .nav-hamburger { display:flex; }
+    .shell { grid-template-columns:1fr; gap:0; padding:0 20px; }
+    .toc { display:none; }
+    .cta-inner { padding:52px 20px; }
+    footer { flex-direction:column; text-align:center; padding:32px 20px; }
+  }
+
+  .footer-disclaimer .lnk{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.3)}
+  .footer-disclaimer .lnk:hover{border-bottom-color:var(--green)}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What time does UFC 331 start?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The early prelims begin at 5:30 PM ET / 2:30 PM PT, the prelims follow at 7 PM ET / 4 PM PT, and the main card starts at 9 PM ET / 6 PM PT on Saturday, September 19, 2026. The event is at Crypto.com Arena in Los Angeles and streams on Paramount+ in the United States."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Who is fighting in the UFC 331 main event?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Joshua Van defends the flyweight title against Alexandre Pantoja in a five-round rematch. Van won the title from Pantoja at UFC 323 in December 2025. The five-round lightweight co-main event is Arman Tsarukyan against Mauricio Ruffy."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What do UFC moneyline odds mean?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A moneyline is a price on one fighter winning the bout by any method. A negative number is the amount you risk to win 100, and a positive number is the amount you win on a risk of 100. Converting that price into a percentage tells you how often the outcome has to happen for the price to break even."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the no-vig price for Van vs Pantoja?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It depends on the posted price when you look, because the market moves. When this page was written the market was Van -135 and Pantoja +114, which implies 57.4% and 46.7%. Those sum to 104.2%, so dividing each by the total gives about 55.1% and 44.9%, which converts back to fair prices near -123 and +123. The table on this page recalculates it from the current price."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why are UFC favorites sometimes so expensive?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Because a single fight has no series to average out a skill or experience gap, so the market can price one fighter very high. A price of -1800 implies about 94.7%. Removing the sportsbook's margin lowers that figure, and the gap between the posted price and the fair price is what the favorite costs you."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Should I bet UFC 331 favorites?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "This page does not answer that and makes no recommendations. It is educational only. What it shows is how to turn a posted price into a probability and how to remove the sportsbook's margin, so you can compare the market's number against your own view before deciding anything."
+   }
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "UFC 331 Odds: How to Read Van vs Pantoja 2",
+  "description": "How to read UFC 331 moneylines as implied probability, strip out the sportsbook margin, and understand what a heavy favorite price claims. Educational only.",
+  "author": {
+    "@type": "Organization",
+    "name": "Inside the Number",
+    "url": "https://insidethenumber.com/",
+    "sameAs": [
+      "https://x.com/thenumberdesk",
+      "https://insidethenumber.beehiiv.com/",
+      "https://github.com/insidethenumber"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Inside the Number",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://insidethenumber.com/favicon-512.png"
+    },
+    "sameAs": [
+      "https://x.com/thenumberdesk",
+      "https://insidethenumber.beehiiv.com/",
+      "https://github.com/insidethenumber"
+    ]
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://insidethenumber.com/ufc-331-odds"
+  },
+  "image": "https://insidethenumber.com/og-image.png",
+  "inLanguage": "en-US"
+}</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "Home",
+   "item": "https://insidethenumber.com/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "UFC",
+   "item": "https://insidethenumber.com/ufc"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "UFC 331 odds",
+   "item": "https://insidethenumber.com/ufc-331-odds"
+  }
+ ]
+}
+</script>
+<style id="nav-fit">
+/* ── NAV FIT (added Aug 31 2026) ──────────────────────────────────────────
+   The nav links needed ~770-850px of room but several pages only swapped to
+   the hamburger at 640px, so between roughly 640px and 850px the links
+   crowded the logo and ran off the right edge. Two fixes:
+   1) a compact tier that tightens the nav well before it can ever collide,
+   2) one shared hamburger breakpoint (900px) on every page.
+   Net effect: the nav needs ~580px at its tightest but switches to the menu
+   at 900px, so there is ~320px of slack instead of ~11px. That slack matters
+   because link widths shift with the webfont, browser zoom and OS text size. */
+@media (max-width:1150px){
+  nav{padding-left:20px !important;padding-right:20px !important}
+  .nav-links{gap:16px !important}
+  .nav-links a{font-size:11.5px !important;letter-spacing:.04em !important}
+  .nav-name{font-size:17px !important}
+  .nav-logo-mark{width:34px !important;height:34px !important}
+}
+@media (max-width:900px){
+  .nav-links{display:none !important}
+  .nav-hamburger{display:flex !important}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="navLine" gradientUnits="userSpaceOnUse" x1="106.5" y1="84" x2="106.5" y2="26">
+            <stop offset="0%" stop-color="var(--white)"/><stop offset="35%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--green-deep)"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="118" height="118" rx="18" fill="var(--black)" stroke="var(--border-lit)" stroke-width="2"/><g transform="translate(-7.75,-1)">
+        <rect x="24" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="42" y="38" width="30" height="10" fill="var(--white)"/>
+        <rect x="52" y="38" width="10" height="46" fill="var(--white)"/>
+        <rect x="80" y="38" width="10" height="46" fill="var(--white)"/>
+        <polygon points="80,38 90,38 111.5,84 101.5,84" fill="var(--white)"/>
+        <rect x="101.5" y="34" width="10" height="50" fill="url(#navLine)"/>
+        <polygon points="106.5,26 114.5,34 98.5,34" fill="url(#navLine)"/></g>
+      </svg>
+    </div>
+    <span class="nav-name">Inside <span>the</span> Number</span>
+  </a>
+    <ul class="nav-links">
+      <li><a href="nfl">NFL</a></li><li><a href="cfb">College Football</a></li>
+      <li><a href="games">Scores</a></li>
+      <li><a href="tools">Tools</a></li>
+      <li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a></li>
+    </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="nfl">NFL</a>
+    <a href="cfb">College Football</a>
+    <a href="games">Scores</a>
+    <a href="tools">Tools</a>
+    <a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
+  </div>
+<script>
+  (function(){
+    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
+    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
+    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
+  })();
+</script>
+
+<div class="shell">
+  <aside class="toc">
+    <div class="toc-label">// On this page</div>
+    <a href="#card">The card</a>
+    <a href="#moneyline">Reading a moneyline</a>
+    <a href="#novig">Stripping the vig</a>
+    <a href="#comain">A heavy favorite</a>
+    <a href="#extreme">An extreme favorite</a>
+    <a href="#volatile">Why MMA prices move</a>
+    <a href="#tools">Use the tools</a>
+    <a href="#faq">Common questions</a>
+  </aside>
+
+  <main class="body">
+    <p class="eyebrow">// UFC 331 · Sat, Sep 19 · Los Angeles</p>
+    <h1>UFC 331 odds:<br/><span>how to read Van vs Pantoja 2.</span></h1>
+    <p class="standfirst"><strong>Crypto.com UFC 331: Van vs Pantoja 2</strong> is on <strong>Saturday, September 19, 2026</strong> at Crypto.com Arena in Los Angeles, streaming on Paramount+ in the United States. Early prelims start at 5:30 PM ET / 2:30 PM PT, prelims at 7 PM ET / 4 PM PT, and the main card at 9 PM ET / 6 PM PT.</p>
+    <p class="standfirst">This page is <strong>educational only</strong>. It explains how to turn the prices on this card into probabilities, how to remove the sportsbook's margin, and what a very short favorite price is actually claiming. <strong>There are no picks, no predictions and no recommendations here.</strong></p>
+
+    <h2 id="card">The card</h2>
+    <p>Prices below are read live from the feed when the page loads. <strong>They move constantly</strong> &mdash; a fight card three days out can reprice several times a day, and anything quoted in the written sections further down is a snapshot from when this page was written.</p>
+    <div id="board"><div class="loading">Reading the card&hellip;</div></div>
+    <div class="stamp" id="stamp"></div>
+    <p style="font-size:13px;color:var(--muted)">&ldquo;Fair&rdquo; is the two-way market with the sportsbook's margin removed, so the two sides sum to 100% instead of more. It is what the market thinks, rather than what you are charged to bet it.</p>
+
+    <h2 id="moneyline">Reading a moneyline</h2>
+    <p>An MMA moneyline is a price on one fighter winning the bout by any method &mdash; knockout, submission or decision. There is no spread to cover and no total to clear. One fighter wins, one loses, or very occasionally it is a draw.</p>
+    <p>The sign tells you the direction and the number is always relative to 100.</p>
+    <ul class="pts">
+      <li><strong>Negative (&minus;135)</strong> &mdash; you risk 135 to win 100.</li>
+      <li><strong>Positive (+114)</strong> &mdash; you win 114 on a risk of 100.</li>
+    </ul>
+    <p>Converting to a percentage is the useful step, because it turns a price into a claim you can argue with. For a negative price, divide the number by itself plus 100. For a positive price, divide 100 by the number plus 100.</p>
+    <div class="box">
+      <div class="t">Snapshot — read Sep 16, 2026</div>
+      <p>When this page was written the main event was <strong>Van &minus;135</strong> and <strong>Pantoja +114</strong>. That converts to <strong>57.4%</strong> and <strong>46.7%</strong> &mdash; the share of the time each outcome has to happen for that price to break even. <strong>Check the table above for the current number.</strong></p>
+    </div>
+
+    <h2 id="novig">Stripping the vig from Van vs Pantoja</h2>
+    <p>Those two percentages add up to <strong>104.2%</strong>, not 100%. That cannot be a real probability distribution &mdash; the extra 4.2 points is the sportsbook's margin, and it is inside the number before you ever see it.</p>
+    <p>Removing it is one step: divide each side by the total of both.</p>
+    <div class="scroller">
+      <table>
+        <tr><th>&nbsp;</th><th>Posted</th><th>Implied</th><th>Fair</th><th>Fair price</th></tr>
+        <tr><td>Van</td><td class="mono">&minus;135</td><td class="mono">57.4%</td><td class="mono">55.1%</td><td class="mono"><span class="g">&minus;123</span></td></tr>
+        <tr><td>Pantoja</td><td class="mono">+114</td><td class="mono">46.7%</td><td class="mono">44.9%</td><td class="mono"><span class="g">+123</span></td></tr>
+        <tr><td><strong>Total</strong></td><td class="mono">&nbsp;</td><td class="mono"><span class="r">104.2%</span></td><td class="mono"><span class="g">100%</span></td><td class="mono">&nbsp;</td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Snapshot from September 16, 2026. The live figures are in the table at the top of this page.</p>
+    <p><strong>&minus;123 / +123 is what the market thinks. &minus;135 / +114 is what you are charged to act on it.</strong> The difference between those two pairs is the cost of the transaction, and it is the same arithmetic on every two-way market in every sport. <a class="inline" href="no-vig-calculator">Work it yourself here</a>.</p>
+
+    <h2 id="comain">A heavy favorite: Tsarukyan vs Ruffy</h2>
+    <p>The five-round lightweight co-main event was priced far shorter. At the time of writing the market was <strong>Tsarukyan &minus;325</strong> and <strong>Ruffy +260</strong>.</p>
+    <div class="scroller">
+      <table>
+        <tr><th>&nbsp;</th><th>Posted</th><th>Implied</th><th>Fair</th><th>Fair price</th></tr>
+        <tr><td>Tsarukyan</td><td class="mono">&minus;325</td><td class="mono">76.5%</td><td class="mono">73.4%</td><td class="mono"><span class="g">&minus;275</span></td></tr>
+        <tr><td>Ruffy</td><td class="mono">+260</td><td class="mono">27.8%</td><td class="mono">26.6%</td><td class="mono"><span class="g">+275</span></td></tr>
+        <tr><td><strong>Total</strong></td><td class="mono">&nbsp;</td><td class="mono"><span class="r">104.2%</span></td><td class="mono"><span class="g">100%</span></td><td class="mono">&nbsp;</td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Snapshot from September 16, 2026.</p>
+    <p>So a &minus;325 price is a claim that this fighter wins <strong>roughly three times in four</strong>. That is the question the number is asking, and it is a more demanding claim than &ldquo;is he better.&rdquo; He may well be better and still not win 73% of the time in a single five-round fight.</p>
+    <p>Notice also that the margin is the same 4.2 points as the main event, but it is distributed differently. On a short price, a few points of margin move the fair number a long way: &minus;325 becomes &minus;275, a gap of fifty points of price.</p>
+
+    <h2 id="extreme">An extreme favorite: Steveson vs Sharaf</h2>
+    <p>Further down the card the prices get much shorter still. At the time of writing this bout was <strong>Steveson &minus;1800</strong> and <strong>Sharaf +1000</strong>.</p>
+    <div class="scroller">
+      <table>
+        <tr><th>&nbsp;</th><th>Posted</th><th>Implied</th><th>Fair</th><th>Fair price</th></tr>
+        <tr><td>Steveson</td><td class="mono">&minus;1800</td><td class="mono">94.7%</td><td class="mono">91.2%</td><td class="mono"><span class="g">&minus;1042</span></td></tr>
+        <tr><td>Sharaf</td><td class="mono">+1000</td><td class="mono">9.1%</td><td class="mono">8.8%</td><td class="mono"><span class="g">+1042</span></td></tr>
+        <tr><td><strong>Total</strong></td><td class="mono">&nbsp;</td><td class="mono"><span class="r">103.8%</span></td><td class="mono"><span class="g">100%</span></td><td class="mono">&nbsp;</td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Snapshot from September 16, 2026.</p>
+    <p>This is the clearest illustration of why converting matters. The posted &minus;1800 implies <strong>94.7%</strong>. Strip the margin and the market's own estimate is <strong>91.2%</strong> &mdash; a fair price near &minus;1042.</p>
+    <p>Put differently: the posted price charges you as though the outcome is a 19-in-20 certainty, while the market's actual opinion is closer to 9-in-10. That 3.5-point gap is small as a percentage and enormous as a price, which is the general property of extreme favorites.</p>
+    <div class="box" style="--accent:var(--gold)">
+      <div class="t">To be explicit</div>
+      <p>This is not a suggestion to back either fighter, and it is not a claim that the market is wrong. Both sides of this bout are shown for the same reason: to demonstrate what the arithmetic does at the extremes. <strong>Educational only.</strong></p>
+    </div>
+
+    <h2 id="volatile">Why MMA moneylines move so much</h2>
+    <p>Fight prices are among the most volatile in any sport, and they move for reasons that have no analogue in team markets.</p>
+    <ul class="pts">
+      <li><strong>Five rounds, or three.</strong> A championship or main event fight is five rounds; the rest of the card is three. More rounds means more chances for the better fighter to assert an edge, which is why the same two fighters would be priced differently over three rounds and five.</li>
+      <li><strong>Finishing risk runs both ways.</strong> One clean shot or one submission ends the bout regardless of who was winning. That compresses how confident any price can reasonably be, even against a large skill gap.</li>
+      <li><strong>Judging.</strong> A fight that goes the distance is decided by three people scoring rounds. Close rounds are genuinely close, and scorecards introduce variance the fighters do not control.</li>
+      <li><strong>Weight cuts.</strong> A missed weight or a visibly hard cut changes a price quickly, and that news often arrives the day before the fight.</li>
+      <li><strong>Late news and withdrawals.</strong> Cards change. A bout can be pulled or replaced at short notice, and a short-notice replacement is priced with far less information than a full camp.</li>
+      <li><strong>Thinner markets.</strong> Betting limits on an undercard bout are much lower than on an NFL game, so a smaller amount of money moves the number further.</li>
+    </ul>
+    <p>The practical consequence is the one stated at the top of this page: <strong>any price written into prose goes stale quickly.</strong> The table at the top is read live from the feed; every figure in the sections above is labelled with the date it was taken.</p>
+
+    <h2 id="tools">Use the tools</h2>
+    <p>Three calculators cover everything on this page. None of them tells you what to bet.</p>
+    <ul class="pts">
+      <li><a class="inline" href="odds-converter">Odds converter</a> &mdash; turn any single price into an implied probability.</li>
+      <li><a class="inline" href="no-vig-calculator">No-vig calculator</a> &mdash; enter both fighters' prices and strip the margin out, exactly as done above.</li>
+      <li><a class="inline" href="glossary">Betting math glossary</a> &mdash; moneyline, implied probability, vig, overround and the rest, defined plainly.</li>
+    </ul>
+    <p>Elsewhere on the site: <a class="inline" href="ufc">the UFC archive</a> keeps closing prices from finished cards as a record of where markets ended, and <a class="inline" href="games">today's board</a> shows everything currently priced across sports.</p>
+
+    <div class="signup" id="signup">
+      <div class="t">Free, every morning</div>
+      <h3>Get the Morning Board and the No-Vig Cheat Sheet</h3>
+      <p>One page, free: how to strip the vig out of any two-way market, what every common price really costs you, the key numbers, and how to read a line move in four cases.</p>
+      <p><strong>No picks pitch, no fake record, no spam.</strong></p>
+      <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
+      <p class="fine">Check your inbox (and spam) to confirm &mdash; you are not signed up until you click the link.</p>
+    </div>
+
+    <h2 id="faq">Common questions</h2>
+    <div class="box">
+      <h3>What time does UFC 331 start?</h3>
+      <p>The early prelims begin at 5:30 PM ET / 2:30 PM PT, the prelims follow at 7 PM ET / 4 PM PT, and the main card starts at 9 PM ET / 6 PM PT on Saturday, September 19, 2026. The event is at Crypto.com Arena in Los Angeles and streams on Paramount+ in the United States.</p>
+    </div>
+    <div class="box">
+      <h3>Who is fighting in the UFC 331 main event?</h3>
+      <p>Joshua Van defends the flyweight title against Alexandre Pantoja in a five-round rematch. Van won the title from Pantoja at UFC 323 in December 2025. The five-round lightweight co-main event is Arman Tsarukyan against Mauricio Ruffy.</p>
+    </div>
+    <div class="box">
+      <h3>What do UFC moneyline odds mean?</h3>
+      <p>A moneyline is a price on one fighter winning the bout by any method. A negative number is the amount you risk to win 100, and a positive number is the amount you win on a risk of 100. Converting that price into a percentage tells you how often the outcome has to happen for the price to break even.</p>
+    </div>
+    <div class="box">
+      <h3>What is the no-vig price for Van vs Pantoja?</h3>
+      <p>It depends on the posted price when you look, because the market moves. When this page was written the market was Van -135 and Pantoja +114, which implies 57.4% and 46.7%. Those sum to 104.2%, so dividing each by the total gives about 55.1% and 44.9%, which converts back to fair prices near -123 and +123. The table on this page recalculates it from the current price.</p>
+    </div>
+    <div class="box">
+      <h3>Why are UFC favorites sometimes so expensive?</h3>
+      <p>Because a single fight has no series to average out a skill or experience gap, so the market can price one fighter very high. A price of -1800 implies about 94.7%. Removing the sportsbook's margin lowers that figure, and the gap between the posted price and the fair price is what the favorite costs you.</p>
+    </div>
+    <div class="box">
+      <h3>Should I bet UFC 331 favorites?</h3>
+      <p>This page does not answer that and makes no recommendations. It is educational only. What it shows is how to turn a posted price into a probability and how to remove the sportsbook's margin, so you can compare the market's number against your own view before deciding anything.</p>
+    </div>
+  </main>
+</div>
+
+<section class="cta">
+  <div class="cta-inner">
+    <h2>Strip the vig from any price</h2>
+    <p>Enter both sides of any two-way market and see what it looks like with the sportsbook's margin removed. Free, no account.</p>
+    <a href="/no-vig-calculator">Open the no-vig calculator &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Inside <span>the</span> Number</div>
+  <div class="footer-disclaimer">For entertainment and educational purposes only. Inside the Number does not facilitate gambling and does not accept wagers. You must be 21+ (18+ in some states) to bet. If gambling stops being fun, call <strong>1-800-GAMBLER</strong> or the National Problem Gambling Helpline on <strong>1-800-522-4700</strong>.<br/>
+  <a class="lnk" href="privacy">Privacy</a> &middot; <a class="lnk" href="terms">Terms</a> &middot; <a class="lnk" href="responsible-gambling">Responsible Gambling</a> &middot; <a class="lnk" rel="me" href="https://x.com/thenumberdesk">Inside the Number on X &mdash; @thenumberdesk</a></div>
+  <div class="footer-copy">© 2026 ITN · Nashville, TN</div>
+</footer>
+
+<script>
+  /* Highlight the section currently in view in the sidebar contents. */
+  (function(){
+    const links = [...document.querySelectorAll('.toc a')];
+    const heads = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    if (!heads.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id));
+      });
+    }, { rootMargin: '-84px 0px -70% 0px', threshold: 0 });
+    heads.forEach(h => obs.observe(h));
+  })();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   UFC 331 card — prices read from ESPN at page load, never typed.
+
+   Three things this page learned the hard way. Do not undo them.
+
+   1. ESPN's MMA *scoreboard* endpoint carries the card but NOT the odds
+      (competition.odds is absent). The odds live on the core API, one
+      request per bout:
+        sports.core.api.espn.com/v2/sports/mma/leagues/ufc/events/<ev>
+          /competitions/<comp>/odds
+   2. That core endpoint rate-limits if you hammer it. Twenty-five rapid
+      sequential requests produced "Failed to fetch" on every one; small
+      batches with a gap are reliable. Hence the batching below.
+   3. Fight prices move fast. Every figure written into the prose above is
+      labelled with the date it was taken; only this table is live. If the
+      feed fails, the table says so rather than showing a stale number.
+   4. Two bugs were caught by testing this against the live feed before it
+      shipped, and both are easy to reintroduce:
+        a) The competitions array is in ascending CARD order — the main event
+           is last. Sorting by date does not fix it, because the final four
+           bouts share one timestamp and the sort is unstable across them.
+           Reverse the array instead.
+        b) homeAthleteOdds / awayAthleteOdds do NOT line up with the
+           competitors array. On the main event, competitors[0] is Pantoja
+           while homeAthleteOdds is Van. Pairing by index displays the
+           favorite's price next to the underdog's name. Prices are matched
+           to fighters by ATHLETE ID, pulled from the odds payload's
+           athlete.$ref. Note the scoreboard puts that id on competitor.id —
+           competitor.athlete.id is undefined here.
+   ═══════════════════════════════════════════════════════════════════════ */
+(function(){
+  var SB='https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates=20260919';
+  var CORE='https://sports.core.api.espn.com/v2/sports/mma/leagues/ufc/events/';
+  var board=document.getElementById('board'), stamp=document.getElementById('stamp');
+
+  function imp(a){ a=+a; return a>0 ? 100/(a+100) : Math.abs(a)/(Math.abs(a)+100); }
+  function toAm(d){ return d>=2 ? '+'+Math.round((d-1)*100) : ''+Math.round(-100/(d-1)); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  /* Pull the athlete id out of a core-API $ref. This is how a price is tied
+     to the right fighter — see note 4 above. */
+  function aid(ref){ var m=/athletes\/(\d+)/.exec(ref||''); return m ? m[1] : null; }
+  function sign(n){ return (n>0?'+':'')+n; }
+
+  function fail(){
+    board.innerHTML='<div class="loading">The odds feed did not answer just now. '
+      + 'Prices on this page are read live from ESPN at page load &mdash; try a refresh. '
+      + 'The worked examples below are labelled with the date they were taken. '
+      + '<a href="/no-vig-calculator">No-vig calculator</a> &middot; <a href="/games">Today\'s board</a></div>';
+  }
+
+  fetch(SB).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){
+    var ev=(j.events||[])[0];
+    if(!ev || !ev.competitions || !ev.competitions.length) throw 0;
+
+    /* The competitions array arrives in ascending card order, so the main
+       event is LAST. Reverse it. Do NOT sort by date: the last four bouts
+       all share one timestamp, the sort is unstable across them, and the
+       main event ends up buried mid-table. */
+    var bouts=ev.competitions.slice().reverse().map(function(c){
+      return {
+        id:c.id,
+        f:(c.competitors||[]).map(function(t){
+          /* t.id IS the athlete id on this endpoint; t.athlete.id is absent. */
+          return { id:t.id, name:(t.athlete && (t.athlete.displayName||t.athlete.shortName)) || '' };
+        }),
+        rounds:(c.format && c.format.regulation && c.format.regulation.periods) || 3
+      };
+    });
+
+    // Fetch odds in small batches — the core API rate-limits on bursts.
+    function batch(i){
+      if(i>=bouts.length) return Promise.resolve();
+      var slice=bouts.slice(i,i+4);
+      return Promise.all(slice.map(function(b){
+        return fetch(CORE+ev.id+'/competitions/'+b.id+'/odds')
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(k){
+            var o=k && (k.items||[])[0];
+            if(!o) return;
+            /* Attach each price to the fighter it belongs to, by athlete id.
+               home/away does NOT follow the competitors array order — on the
+               main event competitors[0] is Pantoja while homeAthleteOdds is
+               Van. Pairing by index puts the favorite's price against the
+               underdog's name. */
+            [o.homeAthleteOdds, o.awayAthleteOdds].forEach(function(side){
+              if(!side || side.moneyLine==null) return;
+              var id=aid(side.athlete && side.athlete.$ref);
+              for(var n=0;n<b.f.length;n++){
+                if(String(b.f[n].id)===String(id)){ b.f[n].ml=side.moneyLine; break; }
+              }
+            });
+            if(b.f.length===2 && b.f[0].ml!=null && b.f[1].ml!=null){
+              var i0=imp(b.f[0].ml), i1=imp(b.f[1].ml), s=i0+i1;
+              b.f[0].fair=toAm(1/(i0/s));
+              b.f[1].fair=toAm(1/(i1/s));
+              b.ovr=((s-1)*100).toFixed(1);
+            }
+          })
+          .catch(function(){ /* leave this bout unpriced */ });
+      })).then(function(){
+        return new Promise(function(res){ setTimeout(res,350); }).then(function(){ return batch(i+4); });
+      });
+    }
+
+    return batch(0).then(function(){
+      var html='<div class="scroller"><table>'
+        + '<tr><th>Bout</th><th>Price</th><th>Fair</th><th>Margin</th></tr>';
+      bouts.forEach(function(b){
+        var priced = !!b.ovr;
+        html += '<tr>'
+          + '<td>' + esc((b.f[0]||{}).name) + ' <span style="color:#7c8698">vs</span> ' + esc((b.f[1]||{}).name)
+          + (b.rounds===5 ? ' <span style="color:var(--gold);font-size:11px">5 rds</span>' : '') + '</td>'
+          + '<td class="mono">' + (priced ? esc(sign(b.f[0].ml))+' / '+esc(sign(b.f[1].ml)) : '&mdash;') + '</td>'
+          + '<td class="mono">' + (priced ? '<span class="g">'+esc(b.f[0].fair)+' / '+esc(b.f[1].fair)+'</span>' : '&mdash;') + '</td>'
+          + '<td class="mono">' + (priced ? esc(b.ovr) : '&mdash;') + '</td>'
+          + '</tr>';
+      });
+      html += '</table></div>';
+      board.innerHTML = html;
+
+      var n = bouts.filter(function(b){ return !!b.ovr; }).length;
+      stamp.textContent = 'Prices via ESPN (DraftKings), read live at '
+        + new Date().toLocaleTimeString('en-US',{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'})
+        + ' CT · ' + n + ' of ' + bouts.length + ' bouts priced'
+        + (n < bouts.length ? ' · unpriced bouts show a dash' : '');
+    });
+  }).catch(fail);
+})();
+</script>
+
+
+<!-- ═══ ITN measurement helper — added Sep 15 2026 (Block S3) ═══
+     First-party only. No cookies, no third-party calls, nothing transmitted.
+     Everything below runs in, and stays in, this browser.
+       1. Private internal-traffic flag. Open any page with ?itn_internal=1 to
+          mark this browser as the owner's; ?itn_internal=0 clears it. The
+          parameter is removed from the address bar at once. No UI, ever.
+       2. First-touch source capture: utm_source / utm_medium / utm_campaign
+          from the landing URL, kept 30 days, so a signup on a later page still
+          records how the visitor first arrived.
+       3. Passes that source into the Beehiiv subscribe form and the hosted
+          subscribe link, so the subscriber's Acquisition Details in Beehiiv
+          show it. A flagged browser is labelled source=internal, medium=test,
+          so owner/test signups can be excluded from every count.
+     For visitors with no UTM and no flag this script changes nothing on the
+     page. The Cloudflare Web Analytics beacon below runs only after this helper
+     and is skipped in a flagged browser — see docs/ITN-S3B-CLOUDFLARE-MANUAL-ANALYTICS-2026-09-15.md. -->
+<script>
+(function(){
+  try{
+    var LS=window.localStorage, q=new URLSearchParams(location.search), touched=false;
+    /* 1 · internal flag */
+    if(q.has('itn_internal')){
+      if(q.get('itn_internal')==='1') LS.setItem('itn_internal','1'); else LS.removeItem('itn_internal');
+      q.delete('itn_internal'); touched=true;
+    }
+    var internal=(LS.getItem('itn_internal')==='1');
+    /* 2 · first-touch UTM, 30 days */
+    var stored=null; try{ stored=JSON.parse(LS.getItem('itn_utm')||'null'); }catch(e){ stored=null; }
+    var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);
+    if(q.get('utm_source')&&!fresh){
+      stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};
+      LS.setItem('itn_utm',JSON.stringify(stored)); fresh=true;
+    }
+    if(touched){ history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash); }
+    /* 3 · pass source to Beehiiv (only when there is a source to pass) */
+    var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);
+    if(src){
+      var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');
+      var add=function(el,attr){ var v=el.getAttribute(attr)||''; if(v.indexOf('utm_source=')<0) el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs); };
+      document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){ add(f,'src'); });
+      document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){ add(a,'href'); });
+    }
+    window.__itnInternal=internal;
+  }catch(e){ /* measurement must never break the page */ }
+})();
+</script>
+<!-- Cloudflare Web Analytics — manual beacon (Block S3B, Sep 15 2026).
+     Loaded here, AFTER the measurement helper above, so window.__itnInternal is
+     already set. A browser flagged with ?itn_internal=1 never loads the beacon,
+     so owner/test visits are not reported. Automatic injection is OFF in the
+     Cloudflare dashboard ("Enable with JS Snippet installation"), so this is the
+     only copy of the beacon on the page. Token = the site's public Web Analytics
+     site token (same value Cloudflare embeds in every auto-injected page). -->
+<script>
+(function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();
+</script>
+</body>
+</html>
