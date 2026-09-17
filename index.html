@@ -756,10 +756,8 @@
     font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:9px 13px;white-space:nowrap;border-bottom:2px solid transparent}
   .tb-leagues a:hover{color:var(--white)}
   .tb-leagues a.on{color:var(--green);border-bottom-color:var(--green)}
-  .tb-leagues a.tb-off{opacity:.72}
-  .tb-leagues .n{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-left:4px;color:var(--muted)}
-  .tb-all{margin-left:auto;font-family:'IBM Plex Mono',monospace!important;font-size:9.5px!important;
-    letter-spacing:.1em;color:var(--green)!important;font-weight:400!important;border-bottom:none!important}
+  .tb-leagues a.guide-link{color:var(--green)}
+  .tb-leagues a.board-link{color:var(--blue)}
 
   .tb-scroll{position:relative;display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
   .tb-scroll::-webkit-scrollbar{display:none}
@@ -856,22 +854,18 @@
   @media(max-width:760px){.tb-nav{display:none}.tb-leagues{padding:0 6px}}
   @media(max-width:980px){.guides-inner{padding:26px 20px}}
 
-  /* On a phone the league strip was a horizontal scroller, which meant UFC,
-     PGA and "Full board" all sat off the right edge — invisible unless you
-     happened to swipe a nav bar. "Full board" is the main way into the board,
-     so hiding it costs real navigation. Below 640px we let the chips wrap onto
-     a second line instead: everything is reachable without a gesture nobody
-     knows to make. overflow-x must go back to visible or wrapping is ignored. */
+  /* On a phone this strip should behave like a compact table of contents, not a
+     hidden sideways menu. Let the links wrap so the recovery paths are visible
+     without requiring a swipe gesture. */
   @media(max-width:640px){
     .tb-leagues{flex-wrap:wrap;overflow-x:visible;padding:0 10px 5px}
     .tb-leagues a{padding-left:9px;padding-right:9px}
-    .tb-all{margin-left:auto}
   }
 </style>
 
 <div id="wrapTop">
 <div class="tb">
-  <div class="tb-label">Live board</div>
+  <div class="tb-label">Start here</div>
   <div class="tb-leagues" id="tbL"></div>
   <div style="position:relative">
     <button class="tb-nav l" id="tbPrev" aria-label="Scroll left">‹</button>
@@ -983,6 +977,7 @@
     <span class="nav-name">Inside <span>the</span> Number</span>
   </div>
     <ul class="nav-links">
+      <li><a href="/">Home</a></li>
       <li><a href="nfl">NFL</a></li><li><a href="cfb">College Football</a></li>
       <li><a href="games">Scores</a></li>
       <li><a href="tools">Tools</a></li>
@@ -995,6 +990,7 @@
 </div><!-- /wrapTop -->
 
 <div class="mobile-menu" id="mobileMenu">
+    <a href="/">Home</a>
     <a href="nfl">NFL</a>
     <a href="cfb">College Football</a>
     <a href="games">Scores</a>
@@ -1494,7 +1490,7 @@
     };
 
     tabsEl.innerHTML = labels.map(l =>
-      `<button class="sb-tab" data-l="${l}">${l}<span class="n">${byLeague[l].length}</span></button>`).join('');
+      `<button class="sb-tab" data-l="${l}">${l}</button>`).join('');
     tabsEl.addEventListener('click', e => {
       const b = e.target.closest('.sb-tab'); if (b) draw(b.dataset.l);
     });
@@ -1764,21 +1760,22 @@
       <div class="tg-body">${row(g.a)}<span class="tg-sep">@</span>${row(g.h)}</div></a>`;
   }
 
-  /* The league chips are NAVIGATION, not filters (changed Aug 22, 2026).
-     They used to preventDefault and merely swap which league the ticker
-     showed, which meant "NFL" did one thing here and something else one
-     click later on games.html — you had to pick the sport twice to reach
-     the actual cards. They now follow their href straight to that league's
-     board, which is where the true prices, hold and pick flags live.
+  /* The top strip is a table of contents now, not a live schedule. Counts from
+     external scoreboards can lag, omit games or change by endpoint, so showing
+     "CFB 1" created a false dead end on football nights. Keep these links
+     stable and let the ticker below carry whatever live events the feed returns. */
+  const TOP_LINKS=[
+    ['Full board','games','board-link'],
+    ['NFL board','nfl',''],
+    ['CFB board','cfb',''],
+    ['Football guide','football-line-movement','guide-link'],
+    ['UFC 331','ufc-331-odds','guide-link'],
+    ['MLB playoffs','mlb-playoffs','guide-link'],
+    ['Tools','tools','board-link']
+  ];
+  document.getElementById('tbL').innerHTML=TOP_LINKS.map(([label,href,klass])=>
+    `<a href="${href}"${klass?` class="${klass}"`:''}>${label}</a>`).join('');
 
-     Because nothing is "selected" here any more, the ticker shows EVERY
-     league at once, ordered live → upcoming → final. That is strictly more
-     than the old single-league view, so nothing was lost by dropping the
-     filter. A league with nothing today renders a dim dash instead of a
-     count, so you can see there is nothing on before you click. Leagues are
-     NOT dimmed — an out-of-season league still has a real page behind it
-     showing when it returns and what is live now, so greying it out would
-     misrepresent it as broken. */
   /* Ordered by league first, in the same sequence as the chips above, then
      live → upcoming → final inside each league. Sorting purely by state read
      badly: every fight on a UFC card inherits the EVENT's status, so a card
@@ -1792,12 +1789,6 @@
         || String(x.date||'').localeCompare(String(y.date||''))));
   }
   function paint(){
-    const withGames=LEAGUES.filter(([l])=>(D[l]||[]).length);
-    const withoutGames=LEAGUES.filter(([l])=>!(D[l]||[]).length);
-    document.getElementById('tbL').innerHTML=
-      withGames.concat(withoutGames).map(([l])=>{const n=(D[l]||[]).length;
-        return `<a href="games?sport=${l}" data-l="${l}"${n?'':' class="tb-off"'}>${l}<span class="n">${n||'—'}</span></a>`;
-      }).join('')+`<a class="tb-all" href="games">Full board →</a>`;
     const g=allGames();
     document.getElementById('tbS').innerHTML=g.length
       ? g.map(chip).join('')
