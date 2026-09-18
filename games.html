@@ -1647,7 +1647,6 @@ async function listView(sport){
   if(g.length){
     ticker(sport,null);
     view.innerHTML=`
-      <div class="crumb"><a href="/">Home</a> \u203a <span>${sport}</span></div>
       <h1>${sport} \u2014 ${scope==='week'?"This Week's Board":"Today's Board"}</h1>
       ${!(new URLSearchParams(location.search).get('sport'))?`<p class="lead" style="color:var(--muted);font-size:13.5px">Opened on ${sport} because it has the most games priced right now. Every league is on the bar above \u2014 they all stay on this page.</p>`:''}
       <p class="lead">Every ${sport} game priced ${scope==='week'?'over the next seven days':'today'}. Each one opens the full market \u2014 moneyline, spread and total \u2014 with each side's real win chance and the move since the number opened.</p>
@@ -1716,15 +1715,32 @@ function moveOpenTxt(op,cl,g){
   return `${g.a.ab} opened ${op>0?'+':''}${op} and sits ${cl>0?'+':''}${cl}, so the number has drifted ${d>0?'away from':'toward'} them.`;
 }
 
-function gameView(sport,id){
+async function gameView(sport,id){
+  /* ITN-MOBILE-FIX-2026-09-18 */
   rail(sport);
   const sb=document.getElementById('board-scope');
   if(sb){sb.innerHTML='';sb.style.display='none';}
   ticker(sport,id);
-  const g=(D[sport]||[]).find(x=>x.id===id);
+  let g=(D[sport]||[]).find(x=>x.id===id);
+  /* D holds today only. A game reached by clicking a card is fine, because
+     listView() merged the week in first — but a shared link, a refresh or a
+     search result comes straight here, and NFL and CFB now default to the
+     week. Without this, every link to a Saturday game answered "that game
+     isn't on today's board". Pull the week once and look again. */
+  if(!g && SCOPE_DEFAULT[sport]){
+    const v=document.getElementById('view');
+    if(v) v.innerHTML=`<div class="empty view-loading">Reading the ${sport} board\u2026</div>`;
+    const w=await loadWeek(sport);
+    if(Array.isArray(w) && w.length){
+      const seen={}; (D[sport]||[]).forEach(x=>seen[x.id]=1);
+      D[sport]=(D[sport]||[]).concat(w.filter(x=>!seen[x.id]));
+      g=(D[sport]||[]).find(x=>x.id===id);
+      ticker(sport,id);
+    }
+  }
   if(!g){document.getElementById('view').innerHTML=
     `<div class="crumb"><a href="/">Home</a> › <a href="?sport=${sport}">${sport}</a> › <span>Game</span></div>
-     <div class="empty">That game isn't on today's board. <a href="?sport=${sport}" style="color:var(--green)">Back to ${sport} →</a></div>`;return}
+     <div class="empty">That game isn't on the ${sport} board right now \u2014 it may have finished, or the feed may not carry it. <a href="?sport=${sport}" style="color:var(--green)">Back to ${sport} →</a></div>`;return}
 
   if(g.kind==='golf'){
     document.getElementById('view').innerHTML=`
