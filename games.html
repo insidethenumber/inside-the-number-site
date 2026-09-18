@@ -465,6 +465,13 @@
   #board-scope .bs-row a:focus-visible{outline:2px solid var(--green);outline-offset:3px}
   #board-scope .bs-note{margin-top:7px;font-family:'IBM Plex Mono',monospace;
     font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+  .board-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}
+  .board-overview-card{display:grid;gap:7px;min-height:122px;padding:18px;border:1px solid var(--border);background:rgba(255,255,255,.015);text-decoration:none}
+  .board-overview-card:hover{border-color:rgba(0,208,132,.55);background:rgba(0,208,132,.045)}
+  .board-overview-league{font-family:'Barlow Condensed',sans-serif;font-size:25px;font-weight:700;color:var(--white);letter-spacing:.03em}
+  .board-overview-detail{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.45;color:var(--muted)}
+  .board-overview-open{align-self:end;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+  @media(max-width:680px){.board-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.board-overview-card{min-height:112px;padding:14px}.board-overview-league{font-size:22px}}
   @media(max-width:900px){#board-scope{padding:0 20px}}
 </style>
 <div id="board-scope"></div>
@@ -1329,6 +1336,56 @@ function scopeBar(sport,scope,count){
 }
 
 
+/* The Full Board is an overview, not a 70-game wall. A visitor chooses a
+   sport deliberately before seeing its complete slate. */
+function allScope(){
+  const q=(new URLSearchParams(location.search).get('scope')||'').toLowerCase();
+  return SCOPE_CHOICE.includes(q)?q:'today';
+}
+function allScopeBar(scope){
+  const el=document.getElementById('board-scope'); if(!el) return;
+  el.style.display='';
+  const btn=(v,label)=>`<a href="?scope=${v}"${v===scope?' aria-current="page"':''}>${label}</a>`;
+  el.innerHTML=`<div class="bs-row"><span class="bs-lab">Showing</span>${btn('today','Today')}${btn('week','This week')}</div>`+
+    `<div class="bs-note">All sports overview · choose a board to see every matchup · ${scope==='week'?'the next 7 days':'today only'}</div>`;
+}
+function overviewCard(sport,count,scope){
+  const isEvent=sport==='UFC'||sport==='PGA';
+  const href=isEvent?`?sport=${sport}`:`?sport=${sport}&scope=${scope}`;
+  const noun=sport==='UFC'?'card':sport==='PGA'?'event':'games';
+  const detail=count?`${count} ${noun}${count===1?'':'s'} ${scope==='week'?'this week':'today'}`:
+    isEvent?`Open the ${sport==='UFC'?'current card':'current event'}`:`No ${sport} games ${scope==='week'?'this week':'today'}`;
+  return `<a class="board-overview-card" href="${href}">
+    <span class="board-overview-league">${sport}</span>
+    <span class="board-overview-detail">${detail}</span>
+    <span class="board-overview-open">Open board →</span>
+  </a>`;
+}
+async function overviewView(){
+  const scope=allScope();
+  rail('ALL');
+  const tick=document.getElementById('tick'); if(tick){tick.innerHTML='';tick.style.display='none';}
+  allScopeBar(scope);
+  const view=document.getElementById('view');
+  view.innerHTML=`<div class="crumb"><a href="/">Home</a> › <span>Full Board</span></div>
+    <h1>Full Board</h1><p class="lead">Start with a sport, not a wall of games. Each board carries its own live market, schedule and matchup detail.</p>
+    <div class="board-overview" id="board-overview">Reading the boards…</div>`;
+  const counts={};
+  if(scope==='today'){
+    LEAGUES.forEach(([sport])=>counts[sport]=(D[sport]||[]).length);
+  }else{
+    const boardSports=LEAGUES.filter(([sport])=>sport!=='UFC'&&sport!=='PGA');
+    const result=await Promise.all(boardSports.map(async([sport])=>[sport,await loadWeek(sport)]));
+    result.forEach(([sport,games])=>counts[sport]=Array.isArray(games)?games.length:0);
+    counts.UFC=(D.UFC||[]).length; counts.PGA=(D.PGA||[]).length;
+  }
+  if(!new URLSearchParams(location.search).get('sport')){
+    const host=document.getElementById('board-overview');
+    if(host) host.innerHTML=LEAGUES.map(([sport])=>overviewCard(sport,counts[sport]||0,scope)).join('');
+  }
+  document.title=`Full Board — ${scope==='week'?'This Week':'Today'} | Inside the Number`;
+}
+
 function rail(sel){
   /* A league with nothing today shows a dash instead of a count. Leagues are
      deliberately NOT dimmed: the empty view is a real page — when the league
@@ -1341,9 +1398,11 @@ function rail(sel){
            UFC:'mma/schedule',PGA:'golf/leaderboard'};
   var srcA=document.getElementById('board-src');
   if(srcA && SRC[sel]) srcA.href='https://www.espn.com/'+SRC[sel];
-  document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
+  const scope=(new URLSearchParams(location.search).get('scope')||'today').toLowerCase();
+  const all=`<a href="?scope=${scope}" data-l="ALL"${sel==='ALL'?' class="on"':''}>ALL<span class="c">${total()||'—'}</span></a>`;
+  document.getElementById('rail').innerHTML=all+LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
-    return `<a href="?sport=${l}" data-l="${l}"${l===sel?' class="on"':''}>${l}<span class="c">${n||'—'}</span></a>`;
+    return `<a href="?sport=${l}&scope=${scope}" data-l="${l}"${l===sel?' class="on"':''}>${l}<span class="c">${n||'—'}</span></a>`;
   }).join('');
 }
 
@@ -2599,9 +2658,10 @@ function route(){
   if(!ready)return;
   const q=new URLSearchParams(location.search);
   let sport=(q.get('sport')||'').toUpperCase();
-  if(!LEAGUES.some(([l])=>l===sport)) sport=firstWith();
   const game=q.get('game');
-  if(game) gameView(sport,game); else listView(sport);
+  if(game && LEAGUES.some(([l])=>l===sport)) gameView(sport,game);
+  else if(LEAGUES.some(([l])=>l===sport)) listView(sport);
+  else overviewView();
   window.scrollTo(0,0);
 }
 
