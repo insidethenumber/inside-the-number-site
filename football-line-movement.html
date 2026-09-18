@@ -319,6 +319,8 @@
 .mobile-page-context{display:none}
 @media(max-width:900px){.mobile-page-context{display:flex;align-items:center;gap:12px;min-height:34px;padding:0 20px;border-bottom:1px solid var(--border, var(--bd));font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase}.mobile-page-context a{color:var(--green);text-decoration:none;font-weight:600}.mobile-page-context span{color:var(--mid, #9ca3af)}.mobile-page-context span:before{content:'/';margin-right:12px;color:var(--mid, #9ca3af)}}
 </style>
+<link rel="stylesheet" href="/assets/nav/itn-nav.css">
+<script defer src="/assets/nav/itn-nav.js"></script>
 </head>
 <body>
 
@@ -343,27 +345,76 @@
     </div>
     <span class="nav-name">Inside <span>the</span> Number</span>
   </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li><li><a href="nfl">NFL</a></li><li><a href="cfb">CFB</a></li><li><a href="ufc-331-odds">UFC</a></li><li><a href="mlb-playoffs">MLB</a></li><li><a href="games">Scores</a></li><li><a href="tools">Tools</a></li><li><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Cheat Sheet</a></li>
-    </ul>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+
+  <ul class="itn-links">
+    <li class="itn-group">
+      <button class="itn-top" id="itn-boards-btn" aria-expanded="false" aria-controls="itn-boards-menu" aria-haspopup="true">Boards<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-boards-menu" aria-labelledby="itn-boards-btn" hidden>
+        <li><a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a></li>
+        <li><a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
+        <li><a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
+        <li><a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a></li>
+        <li><a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a></li>
+      </ul>
+    </li>
+    <li class="itn-group">
+      <button class="itn-top itn-here" id="itn-learn-btn" aria-expanded="false" aria-controls="itn-learn-menu" aria-haspopup="true">Learn<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-learn-menu" aria-labelledby="itn-learn-btn" hidden>
+        <li><a href="/learn">How to Read the Board<span class="itn-sub">Start here</span></a></li>
+        <li><a href="/football-line-movement" aria-current="page">Football Guide<span class="itn-sub">Why football lines move</span></a></li>
+        <li><a href="/mlb-playoffs">MLB Playoff Odds<span class="itn-sub">Reading October prices</span></a></li>
+        <li><a href="/glossary">Glossary<span class="itn-sub">Plain-English definitions</span></a></li>
+      </ul>
+    </li>
+    <li class="itn-group">
+      <button class="itn-top" id="itn-tools-btn" aria-expanded="false" aria-controls="itn-tools-menu" aria-haspopup="true">Tools<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-tools-menu" aria-labelledby="itn-tools-btn" hidden>
+        <li><a href="/tools">All Calculators<span class="itn-sub">Ten of them</span></a></li>
+        <li><a href="/no-vig-calculator">No-Vig Calculator<span class="itn-sub">Strip out the book's cut</span></a></li>
+        <li><a href="/parlay-calculator">Parlay Calculator<span class="itn-sub">What the legs really pay</span></a></li>
+        <li><a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a></li>
+      </ul>
+    </li>
+    <li><a class="itn-cta" href="https://insidethenumber.beehiiv.com/subscribe">Morning Board</a></li>
+  </ul>
+  <button class="nav-hamburger" id="itnMenuButton" aria-label="Menu" aria-expanded="false" aria-controls="itnMobileMenu">
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="mobile-page-context"><a href="/">&larr; Home</a><span>Football Guide</span></div>
-
-<div class="mobile-menu" id="mobileMenu">
-    <a href="/">Home</a><a href="nfl">NFL</a><a href="cfb">College Football</a><a href="ufc-331-odds">UFC 331</a><a href="mlb-playoffs">MLB Playoffs</a><a href="games">Scores / Full Board</a><a href="tools">Tools</a><a href="no-vig-calculator#cheat-sheet" class="nav-cta">Get the Cheat Sheet</a>
-  </div>
-<script>
-  (function(){
-    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
-    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
-    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
-    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
-  })();
-</script>
-
+<!--ITN-NAV:START  generated by scripts/build_nav.py — edit there, not here-->
+<nav class="itn-ctx" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/learn">Learn</a></li>
+    <li aria-current="page">Football Guide</li>
+  </ol>
+</nav>
+<div class="itn-mobile" id="itnMobileMenu">
+    <div class="itn-m-group">
+      <div class="itn-m-head">Boards</div>
+      <a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a>
+      <a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a>
+      <a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a>
+      <a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a>
+      <a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a>
+    </div>
+    <div class="itn-m-group">
+      <div class="itn-m-head">Learn</div>
+      <a href="/learn">How to Read the Board<span class="itn-sub">Start here</span></a>
+      <a href="/football-line-movement" aria-current="page">Football Guide<span class="itn-sub">Why football lines move</span></a>
+      <a href="/mlb-playoffs">MLB Playoff Odds<span class="itn-sub">Reading October prices</span></a>
+      <a href="/glossary">Glossary<span class="itn-sub">Plain-English definitions</span></a>
+    </div>
+    <div class="itn-m-group">
+      <div class="itn-m-head">Tools</div>
+      <a href="/tools">All Calculators<span class="itn-sub">Ten of them</span></a>
+      <a href="/no-vig-calculator">No-Vig Calculator<span class="itn-sub">Strip out the book's cut</span></a>
+      <a href="/parlay-calculator">Parlay Calculator<span class="itn-sub">What the legs really pay</span></a>
+      <a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a>
+    </div>
+    <a class="itn-m-cta" href="https://insidethenumber.beehiiv.com/subscribe">Get the free Morning Board</a>
+</div>
+<!--ITN-NAV:END-->
 <div class="shell">
   <aside class="toc">
     <div class="toc-label">// On this page</div>
@@ -382,6 +433,7 @@
   <main class="body">
     <p class="eyebrow">// Football · Line Movement</p>
     <h1>How football lines move<br/><span>before kickoff.</span></h1>
+    <p class="standfirst" style="margin-top:2px;font-size:12px;opacity:.7"><a class="inline" href="learn">&larr; Back to the basics</a></p>
     <p class="standfirst">A line is a price, and prices move when the people paying them change their minds. This page explains what changed between the opener and the number on the board right now, why some of those moves matter far more than others, and how to compare what you are being charged with what the market actually thinks.</p>
     <div class="box quick" style="--accent:var(--blue)">
       <div class="t">Quick read &middot; 20 seconds</div>
