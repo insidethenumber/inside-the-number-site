@@ -22,6 +22,24 @@ All prices: **DraftKings via ESPN, read 01:33 UTC Thu Sep 18** unless re-read. *
 | 12 | Instagram | Mon 10:00 AM | MLB | `/mlb-playoffs` | `…/mlb-playoffs?utm_source=instagram&utm_medium=social&utm_campaign=wk1&utm_content=mon-series` | PENDING | no | | | series-math carousel, evergreen |
 | 13 | Email | Sun 7:45 AM | All | `/games` | `…/games?utm_source=beehiiv&utm_medium=email&utm_campaign=wk1` | PENDING | no | | | Weekend Market Note — see WEEKEND-CONTENT.md |
 
+## Re-verification — run 9:27 PM CT, Thu Sep 17 (immediately before the launch attempt)
+
+Every live number in this pack was re-pulled from the ESPN feed and compared against what the drafts say. **All five checks match. Nothing drifted. Every draft is postable on its numbers.**
+
+| Draft | Number in the draft | Re-read 9:27 PM CT | Match |
+|---|---|---|---|
+| Row 1/2/3 · CFB | ORE −57.5, total 67.5, **no moneyline** | ORE −57.5, 67.5, ML `null/null` | ✅ |
+| Row 1 alt · CFB | MIA −20.5 / 55.5 · TTU −7.5 / 52.5 | identical | ✅ |
+| Row 4/5/6 · UFC | Van −135 / Pantoja +114 | `J. Van -135`, away +114 / home −135 | ✅ |
+| Row 7/8/9 · NFL | PHI −7 / 39.5 · BAL −7.5 / 46.5 · GB −3.5 / 44.5 | identical, all three | ✅ |
+| Row 12 · MLB | MIL 95-58 · TB 93-59 · LAD 93-60 · NYY 88-64 | identical, clinch flags unchanged | ✅ |
+
+All: DraftKings via ESPN. UFC main event still requires a second re-read Saturday morning **and** again before the main card — a late scratch invalidates the post entirely.
+
+**Publication was blocked at launch time by rule 9 of the launch brief — "do not publish if deployment did not complete."** The weekend release did not deploy (no push credential in Claude's environment). Rows 1–13 remain PENDING and unpublished. The numbers above were correct at 9:27 PM CT; re-run this table before posting anything.
+
+---
+
 The X, Reddit and Instagram copy for rows 1–9 is in `TRAFFIC-CONTENT-PACK.md` (Days 1–3) — it was written for the same weekend, same numbers, same re-verify rules. Rows 10–12 are new and below. Nothing is copied across communities: each Reddit draft is written once for one subreddit.
 
 ---
