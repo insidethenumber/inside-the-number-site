@@ -1352,7 +1352,7 @@ function allScopeBar(scope){
 function overviewCard(sport,count,scope){
   const isEvent=sport==='UFC'||sport==='PGA';
   const href=isEvent?`?sport=${sport}`:`?sport=${sport}&scope=${scope}`;
-  const noun=sport==='UFC'?'card':sport==='PGA'?'event':'games';
+  const noun=sport==='UFC'?'card':sport==='PGA'?'event':'game';
   const detail=count?`${count} ${noun}${count===1?'':'s'} ${scope==='week'?'this week':'today'}`:
     isEvent?`Open the ${sport==='UFC'?'current card':'current event'}`:`No ${sport} games ${scope==='week'?'this week':'today'}`;
   return `<a class="board-overview-card" href="${href}">
