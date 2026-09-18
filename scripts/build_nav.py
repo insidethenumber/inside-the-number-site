@@ -45,10 +45,10 @@ ROOT = Path(__file__).resolve().parent.parent
 # TOOLS   = the calculators, and the cheat sheet that lives inside one.
 BOARDS = [
     ("/games",            "Full Board",       "Every league on one page"),
-    ("/nfl",              "NFL",              "This week's NFL slate"),
-    ("/cfb",              "College Football", "This week's CFB slate"),
-    ("/games?sport=MLB",  "MLB",              "Today's MLB board"),
-    ("/ufc-331-odds",     "UFC",              "The current card"),
+    ("/games?sport=NFL&scope=week", "NFL", "This week's NFL slate"),
+    ("/games?sport=CFB&scope=week", "College Football", "This week's CFB slate"),
+    ("/games?sport=MLB&scope=today", "MLB", "Today's MLB board"),
+    ("/games?sport=UFC",  "UFC",              "The current card"),
 ]
 LEARN = [
     ("/learn",                     "How to Read the Board", "Start here"),
@@ -73,10 +73,10 @@ CTA_LONG = "Get the free Morning Board"
 # The board switcher, shown on boards and game detail views.
 SWITCH = [
     ("/games",           "Full Board"),
-    ("/nfl",             "NFL"),
-    ("/cfb",             "CFB"),
-    ("/games?sport=MLB", "MLB"),
-    ("/ufc-331-odds",    "UFC"),
+    ("/games?sport=NFL&scope=week", "NFL"),
+    ("/games?sport=CFB&scope=week", "CFB"),
+    ("/games?sport=MLB&scope=today", "MLB"),
+    ("/games?sport=UFC", "UFC"),
 ]
 
 # ── Per-page context. (parent_href, parent_label, current_label) ───────────

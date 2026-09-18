@@ -989,10 +989,10 @@
       <button class="itn-top" id="itn-boards-btn" aria-expanded="false" aria-controls="itn-boards-menu" aria-haspopup="true">Boards<span class="itn-chev" aria-hidden="true"></span></button>
       <ul class="itn-menu" id="itn-boards-menu" aria-labelledby="itn-boards-btn" hidden>
         <li><a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a></li>
-        <li><a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
-        <li><a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
-        <li><a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a></li>
-        <li><a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a></li>
+        <li><a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
+        <li><a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
+        <li><a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a></li>
+        <li><a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a></li>
       </ul>
     </li>
     <li class="itn-group">
@@ -1024,10 +1024,10 @@
     <div class="itn-m-group">
       <div class="itn-m-head">Boards</div>
       <a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a>
-      <a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a>
-      <a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a>
-      <a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a>
-      <a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a>
+      <a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a>
+      <a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a>
+      <a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a>
+      <a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a>
     </div>
     <div class="itn-m-group">
       <div class="itn-m-head">Learn</div>
@@ -1155,20 +1155,20 @@
   playoffs. Each of these reads the same way: what the number is, where it opened, and what it
   looks like with the sportsbook's cut taken out.</p>
   <div class="route-grid">
-    <a class="route-card" href="nfl">
+    <a class="route-card" href="games?sport=NFL&scope=week">
       <div class="k">This week</div>
       <div class="t">NFL board</div>
       <div class="d">Every game, the spread and where it opened, the total, and the fair price with the vig removed.</div>
     </a>
-    <a class="route-card" href="cfb">
+    <a class="route-card" href="games?sport=CFB&scope=week">
       <div class="k">This week</div>
       <div class="t">College football board</div>
       <div class="d">The full Saturday card, ordered by kickoff, with the biggest line moves flagged.</div>
     </a>
-    <a class="route-card" href="mlb-playoff-odds-explained">
-      <div class="k">Explainer</div>
-      <div class="t">How playoff odds work</div>
-      <div class="d">Game 1 lines, series prices, and why a short series moves so much harder than a regular-season game.</div>
+    <a class="route-card" href="games?sport=MLB&scope=today">
+      <div class="k">Today</div>
+      <div class="t">MLB board</div>
+      <div class="d">Every game, the run line, total, probable starters, and the fair price with the vig removed.</div>
     </a>
     <a class="route-card" href="no-vig-calculator">
       <div class="k">Tool</div>
@@ -1807,11 +1807,11 @@
      stable and let the ticker below carry whatever live events the feed returns. */
   const TOP_LINKS=[
     ['Full board','games','board-link'],
-    ['NFL board','nfl',''],
-    ['CFB board','cfb',''],
+    ['NFL board','games?sport=NFL&scope=week',''],
+    ['CFB board','games?sport=CFB&scope=week',''],
+    ['MLB board','games?sport=MLB&scope=today',''],
+    ['UFC board','games?sport=UFC',''],
     ['Football guide','football-line-movement','guide-link'],
-    ['UFC 331','ufc-331-odds','guide-link'],
-    ['MLB playoffs','mlb-playoffs','guide-link'],
     ['Tools','tools','board-link']
   ];
   document.getElementById('tbL').innerHTML=TOP_LINKS.map(([label,href,klass])=>

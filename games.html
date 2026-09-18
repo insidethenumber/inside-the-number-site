@@ -132,6 +132,11 @@
   .sp-row .sp-n{color:var(--white);font-weight:500}
   .sp-row .sp-r{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--mid);margin-left:3px}
   .sp-row .sp-v{color:var(--muted);margin:0 5px}
+  .card-markets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .card-market{min-width:0}
+  .card-market-k{display:block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .card-market-v{display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--white);white-space:nowrap}
+  .card-market-s{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--mid);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .foot{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;
     font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .foot b{color:var(--green);font-weight:600}
@@ -382,10 +387,10 @@
       <button class="itn-top itn-here" id="itn-boards-btn" aria-expanded="false" aria-controls="itn-boards-menu" aria-haspopup="true">Boards<span class="itn-chev" aria-hidden="true"></span></button>
       <ul class="itn-menu" id="itn-boards-menu" aria-labelledby="itn-boards-btn" hidden>
         <li><a href="/games" aria-current="page">Full Board<span class="itn-sub">Every league on one page</span></a></li>
-        <li><a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
-        <li><a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
-        <li><a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a></li>
-        <li><a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a></li>
+        <li><a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
+        <li><a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
+        <li><a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a></li>
+        <li><a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a></li>
       </ul>
     </li>
     <li class="itn-group">
@@ -423,10 +428,10 @@
     <div class="itn-m-group">
       <div class="itn-m-head">Boards</div>
       <a href="/games" aria-current="page">Full Board<span class="itn-sub">Every league on one page</span></a>
-      <a href="/nfl">NFL<span class="itn-sub">This week's NFL slate</span></a>
-      <a href="/cfb">College Football<span class="itn-sub">This week's CFB slate</span></a>
-      <a href="/games?sport=MLB">MLB<span class="itn-sub">Today's MLB board</span></a>
-      <a href="/ufc-331-odds">UFC<span class="itn-sub">The current card</span></a>
+      <a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a>
+      <a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a>
+      <a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a>
+      <a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a>
     </div>
     <div class="itn-m-group">
       <div class="itn-m-head">Learn</div>
@@ -1486,9 +1491,21 @@ function card(g){
     <span class="sp-v">vs</span>
     <span class="sp-t">${g.h.ab}</span> <span class="sp-n">${g.h.sp?g.h.sp.name:'TBD'}</span>${g.h.sp&&g.h.sp.w!=null?`<span class="sp-r">${g.h.sp.w}-${g.h.sp.l}, ${g.h.sp.era}</span>`:''}
   </div>`:'';
+  /* The team rows above already show the moneyline. Keep this compact strip to
+     surface the other two core markets without duplicating the same price. */
+  const line=v=>Number.isFinite(Number(v))?`${Number(v)>0?'+':''}${Number(v)}`:'—';
+  const price=v=>fmt(v)??'—';
+  const market=(label,value,detail)=>`<div class="card-market"><span class="card-market-k">${label}</span><span class="card-market-v">${value}</span><span class="card-market-s">${detail}</span></div>`;
+  const spreadA=g.o.pointSpread?.away?.close, spreadH=g.o.pointSpread?.home?.close;
+  const totalO=g.o.total?.over?.close, totalU=g.o.total?.under?.close;
+  const spreadLabel=g.league==='MLB'?'Run line':'Spread';
+  const markets=`<div class="card-markets">
+    ${market(spreadLabel,`${line(spreadA?.line)} / ${line(spreadH?.line)}`,`${g.a.ab} ${price(spreadA?.odds)} · ${g.h.ab} ${price(spreadH?.odds)}`)}
+    ${market('Total',line(totalO?.line),`Over ${price(totalO?.odds)} · Under ${price(totalU?.odds)}`)}
+  </div>`;
   return `<a class="gc ${g.ours?'ours':''}" href="?sport=${g.league}&game=${g.id}">
     <div class="gc-top"><span class="lg">${g.league}</span>${st}</div>
-    ${side(g.a)}${side(g.h)}${g.state==='pre'?spLine:''}${foot}
+    ${side(g.a)}${side(g.h)}${markets}${g.state==='pre'?spLine:''}${foot}
     ${g.ours?`<div class="flag">★ ITN pick — ${g.ours.pick}</div>`:''}</a>`;
 }
 
