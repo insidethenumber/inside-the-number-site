@@ -216,6 +216,11 @@
 .sub-cta p{font-size:14px;color:var(--mid);font-weight:300;margin:0 0 12px;max-width:60ch;line-height:1.55}
 .sub-cta p b{color:var(--white);font-weight:600}
 .sub-cta a.go{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#050608;background:linear-gradient(90deg,var(--green),var(--blue));padding:9px 16px;border-radius:8px;text-decoration:none}
+/* Above-board offer: same card, tighter top margin so it slots into the gap
+   the strip already leaves, plus a visible keyboard focus ring (the page has
+   no global focus style). */
+.sub-cta-top{margin:0 0 26px}
+.sub-cta-top a.go:focus-visible{outline:2px solid var(--white);outline-offset:3px}
 </style>
 <style>
   .lede { font-size:16px; line-height:1.65; color:var(--mid,#c9cfd8); max-width:62ch; margin:18px 0; }
@@ -326,7 +331,7 @@
 
 
   <div class="strip">
-    <div class="chip"><div class="l">First kick</div>
+    <div class="chip"><div class="l">Next kick</div>
       <div class="v" id="c-first">—</div>
       <div class="s" id="c-first-s">&nbsp;</div></div>
     <div class="chip"><div class="l">Ranked teams in action</div>
@@ -335,6 +340,17 @@
     <div class="chip"><div class="l">Biggest line move</div>
       <div class="v" id="c-close">—</div>
       <div class="s" id="c-close-s">&nbsp;</div></div>
+  </div>
+
+  <!-- Above-board offer (Chuck, Fri Sep 18). A visitor arriving from a social
+       post reads one number and leaves; the only offer on this page sat below
+       75 board rows. One offer, one action, existing card styles, and the
+       existing first-touch UTM helper decorates this href on its own. No
+       popup, no modal, no new service, no duplicate nav. -->
+  <div class="sub-cta sub-cta-top">
+    <div class="k">The free Morning Board</div>
+    <p>One email before the games: <b>the biggest line moves on this board, the key numbers they crossed, and the fair price once the book&rsquo;s margin is taken out.</b> Market context and line-reading, not picks. No card, no spam.</p>
+    <a class="go" href="https://insidethenumber.beehiiv.com/subscribe">Get the Morning Board free &rarr;</a>
   </div>
 
   <div class="pick" id="our-pick">
@@ -591,9 +607,15 @@
         +'it wears a tag, because that movement is the market talking.'
       : '';
 
-    var first=GAMES.slice().sort(function(a,b){return a.ts-b.ts;})[0];
+    // A game that has already been played is not the next kickoff. Show the
+    // earliest game still to come; once the whole week is final, say so
+    // instead of pointing at a finished game (Chuck, Fri Sep 18).
+    var first=GAMES.filter(function(g){return g.state!=='post';})
+                   .sort(function(a,b){return a.ts-b.ts;})[0];
     if(first){ document.getElementById('c-first').textContent=first.time+' CT '+first.day.split(',')[0];
                document.getElementById('c-first-s').textContent=first.away+' at '+first.home; }
+    else if(GAMES.length){ document.getElementById('c-first').textContent='Week complete';
+               document.getElementById('c-first-s').textContent='Next week\u2019s board goes up Monday'; }
     document.getElementById('c-mis').textContent=ranked.length+(ranked.length===1?' game':' games');
     document.getElementById('c-mis-s').textContent=ranked.slice(0,3).map(function(g){return (g.awayRkN||g.homeRkN);}).length?
       ranked.slice(0,3).map(function(g){var t=g.awayRkN?g.away:g.home;return t;}).join(', '):'none this week';
