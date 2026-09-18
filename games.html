@@ -397,9 +397,36 @@
 <div class="rail" id="rail"></div>
 <div class="tick" id="tick"></div>
 
+<!-- Source + read-time stamp. Added for the weekend market test, Sep 18 2026.
+     Mirrors #stamp on nfl.html. Written by JS from the same fetch that fills
+     the board, so it cannot say a time the feed did not actually answer at.
+     If no league feed returns OK it says so instead of showing a time. -->
+<style>
+  #board-stamp{max-width:1100px;margin:10px auto 0;padding:0 16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+  #board-stamp a{color:var(--muted)}
+  #board-stamp.warn{color:#f0b429}
+</style>
+<div id="board-stamp">Lines via <a id="board-src" href="https://www.espn.com/" target="_blank" rel="noopener">ESPN</a> · reading the board…</div>
+
 <div class="wrap">
   <div id="view"><div class="empty view-loading">Loading today's board…</div></div>
 </div>
+
+<!-- HOW TO READ THIS BOARD - added for the weekend market test, Sep 18 2026.
+     Static on purpose: it must be true whether the feed answered or not.
+     Styled like the "Read next" block below it, which is this page's own
+     pattern for short prose under the board. -->
+<section style="max-width:680px;margin:36px auto 0;padding:0 16px;" aria-labelledby="how-to-read-h">
+  <h2 id="how-to-read-h" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mid);font-weight:600;margin:0 0 10px">How to read this board</h2>
+  <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.75;color:var(--mid)">
+    <li><b style="color:var(--white);font-weight:600">A price is not a prediction.</b> &minus;150 is what the book charges, not a statement that the favorite wins. Convert it and it says about 60% &mdash; with the book's margin still inside it.</li>
+    <li><b style="color:var(--white);font-weight:600">Implied probability still carries the margin.</b> Both sides of a market add to more than 100%. The <a href="no-vig-calculator" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">no-vig calculator</a> strips it out; the true price shown on each game here is that number.</li>
+    <li><b style="color:var(--white);font-weight:600">A line and a price move separately.</b> A spread can sit on &minus;3 while the juice moves from &minus;110 to &minus;120. Watch both. <a href="football-line-movement" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">Why lines move</a> covers what a move does and does not tell you.</li>
+    <li><b style="color:var(--white);font-weight:600">The read time above is the only time that counts.</b> These are the numbers as of that read. If you are looking at this later, they have moved.</li>
+    <li><b style="color:var(--white);font-weight:600">A dash means the market is closed.</b> Once a game starts or ends the book stops posting a pre-game price, and this board shows &mdash; rather than the last number it saw.</li>
+    <li><b style="color:var(--white);font-weight:600">Nothing here is a pick.</b> Every number is read from the feed; none is typed by hand. Terms are in the <a href="glossary" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">glossary</a>; the arithmetic is on <a href="learn" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">learn</a>.</li>
+  </ul>
+</section>
 
 <!-- Signup band — added Aug 29 2026. This is the most-visited page on the site
      and previously had no way to subscribe at all. -->
@@ -1022,12 +1049,14 @@ function projectRuns(g,mktTotal,mktHomeP){
           margin, modeTotal, modeP, totalPmf};
 }
 
+let feedOk=false;
 async function load(){
   await Promise.all([loadOurPicks(), loadMLBStats()]);
   await Promise.all(LEAGUES.map(async([label,path])=>{
     try{
       const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}/scoreboard?dates=${eDate()}`);
       if(!r.ok){D[label]=[];return}
+      feedOk=true;
       const d=await r.json();
       const kind=KIND(label);
       if(kind==='golf'){
@@ -1108,6 +1137,27 @@ async function load(){
     }catch(e){D[label]=[]}
   }));
   ready=true; route();
+  stampBoard();
+}
+/* Read-time stamp. Only writes a time when at least one league feed answered
+   200 - otherwise it says the feed was not reached, in the warning color, and
+   nothing on the page should be read as current. America/Chicago to match the
+   site's other stamps. */
+function stampBoard(){
+  try{
+    var el=document.getElementById('board-stamp'); if(!el) return;
+    if(!feedOk){
+      el.className='warn';
+      el.innerHTML='Feed not reached &mdash; nothing on this page is current. Try again in a minute.';
+      return;
+    }
+    var when=new Date().toLocaleTimeString('en-US',{timeZone:'America/Chicago',hour:'numeric',minute:'2-digit'});
+    var n=total();
+    var src=document.getElementById('board-src');
+    var a=src?src.outerHTML:'ESPN';
+    el.className='';
+    el.innerHTML='Lines via '+a+' (DraftKings prices) &middot; read '+when+' CT &middot; '+n+(n===1?' game':' games')+' on the feed &middot; prices move &mdash; recheck before you use one';
+  }catch(e){}
 }
 const total=()=>LEAGUES.reduce((t,[l])=>t+(D[l]||[]).length,0);
 const firstWith=()=>(LEAGUES.find(([l])=>(D[l]||[]).length)||['MLB'])[0];
@@ -1117,6 +1167,13 @@ function rail(sel){
      deliberately NOT dimmed: the empty view is a real page — when the league
      is back, plus what is live right now — so graying one out would read as
      broken rather than simply idle. */
+  /* Public ESPN page for the selected league, so "via ESPN" is a real link
+     and not just a name. These are ESPN's own public pages, nothing scraped. */
+  var SRC={MLB:'mlb/scoreboard',NFL:'nfl/scoreboard',CFB:'college-football/scoreboard',
+           CBB:'mens-college-basketball/scoreboard',NBA:'nba/scoreboard',NHL:'nhl/scoreboard',
+           UFC:'mma/schedule',PGA:'golf/leaderboard'};
+  var srcA=document.getElementById('board-src');
+  if(srcA && SRC[sel]) srcA.href='https://www.espn.com/'+SRC[sel];
   document.getElementById('rail').innerHTML=LEAGUES.map(([l])=>{
     const n=(D[l]||[]).length;
     return `<a href="?sport=${l}" data-l="${l}"${l===sel?' class="on"':''}>${l}<span class="c">${n||'—'}</span></a>`;
