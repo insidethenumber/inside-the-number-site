@@ -91,12 +91,15 @@ PAGES = {
         route="/nfl", section="boards", crumb=("/games", "Full Board", "NFL"), switcher=True),
     "cfb.html": dict(
         route="/cfb", section="boards", crumb=("/games", "Full Board", "College Football"), switcher=True),
+    # The dated UFC 331 page is an explainer, not the live card. It keeps its
+    # page and its content, but it sits under Learn so the crumb stops implying
+    # it is the current board. The rolling card is /games?sport=UFC.
     "ufc-331-odds.html": dict(
-        route="/ufc-331-odds", section="boards", crumb=("/games", "Full Board", "UFC"), switcher=True),
+        route="/ufc-331-odds", section="learn", crumb=("/learn", "Learn", "UFC Odds Explained"), switcher=False),
     # ufc.html is an archived card. Its parent is the current UFC page, not Home,
     # so a visitor who lands on the archive has a route to the live one.
     "ufc.html": dict(
-        route="", section="boards", crumb=("/ufc-331-odds", "UFC", "Past Card"), switcher=True),
+        route="", section="boards", crumb=("/games?sport=UFC", "UFC", "Past Card"), switcher=True),
     "mlb-playoffs.html": dict(
         route="/mlb-playoffs", section="learn", crumb=("/learn", "Learn", "MLB Playoff Odds"), switcher=False),
     # The reported defect: this guide had only "Home" and no parent, while every
@@ -246,7 +249,6 @@ HEAD_ASSETS = (
 SWITCH_CURRENT = {
     "nfl.html": "/games?sport=NFL&scope=week",
     "cfb.html": "/games?sport=CFB&scope=week",
-    "ufc-331-odds.html": "/games?sport=UFC",
     "ufc.html": "/games?sport=UFC",
 }
 
@@ -327,7 +329,13 @@ def apply_label_fixes():
             continue
         html = p.read_text(encoding="utf-8")
         found = html.count(old)
-        if found == 0 and html.count(new):
+        # `new` often CONTAINS `old` (an insertion rather than a swap), so
+        # counting `new` cannot tell "already applied" from "not yet". Ask
+        # whether the replacement's own first line is present instead —
+        # otherwise a re-run stacks the insertion again, which is exactly how
+        # /football-line-movement ended up with four copies of its Learn link.
+        marker = new.split("\n", 1)[0]
+        if found == 0 or (marker not in old and html.count(marker) >= expected):
             print("  LABEL  %-26s already applied" % name)
             continue
         if found != expected:

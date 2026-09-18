@@ -1,0 +1,28 @@
+      if(kind==='mma'){
+        /* One ESPN "event" is a card; each competition is a single fight.
+           The same endpoint also returns Dana White's Contender Series, which
+           is a developmental show rather than a UFC card and carries no book
+           prices. Filtered here to match index.html and ufc.html. */
+        const NOT_UFC=/contender series|dana white/i;
+        D[label]=(d.events||[]).filter(ev=>!NOT_UFC.test(ev.name||ev.shortName||''))
+          .flatMap(ev=>(ev.competitions||[]).map(c=>{
+          const cs=c.competitors||[]; if(cs.length<2) return null;
+          const [x,y]=cs;
+          const nm=z=>z.athlete?.shortName||z.athlete?.displayName||'';
+          return{id:c.id,league:label,kind:'mma',state:ev.status?.type?.state,
+            detail:c.status?.type?.shortDetail||ev.status?.type?.shortDetail||'',
+            card:ev.name||'',weight:c.type?.abbreviation||'',venue:c.venue?.fullName||'',
+            a:{ab:nm(x),name:x.athlete?.displayName||'',logo:x.athlete?.flag?.href||'',sc:'',
+               rec:x.records?.find(r=>r.type==='total')?.summary||''},
+            h:{ab:nm(y),name:y.athlete?.displayName||'',logo:y.athlete?.flag?.href||'',sc:'',
+               rec:y.records?.find(r=>r.type==='total')?.summary||''},
+            /* Fights can carry a published pick like any other contest. This was
+               hardcoded to null, so a UFC play written into todaysGames could
+               never surface on the fight page. Matched on last names, and tried
+               both orders because there is no home or away in a fight — whoever
+               wrote the pick may have listed them the other way round. */
+            o:c.odds?.[0]||{},
+            ours:OURS[mmaKey(nm(x),nm(y))]||OURS[mmaKey(nm(y),nm(x))]||null};
+        })).filter(Boolean);
+        return;
+      }
