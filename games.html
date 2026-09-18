@@ -1307,10 +1307,19 @@ async function loadWeek(sport){
   if(!path){W[sport]=[];return W[sport]}
   const [d0,d1]=weekEnds();
   try{
-    const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}`
-      +`/scoreboard?dates=${ymd(d0)}-${ymd(d1)}${GROUPS(sport)}&limit=300`);
-    if(!r.ok){W[sport]=null;return W[sport]}
-    W[sport]=parseTeam(await r.json(),sport)
+    /* ESPN's public scoreboard accepts one date per request, not a date
+       range. Fetch the seven calendar days concurrently and merge them so a
+       Friday CFB visitor sees Saturday's actual slate instead of a 400. */
+    const days=Array.from({length:WEEK_DAYS},(_,i)=>new Date(d0.getTime()+i*864e5));
+    const responses=await Promise.all(days.map(async d=>{
+      const r=await fetch(`https://site.api.espn.com/apis/site/v2/sports/${path}`
+        +`/scoreboard?dates=${ymd(d)}${GROUPS(sport)}&limit=300`);
+      return r.ok?parseTeam(await r.json(),sport):null;
+    }));
+    const good=responses.filter(Array.isArray);
+    if(!good.length){W[sport]=null;return W[sport]}
+    const seen=new Set();
+    W[sport]=good.flat().filter(g=>!seen.has(g.id)&&(seen.add(g.id),true))
       .sort((a,b)=>new Date(a.date||0)-new Date(b.date||0));
   }catch(e){W[sport]=null}
   return W[sport];
