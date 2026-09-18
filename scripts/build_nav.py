@@ -244,10 +244,10 @@ HEAD_ASSETS = (
 
 # Which board href each page should mark as current in the switcher.
 SWITCH_CURRENT = {
-    "nfl.html": "/nfl",
-    "cfb.html": "/cfb",
-    "ufc-331-odds.html": "/ufc-331-odds",
-    "ufc.html": "/ufc-331-odds",
+    "nfl.html": "/games?sport=NFL&scope=week",
+    "cfb.html": "/games?sport=CFB&scope=week",
+    "ufc-331-odds.html": "/games?sport=UFC",
+    "ufc.html": "/games?sport=UFC",
 }
 
 

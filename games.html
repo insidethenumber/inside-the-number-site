@@ -1493,16 +1493,17 @@ function card(g){
   </div>`:'';
   /* The team rows above already show the moneyline. Keep this compact strip to
      surface the other two core markets without duplicating the same price. */
-  const line=v=>Number.isFinite(Number(v))?`${Number(v)>0?'+':''}${Number(v)}`:'—';
+  const spreadLine=v=>{const n=lineNum(v);return n==null?'—':`${n>0?'+':''}${n}`};
+  const totalLine=v=>{const n=lineNum(v);return n==null?'—':String(n)};
   const price=v=>fmt(v)??'—';
   const market=(label,value,detail)=>`<div class="card-market"><span class="card-market-k">${label}</span><span class="card-market-v">${value}</span><span class="card-market-s">${detail}</span></div>`;
   const spreadA=g.o.pointSpread?.away?.close, spreadH=g.o.pointSpread?.home?.close;
   const totalO=g.o.total?.over?.close, totalU=g.o.total?.under?.close;
-  const spreadLabel=g.league==='MLB'?'Run line':'Spread';
-  const markets=`<div class="card-markets">
-    ${market(spreadLabel,`${line(spreadA?.line)} / ${line(spreadH?.line)}`,`${g.a.ab} ${price(spreadA?.odds)} · ${g.h.ab} ${price(spreadH?.odds)}`)}
-    ${market('Total',line(totalO?.line),`Over ${price(totalO?.odds)} · Under ${price(totalU?.odds)}`)}
-  </div>`;
+  const spreadLabel=g.league==='MLB'?'Run line':g.league==='NHL'?'Puck line':'Spread';
+  const marketRows=[];
+  if(spreadA||spreadH)marketRows.push(market(spreadLabel,`${spreadLine(spreadA?.line)} / ${spreadLine(spreadH?.line)}`,`${g.a.ab} ${price(spreadA?.odds)} · ${g.h.ab} ${price(spreadH?.odds)}`));
+  if(totalO||totalU)marketRows.push(market('Total',totalLine(totalO?.line??totalU?.line),`Over ${price(totalO?.odds)} · Under ${price(totalU?.odds)}`));
+  const markets=marketRows.length?`<div class="card-markets">${marketRows.join('')}</div>`:'';
   return `<a class="gc ${g.ours?'ours':''}" href="?sport=${g.league}&game=${g.id}">
     <div class="gc-top"><span class="lg">${g.league}</span>${st}</div>
     ${side(g.a)}${side(g.h)}${markets}${g.state==='pre'?spLine:''}${foot}
