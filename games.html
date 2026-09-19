@@ -1431,7 +1431,14 @@ function scopeBar(sport,scope,count){
   el.style.display='';
   const [d0,d1]=weekEnds();
   const day=d=>`${MO[d.getMonth()]} ${d.getDate()}`;
-  const btn=(v,label)=>`<a href="?sport=${sport}&scope=${v}"${v===scope?' aria-current="page"':''}>${label}</a>`;
+  /* Preserve any other param already on the URL (currently: cfbFilter) when
+     switching Today/This Week, so choosing a CFB filter then flipping scope
+     doesn't silently reset it back to All Games. Fixed Sep 19 2026 QA pass. */
+  const btn=(v,label)=>{
+    const q=new URLSearchParams(location.search);
+    q.set('sport',sport); q.set('scope',v);
+    return `<a href="?${q.toString()}"${v===scope?' aria-current="page"':''}>${label}</a>`;
+  };
   const window_=scope==='week'?`${day(d0)} \u2013 ${day(d1)}`:day(d0);
   const n=count==null?'reading the feed\u2026'
         :count?`${count} ${count===1?'game':'games'} priced`:'nothing priced in this window';
