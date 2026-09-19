@@ -166,6 +166,21 @@
     color:var(--muted);padding-left:29px;margin:1px 0}
   @media(max-width:420px){.bt-nm{font-size:13.5px}.bt-rec{font-size:10.5px}.bt{padding:11px 12px}}
 
+  /* The card is already one big <a>, but nothing on it said so — a visitor
+     who isn't a builder has no reason to think a breakdown exists behind a
+     scoreboard tile. This is the affordance, not a second link: a <span>,
+     because an <a> inside an <a> is invalid and browsers will split the card
+     into two competing hit areas. It inherits the card's click.
+     Only rendered where a real detail page exists — golf's detail view says
+     we don't price golf yet, so golf cards deliberately get nothing. */
+  .gc-go{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:10px;
+    min-height:34px;padding:0 12px;border:1px solid rgba(0,208,132,.32);border-radius:8px;
+    background:rgba(0,208,132,.05);color:var(--green);font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;
+    transition:background .15s,color .15s,border-color .15s}
+  a.gc:hover .gc-go{background:var(--green);color:var(--black);border-color:var(--green)}
+  .gc-go i{font-style:normal;font-size:13px;line-height:1}
+  @media(max-width:820px){ .gc-go{min-height:44px;font-size:10px} }
   .foot{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;
     font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
   .foot b{color:var(--green);font-weight:600}
@@ -1475,7 +1490,8 @@ function card(g){
     return `<a class="gc" href="?sport=${g.league}&game=${g.id}">
       <div class="gc-top"><span class="lg">${g.weight||g.league}</span><span class="st">${g.detail}</span></div>
       ${f(g.a)}${f(g.h)}
-      ${g.card?`<div class="foot"><span>${g.card}</span></div>`:''}</a>`;
+      ${g.card?`<div class="foot"><span>${g.card}</span></div>`:''}
+      <span class="gc-go">View Analysis <i aria-hidden="true">&rarr;</i></span></a>`;
   }
   const st=g.state==='in'?`<span class="st live">● ${g.detail}</span>`:`<span class="st">${g.detail}</span>`;
   const mlA=g.o.moneyline?.away?.close?.odds, mlH=g.o.moneyline?.home?.close?.odds;
@@ -1516,7 +1532,8 @@ function card(g){
   return `<a class="gc ${g.ours?'ours':''}" href="?sport=${g.league}&game=${g.id}">
     <div class="gc-top"><span class="lg">${g.league}</span>${st}</div>
     ${side(g.a)}${side(g.h)}${markets}${g.state==='pre'?spLine:''}${foot}
-    ${g.ours?`<div class="flag">★ ITN pick — ${g.ours.pick}</div>`:''}</a>`;
+    ${g.ours?`<div class="flag">★ ITN pick — ${g.ours.pick}</div>`:''}
+    <span class="gc-go">See Full Analysis <i aria-hidden="true">&rarr;</i></span></a>`;
 }
 
 const UP={};
@@ -1674,6 +1691,7 @@ function fightCard(g){
     ${row(g.a,mlA,p?p.a:null)}
     <div class="bt-v">vs</div>
     ${row(g.h,mlH,p?p.b:null)}
+    <span class="gc-go">View Analysis <i aria-hidden="true">&rarr;</i></span>
   </a>`;
 }
 
