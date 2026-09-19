@@ -163,6 +163,20 @@
     border-bottom:1px solid rgba(0,208,132,.35); }
   .qcta a.sec:hover { border-bottom-color:var(--green); }
 
+  /* The table-of-contents jump used to land on three inline links at the
+     bottom of a long guide. This makes the board destination unmistakable. */
+  .board-destination { max-width:660px; margin:22px 0 46px; padding:22px; background:var(--surface-1); border:1px solid var(--border-lit); border-top:3px solid var(--green); border-radius:var(--r-md); }
+  .board-destination .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--green); margin-bottom:8px; }
+  .board-destination p { margin:0 0 16px; font-size:14px; }
+  .board-primary { display:flex; align-items:center; gap:16px; min-height:76px; padding:16px 18px; background:var(--green); color:var(--black); border-radius:8px; text-decoration:none; }
+  .board-primary:hover { background:var(--white); }
+  .board-primary span { display:block; font-family:'Barlow Condensed',sans-serif; font-size:25px; line-height:1; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
+  .board-primary small { display:block; margin-top:4px; font-size:12px; font-weight:600; opacity:.72; }
+  .board-primary b { margin-left:auto; font-family:'Barlow Condensed',sans-serif; font-size:38px; line-height:1; }
+  .board-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .board-options a { display:inline-flex; align-items:center; padding:7px 10px; border:1px solid var(--border-lit); border-radius:6px; color:var(--mid); font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+  .board-options a:hover { color:var(--green); border-color:var(--green); }
+
   @media (max-width:980px){
     nav { padding:0 20px; }
     .nav-links { display:none; }
@@ -171,6 +185,10 @@
     .toc { display:none; }
     .cta-inner { padding:52px 20px; }
     footer { flex-direction:column; text-align:center; padding:32px 20px; }
+    .board-primary span { font-size:22px; }
+    /* 7px padding + 10px type computes to a ~26px chip — under the 44px
+       minimum touch target. Height it properly at phone width. */
+    .board-options a { min-height:44px; padding:0 14px; }
   }
 
   .footer-disclaimer .lnk{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.3)}
@@ -375,7 +393,7 @@
         <li><a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a></li>
       </ul>
     </li>
-    <li><a class="itn-cta" href="https://insidethenumber.beehiiv.com/subscribe">Morning Board</a></li>
+    <li><a class="itn-cta" href="https://insidethenumber.beehiiv.com/subscribe">The Market Brief</a></li>
   </ul>
   <button class="nav-hamburger" id="itnMenuButton" aria-label="Menu" aria-expanded="false" aria-controls="itnMobileMenu">
     <span></span><span></span><span></span>
@@ -412,7 +430,7 @@
       <a href="/parlay-calculator">Parlay Calculator<span class="itn-sub">What the legs really pay</span></a>
       <a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a>
     </div>
-    <a class="itn-m-cta" href="https://insidethenumber.beehiiv.com/subscribe">Get the free Morning Board</a>
+    <a class="itn-m-cta" href="https://insidethenumber.beehiiv.com/subscribe">Get The Market Brief</a>
 </div>
 <!--ITN-NAV:END-->
 <div class="shell">
@@ -445,7 +463,7 @@
       </ul>
       <p class="qcta">
         <a class="pri" href="no-vig-calculator">Use the no-vig calculator</a>
-        <a class="sec" href="nfl">Read today's NFL board &rarr;</a>
+        <a class="sec" href="/games?sport=NFL&amp;scope=week">Open this week's NFL board &rarr;</a>
       </p>
     </div>
 
@@ -546,21 +564,29 @@
     </ul>
 
     <div class="signup" id="signup">
-      <div class="t">Free, every morning</div>
-      <h3>Get the Morning Board and the No-Vig Cheat Sheet</h3>
-      <p>One page, free: how to strip the vig out of any two-way market, what every common price really costs you, the key numbers, and how to read a line move in four cases. Plus the board in your inbox before kickoff.</p>
+      <div class="t">Free, every day</div>
+      <h3>Get The Market Brief and the No-Vig Cheat Sheet</h3>
+      <p>One page, free: how to strip the vig out of any two-way market, what every common price really costs you, the key numbers, and how to read a line move in four cases. Plus a daily read on the board and the market behind it.</p>
       <p><strong>No picks pitch, no fake record, no spam.</strong></p>
       <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" frameborder="0" scrolling="no"></iframe>
       <p class="fine">Check your inbox (and spam) to confirm &mdash; you are not signed up until you click the link.</p>
     </div>
 
     <h2 id="board">Read today's board</h2>
-    <p>Every game on our boards shows where the number opened and where it sits now. That tag is not decoration &mdash; it is the market revising its own opinion in public, and it is usually the most informative thing on the row.</p>
-    <ul class="pts">
-      <li><a class="inline" href="nfl">NFL board</a> &mdash; every game this week with the spread, the total, where each opened and the fair price.</li>
-      <li><a class="inline" href="cfb">College football board</a> &mdash; the full FBS slate, grouped by day, ordered by kickoff.</li>
-      <li><a class="inline" href="games">Today's board</a> &mdash; everything currently priced, across sports.</li>
-    </ul>
+    <section class="board-destination" aria-label="Today's board links">
+      <div class="t">Live markets</div>
+      <p>Every active game, grouped by sport, with the spread, total, moneyline and no-vig read in one place.</p>
+      <a class="board-primary" href="/games?sport=NFL&amp;scope=week">
+        <span>Open this week's NFL board<small>Every game, the spread, the total and the no-vig price</small></span>
+        <b aria-hidden="true">&rarr;</b>
+      </a>
+      <div class="board-options" aria-label="Open a specific board">
+        <a href="/games">Full board</a>
+        <a href="/games?sport=CFB&amp;scope=week">College football</a>
+        <a href="/games?sport=MLB&amp;scope=today">MLB</a>
+        <a href="/games?sport=UFC">UFC</a>
+      </div>
+    </section>
 
     <h2 id="faq">Common questions</h2>
     <div class="box">
@@ -594,7 +620,7 @@
   <div class="cta-inner">
     <h2>See it on a live board</h2>
     <p>Every game this week with the spread, the total, where each number opened, and the fair price with the vig taken out. Read live from the feed, nothing typed by hand.</p>
-    <a href="/nfl">Open the NFL board &rarr;</a>
+    <a href="/games?sport=NFL&amp;scope=week">Open this week's NFL board &rarr;</a>
   </div>
 </section>
 

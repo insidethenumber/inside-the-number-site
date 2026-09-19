@@ -179,7 +179,7 @@ p.x a{color:var(--green);text-decoration:none}
     if(removed && !document.querySelector('.card.today') && !document.getElementById('halftime-note')){
       var d=document.createElement('div'); d.id='halftime-note'; d.className='card';
       d.innerHTML='<div class="hd"><span class="k">Parlay of the Day</span></div>'
-        +'<p class="c-note" style="padding:16px 18px;margin:0">Tonight’s ticket came down at halftime — a parlay you can no longer bet at that price has no business sitting on a page about honest prices. Tomorrow’s goes out in the <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">Morning Board</a> before first kick.</p>';
+        +'<p class="c-note" style="padding:16px 18px;margin:0">Tonight’s ticket came down at halftime — a parlay you can no longer bet at that price has no business sitting on a page about honest prices. Tomorrow’s goes out in <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">The Market Brief</a>.</p>';
       var anchor=document.querySelector('.card.today')||document.querySelector('h2');
       if(anchor) anchor.parentNode.insertBefore(d, anchor); else document.body.appendChild(d);
     }
