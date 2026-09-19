@@ -158,6 +158,11 @@
   .qcta a.sec { font-size:13.5px; color:var(--green); text-decoration:none;
     border-bottom:1px solid rgba(0,208,132,.35); }
   .qcta a.sec:hover { border-bottom-color:var(--green); }
+  .qcta a.sec.board { display:inline-flex; align-items:center; min-height:44px;
+    padding:0 18px; border:1.5px solid var(--green); border-bottom-color:var(--green);
+    border-radius:22px; font-family:'Barlow Condensed',sans-serif; font-size:14px;
+    font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+  .qcta a.sec.board:hover { background:var(--green); color:var(--black); }
 
   /* Live card table */
   .stamp { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); letter-spacing:0.05em; margin:-8px 0 14px; }
@@ -445,7 +450,7 @@
       </ul>
       <p class="qcta">
         <a class="pri" href="odds-converter">Use the odds converter</a>
-        <a class="sec" href="games">Today's board &rarr;</a>
+        <a class="sec board" href="/games">Read the Full Board &rarr;</a>
       </p>
     </div>
 
@@ -533,7 +538,7 @@
       <li><a class="inline" href="no-vig-calculator">No-vig calculator</a> &mdash; enter both fighters' prices and strip the margin out, exactly as done above.</li>
       <li><a class="inline" href="glossary">Betting math glossary</a> &mdash; moneyline, implied probability, vig, overround and the rest, defined plainly.</li>
     </ul>
-    <p>Elsewhere on the site: <a class="inline" href="ufc">the UFC archive</a> keeps closing prices from finished cards as a record of where markets ended, and <a class="inline" href="games">today's board</a> shows everything currently priced across sports.</p>
+    <p>Elsewhere on the site: <a class="inline" href="ufc">the UFC archive</a> keeps closing prices from finished cards as a record of where markets ended, and <a class="inline" href="/games">today's board</a> shows everything currently priced across sports.</p>
 
     <div class="signup" id="signup">
       <div class="t">Free, every day</div>

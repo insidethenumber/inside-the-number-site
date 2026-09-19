@@ -162,20 +162,63 @@
   .qcta a.sec { font-size:13.5px; color:var(--green); text-decoration:none;
     border-bottom:1px solid rgba(0,208,132,.35); }
   .qcta a.sec:hover { border-bottom-color:var(--green); }
+  /* the board link sits beside a solid pill; as bare underlined text it read as
+     an afterthought, so it gets equal button weight in outline form */
+  .qcta a.sec.board { display:inline-flex; align-items:center; min-height:44px;
+    padding:0 18px; border:1.5px solid var(--green); border-bottom-color:var(--green);
+    border-radius:22px; font-family:'Barlow Condensed',sans-serif; font-size:14px;
+    font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+  .qcta a.sec.board:hover { background:var(--green); color:var(--black); }
 
-  /* The table-of-contents jump used to land on three inline links at the
-     bottom of a long guide. This makes the board destination unmistakable. */
-  .board-destination { max-width:660px; margin:22px 0 46px; padding:22px; background:var(--surface-1); border:1px solid var(--border-lit); border-top:3px solid var(--green); border-radius:var(--r-md); }
-  .board-destination .t { font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--green); margin-bottom:8px; }
-  .board-destination p { margin:0 0 16px; font-size:14px; }
-  .board-primary { display:flex; align-items:center; gap:16px; min-height:76px; padding:16px 18px; background:var(--green); color:var(--black); border-radius:8px; text-decoration:none; }
-  .board-primary:hover { background:var(--white); }
-  .board-primary span { display:block; font-family:'Barlow Condensed',sans-serif; font-size:25px; line-height:1; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
-  .board-primary small { display:block; margin-top:4px; font-size:12px; font-weight:600; opacity:.72; }
-  .board-primary b { margin-left:auto; font-family:'Barlow Condensed',sans-serif; font-size:38px; line-height:1; }
-  .board-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-  .board-options a { display:inline-flex; align-items:center; padding:7px 10px; border:1px solid var(--border-lit); border-radius:6px; color:var(--mid); font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+  /* THE BOARD DOORWAY.
+     This is the product entry point on an education page, so it is built as a
+     card, not a link: the whole <a> is the hit area, the label is display type,
+     and a market motif shows what is behind the door. The motif deliberately
+     carries NO prices — inventing odds, even as decoration, is the one thing
+     this site cannot do. It names the four markets instead. */
+  .bdoor { display:block; margin:24px 0 18px; padding:0; overflow:hidden;
+    background:linear-gradient(150deg,var(--surface-2) 0%,var(--surface-1) 55%,var(--black) 100%);
+    border:1px solid var(--border-lit); border-top:3px solid var(--green);
+    border-radius:var(--r-lg); box-shadow:var(--shadow-md);
+    text-decoration:none; color:inherit; transition:border-color .18s,transform .18s,box-shadow .18s; }
+  .bdoor:hover { border-color:var(--green); transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 1px rgba(0,208,132,.22); }
+  .bdoor:focus-visible { outline:3px solid var(--green); outline-offset:3px; }
+  .bdoor-body { padding:26px 26px 0; }
+  .bdoor-eyebrow { display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .bdoor-dot { width:7px; height:7px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 0 4px var(--green-dim); }
+  .bdoor-title { font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase;
+    font-size:clamp(30px,5.4vw,46px); line-height:.96; letter-spacing:.01em; color:var(--white); margin:0 0 10px; }
+  .bdoor-sub { font-size:14.5px; line-height:1.55; color:var(--mid); margin:0 0 20px; max-width:46ch; }
+  /* market motif — names the four markets, shows no numbers */
+  .bdoor-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:22px; }
+  .bdoor-cell { background:rgba(0,0,0,.34); border:1px solid var(--border); border-radius:var(--r-sm);
+    padding:11px 8px; text-align:center; }
+  .bdoor-cell i { display:block; font-family:'IBM Plex Mono',monospace; font-style:normal;
+    font-size:8.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .bdoor-cell b { display:block; height:5px; border-radius:3px;
+    background:linear-gradient(90deg,var(--green),rgba(0,208,132,.18)); }
+  .bdoor-cell:nth-child(2) b { background:linear-gradient(90deg,var(--blue),rgba(59,167,255,.18)); }
+  .bdoor-cell:nth-child(3) b { background:linear-gradient(90deg,var(--gold),rgba(240,180,41,.18)); }
+  .bdoor-cell:nth-child(4) b { background:linear-gradient(90deg,var(--white),rgba(240,242,245,.16)); }
+  /* action bar — the visual "button" that lives inside the card */
+  .bdoor-go { display:flex; align-items:center; justify-content:space-between; gap:14px;
+    min-height:62px; padding:0 26px; background:var(--green); color:var(--black);
+    font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:900;
+    letter-spacing:.09em; text-transform:uppercase; }
+  .bdoor:hover .bdoor-go { background:var(--white); }
+  .bdoor-go b { font-size:27px; line-height:1; }
+
+  .board-destination { max-width:660px; margin:22px 0 46px; }
+  .board-options { display:flex; flex-wrap:wrap; gap:8px; }
+  .board-options a { display:inline-flex; align-items:center; padding:7px 10px;
+    border:1px solid var(--border-lit); border-radius:6px; color:var(--mid);
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em;
+    text-decoration:none; text-transform:uppercase; }
   .board-options a:hover { color:var(--green); border-color:var(--green); }
+
 
   @media (max-width:980px){
     nav { padding:0 20px; }
@@ -185,7 +228,11 @@
     .toc { display:none; }
     .cta-inner { padding:52px 20px; }
     footer { flex-direction:column; text-align:center; padding:32px 20px; }
-    .board-primary span { font-size:22px; }
+    .bdoor-body { padding:22px 20px 0; }
+    /* two columns, not four — four market names at 8.5px on a 350px
+       content column is unreadable and starts clipping. */
+    .bdoor-grid { grid-template-columns:repeat(2,1fr); }
+    .bdoor-go { min-height:66px; padding:0 20px; font-size:16px; }
     /* 7px padding + 10px type computes to a ~26px chip — under the 44px
        minimum touch target. Height it properly at phone width. */
     .board-options a { min-height:44px; padding:0 14px; }
@@ -463,7 +510,7 @@
       </ul>
       <p class="qcta">
         <a class="pri" href="no-vig-calculator">Use the no-vig calculator</a>
-        <a class="sec" href="/games">Read today's board &rarr;</a>
+        <a class="sec board" href="/games">Read the Full Board &rarr;</a>
       </p>
     </div>
 
@@ -573,12 +620,20 @@
     </div>
 
     <h2 id="board">Read today's board</h2>
-    <section class="board-destination" aria-label="Today's board links">
-      <div class="t">Live markets</div>
-      <p>Every active game, grouped by sport, with the spread, total, moneyline and no-vig read in one place.</p>
-      <a class="board-primary" href="/games">
-        <span>Open today's full board<small>Every sport on the market right now, with the no-vig price</small></span>
-        <b aria-hidden="true">&rarr;</b>
+    <section class="board-destination" aria-label="Today's board">
+      <a class="bdoor" href="/games">
+        <div class="bdoor-body">
+          <div class="bdoor-eyebrow"><span class="bdoor-dot"></span>Live markets</div>
+          <div class="bdoor-title">Read the Full Board</div>
+          <p class="bdoor-sub">Every sport priced right now. Spread, total, moneyline, and no-vig price in one place.</p>
+          <div class="bdoor-grid" aria-hidden="true">
+            <div class="bdoor-cell"><i>Spread</i><b></b></div>
+            <div class="bdoor-cell"><i>Total</i><b></b></div>
+            <div class="bdoor-cell"><i>Moneyline</i><b></b></div>
+            <div class="bdoor-cell"><i>No-vig</i><b></b></div>
+          </div>
+        </div>
+        <div class="bdoor-go">Open today's board <b aria-hidden="true">&rarr;</b></div>
       </a>
       <div class="board-options" aria-label="Open a specific board">
         <a href="/games?sport=NFL&amp;scope=week">NFL</a>
@@ -620,7 +675,7 @@
   <div class="cta-inner">
     <h2>See it on a live board</h2>
     <p>Every sport currently priced, with the spread, the total, where each number opened, and the fair price with the vig taken out. Read live from the feed, nothing typed by hand.</p>
-    <a href="/games">Read today's board &rarr;</a>
+    <a href="/games">Read the Full Board &rarr;</a>
   </div>
 </section>
 
