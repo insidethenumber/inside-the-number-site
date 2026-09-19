@@ -17,14 +17,7 @@
   'use strict';
 
   var openGroup = null;
-  var closeTimer = null;
-
-  function cancelClose() {
-    if (closeTimer) { window.clearTimeout(closeTimer); closeTimer = null; }
-  }
-
   function closeGroup(restoreFocus) {
-    cancelClose();
     if (!openGroup) return;
     var btn = openGroup.querySelector('.itn-top');
     var menu = openGroup.querySelector('.itn-menu');
@@ -58,7 +51,6 @@
       // opened under them, so hover only ever opens, never steals focus.
       group.addEventListener('mouseenter', function () {
         if (window.matchMedia('(max-width:900px)').matches) return;
-        cancelClose();
         if (openGroup && openGroup !== group) closeGroup(false);
         btn.setAttribute('aria-expanded', 'true');
         menu.hidden = false;
@@ -67,15 +59,9 @@
       group.addEventListener('mouseleave', function () {
         if (window.matchMedia('(max-width:900px)').matches) return;
         if (group.contains(document.activeElement)) return;
-        if (openGroup === group) {
-          /* Give the pointer time to cross the small visual gap or reach a
-             menu item before closing. */
-          cancelClose();
-          closeTimer = window.setTimeout(function () {
-            closeTimer = null;
-            if (!group.matches(':hover') && !group.contains(document.activeElement)) closeGroup(false);
-          }, 300);
-        }
+        /* CSS owns desktop hover visibility. Do not hide the menu here: a
+           mouseleave can fire while the pointer is crossing into the menu,
+           and CSS :hover/:focus-within handles the actual boundary safely. */
       });
 
       // Tabbing past the last item in the menu should close it rather than

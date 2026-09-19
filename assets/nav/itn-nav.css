@@ -65,6 +65,12 @@
 .itn-group:after{content:'';position:absolute;left:-16px;right:-16px;top:100%;height:2px}
 .itn-menu[hidden]{display:none}
 .itn-menu li{list-style:none}
+/* Desktop hover is CSS-owned so a pointer crossing from the trigger into the
+   menu cannot race the JavaScript disclosure timer and hide the menu. */
+@media(min-width:901px){
+  .itn-group:hover > .itn-menu,
+  .itn-group:focus-within > .itn-menu{display:block}
+}
 .itn-menu a{
   display:block; padding:9px 12px; border-radius:7px;
   text-transform:none; letter-spacing:0; font-size:14px; font-weight:600;
