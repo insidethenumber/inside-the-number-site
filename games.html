@@ -1899,7 +1899,10 @@ function cfbLink(v){
 }
 function cfbFilterBar(games,active){
   const el=document.getElementById('cfb-filter'); if(!el) return;
-  el.style.display='';
+  /* The base CSS keeps this container hidden until CFB is active. An empty
+     inline value resolves back to display:none, so make the visible state
+     explicit. */
+  el.style.display='block';
   el.innerHTML=`<div class="cf-row" role="tablist" aria-label="Filter college football games">${
     CFB_FILTERS.map(([v,label,fn])=>{
       const n=games.filter(fn).length;
