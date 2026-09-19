@@ -243,6 +243,43 @@
   }
   @media(max-width:440px){ .gh-odds,.gh-odds.push{padding-left:0} }
 
+  /* ── MOBILE OVERFLOW FIX (Sep 19 2026) ──────────────────────────────
+     Real cause, confirmed by box-model arithmetic against the CSS already
+     in this file (no renderer available in this environment — see the
+     patch report for the full working):
+       1. The six-column market table (.mkt table) uses the browser's
+          automatic table layout with six unconstrained columns. Its
+          min-content width comfortably exceeds any phone viewport, and
+          because .mkt has overflow:hidden, the excess was being silently
+          clipped — the Move and Chance columns could be cut off entirely
+          rather than reachable, which is worse than a scrollbar.
+       2. .gh-odds carries three .gho cells at a hard min-width:72px with
+          20px gaps (236px minimum). At 320px width specifically, once
+          .gh's own 26px side padding and .wrap's 20px side padding are
+          subtracted, that no longer fits — a real, if narrow, overflow.
+       3. Long generated team/venue names had no overflow-wrap fallback.
+     body{overflow-x:hidden} (top of file) was masking the symptom — no
+     page-level scrollbar — without fixing any of the above; the content
+     was still being clipped rather than shown. It stays as a last-resort
+     guard, but the fixes below are what actually solve it. */
+  .mkt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .mkt-scroll table{min-width:560px}
+  @media(max-width:620px){
+    .mkt-scroll{border-bottom:1px solid var(--border);
+      background:linear-gradient(to right, transparent 94%, rgba(0,208,132,.12));background-repeat:no-repeat}
+  }
+  .gh-row>div{min-width:0}
+  .gh-name,.gh-rec,.gh-sp,.mkt-t,.mkt-hold,.callout .v,.callout p,.takeaway p,.ac .sub,.gh-top .st,.gh-top .mkt-hold{
+    max-width:100%;overflow-wrap:anywhere}
+  td.side{overflow-wrap:anywhere}
+  @media(max-width:480px){
+    .acards{grid-template-columns:1fr}
+    .why-r{grid-template-columns:1fr;gap:2px}
+  }
+  @media(max-width:440px){
+    .gh-odds,.gh-odds.push{flex-wrap:wrap;row-gap:8px}
+    .gho{min-width:0;flex:1 1 76px}
+  }
   .mkt{background:var(--surface-1);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;overflow:hidden}
   .mkt-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
   .mkt-t{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
@@ -524,6 +561,29 @@
   @media(max-width:900px){#board-scope{padding:0 20px}}
 </style>
 <div id="board-scope"></div>
+
+<!-- CFB discovery filter bar. Same visual language as #board-scope so it
+     reads as one control strip, not a second unrelated widget. Hidden by
+     default; listView() reveals it only when sport===CFB and the league has
+     at least one game to filter. The row itself scrolls horizontally at
+     narrow widths (same technique already used by .rail and .tick above) so
+     four pills never force the page itself to scroll sideways. -->
+<style>
+  #cfb-filter{max-width:1100px;margin:8px auto 0;padding:0 16px;display:none}
+  #cfb-filter .cf-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  #cfb-filter .cf-row::-webkit-scrollbar{display:none}
+  #cfb-filter .cf-row a{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+    padding:6px 12px;border-radius:999px;border:1px solid var(--border-lit);
+    background:rgba(255,255,255,.02);color:#c9cfd8;text-decoration:none;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.05em;white-space:nowrap}
+  #cfb-filter .cf-row a:hover{color:var(--white);border-color:#39424f}
+  #cfb-filter .cf-row a[aria-current="page"]{color:var(--green);
+    border-color:rgba(0,208,132,.5);background:rgba(0,208,132,.07)}
+  #cfb-filter .cf-row a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  #cfb-filter .cf-row a b{font-weight:600;opacity:.7;font-size:9.5px}
+  @media(max-width:900px){#cfb-filter{padding:0 20px}}
+</style>
+<div id="cfb-filter"></div>
 
 <!-- Source + read-time stamp. Added for the weekend market test, Sep 18 2026.
      Mirrors #stamp on nfl.html. Written by JS from the same fetch that fills
@@ -1243,10 +1303,18 @@ function parseTeam(d,label){
           const st=n=>p.statistics?.find(s=>s.name===n)?.displayValue;
           return{name:p.athlete?.shortName||p.athlete?.displayName||'',era:st('ERA'),w:st('wins'),l:st('losses')};
         };
+        /* Ranking and conference, for the CFB discovery filters below.
+           Verified against the live feed Sep 19 2026: every competitor
+           carries curatedRank.current (1-25 when ranked, 99 otherwise —
+           never missing), and every team carries a numeric conferenceId.
+           Nothing here is invented or hand-maintained; both read straight
+           off the payload ESPN already sends for every sport, every game. */
         const side=x=>({ab:x.team.abbreviation,name:x.team.shortDisplayName||x.team.name,logo:x.team.logo,sc:x.score,
           rec:recOf(x,['total']),
           split:recOf(x,x===h?['home','homerecord']:['road','awayrecord']),
-          sp:prob(x)});
+          sp:prob(x),
+          rank:(x.curatedRank&&x.curatedRank.current&&x.curatedRank.current<=25)?x.curatedRank.current:null,
+          conf:P4_CONF_IDS.has(String(x.team.conferenceId))?'P4':null});
         return{id:ev.id,league:label,kind:'team',state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',
           /* venue.indoor exists on the SCOREBOARD payload and NOT on the
              summary one -- summary's gameInfo.venue carries only id, fullName,
@@ -1762,6 +1830,77 @@ async function ufcView(){
   document.title=`${cardData.name||'UFC'} \u2014 full card | Inside the Number`;
 }
 
+/* ── CFB DISCOVERY FILTERS ───────────────────────────────────────────────
+   Added Sep 19 2026. The CFB board runs 70+ games some Saturdays; this lets
+   a visitor narrow to what they actually came for without a second feed
+   fetch.
+
+   Sourcing, checked against the live feed before writing any of this:
+     - Rank: competitor.curatedRank.current. 1-25 when ranked, 99 otherwise,
+       present on every competitor every time. A game is ranked if EITHER
+       side is 1-25.
+     - Conference: team.conferenceId, a small numeric id present on every
+       team. The four Power 4 ids below were resolved straight off the live
+       feed (matching conferenceId against competition.groups.name on
+       games where both sides share a conference), not typed from memory:
+         1 = ACC, 4 = Big 12, 5 = Big Ten, 8 = SEC.
+       That is the entire mapping. Everything else (Group of Five,
+       independents, FCS opponents) is simply "not Power 4" — no attempt to
+       name or rank the rest, which is exactly the kind of large brittle
+       database this task said not to build.
+     - Rivalry / "nationally meaningful" text: checked competition.notes[]
+       across a full live slate (71 games). One game carried a notes entry,
+       and it was a neutral-site event name ("Duke's Mayo Classic"), not a
+       rivalry label — too sparse and imprecise to filter on truthfully.
+       Featured Games below deliberately does NOT use it; see the mobile/CFB
+       patch report for this limitation stated plainly.
+     - Line movement: read from the same normalized odds object every game
+       already carries (g.o), at filter time — no refetch, no new field. */
+const P4_CONF_IDS = new Set(['1','4','5','8']);   // ACC, Big 12, Big Ten, SEC — verified live, see above
+function cfbIsRanked(g){ return g.a.rank!=null || g.h.rank!=null; }
+function cfbBothRanked(g){ return g.a.rank!=null && g.h.rank!=null; }
+function cfbIsPower4(g){ return g.a.conf==='P4' || g.h.conf==='P4'; }
+function cfbLineMoved(g){
+  const o=g.o||{};
+  const sA=lineNum(o.pointSpread?.away?.open?.line), sC=lineNum(o.pointSpread?.away?.close?.line);
+  if(sA!=null && sC!=null && Math.abs(sC-sA)>=1.5) return true;
+  const tO=lineNum(o.total?.over?.open?.line), tC=lineNum(o.total?.over?.close?.line);
+  if(tO!=null && tC!=null && Math.abs(tC-tO)>=2) return true;
+  return false;
+}
+/* Both ranked; a ranked team against a Power 4 opponent; a meaningfully
+   moved number; or a game ITN already flagged (g.ours — existing project
+   data, not a new signal invented for this filter). Any one qualifies, and
+   the OR means a game showing up for two reasons still only appears once. */
+function cfbIsFeatured(g){
+  return cfbBothRanked(g) || (cfbIsRanked(g)&&cfbIsPower4(g)) || cfbLineMoved(g) || !!g.ours;
+}
+const CFB_FILTERS=[
+  ['all','All Games',()=>true],
+  ['top25','Top 25',cfbIsRanked],
+  ['power4','Power 4',cfbIsPower4],
+  ['featured','Featured Games',cfbIsFeatured],
+];
+function cfbFilterOf(){
+  const q=(new URLSearchParams(location.search).get('cfbFilter')||'').toLowerCase();
+  return CFB_FILTERS.some(([v])=>v===q)?q:'all';
+}
+function cfbLink(v){
+  const q=new URLSearchParams(location.search);
+  q.set('sport','CFB'); q.set('cfbFilter',v);
+  return '?'+q.toString();
+}
+function cfbFilterBar(games,active){
+  const el=document.getElementById('cfb-filter'); if(!el) return;
+  el.style.display='';
+  el.innerHTML=`<div class="cf-row" role="tablist" aria-label="Filter college football games">${
+    CFB_FILTERS.map(([v,label,fn])=>{
+      const n=games.filter(fn).length;
+      return `<a href="${cfbLink(v)}" role="tab" aria-selected="${v===active}"${v===active?' aria-current="page"':''}>${label} <b>${n}</b></a>`;
+    }).join('')
+  }</div>`;
+}
+
 async function listView(sport){
   rail(sport);
   const view=document.getElementById('view');
@@ -1798,13 +1937,28 @@ async function listView(sport){
     g=w;
   }
   scopeBar(sport,scope,g.length);
+  const cfbEl=document.getElementById('cfb-filter');
+  let shown=g;
+  if(sport==='CFB' && g.length){
+    const cf=cfbFilterOf();
+    cfbFilterBar(g,cf);
+    shown=g.filter((CFB_FILTERS.find(([v])=>v===cf)||CFB_FILTERS[0])[2]);
+  } else if(cfbEl){
+    cfbEl.style.display='none'; cfbEl.innerHTML='';
+  }
   if(g.length){
     ticker(sport,null);
-    view.innerHTML=`
-      <h1>${sport} \u2014 ${scope==='week'?"This Week's Board":"Today's Board"}</h1>
-      ${!(new URLSearchParams(location.search).get('sport'))?`<p class="lead" style="color:var(--muted);font-size:13.5px">Opened on ${sport} because it has the most games priced right now. Every league is on the bar above \u2014 they all stay on this page.</p>`:''}
-      <p class="lead">Every ${sport} game priced ${scope==='week'?'over the next seven days':'today'}. Each one opens the full market \u2014 moneyline, spread and total \u2014 with each side's real win chance and the move since the number opened.</p>
-      <div class="list">${g.map(card).join('')}</div>`;
+    if(sport==='CFB' && !shown.length){
+      view.innerHTML=`
+        <h1>${sport} \u2014 ${scope==='week'?"This Week's Board":"Today's Board"}</h1>
+        <div class="empty">No games match this filter. <a href="${cfbLink('all')}" style="color:var(--green)">Show all CFB games \u2192</a></div>`;
+    } else {
+      view.innerHTML=`
+        <h1>${sport} \u2014 ${scope==='week'?"This Week's Board":"Today's Board"}</h1>
+        ${!(new URLSearchParams(location.search).get('sport'))?`<p class="lead" style="color:var(--muted);font-size:13.5px">Opened on ${sport} because it has the most games priced right now. Every league is on the bar above \u2014 they all stay on this page.</p>`:''}
+        <p class="lead">Every ${sport} game priced ${scope==='week'?'over the next seven days':'today'}. Each one opens the full market \u2014 moneyline, spread and total \u2014 with each side's real win chance and the move since the number opened.</p>
+        <div class="list">${shown.map(card).join('')}</div>`;
+    }
   } else {
     ticker(sport,null);
     view.innerHTML=`
@@ -1854,8 +2008,8 @@ function market(title,rows,hold){
   return `<div class="mkt">
     <div class="mkt-h"><span class="mkt-t">${title}</span>
       <span class="mkt-hold">${hold!=null?`House edge ${hold.toFixed(1)}%`:'Not posted'}</span></div>
-    ${any?`<table><thead><tr><th>Side</th><th>Line</th><th>Open</th><th>Current</th><th>Move</th><th>Chance</th></tr></thead>
-      <tbody>${mktRows(rows)}</tbody></table>`
+    ${any?`<div class="mkt-scroll"><table><thead><tr><th>Side</th><th>Line</th><th>Open</th><th>Current</th><th>Move</th><th>Chance</th></tr></thead>
+      <tbody>${mktRows(rows)}</tbody></table></div>`
       :`<div style="padding:16px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted)">
          This market isn't posted for this game right now. Books usually pull it once a game is under way.</div>`}
   </div>`;
