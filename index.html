@@ -327,6 +327,24 @@
   .potd-matchup .at { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 400; color: var(--muted); }
   .potd-line { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: var(--green); font-weight: 600; margin-bottom: 12px; }
   .potd-reasoning { font-size: 14.5px; color: var(--mid); line-height: 1.7; max-width: 560px; font-weight: 300; }
+  /* The board link used to be four underlined words at the end of a long
+     paragraph — the product doorway styled as punctuation. This is a tab:
+     outlined in green so it reads as a control, not prose, and sized past the
+     44px touch minimum. Deliberately not .btn-primary — the cheat-sheet button
+     below is the card's primary action and two solid greens would compete. */
+  .board-tab { display:inline-flex; align-items:center; gap:10px; min-height:46px;
+    margin-top:18px; padding:0 22px; border:1.5px solid var(--green); border-radius:24px;
+    background:rgba(0,208,132,0.08); color:var(--green); text-decoration:none;
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase;
+    transition:background .16s,color .16s,border-color .16s; }
+  .board-tab:hover { background:var(--green); color:var(--black); }
+  .board-tab:focus-visible { outline:3px solid var(--green); outline-offset:3px; }
+  .board-tab b { font-family:'Barlow Condensed',sans-serif; font-size:19px; line-height:1; }
+  @media (max-width:640px){
+    /* full width so it can't end up a cramped inline target on a phone */
+    .board-tab { min-height:48px; width:100%; justify-content:center; margin-top:16px; }
+  }
   .potd-cta { text-align: center; }
   .potd-cta .btn-primary { white-space: nowrap; }
   .potd-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 10px; }
@@ -1167,7 +1185,8 @@
         <div class="potd-sport">Reading the number</div>
         <div class="potd-matchup" id="potd-matchup">What the market is actually saying</div>
         <div class="potd-line">No-vig true price &middot; key numbers &middot; line movement</div>
-        <p class="potd-reasoning">A posted line is two things at once: an estimate of the outcome, and the price you are charged for taking it. Strip the vig out and what is left is the market's true probability &mdash; the number worth comparing anything else against. In football the key numbers carry most of the weight: games land on <b>3</b> and <b>7</b> far more often than on any other margin, so a spread moving off 3 costs more than the half-point makes it look. And when a total moves while the spread sits still, the market is repricing how the game gets played, not who wins it. Every current price, and how far each has traveled since it opened, is on the <a href="games" style="color:inherit;text-decoration:underline">Full Board</a>.</p>
+        <p class="potd-reasoning">A posted line is two things at once: an estimate of the outcome, and the price you are charged for taking it. Strip the vig out and what is left is the market's true probability &mdash; the number worth comparing anything else against. In football the key numbers carry most of the weight: games land on <b>3</b> and <b>7</b> far more often than on any other margin, so a spread moving off 3 costs more than the half-point makes it look. And when a total moves while the spread sits still, the market is repricing how the game gets played, not who wins it. Every current price, and how far each has traveled since it opened, is on the board.</p>
+        <a class="board-tab" href="/games">Open Full Board <b aria-hidden="true">&rarr;</b></a>
       </div>
       <div class="potd-cta">
         <a href="no-vig-calculator#cheat-sheet" class="btn-primary">Get the No-Vig Cheat Sheet &rarr;</a>
