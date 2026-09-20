@@ -1,13 +1,47 @@
 {
- "generated_utc": "2026-09-20T18:12:56.876873+00:00",
+ "generated_utc": "2026-09-20T23:34:14.585224+00:00",
  "mode": "morning",
  "credits_spent": 1,
- "credits_remaining": 379,
+ "credits_remaining": 378,
  "results": [
   {
    "kind": "ufc_board",
    "sport": "mma_mixed_martial_arts",
    "events": [
+    {
+     "commence": "2026-09-22T22:00:00Z",
+     "a": {
+      "name": "Damian Piwowarczyk",
+      "price": -118,
+      "book": "BetOnline.ag",
+      "true": 52.1
+     },
+     "b": {
+      "name": "Emilio Quissua",
+      "price": 101,
+      "book": "BetOnline.ag",
+      "true": 47.9
+     },
+     "hold": 3.88,
+     "books": 1
+    },
+    {
+     "commence": "2026-09-22T22:00:00Z",
+     "a": {
+      "name": "Norbert Novenyi Jr.",
+      "price": -450,
+      "book": "BetOnline.ag",
+      "true": 78.8
+     },
+     "b": {
+      "name": "Theo Haig",
+      "price": 354,
+      "book": "BetOnline.ag",
+      "true": 21.2
+     },
+     "hold": 3.84,
+     "books": 1
+    },
     {
      "commence": "2026-09-26T18:00:00Z",
      "a": {
@@ -31,49 +65,49 @@
       "name": "Ailin Perez",
       "price": -127,
       "book": "BetRivers",
-      "true": 54.1
+      "true": 54.3
      },
      "b": {
       "name": "Norma Dumont",
-      "price": 111,
-      "book": "BetOnline.ag",
-      "true": 45.9
+      "price": 112,
+      "book": "Bovada",
+      "true": 45.7
      },
-     "hold": 3.34,
+     "hold": 3.12,
      "books": 6
     },
     {
      "commence": "2026-09-26T22:00:00Z",
      "a": {
       "name": "Brady Hiestand",
-      "price": 265,
+      "price": 269,
       "book": "BetOnline.ag",
-      "true": 26.4
+      "true": 26.2
      },
      "b": {
       "name": "Rinya Nakamura",
       "price": -320,
       "book": "Bovada",
-      "true": 73.6
+      "true": 73.8
      },
-     "hold": 3.59,
-     "books": 5
+     "hold": 3.29,
+     "books": 6
     },
     {
      "commence": "2026-09-26T22:00:00Z",
      "a": {
       "name": "Christian Edwards",
-      "price": 150,
+      "price": 153,
       "book": "Bovada",
-      "true": 38.6
+      "true": 38.3
      },
      "b": {
       "name": "Rodolfo Bellato",
       "price": -175,
       "book": "BetOnline.ag",
-      "true": 61.4
+      "true": 61.7
      },
-     "hold": 3.64,
+     "hold": 3.16,
      "books": 6
     },
     {
@@ -125,24 +159,24 @@
       "true": 70.8
      },
      "hold": 3.64,
-     "books": 5
+     "books": 6
     },
     {
      "commence": "2026-09-26T22:00:00Z",
      "a": {
       "name": "Melissa Amaya",
-      "price": 169,
-      "book": "BetOnline.ag",
-      "true": 35.9
+      "price": 170,
+      "book": "DraftKings",
+      "true": 35.8
      },
      "b": {
       "name": "Valesca Machado",
       "price": -198,
       "book": "Bovada",
-      "true": 64.1
+      "true": 64.2
      },
-     "hold": 3.62,
-     "books": 4
+     "hold": 3.48,
+     "books": 5
     },
     {
      "commence": "2026-09-26T22:00:00Z",
@@ -165,34 +199,34 @@
      "commence": "2026-09-26T22:00:00Z",
      "a": {
       "name": "Montel Jackson",
-      "price": -185,
-      "book": "BetMGM",
-      "true": 64.3
+      "price": -192,
+      "book": "DraftKings",
+      "true": 64.2
      },
      "b": {
       "name": "Ricky Simon",
-      "price": 177,
+      "price": 173,
       "book": "BetOnline.ag",
-      "true": 35.7
+      "true": 35.8
      },
-     "hold": 1.01,
+     "hold": 2.38,
      "books": 6
     },
     {
      "commence": "2026-09-26T22:00:00Z",
      "a": {
       "name": "Raoni Barcelos",
-      "price": 160,
+      "price": 158,
       "book": "Bovada",
-      "true": 37.4
+      "true": 37.6
      },
      "b": {
       "name": "Raul Rosas Jr",
       "price": -180,
       "book": "BetOnline.ag",
-      "true": 62.6
+      "true": 62.4
      },
-     "hold": 2.75,
+     "hold": 3.05,
      "books": 6
     },
     {
@@ -227,7 +261,7 @@
       "true": 86.1
      },
      "hold": 3.26,
-     "books": 5
+     "books": 6
     },
     {
      "commence": "2026-10-04T01:00:00Z",
