@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-21T17:11:10.881099+00:00",
+ "generated_utc": "2026-09-21T19:27:28.374130+00:00",
  "slate_date": "2026-09-21",
  "slate_label": "Mon, Sep 21",
  "non_mlb_available": [
@@ -28,8 +28,8 @@
    "over_odds": "-106",
    "under_odds": "-114",
    "spread": "-1.5",
-   "ml_away": "-108",
-   "ml_home": "-112",
+   "ml_away": "-109",
+   "ml_home": "-110",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-108",
@@ -39,13 +39,13 @@
     "over_odds": "-115",
     "under_odds": "-105"
    },
-   "true_away": 49.6,
-   "true_home": 50.4,
-   "hold": 4.75,
+   "true_away": 49.9,
+   "true_home": 50.1,
+   "hold": 4.53,
    "be_over": 51.5,
    "be_under": 53.3,
-   "be_ml_away": 51.9,
-   "be_ml_home": 52.8
+   "be_ml_away": 52.2,
+   "be_ml_home": 52.4
   },
   {
    "league": "MLB",
@@ -64,12 +64,12 @@
     "name": "Tigers",
     "record": "73-83"
    },
-   "total": "o8",
-   "over_odds": "-118",
-   "under_odds": "-102",
+   "total": "o8.5",
+   "over_odds": "-114",
+   "under_odds": "-105",
    "spread": "+1.5",
-   "ml_away": "+112",
-   "ml_home": "-135",
+   "ml_away": "+110",
+   "ml_home": "-133",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+129",
@@ -79,13 +79,13 @@
     "over_odds": "-118",
     "under_odds": "-102"
    },
-   "true_away": 45.1,
-   "true_home": 54.9,
-   "hold": 4.62,
-   "be_over": 54.1,
-   "be_under": 50.5,
-   "be_ml_away": 47.2,
-   "be_ml_home": 57.4
+   "true_away": 45.5,
+   "true_home": 54.5,
+   "hold": 4.7,
+   "be_over": 53.3,
+   "be_under": 51.2,
+   "be_ml_away": 47.6,
+   "be_ml_home": 57.1
   },
   {
    "league": "MLB",
@@ -150,7 +150,7 @@
    "spread": "+6.5",
    "ml_away": "+240",
    "ml_home": "-298",
-   "provider": "DraftKings",
+   "provider": "Draft Kings",
    "open": {
     "ml_away": "+295",
     "ml_home": "-375",
