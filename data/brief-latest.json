@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-21T20:39:04.639559+00:00",
+ "generated_utc": "2026-09-21T22:39:05.873285+00:00",
  "slate_date": "2026-09-21",
  "slate_label": "Mon, Sep 21",
  "non_mlb_available": [
@@ -7,46 +7,6 @@
   "NHL"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401817027",
-   "short": "TOR @ BAL",
-   "start": "2026-09-21T22:35Z",
-   "detail": "9/21 - 6:35 PM EDT",
-   "venue": "Oriole Park at Camden Yards",
-   "away": {
-    "abbr": "TOR",
-    "name": "Blue Jays",
-    "record": "77-79"
-   },
-   "home": {
-    "abbr": "BAL",
-    "name": "Orioles",
-    "record": "75-81"
-   },
-   "total": "o7.5",
-   "over_odds": "-105",
-   "under_odds": "-114",
-   "spread": "-1.5",
-   "ml_away": "-110",
-   "ml_home": "-110",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-108",
-    "ml_home": "-112",
-    "spread": "-1.5",
-    "total": "o7.5",
-    "over_odds": "-115",
-    "under_odds": "-105"
-   },
-   "true_away": 50.0,
-   "true_home": 50.0,
-   "hold": 4.76,
-   "be_over": 51.2,
-   "be_under": 53.3,
-   "be_ml_away": 52.4,
-   "be_ml_home": 52.4
-  },
   {
    "league": "MLB",
    "id": "401817028",
@@ -65,11 +25,11 @@
     "record": "73-83"
    },
    "total": "o8.5",
-   "over_odds": "-114",
-   "under_odds": "-105",
+   "over_odds": "-112",
+   "under_odds": "-107",
    "spread": "+1.5",
-   "ml_away": "+110",
-   "ml_home": "-133",
+   "ml_away": "+112",
+   "ml_home": "-135",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+129",
@@ -79,13 +39,13 @@
     "over_odds": "-118",
     "under_odds": "-102"
    },
-   "true_away": 45.5,
-   "true_home": 54.5,
-   "hold": 4.7,
-   "be_over": 53.3,
-   "be_under": 51.2,
-   "be_ml_away": 47.6,
-   "be_ml_home": 57.1
+   "true_away": 45.1,
+   "true_home": 54.9,
+   "hold": 4.62,
+   "be_over": 52.8,
+   "be_under": 51.7,
+   "be_ml_away": 47.2,
+   "be_ml_home": 57.4
   },
   {
    "league": "MLB",
@@ -104,12 +64,12 @@
     "name": "Giants",
     "record": "64-92"
    },
-   "total": "o8.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "total": "o8",
+   "over_odds": "-113",
+   "under_odds": "-106",
    "spread": "-1.5",
-   "ml_away": "-124",
-   "ml_home": "+103",
+   "ml_away": "-123",
+   "ml_home": "+102",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-118",
@@ -119,13 +79,13 @@
     "over_odds": "-118",
     "under_odds": "-102"
    },
-   "true_away": 52.9,
-   "true_home": 47.1,
-   "hold": 4.62,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 55.4,
-   "be_ml_home": 49.3
+   "true_away": 52.7,
+   "true_home": 47.3,
+   "hold": 4.66,
+   "be_over": 53.1,
+   "be_under": 51.5,
+   "be_ml_away": 55.2,
+   "be_ml_home": 49.5
   },
   {
    "league": "NFL",
