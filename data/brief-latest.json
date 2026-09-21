@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-21T19:27:28.374130+00:00",
+ "generated_utc": "2026-09-21T20:39:04.639559+00:00",
  "slate_date": "2026-09-21",
  "slate_label": "Mon, Sep 21",
  "non_mlb_available": [
@@ -25,10 +25,10 @@
     "record": "75-81"
    },
    "total": "o7.5",
-   "over_odds": "-106",
+   "over_odds": "-105",
    "under_odds": "-114",
    "spread": "-1.5",
-   "ml_away": "-109",
+   "ml_away": "-110",
    "ml_home": "-110",
    "provider": "DraftKings",
    "open": {
@@ -39,12 +39,12 @@
     "over_odds": "-115",
     "under_odds": "-105"
    },
-   "true_away": 49.9,
-   "true_home": 50.1,
-   "hold": 4.53,
-   "be_over": 51.5,
+   "true_away": 50.0,
+   "true_home": 50.0,
+   "hold": 4.76,
+   "be_over": 51.2,
    "be_under": 53.3,
-   "be_ml_away": 52.2,
+   "be_ml_away": 52.4,
    "be_ml_home": 52.4
   },
   {
@@ -105,11 +105,11 @@
     "record": "64-92"
    },
    "total": "o8.5",
-   "over_odds": "-102",
-   "under_odds": "-118",
+   "over_odds": "-105",
+   "under_odds": "-115",
    "spread": "-1.5",
-   "ml_away": "-121",
-   "ml_home": "+101",
+   "ml_away": "-124",
+   "ml_home": "+103",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-118",
@@ -119,13 +119,13 @@
     "over_odds": "-118",
     "under_odds": "-102"
    },
-   "true_away": 52.4,
-   "true_home": 47.6,
-   "hold": 4.5,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 54.8,
-   "be_ml_home": 49.8
+   "true_away": 52.9,
+   "true_home": 47.1,
+   "hold": 4.62,
+   "be_over": 51.2,
+   "be_under": 53.5,
+   "be_ml_away": 55.4,
+   "be_ml_home": 49.3
   },
   {
    "league": "NFL",
@@ -150,7 +150,7 @@
    "spread": "+6.5",
    "ml_away": "+240",
    "ml_home": "-298",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "+295",
     "ml_home": "-375",
