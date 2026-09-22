@@ -12,6 +12,10 @@ REDESIGN_BRIEF.md
 COMPETITOR_RESEARCH.md
 DFS_AND_MONETIZATION_PLAN.md
 BACKLOG.md
+NORTH_STAR.md
+# Unpublished newsletter research drafts — consumed by the 8:00 AM task,
+# must never be fetchable before the issue goes out.
+DRAFT_*.md
 # Social launch art — kept in the repo, not served from the site.
 social/
 # Ops scripts and marketing notes — versioned, never served.
