@@ -598,3 +598,42 @@ PM CDT") and the post-publish toast ("Post successfully published",
 Total run time: ~8:06 AM start (first `date`) to 12:17 PM published — see
 cause-of-lateness note above. Site and image work themselves, once started,
 took under 45 minutes end to end.
+
+## Tue Sep 22, 2026 — The Market Brief (LATE — recovered by hand)
+
+**Target:** 10:00 AM CT. **Actual:** 2:08 PM CDT. **Late by 4h 08m.**
+
+**What failed.** The 8:14 AM `itn-daily-weekday` run fired (lastRunAt confirms
+it) and produced nothing: no Beehiiv draft, no SEND_LOG row, no
+docs/sessions/2026-09-22.md, and it did not consume DRAFT_2026-09-22.md. It
+left no trace at all, so it died before STEP 8. The 9:56 pre-flight of
+`itn-deadline-check-weekday` also ran and also did not recover it.
+
+**Ruled out as causes:**
+- Beehiiv session — signed in and healthy when checked at 1:20 PM.
+- The asset pipeline — `newsletter_assets.py` generated header, pick, move and
+  number first try from the same issue.json, no errors.
+- The data — all four Week 3 situations re-verified unchanged from Monday night.
+
+**Still unknown:** why the 8:14 run produced no output and no log. Nothing was
+written anywhere, which is the part worth fixing — a run that fails silently is
+indistinguishable from a run that never fired.
+
+**Issue published:** "Green Bay's Total Fell 3 Points. The Spread Moved Half of
+One." Email and web, all 3 subscribers. 4 images, all beehiiv-hosted (GATE 2
+passed). Five sections in order, no Sep 14 content remaining.
+
+**Two editor traps hit, both documented, both caught at Review:**
+1. The paste APPENDED rather than replaced — the whole Sep 14 issue sat below
+   the new one (81 blocks). selectAll+paste did not clear it. Fixed with a DOM
+   Range across the stale blocks + execCommand('delete').
+2. Post Title silently kept the duplicate's old title ("The Total at
+   Broncos-Chiefs...") even after the Subject line was correct. Review is
+   indeed the only place this shows. Retyping into the textarea did not persist
+   on the first two attempts; it only stuck after focusing the textarea via JS,
+   selecting its range, typing, then blurring — and even then it ate the
+   leading character, which had to be re-typed separately.
+
+**Site:** evergreen and healthy, untouched (read-only check per the Sep 21
+rewrite). **NFL board:** Week 2 → Week 3 roll-forward bug fixed and deployed
+this morning.
