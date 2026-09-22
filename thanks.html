@@ -12,7 +12,7 @@
   }
 </script>
 <title>You're in — Inside the Number</title>
-<meta name="description" content="You're subscribed to Inside the Number. Every line, explained — what the market actually thinks, daily."/>
+<meta name="description" content="You're subscribed to Inside the Number. Download the No-Vig Cheat Sheet, and get The Market Brief on weekday mornings."/>
 <!-- A confirmation page nobody should find in search: it only makes sense
      arriving from the subscribe form. -->
 <meta name="robots" content="noindex,follow"/>
@@ -179,6 +179,22 @@
     background-clip:text;color:transparent}
   .tk-lede{font-size:17px;color:#9ca3af;font-weight:300;line-height:1.65;max-width:600px}
   .tk-next{margin:34px 0 0;border:1px solid #1c2129;border-radius:14px;background:#0e1116;padding:22px 24px}
+  .tk-dl{margin:32px 0 0;border:1px solid rgba(0,208,132,.38);border-radius:16px;
+    background:linear-gradient(160deg,rgba(0,208,132,.09),rgba(59,167,255,.05) 60%,transparent);
+    padding:24px}
+  .tk-dl-k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;color:#00d084;margin-bottom:8px}
+  .tk-dl-h{font-family:'Barlow Condensed',sans-serif;font-size:clamp(26px,4.4vw,34px);
+    font-weight:900;color:#f0f2f5;margin:0 0 8px;line-height:1.05;letter-spacing:-.01em}
+  .tk-dl-p{font:300 15px/1.6 'Barlow',sans-serif;color:#9ca3af;margin:0 0 20px;max-width:560px}
+  .tk-dl-btn{display:block;width:100%;box-sizing:border-box;text-align:center;
+    text-decoration:none;border-radius:26px;padding:16px 22px;
+    font:700 16px/1.2 'Barlow Condensed',sans-serif;letter-spacing:.02em;
+    background:linear-gradient(100deg,#00d084,#3ba7ff);color:#050608}
+  .tk-dl-btn:hover{filter:brightness(1.07)}
+  .tk-dl-fine{margin-top:11px;text-align:center;font:400 12px/1.5 'Barlow',sans-serif;color:#6b7280}
+  @media(min-width:620px){.tk-dl-btn{display:inline-block;width:auto}
+    .tk-dl-fine{text-align:left}}
   .tk-next h2{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;
     text-transform:uppercase;color:#6b7280;font-weight:600;margin-bottom:14px}
   .tk-step{display:flex;gap:13px;padding:11px 0;border-top:1px solid #1c2129;color:#9ca3af;
@@ -259,18 +275,27 @@
   </div>
 <div class="tk-wrap">
   <div class="tk-badge">&#10003; You're subscribed</div>
-  <h1 class="tk-h1">You're in.<br/><span>Check your inbox for the cheat sheet.</span></h1>
+  <h1 class="tk-h1">You're in.<br/><span>Your cheat sheet is right here.</span></h1>
   <p class="tk-lede">Every line, explained &mdash; what the market actually thinks, what moved, and why.
-    The No-Vig Cheat Sheet is on its way. No card, no upsell, no picks pitch.</p>
+    No card, no upsell, no picks pitch.</p>
+
+  <div class="tk-dl">
+    <div class="tk-dl-k">Your download</div>
+    <h2 class="tk-dl-h">The No-Vig Cheat Sheet</h2>
+    <p class="tk-dl-p">One page. The two formulas that turn any two-sided price into what the
+      market actually thinks, what the common prices really cost you, why half a point around
+      3 and 7 matters, and how to read the board.</p>
+    <a class="tk-dl-btn" href="/assets/downloads/no-vig-cheat-sheet.pdf" download>Download the No-Vig Cheat Sheet &darr;</a>
+    <div class="tk-dl-fine">PDF &middot; one page &middot; free &middot; nothing else required</div>
+  </div>
 
   <div class="tk-next">
     <h2>What happens next</h2>
-    <div class="tk-step"><div class="tk-n">1</div><div><b>You're confirmed.</b> Your first email
-      delivers the No-Vig Cheat Sheet. After that, expect the board &mdash; weekends early
-      morning, weekdays late morning.</div></div>
-    <div class="tk-step"><div class="tk-n">2</div><div><b>Check your spam folder</b> if nothing
-      shows up. We're a new sender, so the first one sometimes lands there &mdash; moving it to your
-      inbox once fixes it for good.</div></div>
+    <div class="tk-step"><div class="tk-n">1</div><div><b>You're confirmed</b>, and your cheat
+      sheet is the button above &mdash; nothing to wait for.</div></div>
+    <div class="tk-step"><div class="tk-n">2</div><div><b>The Market Brief lands on weekday
+      mornings</b> &mdash; what moved overnight, which numbers are sitting on 3 and 7, and the
+      true price under each one. We're a new sender, so check spam once and move it over.</div></div>
     <div class="tk-step"><div class="tk-n">3</div><div>Every game on the board is already free on
       the site. You don't have to wait for an email to use it.</div></div>
   </div>
