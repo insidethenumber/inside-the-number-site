@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-22T15:41:27.270269+00:00",
+ "generated_utc": "2026-09-22T18:05:00.763131+00:00",
  "slate_date": "2026-09-22",
  "slate_label": "Tue, Sep 22",
  "non_mlb_available": [
@@ -7,86 +7,6 @@
   "UFC"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401873648",
-   "short": "TB @ NYY",
-   "start": "2026-09-22T17:05Z",
-   "detail": "9/22 - 1:05 PM EDT",
-   "venue": "Yankee Stadium",
-   "away": {
-    "abbr": "TB",
-    "name": "Rays",
-    "record": "95-60"
-   },
-   "home": {
-    "abbr": "NYY",
-    "name": "Yankees",
-    "record": "89-66"
-   },
-   "total": "o7",
-   "over_odds": "-104",
-   "under_odds": "-116",
-   "spread": "+1.5",
-   "ml_away": "+114",
-   "ml_home": "-137",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+117",
-    "ml_home": "-141",
-    "spread": "+1.5",
-    "total": "o7",
-    "over_odds": "-105",
-    "under_odds": "-115"
-   },
-   "true_away": 44.7,
-   "true_home": 55.3,
-   "hold": 4.53,
-   "be_over": 51.0,
-   "be_under": 53.7,
-   "be_ml_away": 46.7,
-   "be_ml_home": 57.8
-  },
-  {
-   "league": "MLB",
-   "id": "401817035",
-   "short": "TOR @ BAL",
-   "start": "2026-09-22T22:35Z",
-   "detail": "9/22 - 6:35 PM EDT",
-   "venue": "Oriole Park at Camden Yards",
-   "away": {
-    "abbr": "TOR",
-    "name": "Blue Jays",
-    "record": "77-80"
-   },
-   "home": {
-    "abbr": "BAL",
-    "name": "Orioles",
-    "record": "76-81"
-   },
-   "total": "o7",
-   "over_odds": "-120",
-   "under_odds": "+100",
-   "spread": "+1.5",
-   "ml_away": "+102",
-   "ml_home": "-123",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+100",
-    "ml_home": "-120",
-    "spread": "+1.5",
-    "total": "o7.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 47.3,
-   "true_home": 52.7,
-   "hold": 4.66,
-   "be_over": 54.5,
-   "be_under": 50.0,
-   "be_ml_away": 49.5,
-   "be_ml_home": 55.2
-  },
   {
    "league": "MLB",
    "id": "401817032",
@@ -149,7 +69,7 @@
    "under_odds": "-101",
    "spread": "+1.5",
    "ml_away": "+143",
-   "ml_home": "-174",
+   "ml_home": "-173",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+121",
@@ -159,13 +79,13 @@
     "over_odds": "+109",
     "under_odds": "-131"
    },
-   "true_away": 39.3,
-   "true_home": 60.7,
-   "hold": 4.66,
+   "true_away": 39.4,
+   "true_home": 60.6,
+   "hold": 4.52,
    "be_over": 54.3,
    "be_under": 50.2,
    "be_ml_away": 41.2,
-   "be_ml_home": 63.5
+   "be_ml_home": 63.4
   },
   {
    "league": "MLB",
@@ -185,8 +105,8 @@
     "record": "74-83"
    },
    "total": "o8",
-   "over_odds": "-118",
-   "under_odds": "-102",
+   "over_odds": "-117",
+   "under_odds": "-103",
    "spread": "+1.5",
    "ml_away": "+130",
    "ml_home": "-157",
@@ -202,8 +122,8 @@
    "true_away": 41.6,
    "true_home": 58.4,
    "hold": 4.57,
-   "be_over": 54.1,
-   "be_under": 50.5,
+   "be_over": 53.9,
+   "be_under": 50.7,
    "be_ml_away": 43.5,
    "be_ml_home": 61.1
   },
@@ -225,8 +145,8 @@
     "record": "84-72"
    },
    "total": "o6.5",
-   "over_odds": "-122",
-   "under_odds": "+102",
+   "over_odds": "-112",
+   "under_odds": "-107",
    "spread": "+1.5",
    "ml_away": "+108",
    "ml_home": "-130",
@@ -242,8 +162,8 @@
    "true_away": 46.0,
    "true_home": 54.0,
    "hold": 4.6,
-   "be_over": 55.0,
-   "be_under": 49.5,
+   "be_over": 52.8,
+   "be_under": 51.7,
    "be_ml_away": 48.1,
    "be_ml_home": 56.5
   },
@@ -264,12 +184,12 @@
     "name": "Yankees",
     "record": "89-66"
    },
-   "total": "o6.5",
-   "over_odds": "-107",
-   "under_odds": "-112",
+   "total": "o6",
+   "over_odds": "-115",
+   "under_odds": "-105",
    "spread": "+1.5",
-   "ml_away": "+109",
-   "ml_home": "-132",
+   "ml_away": "+112",
+   "ml_home": "-135",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+113",
@@ -279,13 +199,13 @@
     "over_odds": "+104",
     "under_odds": "-126"
    },
-   "true_away": 45.7,
-   "true_home": 54.3,
-   "hold": 4.74,
-   "be_over": 51.7,
-   "be_under": 52.8,
-   "be_ml_away": 47.8,
-   "be_ml_home": 56.9
+   "true_away": 45.1,
+   "true_home": 54.9,
+   "hold": 4.62,
+   "be_over": 53.5,
+   "be_under": 51.2,
+   "be_ml_away": 47.2,
+   "be_ml_home": 57.4
   },
   {
    "league": "MLB",
@@ -304,9 +224,9 @@
     "name": "Braves",
     "record": "92-64"
    },
-   "total": "o9",
-   "over_odds": "-118",
-   "under_odds": "-102",
+   "total": "o9.5",
+   "over_odds": "+100",
+   "under_odds": "-121",
    "spread": "+1.5",
    "ml_away": "+158",
    "ml_home": "-193",
@@ -322,8 +242,8 @@
    "true_away": 37.0,
    "true_home": 63.0,
    "hold": 4.63,
-   "be_over": 54.1,
-   "be_under": 50.5,
+   "be_over": 50.0,
+   "be_under": 54.8,
    "be_ml_away": 38.8,
    "be_ml_home": 65.9
   },
@@ -425,8 +345,8 @@
     "record": "78-78"
    },
    "total": "o8",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-108",
+   "under_odds": "-112",
    "spread": "+1.5",
    "ml_away": "+110",
    "ml_home": "-133",
@@ -442,8 +362,8 @@
    "true_away": 45.5,
    "true_home": 54.5,
    "hold": 4.7,
-   "be_over": 51.2,
-   "be_under": 53.5,
+   "be_over": 51.9,
+   "be_under": 52.8,
    "be_ml_away": 47.6,
    "be_ml_home": 57.1
   },
@@ -544,9 +464,9 @@
     "name": "Mariners",
     "record": "73-83"
    },
-   "total": "o7",
-   "over_odds": "-122",
-   "under_odds": "+102",
+   "total": "o7.5",
+   "over_odds": "+104",
+   "under_odds": "-125",
    "spread": "+1.5",
    "ml_away": "+113",
    "ml_home": "-137",
@@ -562,8 +482,8 @@
    "true_away": 44.8,
    "true_home": 55.2,
    "hold": 4.75,
-   "be_over": 55.0,
-   "be_under": 49.5,
+   "be_over": 49.0,
+   "be_under": 55.6,
    "be_ml_away": 46.9,
    "be_ml_home": 57.8
   },
@@ -585,8 +505,8 @@
     "record": "65-92"
    },
    "total": "o7.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
+   "over_odds": "-103",
+   "under_odds": "-117",
    "spread": "-1.5",
    "ml_away": "-135",
    "ml_home": "+112",
@@ -602,8 +522,8 @@
    "true_away": 54.9,
    "true_home": 45.1,
    "hold": 4.62,
-   "be_over": 51.2,
-   "be_under": 53.5,
+   "be_over": 50.7,
+   "be_under": 53.9,
    "be_ml_away": 57.4,
    "be_ml_home": 47.2
   },
