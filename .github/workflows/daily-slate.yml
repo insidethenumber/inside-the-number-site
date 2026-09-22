@@ -101,6 +101,9 @@ jobs:
           print("non-MLB available:", ", ".join(b["non_mlb_available"]) or "none")
           PY
 
+      - name: Build crawlable weekly football hub
+        run: python3 scripts/build_weekly_hub.py
+
       - name: Commit the brief
         run: |
           git config user.name  "ITN Desk"
@@ -124,7 +127,7 @@ jobs:
           # (scripts/build_game_pages.py) but no longer run; the games sitemap
           # reference was removed from robots.txt in the same commit.
           # python3 scripts/build_game_pages.py --brief data/brief-latest.json
-          git add data/
+          git add data/ weekly-football-odds.html sitemap.xml
           if git diff --cached --quiet; then
             echo "nothing changed"
           else
