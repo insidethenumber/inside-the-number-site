@@ -643,7 +643,7 @@
   <p style="font-size:14px;line-height:1.8;color:var(--mid);margin:0">
     <a href="football-line-movement" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">How football lines move before kickoff</a> &middot;
     <a href="mlb-playoffs" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">How to read MLB playoff odds</a> &middot;
-    <a href="ufc-331-odds" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">UFC 331 odds explained</a>
+    <a href="games?sport=UFC" style="color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,208,132,.35)">current UFC card</a>
   </p>
   <p style="font-size:13px;line-height:1.7;color:var(--muted);margin:8px 0 0">Every number on this board is explained in one of these.</p>
 </div>
@@ -1797,7 +1797,7 @@ async function ufcView(){
       <div class="off-hero">
         <div class="off-tag">UFC \u00b7 nothing scheduled in the next ${UFC_WINDOW_DAYS} days</div>
         <div class="off-h">Nothing to price yet</div>
-        <div class="off-when">Read <a href="/ufc-331-odds" style="color:var(--green)">how fight prices work</a>
+        <div class="off-when">Read <a href="/learn" style="color:var(--green)">how to read a market</a>
           while you wait, or open the <a href="?" style="color:var(--green)">Full Board</a>.</div>
         ${liveChips('UFC')}
       </div>`;
@@ -1835,7 +1835,7 @@ async function ufcView(){
       ? 'Where the feed carries a two-way price it is shown with the fair read beside it.'
       : '<b>ESPN is not carrying prices for this card</b>, so none are shown \u2014 a fight has no spread and no total, and a made-up number is worse than no number.'}
     How fight prices work is explained in the
-    <a href="/ufc-331-odds" style="color:var(--green)">UFC odds guide</a>.</p>
+    <a href="/learn" style="color:var(--green)">how to read a market</a>.</p>
     ${times.map(t=>`
       <div class="bt-seg"><b>${CT(t,{hour:'numeric',minute:'2-digit'})} CT</b>
         <span>${groups[t].length} bout${groups[t].length===1?'':'s'}</span></div>

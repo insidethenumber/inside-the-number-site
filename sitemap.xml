@@ -8,7 +8,7 @@
        not a higher priority number. -->
   <url>
     <loc>https://insidethenumber.com/</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://insidethenumber.com/tools</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://insidethenumber.com/no-vig-calculator</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -115,18 +115,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://insidethenumber.com/ufc</loc>
-    <lastmod>2026-08-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://insidethenumber.com/pga</loc>
-    <lastmod>2026-08-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://insidethenumber.com/cfb</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>daily</changefreq>
@@ -140,7 +128,7 @@
   </url>
   <url>
     <loc>https://insidethenumber.com/games</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -172,12 +160,6 @@
     <loc>https://insidethenumber.com/mlb-playoffs</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://insidethenumber.com/ufc-331-odds</loc>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
