@@ -87,6 +87,11 @@
   .tk-r{display:flex;align-items:center;gap:6px;padding:1px 0}
   .tk-r img{width:15px;height:15px;object-fit:contain;flex-shrink:0}
   .tk-r .ab{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase}
+  .rank-badge{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+    min-width:20px;height:16px;padding:0 4px;border:1px solid rgba(0,208,132,.42);border-radius:4px;
+    color:var(--green);background:rgba(0,208,132,.08);font-family:'IBM Plex Mono',monospace;
+    font-size:8px;font-weight:700;letter-spacing:.02em;line-height:1}
+  .tk-r .rank-badge{min-width:18px;height:14px;padding:0 3px;font-size:7.5px}
   .tk-r .v{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mid)}
   .tk-r .v.w{color:var(--white)}
 
@@ -125,6 +130,7 @@
   .row{display:flex;align-items:center;gap:9px;padding:4px 0}
   .row img{width:22px;height:22px;object-fit:contain;flex-shrink:0}
   .ab{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;text-transform:uppercase}
+  .row .rank-badge{margin-left:1px}
   .sc{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:14px}
   .ml{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mid);min-width:46px;text-align:right}
   .sp-row{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.7}
@@ -1543,7 +1549,8 @@ function ticker(sport,currentId){
       const me=Number(t.sc), them=Number(t===x.a?x.h.sc:x.a.sc);
       return `<span class="v ${done&&me>them?'w':''}">${t.sc??''}</span>`;
     };
-    const row=t=>`<div class="tk-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:'<span style="width:15px"></span>'}<span class="ab">${t.ab}</span>${val(t)}</div>`;
+    const rank=t=>x.league==='CFB'&&t.rank!=null?`<span class="rank-badge" aria-label="Ranked ${t.rank}">#${t.rank}</span>`:'';
+    const row=t=>`<div class="tk-r">${t.logo?`<img src="${t.logo}" alt="" loading="lazy"/>`:'<span style="width:15px"></span>'}${rank(t)}<span class="ab">${t.ab}</span>${val(t)}</div>`;
     return `<a class="${cls}" href="?sport=${x.league}&game=${x.id}">
       <div class="tk-h"><span class="lg">${x.league}</span>${st}</div>
       ${row(x.a)}${row(x.h)}</a>`;
@@ -1572,7 +1579,8 @@ function card(g){
   const mlA=g.o.moneyline?.away?.close?.odds, mlH=g.o.moneyline?.home?.close?.odds;
   const p=pair(mlA,mlH);
   const showSc=g.state!=='pre';
-  const side=t=>`<div class="row"><img src="${t.logo}" alt="" loading="lazy"/><span class="ab">${t.ab}</span>
+  const rank=t=>g.league==='CFB'&&t.rank!=null?`<span class="rank-badge" aria-label="Ranked ${t.rank}">#${t.rank}</span>`:'';
+  const side=t=>`<div class="row"><img src="${t.logo}" alt="" loading="lazy"/>${rank(t)}<span class="ab">${t.ab}</span>
     ${showSc?`<span class="sc">${t.sc??''}</span>`:''}<span class="ml">${fmt(t===g.a?mlA:mlH)??'—'}</span></div>`;
   /* Card footer: the market's win probability, in words a first-time visitor
      reads without a glossary.
@@ -1626,8 +1634,10 @@ async function upcoming(sport){
       if(!h||!a)return null;
       return{id:ev.id,league:sport,state:ev.status?.type?.state,detail:ev.status?.type?.shortDetail||'',date:ev.date||'',
         venue:c.venue?.fullName||'',provider:'',o:c.odds?.[0]||{},
-        a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,rec:''},
-        h:{ab:h.team.abbreviation,name:h.team.shortDisplayName||h.team.name,logo:h.team.logo,sc:h.score,rec:''},
+        a:{ab:a.team.abbreviation,name:a.team.shortDisplayName||a.team.name,logo:a.team.logo,sc:a.score,rec:'',
+          rank:(a.curatedRank&&a.curatedRank.current&&a.curatedRank.current<=25)?a.curatedRank.current:null},
+        h:{ab:h.team.abbreviation,name:h.team.shortDisplayName||h.team.name,logo:h.team.logo,sc:h.score,rec:'',
+          rank:(h.curatedRank&&h.curatedRank.current&&h.curatedRank.current<=25)?h.curatedRank.current:null},
         ours:null};
     }).filter(Boolean).slice(0,12);
   }catch(e){UP[sport]=[]}
