@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-newsletter_assets.py — build every visual for one Morning Board issue AND the
+newsletter_assets.py — build every visual for one Market Brief issue AND the
 paste-ready HTML, from one JSON spec, in one command.
 
     python3 scripts/newsletter_assets.py --issue issue.json \
         --date 2026-09-06 --out-dir assets/newsletter/2026-09-06
 
 Writes into --out-dir:
-    header.jpg   dark band: THE MORNING BOARD / date / subtitle  (1200x300)
+    header.jpg   dark band: THE MARKET BRIEF / date / subtitle   (1200x300)
     pick.jpg     THE PRICE IS THE POINT card for the card's picks (parlay_cards.price)
     move.gif     open→now ticker for the biggest overnight move  (viz.py ticker)
                  skipped when spec.move is null (board did not move)
@@ -62,7 +62,7 @@ def header(spec, out):
     W, H = 1200, 300
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
-    d.text((56, 52), "THE MORNING BOARD", font=B(26), fill=GREEN)
+    d.text((56, 52), "THE MARKET BRIEF", font=B(26), fill=GREEN)
     f = _fit(d, spec["date_line"], D, W - 112, 76, 44)
     d.text((56, 96), spec["date_line"], font=f, fill=WHITE)
     sub = spec.get("subtitle", "")
@@ -140,10 +140,10 @@ def issue_html(spec, date, have):
     e = html.escape
     u = lambda f: f"{BASE}/{date}/{f}"
     P = []
-    P.append(f'<p><img src="{u("header.jpg")}" alt="The Morning Board — {e(spec["date_line"])}. {e(spec.get("subtitle",""))}"></p>')
+    P.append(f'<p><img src="{u("header.jpg")}" alt="The Market Brief — {e(spec["date_line"])}. {e(spec.get("subtitle",""))}"></p>')
 
     fr = spec["free"]
-    P.append("<p><strong>1 · THE FREE PICK</strong></p>")
+    P.append("<p><strong>1 · THE LEAD SITUATION</strong></p>")
     P.append(f'<p><strong>{e(fr["pick"])} ({e(fr["price"])})</strong>, {e(fr["start"])}.</p>')
     for para in fr["body"]:
         P.append(f"<p>{e(para)}</p>")
@@ -154,7 +154,7 @@ def issue_html(spec, date, have):
         alt = "; ".join(f'{l["pick"]} is {l["price"]}, break-even {l["be"]}, fair {l["fair"]}' for l in legs)
         P.append(f'<p><img src="{u("pick.jpg")}" alt="{e(alt)}"></p>')
     if spec.get("also"):
-        P.append("<p><strong>OTHER CONFIDENT PLAYS</strong></p>")
+        P.append("<p><strong>ALSO ON THE BOARD</strong></p>")
         for a in spec["also"]:
             P.append(f'<p><strong>{e(a["pick"])} ({e(a["price"])})</strong>, {e(a["start"])}. {e(a["body"])}</p>')
 
