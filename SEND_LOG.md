@@ -637,3 +637,28 @@ passed). Five sections in order, no Sep 14 content remaining.
 **Site:** evergreen and healthy, untouched (read-only check per the Sep 21
 rewrite). **NFL board:** Week 2 → Week 3 roll-forward bug fixed and deployed
 this morning.
+
+## Wed Sep 23, 2026 — The Market Brief (LATE — published 10:22 AM CT via "Publish now")
+
+- **Target:** 10:00 AM CT. **Actual:** published 10:22 AM CDT (verified on /posts). 22 minutes late.
+- **Cause of lateness:** the run's first `date` read 08:14:48 CDT; the very next bash call (the clone) read 10:16:12 CDT. Roughly two hours vanished between the STEP 0 Beehiiv page load and STEP 2 — no tool was running long on my side. The only thing in between was a Beehiiv MCP call (`list_publications`) that was auto-declined for lack of approval in an unattended run; the stall likely sits in session startup/approval handling, not in the task. Same 8:14 signature as Sep 22's silent run. Once awake, it was 10:16, past the 9:55 cutoff, so it shipped via "Publish now" with research cut to what was confirmed.
+- **Title:** "Coastal Carolina Opened -1.5. It's Now +2.5." Email and web, All subscribers (3). Subject = title, preview = subtitle.
+
+**STEP 3e audit:**
+- Situation count: 4.
+- Sports: CFB 2, NFL 1, MLB 1 (max 2 per sport — met).
+- Lead: CFB — Liberty at Coastal Carolina (football leads — met).
+- Categories:
+  1. LIB at CCU spread: MOVED (CCU -1.5 → LIB -2.5, 4 points, crossed zero; total 54.5 → 50.5). LIB -2.5 -112: BE 52.8%, fair 50.4%. ML LIB -135: BE 57.4%, fair 55.1%.
+  2. NAVY at UAB spread: KEY NUMBER (NAVY -11.5 → -7, landed on 7). -110/-110: BE 52.4%, fair 50.0%.
+  3. ATL at GB: MOVED + NO-VIG GAP (GB -7.5 → -5.5; total 46.5 → 43.5, under -118 / over -102). GB -5.5 -108: BE 51.9%, fair 49.6%. U43.5 -118: BE 54.1%, fair 51.7%.
+  4. STL at PIT: SPREAD/TOTAL DIFFERENT DIRECTIONS on price (PIT ML -121 → -142; total 7.5 → 7, over now -122). PIT -142: BE 58.7%, fair 56.1%. O7 -122: BE 55.0%, fair 52.6%.
+- All prices from ESPN scoreboard (DraftKings open/close), pulled this run ~10:16 CT. All games unstarted at pull time.
+
+**Images:** 4 (header, price card, move GIF, number). GATE 1 passed (4 imgs, five headers in order, ends with 1-800-GAMBLER, no Sep 22 content). GATE 2 passed — all 4 srcs on beehiiv-images-production.s3.amazonaws.com, 0 on insidethenumber.com.
+**Editor trap:** paste appended again — the Sep 22 issue sat below the new one (blocks 43–81). Removed with a tiptap `deleteRange` from the end of the GAMBLER line to doc end (not setContent; images were already re-hosted). Title/subtitle stuck on first real-typing attempt.
+**Thumbnail:** duplicate's thumbnail slot was empty — left empty. Slug and meta title/description reflect the new title.
+
+**STEP 4 site check:** NOT verified live. Browser navigation to insidethenumber.com was not allowed in this run, web_fetch refused (provenance), sandbox curl blocked — two strikes, moved on. Repo index.html at HEAD still has `#potd-date data-evergreen="1"` "Educational board guide" and `todaysGames = []`; the four new asset images loaded 200 from insidethenumber.com via <img> probe, and the Sep 22 header + og-image load, so the site is serving. Nothing in index.html changed.
+
+**Rules not met:** 10:00 schedule (published 10:22 via Publish now); no test email sent (skipped for time); live site render not verified; an extra empty duplicate draft "Green Bay's Total Fell 3 Points... (1)" was created by a double-registered click and left as a draft (never sent).
