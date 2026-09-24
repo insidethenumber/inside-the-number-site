@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-24T18:25:26.380901+00:00",
+ "generated_utc": "2026-09-24T20:10:31.003454+00:00",
  "slate_date": "2026-09-24",
  "slate_label": "Thu, Sep 24",
  "non_mlb_available": [
@@ -8,86 +8,6 @@
   "NHL"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401817067",
-   "short": "NYM @ TEX",
-   "start": "2026-09-24T18:35Z",
-   "detail": "9/24 - 2:35 PM EDT",
-   "venue": "Globe Life Field",
-   "away": {
-    "abbr": "NYM",
-    "name": "Mets",
-    "record": "73-85"
-   },
-   "home": {
-    "abbr": "TEX",
-    "name": "Rangers",
-    "record": "78-80"
-   },
-   "total": "o8.5",
-   "over_odds": "-101",
-   "under_odds": "-119",
-   "spread": "+1.5",
-   "ml_away": "+113",
-   "ml_home": "-136",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+109",
-    "ml_home": "-131",
-    "spread": "+1.5",
-    "total": "o8",
-    "over_odds": "-118",
-    "under_odds": "-102"
-   },
-   "true_away": 44.9,
-   "true_home": 55.1,
-   "hold": 4.58,
-   "be_over": 50.2,
-   "be_under": 54.3,
-   "be_ml_away": 46.9,
-   "be_ml_home": 57.6
-  },
-  {
-   "league": "MLB",
-   "id": "401817068",
-   "short": "ARI @ COL",
-   "start": "2026-09-24T19:10Z",
-   "detail": "9/24 - 3:10 PM EDT",
-   "venue": "Coors Field",
-   "away": {
-    "abbr": "ARI",
-    "name": "Diamondbacks",
-    "record": "84-74"
-   },
-   "home": {
-    "abbr": "COL",
-    "name": "Rockies",
-    "record": "57-101"
-   },
-   "total": "o10",
-   "over_odds": "-116",
-   "under_odds": "-104",
-   "spread": "-1.5",
-   "ml_away": "-199",
-   "ml_home": "+163",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-186",
-    "ml_home": "+153",
-    "spread": "-1.5",
-    "total": "o10",
-    "over_odds": "-114",
-    "under_odds": "-105"
-   },
-   "true_away": 63.6,
-   "true_home": 36.4,
-   "hold": 4.58,
-   "be_over": 53.7,
-   "be_under": 51.0,
-   "be_ml_away": 66.6,
-   "be_ml_home": 38.0
-  },
   {
    "league": "MLB",
    "id": "401817062",
@@ -105,12 +25,12 @@
     "name": "Phillies",
     "record": "87-71"
    },
-   "total": "o8",
-   "over_odds": "-104",
-   "under_odds": "-116",
+   "total": "o7.5",
+   "over_odds": "-119",
+   "under_odds": "-101",
    "spread": "+1.5",
    "ml_away": "+113",
-   "ml_home": "-136",
+   "ml_home": "-137",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-102",
@@ -120,13 +40,13 @@
     "over_odds": "-115",
     "under_odds": "-105"
    },
-   "true_away": 44.9,
-   "true_home": 55.1,
-   "hold": 4.58,
-   "be_over": 51.0,
-   "be_under": 53.7,
+   "true_away": 44.8,
+   "true_home": 55.2,
+   "hold": 4.75,
+   "be_over": 54.3,
+   "be_under": 50.2,
    "be_ml_away": 46.9,
-   "be_ml_home": 57.6
+   "be_ml_home": 57.8
   },
   {
    "league": "MLB",
@@ -186,8 +106,8 @@
     "record": "91-67"
    },
    "total": "o6",
-   "over_odds": "-110",
-   "under_odds": "-110",
+   "over_odds": "-113",
+   "under_odds": "-106",
    "spread": "+1.5",
    "ml_away": "+129",
    "ml_home": "-156",
@@ -203,8 +123,8 @@
    "true_away": 41.7,
    "true_home": 58.3,
    "hold": 4.61,
-   "be_over": 52.4,
-   "be_under": 52.4,
+   "be_over": 53.1,
+   "be_under": 51.5,
    "be_ml_away": 43.7,
    "be_ml_home": 60.9
   },
@@ -226,8 +146,8 @@
     "record": "93-65"
    },
    "total": "o8",
-   "over_odds": "-101",
-   "under_odds": "-119",
+   "over_odds": "-111",
+   "under_odds": "-108",
    "spread": "+1.5",
    "ml_away": "+188",
    "ml_home": "-231",
@@ -243,8 +163,8 @@
    "true_away": 33.2,
    "true_home": 66.8,
    "hold": 4.51,
-   "be_over": 50.2,
-   "be_under": 54.3,
+   "be_over": 52.6,
+   "be_under": 51.9,
    "be_ml_away": 34.7,
    "be_ml_home": 69.8
   },
@@ -426,8 +346,8 @@
     "record": "1-2"
    },
    "total": "o49.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
+   "over_odds": "-110",
+   "under_odds": "-110",
    "spread": "-2.5",
    "ml_away": "-130",
    "ml_home": "+110",
@@ -443,8 +363,8 @@
    "true_away": 54.3,
    "true_home": 45.7,
    "hold": 4.14,
-   "be_over": 52.8,
-   "be_under": 51.9,
+   "be_over": 52.4,
+   "be_under": 52.4,
    "be_ml_away": 56.5,
    "be_ml_home": 47.6
   },
