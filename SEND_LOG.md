@@ -662,3 +662,14 @@ this morning.
 **STEP 4 site check:** NOT verified live. Browser navigation to insidethenumber.com was not allowed in this run, web_fetch refused (provenance), sandbox curl blocked — two strikes, moved on. Repo index.html at HEAD still has `#potd-date data-evergreen="1"` "Educational board guide" and `todaysGames = []`; the four new asset images loaded 200 from insidethenumber.com via <img> probe, and the Sep 22 header + og-image load, so the site is serving. Nothing in index.html changed.
 
 **Rules not met:** 10:00 schedule (published 10:22 via Publish now); no test email sent (skipped for time); live site render not verified; an extra empty duplicate draft "Green Bay's Total Fell 3 Points... (1)" was created by a double-registered click and left as a draft (never sent).
+
+## Thu Sep 24, 2026 — The Market Brief (FAILED — not sent)
+
+- **Target:** 10:00 AM CT. **Actual:** nothing sent, nothing scheduled, no Beehiiv draft created.
+- **Timing:** run started 08:14:53 CDT. STEP 0 Beehiiv /posts loaded and checked by 08:15 (signed in; last issue "Coastal Carolina Opened -1.5. It's Now +2.5." published Sep 23 10:22 AM; nothing for Sep 24). Clone done 08:15:14. STEP 3 research then stalled: **next `date` read 11:33:37 CDT — a 3h18m gap.**
+- **Cause (as observed):** the sandbox cannot reach ESPN (403, normal), so STEP 3a moved to the browser. Claude in Chrome refused navigation to site.api.espn.com ("Browser action was not allowed"), then two JS-fetch attempts from the Beehiiv tab returned "Browser connection is unavailable". The fallback built-in browser required a site-permission prompt for site.api.espn.com (not requested — an unattended run can't answer it). The stall sits somewhere in those browser calls; by 11:33 Chrome reported "Claude in Chrome is not connected" on two checks. web_fetch refused the ESPN URL (provenance). No MCP connector was called.
+- **STEP 3e audit:** none — zero numbers verified this run, so zero situations. No DRAFT_2026-09-24.md written: an issue without checked numbers would break rule 3f.
+- **Images:** 0. GATE 1 / GATE 2 not reached.
+- **STEP 4 site check:** NOT verified (no browser). index.html untouched.
+- **Leftover:** the stray empty draft "Green Bay's Total Fell 3 Points... (1)" from Sep 23 is still in Beehiiv as a draft (never sent); not deleted this run.
+- **Fix needed:** (1) reconnect the Claude in Chrome extension; (2) allow site.api.espn.com for the browser used by this task (Chrome site permission, or "site" access in the built-in browser) so research doesn't hit a prompt; (3) third straight weekday where the 8:14 run lost hours — the stall is in session/browser plumbing, not the task content.
