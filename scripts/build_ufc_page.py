@@ -219,6 +219,19 @@ def last(n):
     return re.sub(r"[^a-z]", "", fold(n).split()[-1]) if n else ""
 
 
+# Display surname. "Raul Rosas Jr." must not render as "Jr." — the generational
+# suffix is not the name people call the fighter. Seen live on the Sep 26 card,
+# where the main-event chip read "Barcelos vs Jr.".
+_SUFFIXES = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv", "v"}
+
+
+def surname(n: str) -> str:
+    parts = [t for t in (n or "").split() if t]
+    while len(parts) > 1 and parts[-1].lower().strip(".") in {s.strip(".") for s in _SUFFIXES}:
+        parts.pop()
+    return parts[-1] if parts else (n or "")
+
+
 def toks(n):
     """Every word of a name, lowercased, folded and stripped of punctuation."""
     return frozenset(re.sub(r"[^a-z ]", " ", fold(n)).split())
@@ -740,11 +753,11 @@ def render(fights, title, venue, datestr, preview):
         co = fights[1] if len(fights) > 1 else None
         chips = [
             ('Main event',
-             f"{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}",
+             f"{e(surname(main['a']['name']))} vs {e(surname(main['b']['name']))}",
              e(main.get('weight') or 'headliner') + ' · 5 rounds')]
         if co:
             chips.append(('Co-main',
-                          f"{e(co['a']['name'].split()[-1])} vs {e(co['b']['name'].split()[-1])}",
+                          f"{e(surname(co['a']['name']))} vs {e(surname(co['b']['name']))}",
                           e(co.get('weight') or '')))
         chips.append(('Fights announced', str(len(fights)), e(datestr)))
         strip_html = "".join(
@@ -776,10 +789,10 @@ def render(fights, title, venue, datestr, preview):
             early_html = (f'<div class="early">Card starts {e(fmt_time(segs[0]))}.</div>'
                           if segs else '')
         strip_html = f"""    <div class="chip"><div class="l">Main event</div>
-      <div class="v">{e(main['a']['name'].split()[-1])} vs {e(main['b']['name'].split()[-1])}</div>
+      <div class="v">{e(surname(main['a']['name']))} vs {e(surname(main['b']['name']))}</div>
       <div class="s">{e(main.get('weight') or 'headliner')} · closes the main card</div></div>
     <div class="chip"><div class="l">Closest fight</div>
-      <div class="v">{e(closest['a']['name'].split()[-1])} / {e(closest['b']['name'].split()[-1])}</div>
+      <div class="v">{e(surname(closest['a']['name']))} / {e(surname(closest['b']['name']))}</div>
       <div class="s">near even money both ways — pick a side</div></div>
     <div class="chip"><div class="l">Biggest favorite</div>
       <div class="v">{e(hfav['name'])}</div>

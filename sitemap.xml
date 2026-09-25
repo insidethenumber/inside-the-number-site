@@ -127,6 +127,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://insidethenumber.com/ufc</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://insidethenumber.com/nfl</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>daily</changefreq>
