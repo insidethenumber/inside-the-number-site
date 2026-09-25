@@ -33,7 +33,17 @@ on:
   # TO RE-ENABLE for the next numbered card: uncomment the cron below and
   # point --start/--end at that card's window. Until then run it by hand from
   # the Actions tab (workflow_dispatch stays live).
-  #   - cron: "0 13 * * *"   # 08:00 CT daily through fight week
+  # RE-ARMED Sep 25 2026 for UFC Fight Night: Rosas Jr. vs. Barcelos
+  # (Sat Sep 26, Meta APEX, main card 4:00 PM CT). Saturday-only so it cannot
+  # fail daily the way the Sep 13/14 runs did. It lands ~8 hours before the
+  # first bout, which is what the generator's STATUS_SCHEDULED guard needs.
+  #
+  # AFTER THIS CARD: retarget --start/--end at the next one, or comment this
+  # cron back out. Left as-is it will fire next Saturday against an empty
+  # window and fail loudly — which is the designed behaviour, but a failure
+  # nobody acts on is the cry-wolf problem all over again.
+  schedule:
+    - cron: "0 13 * * 6"   # 08:00 CT Saturday
   workflow_dispatch:
 
 concurrency:
