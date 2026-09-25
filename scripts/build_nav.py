@@ -49,6 +49,7 @@ BOARDS = [
     ("/games?sport=CFB&scope=week", "College Football", "This week's CFB slate"),
     ("/games?sport=MLB&scope=today", "MLB", "Today's MLB board"),
     ("/games?sport=UFC",  "UFC",              "The current card"),
+    ("/pga",              "PGA",              "Outright prices, explained"),
 ]
 LEARN = [
     ("/learn",                     "How to Read the Board", "Start here"),
@@ -67,8 +68,8 @@ TOOLS = [
 # helper decorates this exact href with the visitor's first-touch source, so
 # adding our own utm_ parameters here would fight it.
 CTA_HREF = "https://insidethenumber.beehiiv.com/subscribe"
-CTA_TEXT = "Morning Board"
-CTA_LONG = "Get the free Morning Board"
+CTA_TEXT = "The Market Brief"
+CTA_LONG = "Get The Market Brief"
 
 # The board switcher, shown on boards and game detail views.
 SWITCH = [
@@ -77,6 +78,7 @@ SWITCH = [
     ("/games?sport=CFB&scope=week", "CFB"),
     ("/games?sport=MLB&scope=today", "MLB"),
     ("/games?sport=UFC", "UFC"),
+    ("/pga",             "PGA"),
 ]
 
 # ── Per-page context. (parent_href, parent_label, current_label) ───────────

@@ -265,7 +265,9 @@
         <li><a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
         <li><a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
         <li><a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a></li>
-        <li><a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a></li>
+        <li><a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a>
+      <a href="/pga">PGA<span class="itn-sub">Outright prices, explained</span></a></li>
+        <li><a href="/pga">PGA<span class="itn-sub">Outright prices, explained</span></a></li>
       </ul>
     </li>
     <li class="itn-group">
@@ -416,7 +418,7 @@
     fair prices before the games. Plus the No-Vig Cheat Sheet when you join.
     No card, no spam.</p>
     <a class="go" href="/no-vig-calculator#cheat-sheet">See the cheat sheet first →</a>
-    <p style="margin:14px 0 8px">Drop your email below and it lands daily.</p>
+    <p style="margin:14px 0 8px">Drop your email below — free, weekday mornings.</p>
     <iframe src="https://subscribe-forms.beehiiv.com/3c7a1727-e42d-4d8c-b16e-d693bf3aff4f" title="Subscribe to Inside the Number" style="width:100%;height:340px;border:0;border-radius:14px;background:transparent;" frameborder="0" scrolling="no"></iframe>
     <p style="font-size:12px;opacity:.7;margin-top:6px">Check your inbox (and spam) to confirm &mdash; you&rsquo;re not signed up until you click the link.</p>
   </div>
@@ -486,7 +488,10 @@
 
   /* spread shown from the favorite's side, which is how people say it */
   function spreadText(g){
-    if(g.line==null) return '<span class="gm-na">spread not posted yet</span>';
+    /* A finished game has no live odds on the feed — ESPN drops them once the
+       game ends. Saying "not posted yet" about a game already played reads as
+       a broken page, so a completed game says so instead. */
+    if(g.line==null) return '<span class="gm-na">'+(g.state==='post'?'final \u2014 market closed':'spread not posted yet')+'</span>';
     var fav = g.line<0 ? g.homeAb : g.awayAb, n = g.line<0 ? g.line : -g.line;
     var s='<b>'+esc(fav)+' '+sgn(n)+'</b>';
     if(g.openLine!=null && g.move){

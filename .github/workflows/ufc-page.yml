@@ -65,10 +65,10 @@ jobs:
           AGE_GUARD="--max-age-hours 20"
           [ "${{ github.event_name }}" = "workflow_dispatch" ] && AGE_GUARD=""
           python3 scripts/build_ufc_page.py $AGE_GUARD \
-            --start 2026-09-12 --end 2026-09-13 \
-            --title "Noche UFC: Silva vs. Delgado" \
-            --venue "Glendale, Arizona" \
-            --datestr "Sat, Sep 12" 2>&1 | tee /tmp/ufc.log
+            --start 2026-09-26 --end 2026-09-27 \
+            --title "UFC Fight Night: Rosas Jr. vs. Barcelos" \
+            --venue "Meta APEX, Las Vegas" \
+            --datestr "Sat, Sep 26" 2>&1 | tee /tmp/ufc.log
           {
             echo "## UFC page build"
             echo '```'
