@@ -78,7 +78,6 @@ SWITCH = [
     ("/games?sport=CFB&scope=week", "CFB"),
     ("/games?sport=MLB&scope=today", "MLB"),
     ("/games?sport=UFC", "UFC"),
-    ("/pga",             "PGA"),
 ]
 
 # ── Per-page context. (parent_href, parent_label, current_label) ───────────
