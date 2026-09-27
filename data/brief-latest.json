@@ -1,211 +1,11 @@
 {
- "generated_utc": "2026-09-27T19:53:05.426198+00:00",
+ "generated_utc": "2026-09-27T22:23:04.886302+00:00",
  "slate_date": "2026-09-27",
  "slate_label": "Sun, Sep 27",
  "non_mlb_available": [
   "NFL"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401817103",
-   "short": "BAL @ NYY",
-   "start": "2026-09-27T17:05Z",
-   "detail": "Rain Delay",
-   "venue": "Yankee Stadium",
-   "away": {
-    "abbr": "BAL",
-    "name": "Orioles",
-    "record": "79-82"
-   },
-   "home": {
-    "abbr": "NYY",
-    "name": "Yankees",
-    "record": "93-68"
-   },
-   "total": "o7.5",
-   "over_odds": "-101",
-   "under_odds": "-120",
-   "spread": "+1.5",
-   "ml_away": "+100",
-   "ml_home": "-120",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+117",
-    "ml_home": "-141",
-    "spread": "+1.5",
-    "total": "o9",
-    "over_odds": "+109",
-    "under_odds": "-131"
-   },
-   "true_away": 47.8,
-   "true_home": 52.2,
-   "hold": 4.55,
-   "be_over": 50.2,
-   "be_under": 54.5,
-   "be_ml_away": 50.0,
-   "be_ml_home": 54.5
-  },
-  {
-   "league": "NFL",
-   "id": "401872958",
-   "short": "ARI @ SF",
-   "start": "2026-09-27T20:05Z",
-   "detail": "9/27 - 4:05 PM EDT",
-   "venue": "Levi's Stadium",
-   "away": {
-    "abbr": "ARI",
-    "name": "Cardinals",
-    "record": "1-1"
-   },
-   "home": {
-    "abbr": "SF",
-    "name": "49ers",
-    "record": "2-0"
-   },
-   "total": "o48.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
-   "spread": "+7.5",
-   "ml_away": "+310",
-   "ml_home": "-395",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+470",
-    "ml_home": "-650",
-    "spread": "+11.5",
-    "total": "o46.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 23.4,
-   "true_home": 76.6,
-   "hold": 4.19,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 24.4,
-   "be_ml_home": 79.8
-  },
-  {
-   "league": "NFL",
-   "id": "401872959",
-   "short": "MIN @ TB",
-   "start": "2026-09-27T20:05Z",
-   "detail": "9/27 - 4:05 PM EDT",
-   "venue": "Raymond James Stadium",
-   "away": {
-    "abbr": "MIN",
-    "name": "Vikings",
-    "record": "2-0"
-   },
-   "home": {
-    "abbr": "TB",
-    "name": "Buccaneers",
-    "record": "0-2"
-   },
-   "total": "o42.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
-   "spread": "-1.5",
-   "ml_away": "-112",
-   "ml_home": "-108",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+105",
-    "ml_home": "-125",
-    "spread": "+1.5",
-    "total": "o43.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 50.4,
-   "true_home": 49.6,
-   "hold": 4.75,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 52.8,
-   "be_ml_home": 51.9
-  },
-  {
-   "league": "NFL",
-   "id": "401872960",
-   "short": "BAL VS DAL",
-   "start": "2026-09-27T20:25Z",
-   "detail": "9/27 - 4:25 PM EDT",
-   "venue": "Maracan\u00e3 Stadium",
-   "away": {
-    "abbr": "BAL",
-    "name": "Ravens",
-    "record": "1-1"
-   },
-   "home": {
-    "abbr": "DAL",
-    "name": "Cowboys",
-    "record": "1-1"
-   },
-   "total": "o53.5",
-   "over_odds": "-115",
-   "under_odds": "-105",
-   "spread": "-3",
-   "ml_away": "-170",
-   "ml_home": "+142",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-135",
-    "ml_home": "+114",
-    "spread": "-2.5",
-    "total": "o52.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 60.4,
-   "true_home": 39.6,
-   "hold": 4.29,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 63.0,
-   "be_ml_home": 41.3
-  },
-  {
-   "league": "NFL",
-   "id": "401872961",
-   "short": "LV @ NO",
-   "start": "2026-09-27T20:25Z",
-   "detail": "9/27 - 4:25 PM EDT",
-   "venue": "Caesars Superdome",
-   "away": {
-    "abbr": "LV",
-    "name": "Raiders",
-    "record": "2-0"
-   },
-   "home": {
-    "abbr": "NO",
-    "name": "Saints",
-    "record": "1-1"
-   },
-   "total": "o43.5",
-   "over_odds": "-118",
-   "under_odds": "-102",
-   "spread": "+3.5",
-   "ml_away": "+160",
-   "ml_home": "-192",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+140",
-    "ml_home": "-166",
-    "spread": "+3",
-    "total": "o42.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 36.9,
-   "true_home": 63.1,
-   "hold": 4.21,
-   "be_over": 54.1,
-   "be_under": 50.5,
-   "be_ml_away": 38.5,
-   "be_ml_home": 65.8
-  },
   {
    "league": "NFL",
    "id": "401872962",
@@ -224,12 +24,12 @@
     "record": "1-1"
    },
    "total": "o44.5",
-   "over_odds": "-102",
-   "under_odds": "-118",
+   "over_odds": "-108",
+   "under_odds": "-112",
    "spread": "-1.5",
-   "ml_away": "-130",
-   "ml_home": "+110",
-   "provider": "DraftKings",
+   "ml_away": "-115",
+   "ml_home": "-105",
+   "provider": "Draft Kings",
    "open": {
     "ml_away": "-142",
     "ml_home": "+120",
@@ -238,13 +38,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 54.3,
-   "true_home": 45.7,
-   "hold": 4.14,
-   "be_over": 50.5,
-   "be_under": 54.1,
-   "be_ml_away": 56.5,
-   "be_ml_home": 47.6
+   "true_away": 51.1,
+   "true_home": 48.9,
+   "hold": 4.71,
+   "be_over": 51.9,
+   "be_under": 52.8,
+   "be_ml_away": 53.5,
+   "be_ml_home": 51.2
   }
  ]
 }
