@@ -41,7 +41,7 @@ MAX_STAMP_AGE_DAYS = 3
 PAGES = ["/", "/games.html", "/cfb.html", "/pga.html", "/ufc.html", "/dfs.html",
          "/parlay.html", "/tools.html", "/learn.html", "/glossary.html",
          "/privacy.html", "/terms.html", "/responsible-gambling.html",
-         "/nfl.html",
+         "/nfl.html", "/weekly-football-odds.html",
          "/mlb-playoff-run-line.html", "/mlb-playoff-odds-explained.html",
          "/mlb-playoff-totals.html", "/nhl-puck-line-explained.html",
          "/sitemap.xml", "/robots.txt"]

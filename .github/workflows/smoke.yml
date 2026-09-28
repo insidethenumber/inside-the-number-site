@@ -30,6 +30,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Offline invariants first. This needs no network and no deploy, so it
+      # fails in seconds on a bad commit instead of two minutes later against
+      # a site that has already shipped the regression.
+      - name: Beacon guard (offline)
+        run: python3 scripts/test_beacon.py
+
       # Cloudflare serves the new build a minute or two after the push lands,
       # so a push-triggered run that checks instantly is checking the OLD site.
       - name: Let the deploy land

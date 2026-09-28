@@ -948,9 +948,26 @@ def render(fights, title, venue, datestr, preview):
   <div class="foot-c">© 2026 ITN · Nashville, TN</div>
 </footer>
 {NAV_JS}
+{ANALYTICS_BEACON}
 </body>
 </html>
 """
+
+
+# Cloudflare Web Analytics. This page is MACHINE-GENERATED, so anything the
+# hand-authored pages carry has to be emitted here too or it vanishes on the
+# next build. It did: the Sep 25 regeneration silently dropped the beacon and
+# UFC traffic went uncounted until Sep 28. Keep this byte-identical to the
+# snippet in the static pages so smoke.py's single-occurrence check matches.
+ANALYTICS_BEACON = (
+    "<script>\n"
+    "(function(){try{if(window.__itnInternal)return;"
+    "var s=document.createElement('script');s.type='module';"
+    "s.src='https://static.cloudflareinsights.com/beacon.min.js';"
+    "s.setAttribute('data-cf-beacon','{\"token\":\"bfd50abb734b41edb7863a58e69fbfd8\"}');"
+    "document.head.appendChild(s);}catch(e){}})();\n"
+    "</script>"
+)
 
 
 def main():
