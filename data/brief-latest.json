@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-28T20:33:32.849942+00:00",
+ "generated_utc": "2026-09-28T22:17:22.842390+00:00",
  "slate_date": "2026-09-28",
  "slate_label": "Mon, Sep 28",
  "non_mlb_available": [
@@ -23,13 +23,13 @@
     "name": "Bears",
     "record": "1-1"
    },
-   "total": "o41.5",
-   "over_odds": "-115",
-   "under_odds": "-105",
+   "total": "o42.5",
+   "over_odds": "-108",
+   "under_odds": "-112",
    "spread": "-3.5",
-   "ml_away": "-192",
-   "ml_home": "+160",
-   "provider": "Draft Kings",
+   "ml_away": "-198",
+   "ml_home": "+164",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-102",
     "ml_home": "-118",
@@ -38,13 +38,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 63.1,
-   "true_home": 36.9,
-   "hold": 4.21,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 65.8,
-   "be_ml_home": 38.5
+   "true_away": 63.7,
+   "true_home": 36.3,
+   "hold": 4.32,
+   "be_over": 51.9,
+   "be_under": 52.8,
+   "be_ml_away": 66.4,
+   "be_ml_home": 37.9
   }
  ]
 }
