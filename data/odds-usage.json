@@ -383,6 +383,12 @@
    "mode": "morning",
    "spent": 1,
    "remaining": 361
+  },
+  {
+   "at": "2026-09-28T21:15:40.547871+00:00",
+   "mode": "morning",
+   "spent": 1,
+   "remaining": 360
   }
  ]
 }
