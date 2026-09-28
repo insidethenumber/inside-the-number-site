@@ -102,6 +102,24 @@ p.x b{color:var(--white)}
        requires structured data to match content the visitor can see, so the
        text below is byte-identical to the schema answers. No inline markup in
        the answers — it would break that match. Edit both or neither. -->
+  <h2>What the converted number still hides</h2>
+  <p>Converting a price into an implied percentage is the first step, and on its
+  own it will mislead you. The percentage you get out still contains the
+  sportsbook's margin, so it is always higher than what the market genuinely
+  believes.</p>
+  <p>The proof is quick. Take both sides of any two-way market, convert each to
+  implied probability, and add them together. The total will exceed 100% — often
+  by four or five points, sometimes far more. Two outcomes, one of which must
+  happen, and the market says 104%. That surplus is the book's cut, and the
+  <a style="color:var(--green)" href="/no-vig-calculator">no-vig calculator</a> removes it to leave the
+  fair probability underneath.</p>
+  <p>That fair number is the one worth using everywhere else: comparing books,
+  deciding whether a price is worth taking, or feeding an
+  <a style="color:var(--green)" href="/expected-value-calculator">expected value</a> calculation.
+  <a style="color:var(--green)" href="/learn">How to read the board</a> walks through the whole
+  sequence from posted price to fair price, and every game on the
+  <a style="color:var(--green)" href="/games">live board</a> shows both figures side by side.</p>
+
   <h2 id="faq">Frequently asked questions</h2>
   <div class="faq">
     <h3>How do you convert American odds to decimal?</h3>

@@ -103,6 +103,26 @@ p.x b{color:var(--white)}
   every day, free.</p>
   <!-- Visible copy for the FAQPage schema above. Keep questions and answers
        aligned with the JSON-LD so search markup matches what visitors see. -->
+  <h2>Where the probability should come from</h2>
+  <p>Expected value is only as good as the win probability you feed it. The
+  formula is trivial; sourcing that number honestly is the entire problem, and
+  it is where most EV calculations quietly go wrong.</p>
+  <p>The worst approach is converting the posted odds into an implied percentage
+  and using that as your probability — it guarantees a negative result, because
+  the posted price already contains the sportsbook's margin. Strip that margin
+  out first with the <a style="color:var(--green)" href="/no-vig-calculator">no-vig calculator</a> and
+  you get what the market actually thinks, which is a far better starting point
+  and often a genuinely hard number to beat.</p>
+  <p>Real edge usually comes from disagreeing with that fair number for a
+  specific, stateable reason. If you cannot say why you disagree, the honest
+  expected value is roughly zero.
+  <a style="color:var(--green)" href="/football-line-movement">Why lines move</a> covers how markets
+  revise themselves and what a move does and does not imply, and the
+  <a style="color:var(--green)" href="/games">live board</a> shows every game with its fair price
+  already calculated. Once a positive edge survives that scrutiny, the
+  <a style="color:var(--green)" href="/kelly-calculator">Kelly calculator</a> handles how much to
+  stake.</p>
+
   <h2 id="faq">Frequently asked questions</h2>
   <div class="faq">
     <h3>What is expected value (EV) in sports betting?</h3>

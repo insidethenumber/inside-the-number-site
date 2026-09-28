@@ -72,7 +72,7 @@ p.x b{color:var(--white)}
 <div class="compact-mobile-menu" id="compactMobileMenu"><a href="/">Home</a><a href="/nfl">NFL</a><a href="/cfb">College Football</a><a href="/games?sport=UFC">UFC</a><a href="/mlb-playoffs">MLB Playoffs</a><a href="/games">Scores / Full Board</a><a href="/tools">Tools</a><a class="cta" href="/no-vig-calculator#cheat-sheet">Get the Cheat Sheet</a></div><script>(function(){const b=document.getElementById('compactMenuButton'),m=document.getElementById('compactMobileMenu');if(!b||!m)return;const close=()=>{m.classList.remove('open');b.setAttribute('aria-expanded','false')};b.addEventListener('click',()=>{const open=m.classList.toggle('open');b.setAttribute('aria-expanded',String(open))});m.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape')close()})})();</script>
 <div class="wrap">
   <div class="eyebrow">// Tools · Kelly Criterion</div>
-  <h1>Kelly <span>Calculator</span></h1>
+  <h1>Kelly Criterion <span>Calculator</span></h1>
   <p class="sub">Enter your bankroll, the odds, and your honest win probability. Out comes the mathematically optimal stake — full, half and quarter Kelly.</p>
   <div class="tool">
     <div class="row">
@@ -108,6 +108,28 @@ p.x b{color:var(--white)}
   staking.</p>
   <!-- Visible copy for the FAQPage schema above. Keep questions and answers
        aligned with the JSON-LD so search markup matches what visitors see. -->
+  <h2>Where staking fits in the order of operations</h2>
+  <p>Stake sizing is the last decision, not the first. Kelly takes your win
+  probability as an input and trusts it completely — so if that estimate is off
+  by three points, the formula will confidently size a bet that has no edge at
+  all. The sequence that actually protects a bankroll runs the other way
+  around.</p>
+  <p>Start by stripping the sportsbook's margin out of the posted price with the
+  <a style="color:var(--green)" href="/no-vig-calculator">no-vig calculator</a>, which tells you what
+  the market really thinks. Then check whether your own number differs from that
+  enough to be worth anything — that gap is what the
+  <a style="color:var(--green)" href="/expected-value-calculator">expected value calculator</a>
+  measures. Only once a positive edge survives both steps does the question of
+  how much to stake become meaningful, and only then is Kelly the right tool.</p>
+  <p>Two habits matter more than the arithmetic. Size from your true probability
+  rather than the book's implied one, because the book's number already has the
+  margin baked in. And when the two disagree, understand why before you act —
+  <a style="color:var(--green)" href="/football-line-movement">why lines move</a> covers what a price
+  change does and does not tell you. Every game on the
+  <a style="color:var(--green)" href="/games">live board</a> shows its fair price with the cut removed,
+  so you can see the whole sequence on a real market rather than a worked
+  example.</p>
+
   <h2 id="faq">Frequently asked questions</h2>
   <div class="faq">
     <h3>What is the Kelly Criterion in sports betting?</h3>
