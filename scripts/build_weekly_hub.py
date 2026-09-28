@@ -1,3 +1,18 @@
+# Cloudflare Web Analytics. This page is MACHINE-GENERATED and overwrites the
+# file on every run, so a beacon hand-added to the HTML is wiped by the next
+# build. That is exactly how ufc.html lost it on Sep 25 and went three days
+# uncounted. Keep byte-identical to the static pages so smoke.py's
+# single-occurrence check matches.
+ANALYTICS_BEACON = (
+    "<script>\n"
+    "(function(){try{if(window.__itnInternal)return;"
+    "var s=document.createElement('script');s.type='module';"
+    "s.src='https://static.cloudflareinsights.com/beacon.min.js';"
+    "s.setAttribute('data-cf-beacon','{\"token\":\"bfd50abb734b41edb7863a58e69fbfd8\"}');"
+    "document.head.appendChild(s);}catch(e){}})();\n"
+    "</script>"
+)
+
 #!/usr/bin/env python3
 """Build one crawlable weekly NFL and college-football hub from ESPN's public feed.
 
@@ -109,7 +124,8 @@ def build(games, stamp):
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"CollectionPage","name":"This Week's NFL and College Football Odds","url":"https://insidethenumber.com/weekly-football-odds","description":"A current weekly collection of NFL games and ranked college-football matchups with spreads, totals and no-vig fair win chances.","isPartOf":{{"@type":"WebSite","name":"Inside the Number","url":"https://insidethenumber.com/"}}}}</script>
 <style>
-  :root{{--bg:#050608;--panel:#0d1218;--line:#23303b;--text:#f0f2f5;--muted:#97a1ad;--green:#00d084;--blue:#3ba7ff}}*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}}nav{{padding:18px max(22px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center}}nav a{{color:var(--muted);text-decoration:none;font-size:14px}}.brand{{font-weight:800;color:var(--text)}}.brand span{{color:var(--green)}}main{{max-width:1120px;margin:auto;padding:60px 22px 80px}}.eyebrow{{color:var(--green);font:12px monospace;letter-spacing:.12em;text-transform:uppercase}}h1{{font-size:clamp(40px,7vw,76px);line-height:.94;margin:16px 0}}h1 span{{color:var(--green)}}.intro{{max-width:720px;color:var(--muted);line-height:1.65;font-size:17px}}.stamp{{font:12px monospace;color:var(--muted);margin:24px 0 46px}}section{{margin-top:52px}}h2{{font-size:27px;margin:0 0 10px}}.section-copy{{color:var(--muted);margin:0 0 18px;line-height:1.6}}.games{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}.game{{border:1px solid var(--line);background:var(--panel);padding:18px;border-radius:8px}}.kickoff{{font:11px monospace;color:var(--green);margin-bottom:10px}}h3{{margin:0;font-size:20px;line-height:1.2}}h3 b{{color:var(--muted);font-size:13px;margin:0 5px}}.numbers{{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}}.numbers span{{font:12px monospace;color:#c9d0d8;border-left:2px solid var(--blue);padding-left:7px}}.cta{{display:inline-block;margin-top:28px;padding:14px 18px;background:var(--green);color:#04100b;font-weight:800;text-decoration:none;border-radius:6px}}.fine{{margin-top:18px;color:var(--muted);font-size:13px;line-height:1.6}}.empty{{color:var(--muted)}}@media(max-width:700px){{.games{{grid-template-columns:1fr}}main{{padding-top:42px}}nav{{align-items:flex-start;flex-direction:column;gap:10px}}}}
+  :root{{--bg:#050608;--panel:#0d1218;--line:#23303b;--text:#f0f2f5;--muted:#97a1ad;--green:#00d084;--blue:#3ba7ff}}*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}}nav{{padding:18px max(22px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center}}nav a{{color:var(--muted);text-decoration:none;font-size:14px}}.brand{{font-weight:800;color:var(--text)}}.brand span{{color:var(--green)}}main{{max-width:1120px;margin:auto;padding:60px 22px 80px}}.eyebrow{{color:var(--green);font:12px monospace;letter-spacing:.12em;text-transform:uppercase}}h1{{font-size:clamp(40px,7vw,76px);line-height:.94;margin:16px 0}}h1 span{{color:var(--green)}}.intro{{max-width:720px;color:var(--muted);line-height:1.65;font-size:17px}}.stamp{{font:12px monospace;color:var(--muted);margin:24px 0 46px}}section{{margin-top:52px}}h2{{font-size:27px;margin:0 0 10px}}.section-copy{{color:var(--muted);margin:0 0 18px;line-height:1.6}}.games{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}.game{{border:1px solid var(--line);background:var(--panel);padding:18px;border-radius:8px}}.kickoff{{font:11px monospace;color:var(--green);margin-bottom:10px}}h3{{margin:0;font-size:20px;line-height:1.2}}h3 b{{color:var(--muted);font-size:13px;margin:0 5px}}.numbers{{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}}.numbers span{{font:12px monospace;color:#c9d0d8;border-left:2px solid var(--blue);padding-left:7px}}.cta{{display:inline-block;margin-top:28px;padding:14px 18px;background:var(--green);color:#04100b;font-weight:800;text-decoration:none;border-radius:6px}}.tools{{margin:10px 0 0;padding-left:20px;line-height:1.8}}.tools a{{color:#00d084;text-decoration:none}}.tools a:hover{{text-decoration:underline}}
+.fine{{margin-top:18px;color:var(--muted);font-size:13px;line-height:1.6}}.empty{{color:var(--muted)}}@media(max-width:700px){{.games{{grid-template-columns:1fr}}main{{padding-top:42px}}nav{{align-items:flex-start;flex-direction:column;gap:10px}}}}
 </style>
 </head>
 <body>
@@ -121,8 +137,18 @@ def build(games, stamp):
   <p class="stamp">Updated from the public feed: {date_label} · Times shown in Central</p>
   <section><h2>NFL this week</h2><p class="section-copy">Spread, total and the fair win chance after the sportsbook margin is removed.</p><div class="games">{nfl_rows}</div><a class="cta" href="/games?sport=NFL&scope=week">Open the full NFL board</a></section>
   <section><h2>Ranked college football</h2><p class="section-copy">Every upcoming game in the weekly window involving an AP Top 25 team.</p><div class="games">{cfb_rows}</div><a class="cta" href="/games?sport=CFB&scope=week">Open the full college-football board</a></section>
+  <section><h2>Work the numbers yourself</h2><p class="section-copy">Every fair win chance on this page is the posted price with the sportsbook's margin stripped out. These do the same arithmetic on any price you have in front of you.</p>
+    <ul class="tools">
+      <li><a href="/no-vig-calculator">No-vig calculator</a> — turn a two-sided price into the fair number</li>
+      <li><a href="/kelly-calculator">Kelly criterion calculator</a> — full, half and quarter Kelly</li>
+      <li><a href="/vig-calculator">Vig calculator</a> — what the book keeps on a market</li>
+      <li><a href="/expected-value-calculator">Expected value calculator</a> — what a price is worth at your win rate</li>
+      <li><a href="/football-line-movement">Why football lines move</a> — reading open versus current</li>
+    </ul>
+  </section>
   <p class="fine">Lines move. This page is a market-reading reference, not betting advice. Check the live board for the current number before relying on any price.</p>
 </main>
+{ANALYTICS_BEACON}
 </body>
 </html>'''
 

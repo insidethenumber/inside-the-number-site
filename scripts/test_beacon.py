@@ -43,6 +43,7 @@ BEACON_TOKEN = "bfd50abb734b41edb7863a58e69fbfd8"
 # So we assert the placeholder is actually present in the emitted template too.
 GENERATORS = {
     "scripts/build_ufc_page.py": ("ufc.html", "{ANALYTICS_BEACON}"),
+    "scripts/build_weekly_hub.py": ("weekly-football-odds.html", "{ANALYTICS_BEACON}"),
 }
 
 
