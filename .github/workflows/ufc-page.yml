@@ -42,8 +42,12 @@ on:
   # cron back out. Left as-is it will fire next Saturday against an empty
   # window and fail loudly — which is the designed behaviour, but a failure
   # nobody acts on is the cry-wolf problem all over again.
-  schedule:
-    - cron: "0 13 * * 6"   # 08:00 CT Saturday
+  # STOOD DOWN Sep 28 2026. The Sep 26 card is fought and no next card is
+  # targeted, so a live cron would fail every Saturday against an empty window
+  # and train us to ignore the alarm. Re-point --start/--end at the next
+  # numbered card and uncomment.
+  # schedule:
+  #   - cron: "0 13 * * 6"   # 08:00 CT Saturday
   workflow_dispatch:
 
 concurrency:
