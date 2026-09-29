@@ -948,6 +948,7 @@ def render(fights, title, venue, datestr, preview):
   <div class="foot-c">© 2026 ITN · Nashville, TN</div>
 </footer>
 {NAV_JS}
+{MEASUREMENT_HELPER}
 {ANALYTICS_BEACON}
 </body>
 </html>
@@ -959,6 +960,36 @@ def render(fights, title, venue, datestr, preview):
 # next build. It did: the Sep 25 regeneration silently dropped the beacon and
 # UFC traffic went uncounted until Sep 28. Keep this byte-identical to the
 # snippet in the static pages so smoke.py's single-occurrence check matches.
+# First-touch source capture, identical to the hand-authored pages. This file
+# is fully regenerated on every build, so a helper added to ufc.html by hand is
+# lost on the next run -- the same failure mode that cost this page its
+# analytics beacon between Sep 25 and Sep 28.
+MEASUREMENT_HELPER = (
+    "<script>\n"
+    "(function(){try{var LS=window.localStorage,q=new URLSearchParams(location.search),touched=false;"
+    "if(q.has('itn_internal')){if(q.get('itn_internal')==='1')LS.setItem('itn_internal','1');"
+    "else LS.removeItem('itn_internal');q.delete('itn_internal');touched=true;}"
+    "var internal=(LS.getItem('itn_internal')==='1');var stored=null;"
+    "try{stored=JSON.parse(LS.getItem('itn_utm')||'null');}catch(e){stored=null;}"
+    "var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);"
+    "if(q.get('utm_source')&&!fresh){stored={source:q.get('utm_source')||'',"
+    "medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};"
+    "LS.setItem('itn_utm',JSON.stringify(stored));fresh=true;}"
+    "if(touched){history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash);}"
+    "var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);"
+    "if(src){var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='"
+    "+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');"
+    "var add=function(el,attr){var v=el.getAttribute(attr)||'';"
+    "if(v.indexOf('utm_source=')<0)el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs);};"
+    "document.querySelectorAll('iframe[src^=\"https://subscribe-forms.beehiiv.com/\"]')"
+    ".forEach(function(f){add(f,'src');});"
+    "document.querySelectorAll('a[href^=\"https://insidethenumber.beehiiv.com/subscribe\"]')"
+    ".forEach(function(a){add(a,'href');});}"
+    "window.__itnInternal=internal;}catch(e){}})();\n"
+    "</script>"
+)
+
+
 ANALYTICS_BEACON = (
     "<script>\n"
     "(function(){try{if(window.__itnInternal)return;"

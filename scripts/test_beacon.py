@@ -32,6 +32,11 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BEACON_SRC = "static.cloudflareinsights.com/beacon.min.js"
 BEACON_TOKEN = "bfd50abb734b41edb7863a58e69fbfd8"
+# First-touch source capture. A page without this is invisible to UTM
+# attribution even though its beacon reports the pageview -- so social and
+# search traffic to it cannot be told apart. Guarded for the same reason as
+# the beacon: the generated pages lose it on every rebuild otherwise.
+UTM_HELPER = "itn_utm"
 
 # Generated pages: checked at the generator, not the artifact, because the
 # artifact on disk may be stale or absent between builds.
@@ -83,8 +88,13 @@ def main():
             # Covered by the generator check below; the on-disk copy may be
             # stale between builds and a false failure here teaches nothing.
             continue
-        n = read(path).count(BEACON_SRC)
+        page = read(path)
+        n = page.count(BEACON_SRC)
         checked += 1
+        if UTM_HELPER not in page:
+            failures.append(
+                "[utm] %s (%s) has no first-touch source helper -- tagged "
+                "traffic to this page cannot be attributed" % (path, route))
         if n == 0:
             failures.append(
                 "[beacon] %s (%s) has no Cloudflare beacon -- traffic to this "
@@ -106,6 +116,10 @@ def main():
                 "[generator] %s does not emit the beacon, so every rebuild of "
                 "%s drops it (this is exactly what happened Sep 25)"
                 % (gen, artifact))
+        if UTM_HELPER not in src:
+            failures.append(
+                "[utm] %s does not emit the first-touch source helper, so "
+                "%s loses UTM attribution on every rebuild" % (gen, artifact))
         if BEACON_TOKEN not in src:
             failures.append(
                 "[generator] %s does not carry the analytics token %s -- the "

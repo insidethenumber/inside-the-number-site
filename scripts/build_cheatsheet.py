@@ -5,8 +5,9 @@ The No-Vig Cheat Sheet — the lead magnet delivered on thanks.html at confirm.
 CHANGES FROM v1 (Sep 13):
   - Adds "HOW TO USE THE BOARD" — v1 taught the math but never told the reader
     what to do with it on the site. That was the missing half of the promise.
-  - Footer cadence line now names The Market Brief and says "weekday mornings"
-    instead of "every morning", so the PDF cannot outrun the send schedule.
+  - Footer cadence line names The Market Brief without promising a send
+    schedule (Sep 28): the newsletter is paused, so the PDF must not imply
+    weekday, daily or pre-game delivery.
   - Tightened leading in two blocks to buy room for the new section.
 
 Output: assets/downloads/no-vig-cheat-sheet.pdf  (one page, US Letter)
@@ -137,7 +138,7 @@ rule(70)
 c.setFillColor(GREEN); c.setFont('BarBold', 11.5)
 c.drawString(46, 54, "We run this math on every game on the board — free, no account.")
 c.setFillColor(DIM); c.setFont('Bar', 9.5)
-c.drawString(46, 41, "The Market Brief · weekday mornings · insidethenumber.com · no picks, no fake records, no units.")
+c.drawString(46, 41, "The Market Brief · insidethenumber.com · no picks, no fake records, no units.")
 c.drawRightString(W-46, 41, "21+  ·  1-800-GAMBLER")
 c.showPage(); c.save()
 print("built", OUT, os.path.getsize(OUT)//1024, "KB")
