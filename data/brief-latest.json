@@ -1,51 +1,11 @@
 {
- "generated_utc": "2026-09-30T21:02:32.505519+00:00",
+ "generated_utc": "2026-09-30T23:05:48.344561+00:00",
  "slate_date": "2026-09-30",
  "slate_label": "Wed, Sep 30",
  "non_mlb_available": [
   "NHL"
  ],
  "games": [
-  {
-   "league": "MLB",
-   "id": "401907897",
-   "short": "CHW @ HOU",
-   "start": "2026-09-30T21:00Z",
-   "detail": "9/30 - 5:00 PM EDT",
-   "venue": "Daikin Park",
-   "away": {
-    "abbr": "CHW",
-    "name": "White Sox",
-    "record": "84-78"
-   },
-   "home": {
-    "abbr": "HOU",
-    "name": "Astros",
-    "record": "81-81"
-   },
-   "total": "o7.5",
-   "over_odds": "-109",
-   "under_odds": "-110",
-   "spread": "+1.5",
-   "ml_away": "+128",
-   "ml_home": "-155",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+126",
-    "ml_home": "-153",
-    "spread": "+1.5",
-    "total": "o8",
-    "over_odds": "-118",
-    "under_odds": "-102"
-   },
-   "true_away": 41.9,
-   "true_home": 58.1,
-   "hold": 4.64,
-   "be_over": 52.2,
-   "be_under": 52.4,
-   "be_ml_away": 43.9,
-   "be_ml_home": 60.8
-  },
   {
    "league": "MLB",
    "id": "401907963",
@@ -64,8 +24,8 @@
     "record": "93-68"
    },
    "total": "o6.5",
-   "over_odds": "-122",
-   "under_odds": "+101",
+   "over_odds": "-120",
+   "under_odds": "+100",
    "spread": "+1.5",
    "ml_away": "+113",
    "ml_home": "-136",
@@ -81,8 +41,8 @@
    "true_away": 44.9,
    "true_home": 55.1,
    "hold": 4.58,
-   "be_over": 55.0,
-   "be_under": 49.8,
+   "be_over": 54.5,
+   "be_under": 50.0,
    "be_ml_away": 46.9,
    "be_ml_home": 57.6
   },
@@ -104,7 +64,7 @@
     "record": "91-71"
    },
    "total": "o7",
-   "over_odds": "-126",
+   "over_odds": "-125",
    "under_odds": "+104",
    "spread": "+1.5",
    "ml_away": "+123",
@@ -121,7 +81,7 @@
    "true_away": 42.8,
    "true_home": 57.2,
    "hold": 4.68,
-   "be_over": 55.8,
+   "be_over": 55.6,
    "be_under": 49.0,
    "be_ml_away": 44.8,
    "be_ml_home": 59.8
@@ -183,12 +143,12 @@
     "name": "Maple Leafs",
     "record": "0-1-0"
    },
-   "total": "o6.5",
-   "over_odds": "+114",
-   "under_odds": "-135",
+   "total": "o5.5",
+   "over_odds": "-135",
+   "under_odds": "+114",
    "spread": "+1.5",
-   "ml_away": "+110",
-   "ml_home": "-130",
+   "ml_away": "+120",
+   "ml_home": "-142",
    "provider": "Draft Kings",
    "open": {
     "ml_away": "-110",
@@ -198,13 +158,13 @@
     "over_odds": "+110",
     "under_odds": "-130"
    },
-   "true_away": 45.7,
-   "true_home": 54.3,
-   "hold": 4.14,
-   "be_over": 46.7,
-   "be_under": 57.4,
-   "be_ml_away": 47.6,
-   "be_ml_home": 56.5
+   "true_away": 43.7,
+   "true_home": 56.3,
+   "hold": 4.13,
+   "be_over": 57.4,
+   "be_under": 46.7,
+   "be_ml_away": 45.5,
+   "be_ml_home": 58.7
   },
   {
    "league": "NHL",
@@ -227,8 +187,8 @@
    "over_odds": "+105",
    "under_odds": "-125",
    "spread": "+1.5",
-   "ml_away": "+160",
-   "ml_home": "-192",
+   "ml_away": "+170",
+   "ml_home": "-205",
    "provider": "Draft Kings",
    "open": {
     "ml_away": "+154",
@@ -238,13 +198,13 @@
     "over_odds": "-120",
     "under_odds": "+100"
    },
-   "true_away": 36.9,
-   "true_home": 63.1,
-   "hold": 4.21,
+   "true_away": 35.5,
+   "true_home": 64.5,
+   "hold": 4.25,
    "be_over": 48.8,
    "be_under": 55.6,
-   "be_ml_away": 38.5,
-   "be_ml_home": 65.8
+   "be_ml_away": 37.0,
+   "be_ml_home": 67.2
   }
  ]
 }
