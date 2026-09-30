@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-09-30T19:19:48.893686+00:00",
+ "generated_utc": "2026-09-30T21:02:32.505519+00:00",
  "slate_date": "2026-09-30",
  "slate_label": "Wed, Sep 30",
  "non_mlb_available": [
@@ -24,10 +24,10 @@
     "record": "81-81"
    },
    "total": "o7.5",
-   "over_odds": "-108",
-   "under_odds": "-112",
+   "over_odds": "-109",
+   "under_odds": "-110",
    "spread": "+1.5",
-   "ml_away": "+129",
+   "ml_away": "+128",
    "ml_home": "-155",
    "provider": "DraftKings",
    "open": {
@@ -38,12 +38,12 @@
     "over_odds": "-118",
     "under_odds": "-102"
    },
-   "true_away": 41.8,
-   "true_home": 58.2,
-   "hold": 4.45,
-   "be_over": 51.9,
-   "be_under": 52.8,
-   "be_ml_away": 43.7,
+   "true_away": 41.9,
+   "true_home": 58.1,
+   "hold": 4.64,
+   "be_over": 52.2,
+   "be_under": 52.4,
+   "be_ml_away": 43.9,
    "be_ml_home": 60.8
   },
   {
@@ -67,7 +67,7 @@
    "over_odds": "-122",
    "under_odds": "+101",
    "spread": "+1.5",
-   "ml_away": "+112",
+   "ml_away": "+113",
    "ml_home": "-136",
    "provider": "DraftKings",
    "open": {
@@ -78,12 +78,12 @@
     "over_odds": "-125",
     "under_odds": "+104"
    },
-   "true_away": 45.0,
-   "true_home": 55.0,
-   "hold": 4.8,
+   "true_away": 44.9,
+   "true_home": 55.1,
+   "hold": 4.58,
    "be_over": 55.0,
    "be_under": 49.8,
-   "be_ml_away": 47.2,
+   "be_ml_away": 46.9,
    "be_ml_home": 57.6
   },
   {
@@ -147,8 +147,8 @@
    "over_odds": "+110",
    "under_odds": "-130",
    "spread": "+1.5",
-   "ml_away": "+120",
-   "ml_home": "-142",
+   "ml_away": "+124",
+   "ml_home": "-148",
    "provider": "Draft Kings",
    "open": {
     "ml_away": "+120",
@@ -158,13 +158,13 @@
     "over_odds": "-125",
     "under_odds": "+105"
    },
-   "true_away": 43.7,
-   "true_home": 56.3,
-   "hold": 4.13,
+   "true_away": 42.8,
+   "true_home": 57.2,
+   "hold": 4.32,
    "be_over": 47.6,
    "be_under": 56.5,
-   "be_ml_away": 45.5,
-   "be_ml_home": 58.7
+   "be_ml_away": 44.6,
+   "be_ml_home": 59.7
   },
   {
    "league": "NHL",
