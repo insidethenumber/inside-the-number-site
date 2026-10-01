@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UFC Fight Night Odds Archive — Rosas Jr. vs. Barcelos | Inside the Number</title>
-<meta name="description" content="Archived closing prices from UFC Fight Night: Rosas Jr. vs. Barcelos, Sep. 26, 2026, kept as a market record after the card finished."/>
-<meta name="robots" content="noindex,follow"/>
+<title>UFC 332: Silva vs. Wang Odds — Best Price on Every Fight | Inside the Number</title>
+<meta name="description" content="UFC 332: Silva vs. Wang card — every fight with records, the best price across major sportsbooks on both corners, and each fighter&#x27;s win chance in plain English."/>
 <link rel="canonical" href="https://insidethenumber.com/ufc"/>
 <meta name="theme-color" content="#050608"/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -14,12 +13,12 @@
 <meta property="og:type" content="article"/>
 <meta property="og:site_name" content="Inside the Number"/>
 <meta property="og:url" content="https://insidethenumber.com/ufc"/>
-<meta property="og:title" content="UFC Fight Night: Rosas Jr. vs. Barcelos — every fight, every price"/>
-<meta property="og:description" content="UFC Fight Night: Rosas Jr. vs. Barcelos card — every fight with records, the best price across major sportsbooks on both corners, and each fighter&#x27;s win chance in plain English."/>
+<meta property="og:title" content="UFC 332: Silva vs. Wang — every fight, every price"/>
+<meta property="og:description" content="UFC 332: Silva vs. Wang card — every fight with records, the best price across major sportsbooks on both corners, and each fighter&#x27;s win chance in plain English."/>
 <meta property="og:image" content="https://insidethenumber.com/og-image.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://insidethenumber.com/og-image.png"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SportsEvent", "name": "UFC Fight Night: Rosas Jr. vs. Barcelos", "sport": "Mixed Martial Arts", "startDate": "2026-09-26T21:00Z", "location": {"@type": "Place", "name": "Meta APEX, Las Vegas"}, "description": "Every fight on the UFC Fight Night: Rosas Jr. vs. Barcelos card: records, weight classes, the best moneyline across major sportsbooks and each fighter's win chance in plain English.", "organizer": {"@type": "Organization", "name": "UFC"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SportsEvent", "name": "UFC 332: Silva vs. Wang", "sport": "Mixed Martial Arts", "startDate": "2026-10-03T20:00Z", "location": {"@type": "Place", "name": "Delta Center, Salt Lake City"}, "description": "Every fight on the UFC 332: Silva vs. Wang card: records, weight classes, the best moneyline across major sportsbooks and each fighter's win chance in plain English.", "organizer": {"@type": "Organization", "name": "UFC"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://insidethenumber.com/"}, {"@type": "ListItem", "position": 2, "name": "UFC", "item": "https://insidethenumber.com/ufc"}]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -130,10 +129,12 @@
   .nav-hamburger{display:flex !important}
 }
 </style>
+<link rel="stylesheet" href="/assets/nav/itn-nav.css">
+<script defer src="/assets/nav/itn-nav.js"></script>
 </head>
 <body>
 <nav>
-  <a class="nav-brand" href="index.html">
+  <a class="nav-brand" href="/">
     <div class="nav-logo-mark">
       <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -153,163 +154,261 @@
     </div>
     <span class="nav-name">Inside <span>the</span> Number</span>
   </a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="index.html#analysis">Analysis</a></li>
-      <li><a href="index.html#slate">Picks</a></li>
-      <li><a href="games.html">Games</a></li>
-      <li><a href="dfs.html">DFS</a></li>
-      <li><a href="tools.html">Tools</a></li>
-      <li><a href="index.html#pricing" class="nav-cta">Get Pro</a></li>
-    </ul>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+
+  <ul class="itn-links">
+    <li class="itn-group">
+      <button class="itn-top itn-here" id="itn-boards-btn" aria-expanded="false" aria-controls="itn-boards-menu" aria-haspopup="true">Boards<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-boards-menu" aria-labelledby="itn-boards-btn" hidden>
+        <li><a href="/">Home<span class="itn-sub">Back to the front page</span></a></li>
+        <li><a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a></li>
+        <li><a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a></li>
+        <li><a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a></li>
+        <li><a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a></li>
+        <li><a href="/games?sport=NHL&scope=today">NHL<span class="itn-sub">Tonight's NHL board</span></a></li>
+        <li><a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a></li>
+      </ul>
+    </li>
+    <li class="itn-group">
+      <button class="itn-top" id="itn-learn-btn" aria-expanded="false" aria-controls="itn-learn-menu" aria-haspopup="true">Learn<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-learn-menu" aria-labelledby="itn-learn-btn" hidden>
+        <li><a href="/learn">How to Read the Board<span class="itn-sub">Start here</span></a></li>
+        <li><a href="/football-line-movement">Football Guide<span class="itn-sub">Why football lines move</span></a></li>
+        <li><a href="/mlb-playoffs">MLB Playoff Odds<span class="itn-sub">Reading October prices</span></a></li>
+        <li><a href="/glossary">Glossary<span class="itn-sub">Plain-English definitions</span></a></li>
+        <li><a href="/pga">PGA Odds Explained<span class="itn-sub">Outright prices, explained</span></a></li>
+      </ul>
+    </li>
+    <li class="itn-group">
+      <button class="itn-top" id="itn-tools-btn" aria-expanded="false" aria-controls="itn-tools-menu" aria-haspopup="true">Tools<span class="itn-chev" aria-hidden="true"></span></button>
+      <ul class="itn-menu" id="itn-tools-menu" aria-labelledby="itn-tools-btn" hidden>
+        <li><a href="/tools">All Calculators<span class="itn-sub">Ten of them</span></a></li>
+        <li><a href="/no-vig-calculator">No-Vig Calculator<span class="itn-sub">Strip out the book's cut</span></a></li>
+        <li><a href="/parlay-calculator">Parlay Calculator<span class="itn-sub">What the legs really pay</span></a></li>
+        <li><a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a></li>
+      </ul>
+    </li>
+    <li><a class="itn-cta" href="https://insidethenumber.beehiiv.com/subscribe">The Market Brief</a></li>
+  </ul>
+  <button class="nav-hamburger" id="itnMenuButton" aria-label="Menu" aria-expanded="false" aria-controls="itnMobileMenu">
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="index.html#analysis">Analysis</a>
-    <a href="index.html#slate">Picks</a>
-    <a href="games.html">Games</a>
-    <a href="dfs.html">DFS</a>
-    <a href="tools.html">Tools</a>
-    <a href="index.html#pricing" class="nav-cta">Get Pro</a>
-  </div>
+<!--ITN-NAV:START  generated by scripts/build_nav.py — edit there, not here-->
+<nav class="itn-ctx" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/games?sport=UFC">UFC</a></li>
+    <li aria-current="page">Past Card</li>
+  </ol>
+</nav>
+<nav class="itn-switch" aria-label="Switch board">
+  <span class="itn-switch-lab">Boards</span>
+  <a href="/games">Full Board</a>
+  <a href="/games?sport=NFL&scope=week">NFL</a>
+  <a href="/games?sport=CFB&scope=week">CFB</a>
+  <a href="/games?sport=MLB&scope=today">MLB</a>
+  <a href="/games?sport=NHL&scope=today">NHL</a>
+  <a href="/games?sport=UFC" aria-current="page">UFC</a>
+</nav>
+<div class="itn-mobile" id="itnMobileMenu">
+    <div class="itn-m-group">
+      <div class="itn-m-head">Boards</div>
+      <a href="/">Home<span class="itn-sub">Back to the front page</span></a>
+      <a href="/games">Full Board<span class="itn-sub">Every league on one page</span></a>
+      <a href="/games?sport=NFL&scope=week">NFL<span class="itn-sub">This week's NFL slate</span></a>
+      <a href="/games?sport=CFB&scope=week">College Football<span class="itn-sub">This week's CFB slate</span></a>
+      <a href="/games?sport=MLB&scope=today">MLB<span class="itn-sub">Today's MLB board</span></a>
+      <a href="/games?sport=NHL&scope=today">NHL<span class="itn-sub">Tonight's NHL board</span></a>
+      <a href="/games?sport=UFC">UFC<span class="itn-sub">The current card</span></a>
+    </div>
+    <div class="itn-m-group">
+      <div class="itn-m-head">Learn</div>
+      <a href="/learn">How to Read the Board<span class="itn-sub">Start here</span></a>
+      <a href="/football-line-movement">Football Guide<span class="itn-sub">Why football lines move</span></a>
+      <a href="/mlb-playoffs">MLB Playoff Odds<span class="itn-sub">Reading October prices</span></a>
+      <a href="/glossary">Glossary<span class="itn-sub">Plain-English definitions</span></a>
+      <a href="/pga">PGA Odds Explained<span class="itn-sub">Outright prices, explained</span></a>
+    </div>
+    <div class="itn-m-group">
+      <div class="itn-m-head">Tools</div>
+      <a href="/tools">All Calculators<span class="itn-sub">Ten of them</span></a>
+      <a href="/no-vig-calculator">No-Vig Calculator<span class="itn-sub">Strip out the book's cut</span></a>
+      <a href="/parlay-calculator">Parlay Calculator<span class="itn-sub">What the legs really pay</span></a>
+      <a href="/no-vig-calculator#cheat-sheet">No-Vig Cheat Sheet<span class="itn-sub">The printable one</span></a>
+    </div>
+    <a class="itn-m-cta" href="https://insidethenumber.beehiiv.com/subscribe">Get The Market Brief</a>
+</div>
+<!--ITN-NAV:END-->
 <div class="wrap">
-  <div class="eyebrow">// UFC · Sat, Sep 26 · Meta APEX, Las Vegas · <b style="color:#ff5b5b">CARD IS FINAL</b></div>
-  <h1>UFC Fight Night: Rosas Jr. vs. Barcelos<br/><span>closing-price archive.</span></h1>
-  <div class="stamp" style="border-left:3px solid #ff5b5b;padding-left:12px"><b style="color:#f0f2f5">This card has already been fought.</b> Raul Rosas Jr. beat Raoni Barcelos in the main event. The prices below are where the market closed on Sep 26, 2026 &mdash; kept as a record, not as anything you can bet. The next numbered card goes up here when its odds are posted.</div>
+  <div class="eyebrow">// UFC · Sat, Oct 3 · Delta Center, Salt Lake City</div>
+  <h1>UFC 332: Silva vs. Wang<br/><span>every fight, every price.</span></h1>
   <p class="sub">The best moneyline on both corners across major sportsbooks, records, and each fighter's win chance in plain English. ESPN doesn't carry MMA odds. We do.</p>
-  <div class="stamp">Prices updated Sep 26, 2026 16:48 UTC · best of 5 books</div>
-  <div class="early">Prelims 4:00 PM CT · Main card 7:00 PM CT. Times are card starts; the main event is last.</div>
+  <div class="stamp" data-card-state="live">Prices updated Sep 30, 2026 13:14 UTC · best of 6 books</div>
+  <div class="early">Prelims 3:00 PM CT · Main card 7:00 PM CT. Times are card starts; the main event is last.</div>
   <div class="strip">
     <div class="chip"><div class="l">Main event</div>
-      <div class="v">Barcelos vs Rosas</div>
-      <div class="s">Bantamweight · closes the main card</div></div>
+      <div class="v">Silva vs Cong</div>
+      <div class="s">Women&#x27;s Flyweight · closes the main card</div></div>
     <div class="chip"><div class="l">Closest fight</div>
-      <div class="v">Brenner / Harrell</div>
+      <div class="v">Walker / Parkin</div>
       <div class="s">near even money both ways — pick a side</div></div>
     <div class="chip"><div class="l">Biggest favorite</div>
-      <div class="v">Yazmin Jauregui</div>
+      <div class="v">Jacobe Smith</div>
       <div class="s">the books give him 87 in 100 — priced -910</div></div>
   </div>
 
       <div class="fight feature">
-        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Bantamweight</span>
+        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Women&#x27;s Flyweight</span>
           <span class="f-hold">lines not posted yet</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Raoni Barcelos</div><div class="f-rec">22-5-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Raul Rosas Jr.</div><div class="f-rec">12-1-0</div></div></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Natalia Silva</div><div class="f-rec">20-5-1</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Wang Cong</div><div class="f-rec">10-1-0</div></div></div>
         
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Bantamweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Brady Hiestand</div><div class="f-rec">9-2-0</div>
-            <div class="f-price">+309</div>
-            <div class="f-book">best price: BetOnline.ag</div>
-            <div class="f-true">win chance 24%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Rinya Nakamura</div><div class="f-rec">10-1-0</div>
-            <div class="f-price">-380</div>
-            <div class="f-book">best price: Bovada</div>
-            <div class="f-true">win chance 76%</div></div></div>
-        <div class="f-read">The books lean Rinya Nakamura, roughly 76 times out of 100. Brady Hiestand at +309 pays about 3.1-to-1 on the upset.</div>
-      </div>
-      <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Middleweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Robert Bryczek</div><div class="f-rec">18-7-0</div>
-            <div class="f-price">+142</div>
-            <div class="f-book">best price: Bovada</div>
-            <div class="f-true">win chance 40%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Rodolfo Vieira</div><div class="f-rec">11-5-0</div>
-            <div class="f-price">-159</div>
+        <div class="f-top"><span class="f-time">Main card · 5:00 PM CT · Flyweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Alden Coria</div><div class="f-rec">13-3-0</div>
+            <div class="f-price">+138</div>
             <div class="f-book">best price: BetRivers</div>
-            <div class="f-true">win chance 60%</div></div></div>
-        <div class="f-read">The books lean Rodolfo Vieira, roughly 60 times out of 100. Robert Bryczek at +142 pays about 1.4-to-1 on the upset.</div>
-      </div>
-      <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Light Heavyweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Christian Edwards</div><div class="f-rec">8-5-0</div>
-            <div class="f-price">+155</div>
-            <div class="f-book">best price: Bovada</div>
-            <div class="f-true">win chance 38%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Rodolfo Bellato</div><div class="f-rec">13-3-1</div>
-            <div class="f-price">-173</div>
+            <div class="f-true">win chance 41%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Imanol Rodriguez</div><div class="f-rec">7-1-0</div>
+            <div class="f-price">-155</div>
             <div class="f-book">best price: BetOnline.ag</div>
-            <div class="f-true">win chance 62%</div></div></div>
-        <div class="f-read">The books lean Rodolfo Bellato, roughly 62 times out of 100. Christian Edwards at +155 pays about 1.6-to-1 on the upset.</div>
+            <div class="f-true">win chance 59%</div></div></div>
+        <div class="f-read">The books lean Imanol Rodriguez, roughly 59 times out of 100. Alden Coria at +138 pays about 1.4-to-1 on the upset.</div>
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Lightweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Elves Brenner</div><div class="f-rec">16-6-0</div>
-            <div class="f-price">+106</div>
+        <div class="f-top"><span class="f-time">Prelims · 3:00 PM CT · Lightweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Alex Hernandez</div><div class="f-rec">18-9-0</div>
+            <div class="f-price">-250</div>
             <div class="f-book">best price: BetRivers</div>
-            <div class="f-true">win chance 47%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Josiah Harrell</div><div class="f-rec">11-1-0</div>
-            <div class="f-price">-120</div>
-            <div class="f-book">best price: BetOnline.ag</div>
-            <div class="f-true">win chance 53%</div></div></div>
-        <div class="f-read">The books lean Josiah Harrell, roughly 53 times out of 100. Elves Brenner at +106 pays about 1.1-to-1 on the upset.</div>
-      </div>
-      <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Bantamweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Montel Jackson</div><div class="f-rec">15-4-0</div>
-            <div class="f-price">-225</div>
-            <div class="f-book">best price: BetOnline.ag</div>
-            <div class="f-true">win chance 67%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Ricky Simon</div><div class="f-rec">22-7-1</div>
-            <div class="f-price">+190</div>
+            <div class="f-true">win chance 70%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Rafael dos Anjos</div><div class="f-rec">32-17-0</div>
+            <div class="f-price">+230</div>
             <div class="f-book">best price: DraftKings</div>
-            <div class="f-true">win chance 33%</div></div></div>
-        <div class="f-read">The books lean Montel Jackson, roughly 67 times out of 100. Ricky Simon at +190 pays about 1.9-to-1 on the upset.</div>
+            <div class="f-true">win chance 30%</div></div></div>
+        <div class="f-read">The books lean Alex Hernandez, roughly 70 times out of 100. Rafael dos Anjos at +230 pays about 2.3-to-1 on the upset.</div>
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Bantamweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Heili Alateng</div><div class="f-rec">17-10-2</div>
-            <div class="f-price">+319</div>
+        <div class="f-top"><span class="f-time">Main card · 5:00 PM CT · Middleweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Andrey Pulyaev</div><div class="f-rec">10-5-0</div>
+            <div class="f-price">+425</div>
+            <div class="f-book">best price: Bovada</div>
+            <div class="f-true">win chance 19%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Damian Pinas</div><div class="f-rec">10-1-0</div>
+            <div class="f-price">-500</div>
             <div class="f-book">best price: BetOnline.ag</div>
-            <div class="f-true">win chance 23%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">John Castaneda</div><div class="f-rec">21-8-1</div>
-            <div class="f-price">-360</div>
-            <div class="f-book">best price: BetRivers</div>
-            <div class="f-true">win chance 77%</div></div></div>
-        <div class="f-read">The books lean John Castaneda, roughly 77 times out of 100. Heili Alateng at +319 pays about 3.2-to-1 on the upset.</div>
+            <div class="f-true">win chance 81%</div></div></div>
+        <div class="f-read">Damian Pinas is heavy chalk — you&#x27;re risking $500 to win $100. Andrey Pulyaev at +425 pays about 4-to-1 for anyone who thinks this fight is closer than the number.</div>
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Prelims · 4:00 PM CT · Women&#x27;s Strawweight</span>
-          <span class="f-hold">5 books quoted</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Vanessa Demopoulos</div><div class="f-rec">11-8-0</div>
-            <div class="f-price">+675</div>
+        <div class="f-top"><span class="f-time">Main card · 5:00 PM CT · Bantamweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Benardo Sopaj</div><div class="f-rec">13-3-0</div>
+            <div class="f-price">+130</div>
+            <div class="f-book">best price: Bovada</div>
+            <div class="f-true">win chance 43%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Marcus McGhee</div><div class="f-rec">11-2-0</div>
+            <div class="f-price">-142</div>
             <div class="f-book">best price: DraftKings</div>
-            <div class="f-true">win chance 13%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Yazmin Jauregui</div><div class="f-rec">11-2-0</div>
+            <div class="f-true">win chance 57%</div></div></div>
+        <div class="f-read">The books lean Marcus McGhee, roughly 57 times out of 100. Benardo Sopaj at +130 pays about 1.3-to-1 on the upset.</div>
+      </div>
+      <div class="fight">
+        <div class="f-top"><span class="f-time">Prelims · 3:00 PM CT · Welterweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Bruce Whitehead</div><div class="f-rec">8-2-0</div>
+            <div class="f-price">+650</div>
+            <div class="f-book">best price: DraftKings</div>
+            <div class="f-true">win chance 13%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Jacobe Smith</div><div class="f-rec">12-0-0</div>
             <div class="f-price">-910</div>
             <div class="f-book">best price: BetRivers</div>
             <div class="f-true">win chance 87%</div></div></div>
-        <div class="f-read">Yazmin Jauregui is heavy chalk — you&#x27;re risking $910 to win $100. Vanessa Demopoulos at +675 pays about 7-to-1 for anyone who thinks this fight is closer than the number.</div>
+        <div class="f-read">Jacobe Smith is heavy chalk — you&#x27;re risking $910 to win $100. Bruce Whitehead at +650 pays about 6-to-1 for anyone who thinks this fight is closer than the number.</div>
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Women&#x27;s Bantamweight</span>
-          <span class="f-hold">lines not posted yet</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Norma Dumont</div><div class="f-rec">13-3-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Ailin Perez</div><div class="f-rec">13-2-0</div></div></div>
-        
+        <div class="f-top"><span class="f-time">Prelims · 3:00 PM CT · Welterweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Court McGee</div><div class="f-rec">23-14-0</div>
+            <div class="f-price">+220</div>
+            <div class="f-book">best price: BetMGM</div>
+            <div class="f-true">win chance 30%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Eric Nolan</div><div class="f-rec">8-5-0</div>
+            <div class="f-price">-250</div>
+            <div class="f-book">best price: BetRivers</div>
+            <div class="f-true">win chance 70%</div></div></div>
+        <div class="f-read">The books lean Eric Nolan, roughly 70 times out of 100. Court McGee at +220 pays about 2.2-to-1 on the upset.</div>
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Light Heavyweight</span>
-          <span class="f-hold">lines not posted yet</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Sedriques Dumas</div><div class="f-rec">10-5-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Luis Hernandez</div><div class="f-rec">8-0-0</div></div></div>
-        
+        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Lightweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Esteban Ribovics</div><div class="f-rec">16-3-0</div>
+            <div class="f-price">-235</div>
+            <div class="f-book">best price: Bovada</div>
+            <div class="f-true">win chance 68%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">King Green</div><div class="f-rec">36-17-1</div>
+            <div class="f-price">+200</div>
+            <div class="f-book">best price: BetOnline.ag</div>
+            <div class="f-true">win chance 32%</div></div></div>
+        <div class="f-read">The books lean Esteban Ribovics, roughly 68 times out of 100. King Green at +200 pays about 2.0-to-1 on the upset.</div>
+      </div>
+      <div class="fight">
+        <div class="f-top"><span class="f-time">Prelims · 3:00 PM CT · Middleweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Ismail Naurdiev</div><div class="f-rec">25-8-0</div>
+            <div class="f-price">-134</div>
+            <div class="f-book">best price: BetOnline.ag</div>
+            <div class="f-true">win chance 56%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Marvin Vettori</div><div class="f-rec">19-10-1</div>
+            <div class="f-price">+120</div>
+            <div class="f-book">best price: BetRivers</div>
+            <div class="f-true">win chance 44%</div></div></div>
+        <div class="f-read">The books lean Ismail Naurdiev, roughly 56 times out of 100. Marvin Vettori at +120 pays about 1.2-to-1 on the upset.</div>
+      </div>
+      <div class="fight">
+        <div class="f-top"><span class="f-time">Prelims · 3:00 PM CT · Heavyweight</span>
+          <span class="f-hold">4 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Johnny Walker</div><div class="f-rec">22-10-0</div>
+            <div class="f-price">-130</div>
+            <div class="f-book">best price: Bovada</div>
+            <div class="f-true">win chance 55%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Michael Parkin</div><div class="f-rec">10-1-0</div>
+            <div class="f-price">+118</div>
+            <div class="f-book">best price: FanDuel</div>
+            <div class="f-true">win chance 45%</div></div></div>
+        <div class="f-read">The books lean Johnny Walker, roughly 55 times out of 100. Michael Parkin at +118 pays about 1.2-to-1 on the upset.</div>
+      </div>
+      <div class="fight">
+        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Welterweight</span>
+          <span class="f-hold">5 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Khaos Williams</div><div class="f-rec">16-5-0</div>
+            <div class="f-price">+250</div>
+            <div class="f-book">best price: FanDuel</div>
+            <div class="f-true">win chance 28%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Roberto Soldic</div><div class="f-rec">21-4-0</div>
+            <div class="f-price">-275</div>
+            <div class="f-book">best price: BetOnline.ag</div>
+            <div class="f-true">win chance 72%</div></div></div>
+        <div class="f-read">The books lean Roberto Soldic, roughly 72 times out of 100. Khaos Williams at +250 pays about 2.5-to-1 on the upset.</div>
+      </div>
+      <div class="fight">
+        <div class="f-top"><span class="f-time">Main card · 5:00 PM CT · Heavyweight</span>
+          <span class="f-hold">6 books quoted</span></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Anthony Wint</div><div class="f-rec">8-0-0</div>
+            <div class="f-price">-480</div>
+            <div class="f-book">best price: BetRivers</div>
+            <div class="f-true">win chance 81%</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Lucas Armand</div><div class="f-rec">6-0-0</div>
+            <div class="f-price">+425</div>
+            <div class="f-book">best price: BetMGM</div>
+            <div class="f-true">win chance 19%</div></div></div>
+        <div class="f-read">Anthony Wint is heavy chalk — you&#x27;re risking $480 to win $100. Lucas Armand at +425 pays about 4-to-1 for anyone who thinks this fight is closer than the number.</div>
       </div>
       <div class="fight">
         <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Bantamweight</span>
           <span class="f-hold">lines not posted yet</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Ilimbek Akylbek Uulu</div><div class="f-rec">10-3-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Mehemmedeli Osmanli</div><div class="f-rec">12-1-0</div></div></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Deiveson Figueiredo</div><div class="f-rec">25-7-1</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Payton Talbott</div><div class="f-rec">11-1-0</div></div></div>
         
       </div>
       <div class="fight">
-        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Women&#x27;s Strawweight</span>
+        <div class="f-top"><span class="f-time">Main card · 7:00 PM CT · Middleweight</span>
           <span class="f-hold">lines not posted yet</span></div>
-        <div class="f-grid"><div class="corner"><div class="f-name">Tina Black</div><div class="f-rec">15-4-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Melissa Amaya</div><div class="f-rec">8-0-0</div></div></div>
+        <div class="f-grid"><div class="corner"><div class="f-name">Roman Kopylov</div><div class="f-rec">15-5-0</div></div><div class="vs">vs</div><div class="corner"><div class="f-name">Ateba Gautier</div><div class="f-rec">11-1-0</div></div></div>
         
       </div>
   <p class="expl"><b>How to read this.</b> The price shown is the best any major book is offering on that corner right now — always take the best number on your side; over a season it's the difference between winning and breaking even. Win chance is what the market honestly gives each fighter once the bookmaker's cut is stripped out — both corners add up to 100.</p>
-  <div class="cta"><b>Every line, explained &mdash; what the market actually thinks.</b> In your inbox every morning.<br/>
+  <div class="cta"><b>Every line, explained &mdash; what the market actually thinks.</b> Free, plus the No-Vig Cheat Sheet the moment you confirm.<br/>
     <a href="https://insidethenumber.beehiiv.com/subscribe" target="_blank" rel="noopener">
     Get it in your inbox →</a></div>
 </div>
@@ -320,13 +419,7 @@
   <div class="foot-c">© 2026 ITN · Nashville, TN</div>
 </footer>
 <script>
-  (function(){
-    const b=document.getElementById('navHamburger'), m=document.getElementById('mobileMenu');
-    if(!b||!m) return;
-    const c=()=>{b.classList.remove('open');m.classList.remove('open');document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');};
-    b.addEventListener('click',()=>{const o=b.classList.toggle('open');m.classList.toggle('open',o);document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o?'true':'false');});
-    m.querySelectorAll('a').forEach(a=>a.addEventListener('click',c));
-  })();
+(function(){try{var LS=window.localStorage,q=new URLSearchParams(location.search),touched=false;if(q.has('itn_internal')){if(q.get('itn_internal')==='1')LS.setItem('itn_internal','1');else LS.removeItem('itn_internal');q.delete('itn_internal');touched=true;}var internal=(LS.getItem('itn_internal')==='1');var stored=null;try{stored=JSON.parse(LS.getItem('itn_utm')||'null');}catch(e){stored=null;}var fresh=!!(stored&&stored.ts&&(Date.now()-stored.ts)<2592000000);if(q.get('utm_source')&&!fresh){stored={source:q.get('utm_source')||'',medium:q.get('utm_medium')||'',campaign:q.get('utm_campaign')||'',ts:Date.now()};LS.setItem('itn_utm',JSON.stringify(stored));fresh=true;}if(touched){history.replaceState(null,'',location.pathname+(q.toString()?'?'+q.toString():'')+location.hash);}var src=internal?{source:'internal',medium:'test',campaign:'owner'}:(fresh?stored:null);if(src){var qs='utm_source='+encodeURIComponent(src.source||'')+'&utm_medium='+encodeURIComponent(src.medium||'')+'&utm_campaign='+encodeURIComponent(src.campaign||'');var add=function(el,attr){var v=el.getAttribute(attr)||'';if(v.indexOf('utm_source=')<0)el.setAttribute(attr,v+(v.indexOf('?')<0?'?':'&')+qs);};document.querySelectorAll('iframe[src^="https://subscribe-forms.beehiiv.com/"]').forEach(function(f){add(f,'src');});document.querySelectorAll('a[href^="https://insidethenumber.beehiiv.com/subscribe"]').forEach(function(a){add(a,'href');});}window.__itnInternal=internal;}catch(e){}})();
 </script>
 <script>
 (function(){try{if(window.__itnInternal)return;var s=document.createElement('script');s.type='module';s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"bfd50abb734b41edb7863a58e69fbfd8"}');document.head.appendChild(s);}catch(e){}})();

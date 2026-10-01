@@ -43,19 +43,28 @@ ROOT = Path(__file__).resolve().parent.parent
 # BOARDS  = live market boards. A board label must reach a board.
 # LEARN   = explainers. A guide label must reach a guide.
 # TOOLS   = the calculators, and the cheat sheet that lives inside one.
+# Sep 30 2026: NHL added — the season opened tonight and the board has been
+# live in games.html since it was built (league map, puck-line label, today
+# scope), but nothing linked to it, so no visitor could reach it.
+# PGA moved to LEARN the same day: it is an explainer with no live prices
+# (the ESPN golf feed carries no odds), and a sport label sitting under
+# "Boards" that opens a guide is exactly the mislabel this block exists to
+# prevent.
 BOARDS = [
+    ("/",                 "Home",             "Back to the front page"),
     ("/games",            "Full Board",       "Every league on one page"),
     ("/games?sport=NFL&scope=week", "NFL", "This week's NFL slate"),
     ("/games?sport=CFB&scope=week", "College Football", "This week's CFB slate"),
     ("/games?sport=MLB&scope=today", "MLB", "Today's MLB board"),
+    ("/games?sport=NHL&scope=today", "NHL", "Tonight's NHL board"),
     ("/games?sport=UFC",  "UFC",              "The current card"),
-    ("/pga",              "PGA",              "Outright prices, explained"),
 ]
 LEARN = [
     ("/learn",                     "How to Read the Board", "Start here"),
     ("/football-line-movement",    "Football Guide",        "Why football lines move"),
     ("/mlb-playoffs",              "MLB Playoff Odds",      "Reading October prices"),
     ("/glossary",                  "Glossary",              "Plain-English definitions"),
+    ("/pga",                       "PGA Odds Explained",    "Outright prices, explained"),
 ]
 TOOLS = [
     ("/tools",                            "All Calculators", "Ten of them"),
@@ -77,6 +86,7 @@ SWITCH = [
     ("/games?sport=NFL&scope=week", "NFL"),
     ("/games?sport=CFB&scope=week", "CFB"),
     ("/games?sport=MLB&scope=today", "MLB"),
+    ("/games?sport=NHL&scope=today", "NHL"),
     ("/games?sport=UFC", "UFC"),
 ]
 
@@ -92,6 +102,12 @@ PAGES = {
         route="/nfl", section="boards", crumb=("/games", "Full Board", "NFL"), switcher=True),
     "cfb.html": dict(
         route="/cfb", section="boards", crumb=("/games", "Full Board", "College Football"), switcher=True),
+    # Added Sep 30 2026, opening night. The NHL board itself already existed inside
+    # games.html (league map, puck-line label, today scope) but nothing linked to it
+    # and /games?sport=NHL canonicalises to /games, so it could never earn its own
+    # search visibility. This is the canonical NHL route, same pattern as /nfl.
+    "nhl.html": dict(
+        route="/nhl", section="boards", crumb=("/games", "Full Board", "NHL"), switcher=True),
     # The dated UFC 331 page is an explainer, not the live card. It keeps its
     # page and its content, but it sits under Learn so the crumb stops implying
     # it is the current board. The rolling card is /games?sport=UFC.
