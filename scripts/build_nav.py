@@ -57,6 +57,8 @@ BOARDS = [
     ("/games?sport=CFB&scope=week", "College Football", "This week's CFB slate"),
     ("/games?sport=MLB&scope=today", "MLB", "Today's MLB board"),
     ("/games?sport=NHL&scope=today", "NHL", "Tonight's NHL board"),
+    ("/games?sport=NBA&scope=today", "NBA", "Today's NBA board"),
+    ("/games?sport=CBB&scope=today", "College Basketball", "Today's college basketball board"),
     ("/games?sport=UFC",  "UFC",              "The current card"),
 ]
 LEARN = [
@@ -87,6 +89,8 @@ SWITCH = [
     ("/games?sport=CFB&scope=week", "CFB"),
     ("/games?sport=MLB&scope=today", "MLB"),
     ("/games?sport=NHL&scope=today", "NHL"),
+    ("/games?sport=NBA&scope=today", "NBA"),
+    ("/games?sport=CBB&scope=today", "CBB"),
     ("/games?sport=UFC", "UFC"),
 ]
 
