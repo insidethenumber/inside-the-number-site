@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-01T19:31:43.590330+00:00",
+ "generated_utc": "2026-10-01T21:24:54.420561+00:00",
  "slate_date": "2026-10-01",
  "slate_label": "Thu, Oct 1",
  "non_mlb_available": [
@@ -29,8 +29,8 @@
    "over_odds": "-102",
    "under_odds": "-118",
    "spread": "-1.5",
-   "ml_away": "-111",
-   "ml_home": "-108",
+   "ml_away": "-108",
+   "ml_home": "-112",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-106",
@@ -40,13 +40,13 @@
     "over_odds": "-102",
     "under_odds": "-118"
    },
-   "true_away": 50.3,
-   "true_home": 49.7,
-   "hold": 4.53,
+   "true_away": 49.6,
+   "true_home": 50.4,
+   "hold": 4.75,
    "be_over": 50.5,
    "be_under": 54.1,
-   "be_ml_away": 52.6,
-   "be_ml_home": 51.9
+   "be_ml_away": 51.9,
+   "be_ml_home": 52.8
   },
   {
    "league": "NFL",
@@ -71,7 +71,7 @@
    "spread": "-2.5",
    "ml_away": "-148",
    "ml_home": "+124",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-135",
     "ml_home": "+114",
@@ -109,9 +109,9 @@
    "over_odds": "-112",
    "under_odds": "-108",
    "spread": "+2.5",
-   "ml_away": "+114",
-   "ml_home": "-135",
-   "provider": "Draft Kings",
+   "ml_away": "+110",
+   "ml_home": "-130",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-108",
     "ml_home": "-112",
@@ -120,13 +120,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 44.9,
-   "true_home": 55.1,
-   "hold": 4.18,
+   "true_away": 45.7,
+   "true_home": 54.3,
+   "hold": 4.14,
    "be_over": 52.8,
    "be_under": 51.9,
-   "be_ml_away": 46.7,
-   "be_ml_home": 57.4
+   "be_ml_away": 47.6,
+   "be_ml_home": 56.5
   },
   {
    "league": "CFB",
@@ -149,9 +149,9 @@
    "over_odds": "-110",
    "under_odds": "-110",
    "spread": "-2.5",
-   "ml_away": "-130",
-   "ml_home": "+110",
-   "provider": "Draft Kings",
+   "ml_away": "-142",
+   "ml_home": "+120",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-112",
     "ml_home": "-108",
@@ -160,13 +160,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 54.3,
-   "true_home": 45.7,
-   "hold": 4.14,
+   "true_away": 56.3,
+   "true_home": 43.7,
+   "hold": 4.13,
    "be_over": 52.4,
    "be_under": 52.4,
-   "be_ml_away": 56.5,
-   "be_ml_home": 47.6
+   "be_ml_away": 58.7,
+   "be_ml_home": 45.5
   },
   {
    "league": "NHL",
@@ -191,7 +191,7 @@
    "spread": "-1.5",
    "ml_away": "-112",
    "ml_home": "-108",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-105",
     "ml_home": "-115",
@@ -231,7 +231,7 @@
    "spread": "+1.5",
    "ml_away": "+142",
    "ml_home": "-170",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "+130",
     "ml_home": "-155",
@@ -271,7 +271,7 @@
    "spread": "-1.5",
    "ml_away": "-148",
    "ml_home": "+124",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-142",
     "ml_home": "+120",
@@ -306,12 +306,12 @@
     "record": "0-0-0"
    },
    "total": "o6.5",
-   "over_odds": "+114",
-   "under_odds": "-135",
+   "over_odds": "+110",
+   "under_odds": "-130",
    "spread": "-1.5",
    "ml_away": "-148",
    "ml_home": "+124",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-148",
     "ml_home": "+124",
@@ -323,8 +323,8 @@
    "true_away": 57.2,
    "true_home": 42.8,
    "hold": 4.32,
-   "be_over": 46.7,
-   "be_under": 57.4,
+   "be_over": 47.6,
+   "be_under": 56.5,
    "be_ml_away": 59.7,
    "be_ml_home": 44.6
   },
@@ -351,7 +351,7 @@
    "spread": "+1.5",
    "ml_away": "-108",
    "ml_home": "-112",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-105",
     "ml_home": "-115",
@@ -391,7 +391,7 @@
    "spread": "+1.5",
    "ml_away": "+180",
    "ml_home": "-218",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "+164",
     "ml_home": "-198",
@@ -431,7 +431,7 @@
    "spread": "-1.5",
    "ml_away": "-148",
    "ml_home": "+124",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-142",
     "ml_home": "+120",
@@ -471,7 +471,7 @@
    "spread": "-1.5",
    "ml_away": "-218",
    "ml_home": "+180",
-   "provider": "Draft Kings",
+   "provider": "DraftKings",
    "open": {
     "ml_away": "-198",
     "ml_home": "+164",
