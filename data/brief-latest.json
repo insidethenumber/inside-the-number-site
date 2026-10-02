@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-02T19:18:09.163059+00:00",
+ "generated_utc": "2026-10-02T21:02:19.969348+00:00",
  "slate_date": "2026-10-02",
  "slate_label": "Fri, Oct 2",
  "non_mlb_available": [
@@ -64,9 +64,9 @@
     "name": "Delaware",
     "record": "2-2"
    },
-   "total": "o49.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
+   "total": "o51.5",
+   "over_odds": "-108",
+   "under_odds": "-112",
    "spread": "-6.5",
    "ml_away": "-270",
    "ml_home": "+220",
@@ -82,8 +82,8 @@
    "true_away": 70.0,
    "true_home": 30.0,
    "hold": 4.22,
-   "be_over": 52.8,
-   "be_under": 51.9,
+   "be_over": 51.9,
+   "be_under": 52.8,
    "be_ml_away": 73.0,
    "be_ml_home": 31.2
   },
@@ -104,7 +104,7 @@
     "name": "Northwestern",
     "record": "2-1"
    },
-   "total": "o45.5",
+   "total": "o46.5",
    "over_odds": "-115",
    "under_odds": "-105",
    "spread": "-2.5",
@@ -148,8 +148,8 @@
    "over_odds": "-135",
    "under_odds": "+114",
    "spread": "+1.5",
-   "ml_away": "+105",
-   "ml_home": "-125",
+   "ml_away": "+110",
+   "ml_home": "-130",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+120",
@@ -159,13 +159,13 @@
     "over_odds": "+124",
     "under_odds": "-148"
    },
-   "true_away": 46.8,
-   "true_home": 53.2,
-   "hold": 4.34,
+   "true_away": 45.7,
+   "true_home": 54.3,
+   "hold": 4.14,
    "be_over": 57.4,
    "be_under": 46.7,
-   "be_ml_away": 48.8,
-   "be_ml_home": 55.6
+   "be_ml_away": 47.6,
+   "be_ml_home": 56.5
   },
   {
    "league": "NHL",
@@ -188,8 +188,8 @@
    "over_odds": "+110",
    "under_odds": "-130",
    "spread": "+1.5",
-   "ml_away": "+120",
-   "ml_home": "-142",
+   "ml_away": "+124",
+   "ml_home": "-148",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+120",
@@ -199,13 +199,13 @@
     "over_odds": "+114",
     "under_odds": "-135"
    },
-   "true_away": 43.7,
-   "true_home": 56.3,
-   "hold": 4.13,
+   "true_away": 42.8,
+   "true_home": 57.2,
+   "hold": 4.32,
    "be_over": 47.6,
    "be_under": 56.5,
-   "be_ml_away": 45.5,
-   "be_ml_home": 58.7
+   "be_ml_away": 44.6,
+   "be_ml_home": 59.7
   },
   {
    "league": "NHL",
@@ -225,8 +225,8 @@
     "record": "0-0-0"
    },
    "total": "o5.5",
-   "over_odds": "-130",
-   "under_odds": "+110",
+   "over_odds": "-125",
+   "under_odds": "+105",
    "spread": "+1.5",
    "ml_away": "+102",
    "ml_home": "-122",
@@ -242,8 +242,8 @@
    "true_away": 47.4,
    "true_home": 52.6,
    "hold": 4.46,
-   "be_over": 56.5,
-   "be_under": 47.6,
+   "be_over": 55.6,
+   "be_under": 48.8,
    "be_ml_away": 49.5,
    "be_ml_home": 55.0
   },
@@ -264,9 +264,9 @@
     "name": "Stars",
     "record": "0-0-0"
    },
-   "total": "o6.5",
-   "over_odds": "+114",
-   "under_odds": "-135",
+   "total": "o5.5",
+   "over_odds": "-135",
+   "under_odds": "+114",
    "spread": "+1.5",
    "ml_away": "+154",
    "ml_home": "-185",
@@ -282,8 +282,8 @@
    "true_away": 37.8,
    "true_home": 62.2,
    "hold": 4.28,
-   "be_over": 46.7,
-   "be_under": 57.4,
+   "be_over": 57.4,
+   "be_under": 46.7,
    "be_ml_away": 39.4,
    "be_ml_home": 64.9
   },
