@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-02T21:02:19.969348+00:00",
+ "generated_utc": "2026-10-02T23:05:30.820923+00:00",
  "slate_date": "2026-10-02",
  "slate_label": "Fri, Oct 2",
  "non_mlb_available": [
@@ -24,12 +24,12 @@
     "name": "Virginia Tech",
     "record": "4-0"
    },
-   "total": "o54.5",
+   "total": "o52.5",
    "over_odds": "-112",
    "under_odds": "-108",
-   "spread": "+2.5",
-   "ml_away": "+110",
-   "ml_home": "-130",
+   "spread": "+1.5",
+   "ml_away": "+105",
+   "ml_home": "-125",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+170",
@@ -39,53 +39,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 45.7,
-   "true_home": 54.3,
-   "hold": 4.14,
+   "true_away": 46.8,
+   "true_home": 53.2,
+   "hold": 4.34,
    "be_over": 52.8,
    "be_under": 51.9,
-   "be_ml_away": 47.6,
-   "be_ml_home": 56.5
-  },
-  {
-   "league": "CFB",
-   "id": "401871050",
-   "short": "LIB @ DEL",
-   "start": "2026-10-02T23:00Z",
-   "detail": "10/2 - 7:00 PM EDT",
-   "venue": "Delaware Stadium",
-   "away": {
-    "abbr": "LIB",
-    "name": "Liberty",
-    "record": "3-1"
-   },
-   "home": {
-    "abbr": "DEL",
-    "name": "Delaware",
-    "record": "2-2"
-   },
-   "total": "o51.5",
-   "over_odds": "-108",
-   "under_odds": "-112",
-   "spread": "-6.5",
-   "ml_away": "-270",
-   "ml_home": "+220",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-230",
-    "ml_home": "+190",
-    "spread": "-7",
-    "total": "o50.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 70.0,
-   "true_home": 30.0,
-   "hold": 4.22,
-   "be_over": 51.9,
-   "be_under": 52.8,
-   "be_ml_away": 73.0,
-   "be_ml_home": 31.2
+   "be_ml_away": 48.8,
+   "be_ml_home": 55.6
   },
   {
    "league": "CFB",
@@ -108,8 +68,8 @@
    "over_odds": "-115",
    "under_odds": "-105",
    "spread": "-2.5",
-   "ml_away": "-142",
-   "ml_home": "+120",
+   "ml_away": "-135",
+   "ml_home": "+114",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-278",
@@ -119,53 +79,13 @@
     "over_odds": "-110",
     "under_odds": "-110"
    },
-   "true_away": 56.3,
-   "true_home": 43.7,
-   "hold": 4.13,
+   "true_away": 55.1,
+   "true_home": 44.9,
+   "hold": 4.18,
    "be_over": 53.5,
    "be_under": 51.2,
-   "be_ml_away": 58.7,
-   "be_ml_home": 45.5
-  },
-  {
-   "league": "NHL",
-   "id": "401891803",
-   "short": "NYR @ DET",
-   "start": "2026-10-02T22:30Z",
-   "detail": "10/2 - 6:30 PM EDT",
-   "venue": "Little Caesars Arena",
-   "away": {
-    "abbr": "NYR",
-    "name": "Rangers",
-    "record": "1-1-0"
-   },
-   "home": {
-    "abbr": "DET",
-    "name": "Red Wings",
-    "record": "0-0-0"
-   },
-   "total": "o5.5",
-   "over_odds": "-135",
-   "under_odds": "+114",
-   "spread": "+1.5",
-   "ml_away": "+110",
-   "ml_home": "-130",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+120",
-    "ml_home": "-142",
-    "spread": "+1.5",
-    "total": "o6.5",
-    "over_odds": "+124",
-    "under_odds": "-148"
-   },
-   "true_away": 45.7,
-   "true_home": 54.3,
-   "hold": 4.14,
-   "be_over": 57.4,
-   "be_under": 46.7,
-   "be_ml_away": 47.6,
-   "be_ml_home": 56.5
+   "be_ml_away": 57.4,
+   "be_ml_home": 46.7
   },
   {
    "league": "NHL",
@@ -305,8 +225,8 @@
     "record": "1-0-0"
    },
    "total": "o6.5",
-   "over_odds": "-122",
-   "under_odds": "+102",
+   "over_odds": "-125",
+   "under_odds": "+105",
    "spread": "+1.5",
    "ml_away": "+170",
    "ml_home": "-205",
@@ -322,8 +242,8 @@
    "true_away": 35.5,
    "true_home": 64.5,
    "hold": 4.25,
-   "be_over": 55.0,
-   "be_under": 49.5,
+   "be_over": 55.6,
+   "be_under": 48.8,
    "be_ml_away": 37.0,
    "be_ml_home": 67.2
   }
