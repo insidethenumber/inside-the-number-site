@@ -443,6 +443,12 @@
    "mode": "morning",
    "spent": 1,
    "remaining": 495
+  },
+  {
+   "at": "2026-10-03T18:41:58.571763+00:00",
+   "mode": "morning",
+   "spent": 1,
+   "remaining": 494
   }
  ]
 }
