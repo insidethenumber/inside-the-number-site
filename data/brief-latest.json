@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-04T15:58:44.382997+00:00",
+ "generated_utc": "2026-10-04T18:09:33.402419+00:00",
  "slate_date": "2026-10-04",
  "slate_label": "Sun, Oct 4",
  "non_mlb_available": [
@@ -27,10 +27,10 @@
    },
    "total": "o7",
    "over_odds": "-115",
-   "under_odds": "-104",
+   "under_odds": "-105",
    "spread": "+1.5",
-   "ml_away": "+114",
-   "ml_home": "-137",
+   "ml_away": "+113",
+   "ml_home": "-136",
    "provider": "DraftKings",
    "open": {
     "ml_away": "+109",
@@ -40,13 +40,13 @@
     "over_odds": "-111",
     "under_odds": "-109"
    },
-   "true_away": 44.7,
-   "true_home": 55.3,
-   "hold": 4.53,
+   "true_away": 44.9,
+   "true_home": 55.1,
+   "hold": 4.58,
    "be_over": 53.5,
-   "be_under": 51.0,
-   "be_ml_away": 46.7,
-   "be_ml_home": 57.8
+   "be_under": 51.2,
+   "be_ml_away": 46.9,
+   "be_ml_home": 57.6
   },
   {
    "league": "MLB",
@@ -87,326 +87,6 @@
    "be_under": 52.4,
    "be_ml_away": 43.5,
    "be_ml_home": 61.1
-  },
-  {
-   "league": "NFL",
-   "id": "401872971",
-   "short": "NE @ BUF",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Highmark Stadium",
-   "away": {
-    "abbr": "NE",
-    "name": "Patriots",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "BUF",
-    "name": "Bills",
-    "record": "3-0"
-   },
-   "total": "o49.5",
-   "over_odds": "-108",
-   "under_odds": "-112",
-   "spread": "+7",
-   "ml_away": "+260",
-   "ml_home": "-325",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+136",
-    "ml_home": "-162",
-    "spread": "+3",
-    "total": "o49.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 26.6,
-   "true_home": 73.4,
-   "hold": 4.25,
-   "be_over": 51.9,
-   "be_under": 52.8,
-   "be_ml_away": 27.8,
-   "be_ml_home": 76.5
-  },
-  {
-   "league": "NFL",
-   "id": "401872972",
-   "short": "NYJ @ CHI",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Soldier Field",
-   "away": {
-    "abbr": "NYJ",
-    "name": "Jets",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "CHI",
-    "name": "Bears",
-    "record": "2-1"
-   },
-   "total": "o43.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
-   "spread": "+3.5",
-   "ml_away": "+160",
-   "ml_home": "-192",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+300",
-    "ml_home": "-380",
-    "spread": "+8.5",
-    "total": "o45.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 36.9,
-   "true_home": 63.1,
-   "hold": 4.21,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 38.5,
-   "be_ml_home": 65.8
-  },
-  {
-   "league": "NFL",
-   "id": "401872969",
-   "short": "JAX @ CIN",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Paycor Stadium",
-   "away": {
-    "abbr": "JAX",
-    "name": "Jaguars",
-    "record": "2-1"
-   },
-   "home": {
-    "abbr": "CIN",
-    "name": "Bengals",
-    "record": "2-1"
-   },
-   "total": "o51.5",
-   "over_odds": "-110",
-   "under_odds": "-110",
-   "spread": "+2.5",
-   "ml_away": "+120",
-   "ml_home": "-142",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+114",
-    "ml_home": "-135",
-    "spread": "+2.5",
-    "total": "o51.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 43.7,
-   "true_home": 56.3,
-   "hold": 4.13,
-   "be_over": 52.4,
-   "be_under": 52.4,
-   "be_ml_away": 45.5,
-   "be_ml_home": 58.7
-  },
-  {
-   "league": "NFL",
-   "id": "401872966",
-   "short": "ARI @ NYG",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "MetLife Stadium",
-   "away": {
-    "abbr": "ARI",
-    "name": "Cardinals",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "NYG",
-    "name": "Giants",
-    "record": "2-1"
-   },
-   "total": "o43.5",
-   "over_odds": "-118",
-   "under_odds": "-102",
-   "spread": "-2.5",
-   "ml_away": "-135",
-   "ml_home": "+114",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+260",
-    "ml_home": "-325",
-    "spread": "+7",
-    "total": "o45.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 55.1,
-   "true_home": 44.9,
-   "hold": 4.18,
-   "be_over": 54.1,
-   "be_under": 50.5,
-   "be_ml_away": 57.4,
-   "be_ml_home": 46.7
-  },
-  {
-   "league": "NFL",
-   "id": "401872970",
-   "short": "LAR @ PHI",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Lincoln Financial Field",
-   "away": {
-    "abbr": "LAR",
-    "name": "Rams",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "PHI",
-    "name": "Eagles",
-    "record": "2-1"
-   },
-   "total": "o42.5",
-   "over_odds": "-120",
-   "under_odds": "+100",
-   "spread": "-3.5",
-   "ml_away": "-205",
-   "ml_home": "+170",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-118",
-    "ml_home": "-102",
-    "spread": "-1.5",
-    "total": "o47.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 64.5,
-   "true_home": 35.5,
-   "hold": 4.25,
-   "be_over": 54.5,
-   "be_under": 50.0,
-   "be_ml_away": 67.2,
-   "be_ml_home": 37.0
-  },
-  {
-   "league": "NFL",
-   "id": "401872968",
-   "short": "GB @ TB",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Raymond James Stadium",
-   "away": {
-    "abbr": "GB",
-    "name": "Packers",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "TB",
-    "name": "Buccaneers",
-    "record": "0-3"
-   },
-   "total": "o38.5",
-   "over_odds": "-115",
-   "under_odds": "-105",
-   "spread": "-3",
-   "ml_away": "-175",
-   "ml_home": "+145",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "-125",
-    "ml_home": "+105",
-    "spread": "-1.5",
-    "total": "o47.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 60.9,
-   "true_home": 39.1,
-   "hold": 4.45,
-   "be_over": 53.5,
-   "be_under": 51.2,
-   "be_ml_away": 63.6,
-   "be_ml_home": 40.8
-  },
-  {
-   "league": "NFL",
-   "id": "401872973",
-   "short": "TEN @ BAL",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "M&T Bank Stadium",
-   "away": {
-    "abbr": "TEN",
-    "name": "Titans",
-    "record": "0-3"
-   },
-   "home": {
-    "abbr": "BAL",
-    "name": "Ravens",
-    "record": "2-1"
-   },
-   "total": "o42.5",
-   "over_odds": "-105",
-   "under_odds": "-115",
-   "spread": "+11.5",
-   "ml_away": "+550",
-   "ml_home": "-800",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+310",
-    "ml_home": "-395",
-    "spread": "+8.5",
-    "total": "o47.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 14.8,
-   "true_home": 85.2,
-   "hold": 4.27,
-   "be_over": 51.2,
-   "be_under": 53.5,
-   "be_ml_away": 15.4,
-   "be_ml_home": 88.9
-  },
-  {
-   "league": "NFL",
-   "id": "401872967",
-   "short": "DAL @ HOU",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Reliant Stadium",
-   "away": {
-    "abbr": "DAL",
-    "name": "Cowboys",
-    "record": "1-2"
-   },
-   "home": {
-    "abbr": "HOU",
-    "name": "Texans",
-    "record": "0-3"
-   },
-   "total": "o48.5",
-   "over_odds": "-112",
-   "under_odds": "-108",
-   "spread": "+3",
-   "ml_away": "+124",
-   "ml_home": "-148",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+114",
-    "ml_home": "-135",
-    "spread": "+2.5",
-    "total": "o47.5",
-    "over_odds": "-110",
-    "under_odds": "-110"
-   },
-   "true_away": 42.8,
-   "true_home": 57.2,
-   "hold": 4.32,
-   "be_over": 52.8,
-   "be_under": 51.9,
-   "be_ml_away": 44.6,
-   "be_ml_home": 59.7
   },
   {
    "league": "NFL",
@@ -676,46 +356,6 @@
   },
   {
    "league": "NHL",
-   "id": "401892442",
-   "short": "WPG @ DET",
-   "start": "2026-10-04T17:00Z",
-   "detail": "10/4 - 1:00 PM EDT",
-   "venue": "Little Caesars Arena",
-   "away": {
-    "abbr": "WPG",
-    "name": "Jets",
-    "record": "0-0-1"
-   },
-   "home": {
-    "abbr": "DET",
-    "name": "Red Wings",
-    "record": "0-1-0"
-   },
-   "total": "o5.5",
-   "over_odds": "-122",
-   "under_odds": "+102",
-   "spread": "-1.5",
-   "ml_away": "-112",
-   "ml_home": "-108",
-   "provider": "DraftKings",
-   "open": {
-    "ml_away": "+105",
-    "ml_home": "-125",
-    "spread": "+1.5",
-    "total": "o5.5",
-    "over_odds": "-125",
-    "under_odds": "+105"
-   },
-   "true_away": 50.4,
-   "true_home": 49.6,
-   "hold": 4.75,
-   "be_over": 55.0,
-   "be_under": 49.5,
-   "be_ml_away": 52.8,
-   "be_ml_home": 51.9
-  },
-  {
-   "league": "NHL",
    "id": "401892443",
    "short": "UTA @ NYR",
    "start": "2026-10-04T22:00Z",
@@ -852,11 +492,11 @@
     "record": "2-1-0"
    },
    "total": "o6.5",
-   "over_odds": "+114",
-   "under_odds": "-135",
+   "over_odds": "+110",
+   "under_odds": "-130",
    "spread": "-1.5",
-   "ml_away": "-278",
-   "ml_home": "+225",
+   "ml_away": "-290",
+   "ml_home": "+235",
    "provider": "DraftKings",
    "open": {
     "ml_away": "-230",
@@ -866,13 +506,13 @@
     "over_odds": "+102",
     "under_odds": "-122"
    },
-   "true_away": 70.5,
-   "true_home": 29.5,
-   "hold": 4.31,
-   "be_over": 46.7,
-   "be_under": 57.4,
-   "be_ml_away": 73.5,
-   "be_ml_home": 30.8
+   "true_away": 71.4,
+   "true_home": 28.6,
+   "hold": 4.21,
+   "be_over": 47.6,
+   "be_under": 56.5,
+   "be_ml_away": 74.4,
+   "be_ml_home": 29.9
   }
  ]
 }
