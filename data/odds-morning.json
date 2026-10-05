@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-10-04T18:39:28.314763+00:00",
+ "generated_utc": "2026-10-05T00:12:28.724749+00:00",
  "mode": "morning",
  "credits_spent": 1,
- "credits_remaining": 492,
+ "credits_remaining": 491,
  "results": [
   {
    "kind": "ufc_board",
@@ -14,15 +14,15 @@
       "name": "Alice Pereira",
       "price": -130,
       "book": "BetMGM",
-      "true": 54.7
+      "true": 55.4
      },
      "b": {
       "name": "Darya Zheleznyakova",
-      "price": 114,
-      "book": "BetOnline.ag",
-      "true": 45.3
+      "price": 120,
+      "book": "DraftKings",
+      "true": 44.6
      },
-     "hold": 3.25,
+     "hold": 1.98,
      "books": 6
     },
     {
@@ -46,119 +46,119 @@
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Andre Fili",
-      "price": -142,
-      "book": "BetOnline.ag",
-      "true": 57.4
+      "price": -143,
+      "book": "BetRivers",
+      "true": 57.5
      },
      "b": {
       "name": "Kai Kamaka",
       "price": 130,
       "book": "BetMGM",
-      "true": 42.6
+      "true": 42.5
      },
-     "hold": 2.16,
+     "hold": 2.33,
      "books": 6
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Brendan Allen",
-      "price": -125,
-      "book": "DraftKings",
-      "true": 56.1
+      "price": -130,
+      "book": "BetOnline.ag",
+      "true": 56.5
      },
      "b": {
       "name": "Christian Leroy Duncan",
       "price": 130,
       "book": "BetMGM",
-      "true": 43.9
+      "true": 43.5
      },
-     "hold": -0.97,
+     "hold": 0.0,
      "books": 6
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Brendson Ribeiro",
-      "price": 276,
-      "book": "BetOnline.ag",
-      "true": 25.7
+      "price": 285,
+      "book": "DraftKings",
+      "true": 25.2
      },
      "b": {
       "name": "Felipe Franco",
       "price": -335,
       "book": "BetRivers",
-      "true": 74.3
+      "true": 74.8
      },
-     "hold": 3.61,
+     "hold": 2.99,
      "books": 5
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Ernesta Kareckaite",
-      "price": 126,
-      "book": "FanDuel",
-      "true": 43.3
+      "price": 125,
+      "book": "BetRivers",
+      "true": 43.4
      },
      "b": {
       "name": "Melissa Gatto",
       "price": -138,
       "book": "BetOnline.ag",
-      "true": 56.7
+      "true": 56.6
      },
-     "hold": 2.23,
+     "hold": 2.43,
      "books": 6
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Francisco Prado",
-      "price": 117,
-      "book": "BetOnline.ag",
-      "true": 45.3
+      "price": 110,
+      "book": "BetMGM",
+      "true": 46.8
      },
      "b": {
       "name": "Ismael Bonfim",
-      "price": -125,
-      "book": "DraftKings",
-      "true": 54.7
+      "price": -118,
+      "book": "BetOnline.ag",
+      "true": 53.2
      },
-     "hold": 1.64,
+     "hold": 1.75,
      "books": 6
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Gerald Meerschaert",
-      "price": 207,
-      "book": "BetOnline.ag",
-      "true": 31.4
+      "price": 215,
+      "book": "BetRivers",
+      "true": 30.9
      },
      "b": {
       "name": "Julius Walker",
       "price": -245,
       "book": "DraftKings",
-      "true": 68.6
+      "true": 69.1
      },
-     "hold": 3.59,
+     "hold": 2.76,
      "books": 6
     },
     {
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Jai Herbert",
-      "price": 157,
+      "price": 169,
       "book": "BetOnline.ag",
-      "true": 37.9
+      "true": 36.9
      },
      "b": {
       "name": "Matheus Camilo",
       "price": -175,
       "book": "BetMGM",
-      "true": 62.1
+      "true": 63.1
      },
-     "hold": 2.55,
+     "hold": 0.81,
      "books": 6
     },
     {
@@ -166,7 +166,7 @@
      "a": {
       "name": "Ketlen Souza",
       "price": 190,
-      "book": "DraftKings",
+      "book": "FanDuel",
       "true": 33.2
      },
      "b": {
@@ -182,17 +182,17 @@
      "commence": "2026-10-11T00:00:00Z",
      "a": {
       "name": "Leon Shahbazyan",
-      "price": -145,
-      "book": "BetOnline.ag",
-      "true": 58.7
+      "price": -157,
+      "book": "BetRivers",
+      "true": 59.5
      },
      "b": {
       "name": "Niko Price",
       "price": 140,
       "book": "BetMGM",
-      "true": 41.3
+      "true": 40.5
      },
-     "hold": 0.85,
+     "hold": 2.76,
      "books": 5
     },
     {
@@ -201,15 +201,15 @@
       "name": "Malcolm Wellmaker",
       "price": -215,
       "book": "FanDuel",
-      "true": 67.2
+      "true": 66.8
      },
      "b": {
       "name": "Otari Tanzilovi",
-      "price": 200,
+      "price": 195,
       "book": "DraftKings",
-      "true": 32.8
+      "true": 33.2
      },
-     "hold": 1.59,
+     "hold": 2.15,
      "books": 6
     },
     {

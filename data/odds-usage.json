@@ -461,6 +461,12 @@
    "mode": "morning",
    "spent": 1,
    "remaining": 492
+  },
+  {
+   "at": "2026-10-05T00:12:28.724749+00:00",
+   "mode": "morning",
+   "spent": 1,
+   "remaining": 491
   }
  ]
 }
